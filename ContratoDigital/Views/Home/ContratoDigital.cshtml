@@ -1,0 +1,377 @@
+﻿@{ 
+
+    Random rnd = new Random();
+    var contrato = rnd.Next(8000000, 8999999);
+}
+@{
+    ViewData["Title"] = "Contrato Digital";
+}
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            
+            <h1>Contrato Digital</h1>
+            <h5>Hoja de datos del contrato de adhesión</h5>
+            
+        </div>
+    </div>
+</div>
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-12">
+            <form>
+                <div class="form-row">
+                    <div class="col-12 col-sm-12 col-md-12 text-right">
+                        <label for="numero_contrato">Número de contrato</label>
+                        <input type="text" id="numero_contrato" readonly class=" text-right form-control-plaintext form-control-lg yamaha font-weight-bold t-3" value="@contrato" />
+                    </div>
+                </div>
+                <!--#region suscriptor-->
+                <div class="form-row">
+                    <div class="col">
+                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
+                            <h5 class="mb-0">Datos del suscriptor</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col-12">
+                        <label for="nombre_suscriptor">Nombre (nombre completo o razón social)</label>
+                        <input type="text" id="nombre_suscriptor" class="form-control form-control-lg" placeholder="Nombre (nombre completo o razón social)">
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="tipo_identificacion_suscriptor">Tipo de documento de identidad</label>
+                        <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor">
+                            <option value="CC">CC</option>
+                            <option value="CE">CE</option>
+                            <option value="NIT">NIT</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="documento_identidad_suscriptor">Número de documento de identidad</label>
+                        <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" />
+                    </div>
+                    <div class="col">
+                        <label for="procedencia_documento_identidad_suscriptor">De:</label>
+                        <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor" />
+                    </div>
+                </div>
+                <!--#endregion-->
+                <!--#region representate legal suscriptor-->
+                <div class="form-row mt-4">
+                    <div class="col-12">
+                        <label for="nombre_razon_social_representante_legal">Nombre representante legal (solo personas jurídicas)</label>
+                        <input type="text" class="form-control form-control-lg" id="nombre_razon_social_representante_legal" placeholder="Nombre representante legal (solo personas jurídicas)" />
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="tipo_documento_representante_legal">Tipo de documento representante legal</label>
+                        <select class="form-control form-control-lg" id="tipo_documento_representante_legal">
+                            <option value="CC">CC</option>
+                            <option value="CE">CE</option>
+                            <option value="NIT">NIT</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="documento_identidad_representante_legal">Número de documento representate legal</label>
+                        <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" />
+                    </div>
+                    <div class="col">
+                        <label for="procedencia_documento_identidad_suscriptor">De:</label>
+                        <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor" />
+                    </div>
+                </div>
+                <!-- #endregion-->
+                <!-- #region datos del sucriptor -->
+
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="fecha_nacimiento_suscriptor">Fecha de nacimiento</label>
+                        <input type="text" id="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="AAAA-MM-DD" />
+                    </div>
+                    <div class="col">
+                        <label for="lugar_nacimiento_suscriptor">Lugar de nacimiento</label>
+                        <input type="text" id="lugar_nacimiento_suscriptor" class="form-control form-control-lg" />
+                    </div>
+                    <div class="col">
+                        <label for="sexo_suscriptor">Sexo</label>
+                        <select class="form-control form-control-lg">
+                            <option value="femenino">Femenino</option>
+                            <option value="masculina">Masculino</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="estado_civil_suscriptor">Estado civil</label>
+                        <select class="form-control form-control-lg">
+                            <option value="soltero">Soltero</option>
+                            <option value="casado">Casado</option>
+                            <option value="ul">UL</option>
+                            <option value="viudo">Viudo</option>
+                            <option value="divorciado">Divorciado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="direccion_domicilio_suscriptor">Dirección domicilio</label>
+                        <input type="text" class="form-control form-control-lg" id="direccion_domicilio_suscriptor" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="pais_suscriptor">País</label>
+                        <input type="text" class="form-control-lg form-control-plaintext" readonly value="Colombia" id="pais_suscriptor" />
+                    </div>
+                    <div class="col">
+                        <label for="departamento_suscriptor">Departamento</label>
+                        <select class="form-control form-control-lg" id="departamento_suscriptor">
+                            <option value="amazonas">Amazonas</option>
+                            <option value="antioquia">Antioquia</option>
+                            <option value="arauca">Arauca</option>
+                            <option value="atlantico">Atlántico</option>
+                            <option value="bogota">Bogotá</option>
+                            <option value="bolivar">Bolívar</option>
+                            <option value="boyaca">Boyacá</option>
+                            <option value="caldas">Caldas</option>
+                            <option value="caqueta">Caquetá</option>
+                            <option value="casanare">Casanare</option>
+                            <option value="cauca">Cauca</option>
+                            <option value="cesar">Cesar</option>
+                            <option value="choco">Chocó</option>
+                            <option value="cordoba">Córdoba</option>
+                            <option value="cundinamarca">Cundinamarca</option>
+                            <option value="guainia">Guainía</option>
+                            <option value="guaviare">Guaviare</option>
+                            <option value="huila">Huila</option>
+                            <option value="la_guajira">La Guajira</option>
+                            <option value="magdalena">Magdalena</option>
+                            <option value="meta">Meta</option>
+                            <option value="narino">Nariño</option>
+                            <option value="norde_de_santander">Norte de Satander</option>
+                            <option value="putumayo">Putumayo</option>
+                            <option value="quindio">Quindío</option>
+                            <option value="risaralda">Risaralda</option>
+                            <option value="san_andres_y_providencia">San Andrés y Providencia</option>
+                            <option value="santander">Santander</option>
+                            <option value="sucre">Sucre</option>
+                            <option value="tolima">Tolima</option>
+                            <option value="valle_del_cauca">Valle del Cauca</option>
+                            <option value="vaupes">Vaupés</option>
+                            <option value="vichada">Vichada</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="ciudad_suscriptor">Ciudad</label>
+                        <input type="text" class="form-control form-control-lg" id="ciudad_suscriptor" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="telefono_suscriptor">Teléfono</label>
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefono_suscriptor" />
+                    </div>
+                    <div class="col">
+                        <label for="celular_suscriptor">Celular/Móvil</label>
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_suscriptor" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4 mb-2">
+                    <div class="col">
+                        <div class="bg-yamaha p-1 mb-2 text-white text-center">
+                            <h5 class="mb-0 t-1">Datos laborales del suscriptor</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="empresa_empleadora_suscriptor">Empresa donde labora</label>
+                        <input type="text" class="form-control form-control-lg" id="empresa_empleadora_suscriptor" />
+                    </div>
+                    <div class="col">
+                        <label for="cargo_suscriptor">Cargo</label>
+                        <input type="text" class="form-control form-control-lg" id="cargo_suscriptor" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="ingresos_mensuales_suscriptor">Ingresos mensuales</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inresos_en_pesos_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor" aria-describedby="inresos_en_pesos_addon" id="ingresos_mensuales_suscriptor" placeholder="0.00" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="egresos_mensuales_suscriptor">Egresos mensuales</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="egresos_en_pesos_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor" aria-describedby="egresos_en_pesos_addon" id="egresos_mensuales_suscriptor" placeholder="0.00" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="otros_ingresos_suscriptor">Otros ingresos</label>
+                        <div class="input-group">
+                            <span class="input-group-prepend">
+                                <span class="input-group-text" id="otros_ingresos_en_pesos_addon">$</span>
+                            </span>
+                            <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor" aria-describedby="otros_ingresos_en_pesos_addon" id="otros_ingresos_suscriptor" placeholder="0.00" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="direccion_empleo_suscriptor">Dirección oficina (laboral)</label>
+                        <input type="text" class="form-control form-control-lg" id="direccion_empleo_suscriptor" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="pais_laboral_suscriptor">País</label>
+                        <input type="text" class="form-control-lg form-control-plaintext" id="pais_laboral_suscriptor" readonly value="Colombia" />
+                    </div>
+                    <div class="col">
+                        <label for="departamento_empleo_suscriptor">Departamento</label>
+                        <select class="form-control form-control-lg" id="departamento_empleo_suscriptor">
+                            <option value="amazonas">Amazonas</option>
+                            <option value="antioquia">Antioquia</option>
+                            <option value="arauca">Arauca</option>
+                            <option value="atlantico">Atlántico</option>
+                            <option value="bogota">Bogotá</option>
+                            <option value="bolivar">Bolívar</option>
+                            <option value="boyaca">Boyacá</option>
+                            <option value="caldas">Caldas</option>
+                            <option value="caqueta">Caquetá</option>
+                            <option value="casanare">Casanare</option>
+                            <option value="cauca">Cauca</option>
+                            <option value="cesar">Cesar</option>
+                            <option value="choco">Chocó</option>
+                            <option value="cordoba">Córdoba</option>
+                            <option value="cundinamarca">Cundinamarca</option>
+                            <option value="guainia">Guainía</option>
+                            <option value="guaviare">Guaviare</option>
+                            <option value="huila">Huila</option>
+                            <option value="la_guajira">La Guajira</option>
+                            <option value="magdalena">Magdalena</option>
+                            <option value="meta">Meta</option>
+                            <option value="narino">Nariño</option>
+                            <option value="norde_de_santander">Norte de Satander</option>
+                            <option value="putumayo">Putumayo</option>
+                            <option value="quindio">Quindío</option>
+                            <option value="risaralda">Risaralda</option>
+                            <option value="san_andres_y_providencia">San Andrés y Providencia</option>
+                            <option value="santander">Santander</option>
+                            <option value="sucre">Sucre</option>
+                            <option value="tolima">Tolima</option>
+                            <option value="valle_del_cauca">Valle del Cauca</option>
+                            <option value="vaupes">Vaupés</option>
+                            <option value="vichada">Vichada</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="ciudad_empleo_suscriptor">Ciudad</label>
+                        <input type="text" class="form-control form-control-lg" id="ciudad_empleo_suscriptor" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="telefeno_empleo_suscriptor">Teléfono</label>
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefeno_empleo_suscriptor" />
+                    </div>
+                    <div class="col">
+                        <label for="celular_empleo_suscriptor">Celular/Móvil</label>
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_empleo_suscriptor" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="profesion_suscriptor">Profesión o actividad económica</label>
+                        <input type="text" class="form-control form-control-lg" id="profesion_suscriptor" />
+                    </div>
+                    <div class="col">
+                        <label for="envio_correspondencia_suscriptor">Envío de correspondencia</label>
+                        <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor">
+                            <option value="domicilio">Domicilio</option>
+                            <option value="oficina">Oficina</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="email_suscriptor">Correo electrónico</label>
+                        <input type="email" class="form-control form-control-lg" id="email_suscriptor" />
+                    </div>
+                </div>
+
+                <!-- #endregion -->
+                <!-- #region datos del suscriptor conjunto-->
+                <div class="form-row mt-4 mb-2">
+                    <div class="col">
+                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
+                            <h5 class="mb-0">Datos del suscriptor conjunto</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="nombre_suscriptor_conjunto">Nombre (apellidos y nombres o razón social si aplica)</label>
+                        <input type="text" class="form-control form-control-lg" id="nombre_suscriptor_conjunto" />
+                    </div>
+                </div>
+                <!-- #endregion-->
+                <!-- #region titulos rojos -->
+
+                <div class="form-row mt-4 mb-2">
+                    <div class="col">
+                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
+                            <h5 class="mb-0">Características del bien</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-4 mb-2">
+                    <div class="col">
+                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
+                            <h5 class="mb-0">Pago inicial</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-4 mb-2">
+                    <div class="col">
+                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
+                            <h5 class="mb-0">ACeptación suscriptores</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-4 mb-2">
+                    <div class="col">
+                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
+                            <h5 class="mb-0">Uso interno</h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- #endregion -->
+
+
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+

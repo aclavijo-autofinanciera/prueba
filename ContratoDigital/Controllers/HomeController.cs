@@ -14,6 +14,10 @@ namespace ContratoDigital.Controllers
         {
             return View();
         }
+        public IActionResult ContratoDigital()
+        {
+            return View();
+        }
 
         public IActionResult About()
         {
