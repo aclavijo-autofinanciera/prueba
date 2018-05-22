@@ -388,5 +388,26 @@ And XLG EXtra Large
 
 /* BS OVerrides */
 .bg-yamaha{
-    background-color:var(--yamaha)!important;
+    background-color:var(--yamaha) !important;
+}
+
+.border-yamaha {
+    border-color: var(--yamaha) !important;
+}
+.badge-yamaha {
+    color: #fff;
+    background-color: var(--yamaha);
+}
+
+
+.btn-yamaha {
+    color: #fff;
+    background-color: var(--yamaha);
+    border-color: var(--yamaha);
+}
+
+.btn-yamaha:hover {
+    color: #fff;
+    background-color: #d73133;
+    border-color: var(--yamaha);
 }
