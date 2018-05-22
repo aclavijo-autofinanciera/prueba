@@ -19,11 +19,11 @@
 <div class="container mt-3 mb-3">
     <div class="row">
         <div class="col-12">
-            <form>
+            <form method="post">
                 <div class="form-row">
                     <div class="col-12 col-sm-12 col-md-12 text-right">
                         <label for="numero_contrato">Número de contrato</label>
-                        <input type="text" id="numero_contrato" readonly class=" text-right form-control-plaintext form-control-lg yamaha font-weight-bold t-3" value="@contrato" />
+                        <input type="text" id="numero_contrato" name="numero_contrato" readonly class=" text-right form-control-plaintext form-control-lg yamaha font-weight-bold t-3" value="@contrato" />
                     </div>
                 </div>
                 <!--#region suscriptor-->
@@ -37,13 +37,13 @@
                 <div class="form-row mt-4">
                     <div class="col-12">
                         <label for="nombre_suscriptor">Nombre (nombre completo o razón social)</label>
-                        <input type="text" id="nombre_suscriptor" class="form-control form-control-lg" placeholder="Nombre (nombre completo o razón social)">
+                        <input type="text" id="nombre_suscriptor" name="nombre_suscriptor" class="form-control form-control-lg" placeholder="Nombre (nombre completo o razón social)">
                     </div>
                 </div>
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="tipo_identificacion_suscriptor">Tipo de documento de identidad</label>
-                        <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor">
+                        <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor">
                             <option value="CC">CC</option>
                             <option value="CE">CE</option>
                             <option value="NIT">NIT</option>
@@ -51,67 +51,75 @@
                     </div>
                     <div class="col">
                         <label for="documento_identidad_suscriptor">Número de documento de identidad</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="procedencia_documento_identidad_suscriptor">De:</label>
-                        <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" />
                     </div>
                 </div>
                 <!--#endregion-->
                 <!--#region representate legal suscriptor-->
-                <div class="form-row mt-4">
-                    <div class="col-12">
-                        <label for="nombre_razon_social_representante_legal">Nombre representante legal (solo personas jurídicas)</label>
-                        <input type="text" class="form-control form-control-lg" id="nombre_razon_social_representante_legal" placeholder="Nombre representante legal (solo personas jurídicas)" />
+                <div class="card mt-4 border-yamaha ">
+                    <div class="card-header text-white bg-yamaha">
+                        Representante legal suscriptor
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row mt-1">
+                            <div class="col-12">
+                                <label for="nombre_razon_social_representante_legal">Nombre representante legal (solo personas jurídicas)</label>
+                                <input type="text" class="form-control form-control-lg" id="nombre_razon_social_representante_legal" name="nombre_razon_social_representante_legal" placeholder="Nombre representante legal (solo personas jurídicas)" />
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="tipo_documento_representante_legal">Tipo de documento representante legal</label>
+                                <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal">
+                                    <option value="CC">CC</option>
+                                    <option value="CE">CE</option>
+                                    <option value="NIT">NIT</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="documento_identidad_representante_legal">Número de documento representate legal</label>
+                                <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal"  name="documento_identidad_representante_legal" />
+                            </div>
+                            <div class="col">
+                                <label for="procedencia_documento_identidad_suscriptor">De:</label>
+                                <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor"  />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row mt-4">
-                    <div class="col">
-                        <label for="tipo_documento_representante_legal">Tipo de documento representante legal</label>
-                        <select class="form-control form-control-lg" id="tipo_documento_representante_legal">
-                            <option value="CC">CC</option>
-                            <option value="CE">CE</option>
-                            <option value="NIT">NIT</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <label for="documento_identidad_representante_legal">Número de documento representate legal</label>
-                        <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" />
-                    </div>
-                    <div class="col">
-                        <label for="procedencia_documento_identidad_suscriptor">De:</label>
-                        <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor" />
-                    </div>
-                </div>
-                <!-- #endregion-->
-                <!-- #region datos del sucriptor -->
+
+                <!--#endregion-->
+                <!--#region datos del sucriptor-->
 
 
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="fecha_nacimiento_suscriptor">Fecha de nacimiento</label>
-                        <input type="text" id="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="AAAA-MM-DD" />
+                        <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor"  class="form-control form-control-lg" placeholder="AAAA-MM-DD" />
                     </div>
                     <div class="col">
                         <label for="lugar_nacimiento_suscriptor">Lugar de nacimiento</label>
-                        <input type="text" id="lugar_nacimiento_suscriptor" class="form-control form-control-lg" />
+                        <input type="text" id="lugar_nacimiento_suscriptor"  name="lugar_nacimiento_suscriptor" class="form-control form-control-lg" />
                     </div>
                     <div class="col">
                         <label for="sexo_suscriptor">Sexo</label>
-                        <select class="form-control form-control-lg">
+                        <select class="form-control form-control-lg" id="sexo_suscriptor" name="sexo_suscriptor">
                             <option value="femenino">Femenino</option>
                             <option value="masculina">Masculino</option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="estado_civil_suscriptor">Estado civil</label>
-                        <select class="form-control form-control-lg">
+                        <select class="form-control form-control-lg" id="estado_civil_suscriptor" name="estado_civil_suscriptor">
                             <option value="soltero">Soltero</option>
                             <option value="casado">Casado</option>
-                            <option value="ul">UL</option>
-                            <option value="viudo">Viudo</option>
+                            <option value="unionmarital">Unión Marital</option>
                             <option value="divorciado">Divorciado</option>
+                            <option value="soltero">soltero</option>
                         </select>
                     </div>
                 </div>
@@ -119,18 +127,18 @@
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="direccion_domicilio_suscriptor">Dirección domicilio</label>
-                        <input type="text" class="form-control form-control-lg" id="direccion_domicilio_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" id="direccion_domicilio_suscriptor" name="direccion_domicilio_suscriptor" />
                     </div>
                 </div>
 
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="pais_suscriptor">País</label>
-                        <input type="text" class="form-control-lg form-control-plaintext" readonly value="Colombia" id="pais_suscriptor" />
+                        <input type="text" class="form-control-lg form-control-plaintext" readonly value="Colombia" id="pais_suscriptor"  name="pais_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="departamento_suscriptor">Departamento</label>
-                        <select class="form-control form-control-lg" id="departamento_suscriptor">
+                        <select class="form-control form-control-lg" id="departamento_suscriptor" name="departamento_suscriptor">
                             <option value="amazonas">Amazonas</option>
                             <option value="antioquia">Antioquia</option>
                             <option value="arauca">Arauca</option>
@@ -168,18 +176,18 @@
                     </div>
                     <div class="col">
                         <label for="ciudad_suscriptor">Ciudad</label>
-                        <input type="text" class="form-control form-control-lg" id="ciudad_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" id="ciudad_suscriptor" name="ciudad_suscriptor" />
                     </div>
                 </div>
 
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="telefono_suscriptor">Teléfono</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefono_suscriptor" />
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefono_suscriptor" name="telefono_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="celular_suscriptor">Celular/Móvil</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_suscriptor" />
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_suscriptor" name="celular_suscriptor" />
                     </div>
                 </div>
 
@@ -194,11 +202,11 @@
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="empresa_empleadora_suscriptor">Empresa donde labora</label>
-                        <input type="text" class="form-control form-control-lg" id="empresa_empleadora_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" id="empresa_empleadora_suscriptor" name="empresa_empleadora_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="cargo_suscriptor">Cargo</label>
-                        <input type="text" class="form-control form-control-lg" id="cargo_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" name="cargo_suscriptor" id="cargo_suscriptor" />
                     </div>
                 </div>
 
@@ -209,7 +217,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inresos_en_pesos_addon">$</span>
                             </div>
-                            <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor" aria-describedby="inresos_en_pesos_addon" id="ingresos_mensuales_suscriptor" placeholder="0.00" />
+                            <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor" aria-describedby="inresos_en_pesos_addon" id="ingresos_mensuales_suscriptor"  name="ingresos_mensuales_suscriptor" placeholder="0.00" />
                         </div>
                     </div>
                     <div class="col">
@@ -218,7 +226,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="egresos_en_pesos_addon">$</span>
                             </div>
-                            <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor" aria-describedby="egresos_en_pesos_addon" id="egresos_mensuales_suscriptor" placeholder="0.00" />
+                            <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor" aria-describedby="egresos_en_pesos_addon" id="egresos_mensuales_suscriptor" name="egresos_mensuales_suscriptor" placeholder="0.00" />
                         </div>
                     </div>
                     <div class="col">
@@ -227,7 +235,7 @@
                             <span class="input-group-prepend">
                                 <span class="input-group-text" id="otros_ingresos_en_pesos_addon">$</span>
                             </span>
-                            <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor" aria-describedby="otros_ingresos_en_pesos_addon" id="otros_ingresos_suscriptor" placeholder="0.00" />
+                            <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor" aria-describedby="otros_ingresos_en_pesos_addon" id="otros_ingresos_suscriptor"  name="otros_ingresos_suscriptor" placeholder="0.00" />
                         </div>
                     </div>
                 </div>
@@ -235,18 +243,18 @@
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="direccion_empleo_suscriptor">Dirección oficina (laboral)</label>
-                        <input type="text" class="form-control form-control-lg" id="direccion_empleo_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" id="direccion_empleo_suscriptor"  name="direccion_empleo_suscriptor" />
                     </div>
                 </div>
 
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="pais_laboral_suscriptor">País</label>
-                        <input type="text" class="form-control-lg form-control-plaintext" id="pais_laboral_suscriptor" readonly value="Colombia" />
+                        <input type="text" class="form-control-lg form-control-plaintext" id="pais_laboral_suscriptor"  name="pais_laboral_suscriptor" readonly value="Colombia" />
                     </div>
                     <div class="col">
                         <label for="departamento_empleo_suscriptor">Departamento</label>
-                        <select class="form-control form-control-lg" id="departamento_empleo_suscriptor">
+                        <select class="form-control form-control-lg" id="departamento_empleo_suscriptor" name="departamento_empleo_suscriptor">
                             <option value="amazonas">Amazonas</option>
                             <option value="antioquia">Antioquia</option>
                             <option value="arauca">Arauca</option>
@@ -284,41 +292,41 @@
                     </div>
                     <div class="col">
                         <label for="ciudad_empleo_suscriptor">Ciudad</label>
-                        <input type="text" class="form-control form-control-lg" id="ciudad_empleo_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" />
                     </div>
                 </div>
 
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="telefeno_empleo_suscriptor">Teléfono</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefeno_empleo_suscriptor" />
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefeno_empleo_suscriptor"  name="telefeno_empleo_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="celular_empleo_suscriptor">Celular/Móvil</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_empleo_suscriptor" />
+                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_empleo_suscriptor" name="celular_empleo_suscriptor" />
                     </div>
                 </div>
 
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="profesion_suscriptor">Profesión o actividad económica</label>
-                        <input type="text" class="form-control form-control-lg" id="profesion_suscriptor" />
+                        <input type="text" class="form-control form-control-lg" id="profesion_suscriptor"  name="profesion_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="envio_correspondencia_suscriptor">Envío de correspondencia</label>
-                        <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor">
+                        <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor" name="envio_correspondencia_suscriptor">
                             <option value="domicilio">Domicilio</option>
                             <option value="oficina">Oficina</option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="email_suscriptor">Correo electrónico</label>
-                        <input type="email" class="form-control form-control-lg" id="email_suscriptor" />
+                        <input type="email" class="form-control form-control-lg" id="email_suscriptor"  name="email_suscriptor" />
                     </div>
                 </div>
 
-                <!-- #endregion -->
-                <!-- #region datos del suscriptor conjunto-->
+                <!--#endregion-->
+                <!--#region suscriptor conjunto-->
                 <div class="form-row mt-4 mb-2">
                     <div class="col">
                         <div class="bg-yamaha p-3 mb-2 text-white text-center">
@@ -330,11 +338,281 @@
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="nombre_suscriptor_conjunto">Nombre (apellidos y nombres o razón social si aplica)</label>
-                        <input type="text" class="form-control form-control-lg" id="nombre_suscriptor_conjunto" />
+                        <input type="text" class="form-control form-control-lg" id="nombre_suscriptor_conjunto"  name="nombre_suscriptor_conjunto" />
                     </div>
                 </div>
-                <!-- #endregion-->
-                <!-- #region titulos rojos -->
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="tipo_identidad_suscriptor_conjunto">Tipo de documento de identidad</label>
+                        <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto"  name="tipo_identidad_suscriptor_conjunto">
+                            <option value="CC">CC</option>
+                            <option value="CE">CE</option>
+                            <option value="NIT">NIT</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="documento_identidad_suscriptor_conjunto">Número documento identidad</label>
+                        <input type="text" class="form-control form-control-lg" id="documento_identidad_suscriptor_conjunto"  name="documento_identidad_suscriptor_conjunto"  />
+                    </div>
+                    <div class="col">
+                        <label for="procedencia_documento_identidad_suscriptor_conjunto">De: </label>
+                        <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor_conjunto"  name="procedencia_documento_identidad_suscriptor_conjunto" />
+                    </div>
+                </div>
+                <!--#endregion-->
+                <!--#region representante legal suscriptor conjunto-->
+                <div class="card mt-4 border-yamaha ">
+                    <div class="card-header text-white bg-yamaha">
+                        Representante legal suscriptor conjunto
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="representante_legal_suscriptor_conjunto">Nombre representante legal (solo personas jurídicas)</label>
+                                <input type="text" class="form-control form-control-lg" id="representante_legal_suscriptor_conjunto"  name="representante_legal_suscriptor_conjunto" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="tipo_identidad_representante_legal_suscriptor_conjunto">Tipo de documento de identidad</label>
+                                <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg">
+                                    <option value="CC">CC</option>
+                                    <option value="CE">CE</option>
+                                    <option value="NIT">NIT</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="documento_identidad_representante_legal_suscriptor_conjunto">Número de documento identidad</label>
+                                <input type="text" id="documento_identidad_representante_legal_suscriptor_conjunto"  name="documento_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" />
+                            </div>
+                            <div class="col">
+                                <label for="procedencia_identificacion_representante_legal_suscriptor_conjunto">De:</label>
+                                <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!--#endregion-->
+                <!--#region Datos del suscriptor conjunto-->
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="fecha_nacimiento_suscriptor_conjunto">Fecha de nacimiento</label>
+                        <input class="form-control form-control-lg" id="fecha_nacimiento_suscriptor_conjunto"  name="fecha_nacimiento_suscriptor_conjunto" />
+                    </div>
+                    <div class="col">
+                        <label for="lugar_nacimiento_suscriptor_conjunto">Lugar</label>
+                        <input type="text" id="lugar_nacimiento_suscriptor_conjunto"  name="lugar_nacimiento_suscriptor_conjunto" class="form-control form-control-lg" />
+                    </div>
+                    <div class="col">
+                        <label for="sexo_suscriptor_conjunto">Sexo</label>
+                        <select class="form-control form-control-lg" id="sexo_suscriptor_conjunto" name="sexo_suscriptor_conjunto">
+                            <option value="femenino">Femenino</option>
+                            <option value="masculino">Masculino</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="estado_civil_suscriptor_conjunto">Estado civil</label>
+                        <select class="form-control form-control-lg" id="estado_civil_suscriptor_conjunto"  name="estado_civil_suscriptor_conjunto">
+                            <option value="soltero">Soltero</option>
+                            <option value="casado">Casado</option>
+                            <option value="unionmarital">Unión Marital</option>
+                            <option value="divorciado">Divorciado</option>
+                            <option value="soltero">soltero</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="dirección_suscriptor_conjunto">Dirección Domicilio</label>
+                        <input type="text" class="form-control form-control-lg" id="dirección_suscriptor_conjunto"  name="dirección_suscriptor_conjunto" />
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="departamento_suscriptor_conjunto">Departamento</label>
+                        <select class="form-control form-control-lg" id="departamento_suscriptor_conjunto"  name="departamento_suscriptor_conjunto">
+                            <option value="amazonas">Amazonas</option>
+                            <option value="antioquia">Antioquia</option>
+                            <option value="arauca">Arauca</option>
+                            <option value="atlantico">Atlántico</option>
+                            <option value="bogota">Bogotá</option>
+                            <option value="bolivar">Bolívar</option>
+                            <option value="boyaca">Boyacá</option>
+                            <option value="caldas">Caldas</option>
+                            <option value="caqueta">Caquetá</option>
+                            <option value="casanare">Casanare</option>
+                            <option value="cauca">Cauca</option>
+                            <option value="cesar">Cesar</option>
+                            <option value="choco">Chocó</option>
+                            <option value="cordoba">Córdoba</option>
+                            <option value="cundinamarca">Cundinamarca</option>
+                            <option value="guainia">Guainía</option>
+                            <option value="guaviare">Guaviare</option>
+                            <option value="huila">Huila</option>
+                            <option value="la_guajira">La Guajira</option>
+                            <option value="magdalena">Magdalena</option>
+                            <option value="meta">Meta</option>
+                            <option value="narino">Nariño</option>
+                            <option value="norde_de_santander">Norte de Satander</option>
+                            <option value="putumayo">Putumayo</option>
+                            <option value="quindio">Quindío</option>
+                            <option value="risaralda">Risaralda</option>
+                            <option value="san_andres_y_providencia">San Andrés y Providencia</option>
+                            <option value="santander">Santander</option>
+                            <option value="sucre">Sucre</option>
+                            <option value="tolima">Tolima</option>
+                            <option value="valle_del_cauca">Valle del Cauca</option>
+                            <option value="vaupes">Vaupés</option>
+                            <option value="vichada">Vichada</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="ciudad_suscriptor_conjunto">Ciudad</label>
+                        <input type="text" class="form-control form-control-lg" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" />
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="telefono_suscriptor_conjunto">Teléfono</label>
+                        <input type="text" class="form-control form-control-lg" id="telefono_suscriptor_conjunto"  name="telefono_suscriptor_conjunto" />
+                    </div>
+                    <div class="col">
+                        <label for="celular_suscriptor_conjunto">Celular</label>
+                        <input type="text" class="form-control form-control-lg" id="celular_suscriptor_conjunto"  name="celular_suscriptor_conjunto" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="empresa_empleadora_suscriptor_conjunto">Empresa donde labora</label>
+                        <input type="text" class="form-control form-control-lg" id="empresa_empleadora_suscriptor_conjunto"  name="empresa_empleadora_suscriptor_conjunto" />
+                    </div>
+                    <div class="col">
+                        <label for="cargo_suscriptor_conjunto">Cargo</label>
+                        <input type="text" class="form-control form-control-lg" id="cargo_suscriptor_conjunto"  name="cargo_suscriptor_conjunto" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="ingresos_mensuales_suscriptor_conjunto">Ingresos mensuales</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="ingresos_en_pesos_conjunto_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor_conjunto" aria-describedby="ingresos_en_pesos_conjunto_addon" id="ingresos_mensuales_suscriptor_conjunto"  name="ingresos_mensuales_suscriptor_conjunto" placeholder="0.00" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="egresos_mensuales_suscriptor_conjunto">Egresos mensuales</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="egresos_en_pesos_conjunto_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor_conjunto" aria-describedby="egresos_en_pesos_conjunto_addon" id="egresos_mensuales_suscriptor_conjunto" name="egresos_mensuales_suscriptor_conjunto" placeholder="0.00" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="otros_ingresos_suscriptor_conjunto">Otros ingresos</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="otros_ingresos_suscriptor_conjunto_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor_conjunto" aria-describedby="otros_ingresos_suscriptor_conjunto_addon" id="otros_ingresos_suscriptor_conjunto" name="otros_ingresos_suscriptor_conjunto" placeholder="0.00" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="direccion_empleo_suscriptor_conjunto">Dirección oficina (laboral)</label>
+                        <input type="text" class="form-control form-control-lg" id="direccion_empleo_suscriptor_conjunto" name="direccion_empleo_suscriptor_conjunto" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="departamento_empleo_suscriptor_conjunto">Departamento</label>
+                        <select class="form-control form-control-lg" id="departamento_empleo_suscriptor_conjunto" name="departamento_empleo_suscriptor_conjunto">
+                            <option value="amazonas">Amazonas</option>
+                            <option value="antioquia">Antioquia</option>
+                            <option value="arauca">Arauca</option>
+                            <option value="atlantico">Atlántico</option>
+                            <option value="bogota">Bogotá</option>
+                            <option value="bolivar">Bolívar</option>
+                            <option value="boyaca">Boyacá</option>
+                            <option value="caldas">Caldas</option>
+                            <option value="caqueta">Caquetá</option>
+                            <option value="casanare">Casanare</option>
+                            <option value="cauca">Cauca</option>
+                            <option value="cesar">Cesar</option>
+                            <option value="choco">Chocó</option>
+                            <option value="cordoba">Córdoba</option>
+                            <option value="cundinamarca">Cundinamarca</option>
+                            <option value="guainia">Guainía</option>
+                            <option value="guaviare">Guaviare</option>
+                            <option value="huila">Huila</option>
+                            <option value="la_guajira">La Guajira</option>
+                            <option value="magdalena">Magdalena</option>
+                            <option value="meta">Meta</option>
+                            <option value="narino">Nariño</option>
+                            <option value="norde_de_santander">Norte de Satander</option>
+                            <option value="putumayo">Putumayo</option>
+                            <option value="quindio">Quindío</option>
+                            <option value="risaralda">Risaralda</option>
+                            <option value="san_andres_y_providencia">San Andrés y Providencia</option>
+                            <option value="santander">Santander</option>
+                            <option value="sucre">Sucre</option>
+                            <option value="tolima">Tolima</option>
+                            <option value="valle_del_cauca">Valle del Cauca</option>
+                            <option value="vaupes">Vaupés</option>
+                            <option value="vichada">Vichada</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="ciudad_empleo_suscriptor_conjunto">Ciudad</label>
+                        <input type="text" class="form-control form-control-lg" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" />
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="telefono_empleo_suscriptor_conjunto">Teléfono</label>
+                        <input type="text" class="form-control form-control-lg" name="telefono_empleo_suscriptor_conjunto" id="telefono_empleo_suscriptor_conjunto" />
+                    </div>
+                    <div class="col">
+                        <label for="celular_empleo_suscriptor_conjunto">Celular</label>
+                        <input type="text" class="form-control form-control-lg" id="celular_empleo_suscriptor_conjunto" name="celular_empleo_suscriptor_conjunto" />
+                    </div>
+                </div>
+
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="profesion_suscriptor_conjunto">Profesión o actividad económica</label>
+                        <input type="text" class="form-control form-control-lg" id="profesion_suscriptor_conjunto" name="profesion_suscriptor_conjunto" />
+                    </div>
+                    <div class="col">
+                        <label for="correspondencia_suscriptor_conjunto">Envío de correspondencia</label>
+                        <select class="form-control form-control-lg" id="correspondencia_suscriptor_conjunto"  name="correspondencia_suscriptor_conjunto">
+                            <option value="domicilio">Domicilio</option>
+                            <option value="Oficina">Oficina</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="email_suscriptor_conjunto">Correo electrónico</label>
+                        <input type="text" class="form-control form-control-lg" id="email_suscriptor_conjunto" name="email_suscriptor_conjunto" />
+                    </div>
+                </div>
+
+                <!--#endregion-->
+                <!--#region Datos del bien-->
 
                 <div class="form-row mt-4 mb-2">
                     <div class="col">
@@ -343,6 +621,58 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="tipo_de_bien">Tipo de bien</label>
+                        <select class="form-control form-control-lg" id="tipo_de_bien"  name="tipo_de_bien">
+                            <option value="motocicleta">Motocicleta</option>
+                            <option value="automovil">Automóvil</option>
+                            <option value="camion">Camión</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="marca_exclusiva_bien">Marca exclusiva</label>
+                        <input type="text" class="form-control-plaintext form-control-lg" readonly id="marca_exclusiva_bien" name="marca_exclusiva_bien" value="YAMAHA" />
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="detalles_bien">Detalles del bien</label>
+                        <input type="text" class="form-control form-control-lg" id="detalles_bien" name="detalles_bien" />
+                    </div>
+                    <div class="col">
+                        <label for="valor_bien">Valor del bien</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="valor_bien_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="valor_bien" aria-describedby="valor_bien_addon" id="valor_bien" name="valor_bien" placeholder="0.00" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <label for="cuota_bien">Cuota</label>
+                        <select class="form-control form-control-lg " id="cuota_bien"  name="cuota_bien">
+                            <option value="fija">Fija</option>
+                            <option value="variable">Variable</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="plazo_bien">Plazo y número de participantes</label>
+                        <select class="form-control form-control-lg" id="plazo_bien"  name="plazo_bien">
+                            <option value="40-120">40/120</option>
+                            <option value="60-180">60/180</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!--#endregion-->
+
+
+                <!--#region Pago Inicial-->
                 <div class="form-row mt-4 mb-2">
                     <div class="col">
                         <div class="bg-yamaha p-3 mb-2 text-white text-center">
@@ -350,25 +680,192 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row mt-4 mb-2">
+
+                <div class="form-row mt-4">
                     <div class="col">
-                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
-                            <h5 class="mb-0">ACeptación suscriptores</h5>
+                        <span class="badge badge-yamaha">1</span>
+                        <label for="cuota_ingreso">Cuota de ingreso (N% sobre el valor del bien)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="cuota_ingreso_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="cuota_ingreso" aria-describedby="cuota_ingreso_addon" id="cuota_ingreso" name="cuota_ingreso" placeholder="0.00" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <span class="badge badge-yamaha">5</span>
+                        <label for="administracion">Administración (N% sobre cuota neta)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="administracion_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="administracion" aria-describedby="administracion_addon" id="administracion"  name="administracion" placeholder="0.00" />
                         </div>
                     </div>
                 </div>
-                <div class="form-row mt-4 mb-2">
+
+                <div class="form-row mt-4">
                     <div class="col">
-                        <div class="bg-yamaha p-3 mb-2 text-white text-center">
-                            <h5 class="mb-0">Uso interno</h5>
+                        <span class="badge badge-yamaha">2</span>
+                        <label for="iva_cuota_ingreso">I.V.A sobre la cuota de ingreso (N%)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" id="iva_cuota_ingreso" name="iva_cuota_ingreso"  placeholder="0.00" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <span class="badge badge-yamaha">6</span>
+                        <label for="iva_administracion">I.V.A sobre la administración (N%)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="iva_administracion_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="iva_administracion" aria-describedby="iva_administracion_addon" id="iva_administracion"  name="iva_administracion" placeholder="0.00" />
                         </div>
                     </div>
                 </div>
-                <!-- #endregion -->
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <span class="badge badge-yamaha">3</span>
+                        <label for="total_cuota_ingreso">Total cuota de ingreso (N%) ( <span class="badge badge-yamaha">1</span> + <span class="badge badge-yamaha">2</span> )</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-describedby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso"  placeholder="0.00" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <span class="badge badge-yamaha">7</span>
+                        <label for="total_cuota_bruta">Total cuota bruta (N%) ( <span class="badge badge-yamaha">4</span> + <span class="badge badge-yamaha">5</span> + <span class="badge badge-yamaha">6</span> )</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="total_cuota_bruta" aria-describedby="total_cuota_bruta_addon" id="total_cuota_bruta" name="total_cuota_bruta"  placeholder="0.00" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col">
+                        <span class="badge badge-yamaha">4</span>
+                        <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="primera_cuota_neta_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta"  placeholder="0.00" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <span class="badge badge-yamaha">8</span>
+                        <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-yamaha">3</span> + <span class="badge badge-yamaha">7</span> )</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="valor_primer_pago_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="valor_primer_pago" aria-describedby="valor_primer_pago_addon" id="valor_primer_pago" name="valor_primer_pago" placeholder="0.00" />
+                        </div>
+                    </div>
+                </div>
+
+                <!--#endregion-->
+
+                
 
 
+                <!--#region legal-->
 
+                <div class="form-row mt-4">
+                    <div class="col">
+                        
+                        <div class="card">
+                            <div class="card-header bg-yamaha text-white">
+                                <label for="texto-legalese">
+                                    Contrato de adhesión para ingresar al sistema de autofinanciamiento comercial, con el fin de
+                                    adquirir un bien o servicio por sortero u oferta.
+                                </label>
+                            </div>
+                            <div class="card-body">
+                                <textarea class="form-control-plaintext" readonly id="texto-legalese" rows="5">
+                            Muchos años después, frente al pelotón de fusilamiento, el coronel Aureliano Buendía había de recordar aquella tarde remota en que su padre lo llevó a conocer el hielo. Macondo era entonces una aldea de veinte casas de barro y cañabrava construidas a la orilla de un río de aguas diáfanas que se precipitaban por un lecho de piedras pulidas, blancas y enormes como huevos prehistóricos. El mundo era tan reciente, que muchas cosas carecían de nombre, y para mencionarlas había que señalarlas con el dedo. Todos los años, por el mes de marzo, una familia de gitanos desarrapados plantaba su carpa cerca de la aldea, y con un grande alboroto de pitos y timbales daban a conocer los nuevos inventos. Primero llevaron el imán. Un gitano corpulento, de barba montaraz y manos de gorrión, que se presentó con el nombre de Melquíades, hizo una truculenta demostración pública de lo que él mismo llamaba la octava maravilla de los sabios alquimistas de Macedonia. Fue de casa en casa arrastrando dos lingotes metálicos, y todo el mundo se espantó al ver que los calderos, las pailas, las tenazas y los anafes se caían de su sitio, y las maderas crujían por la desesperación de los clavos y los tornillos tratando de desenclavarse, y aun los objetos perdidos desde hacía mucho tiempo aparecían por donde más se les había buscado, y se arrastraban en desbandada turbulenta detrás de los fierros mágicos de Melquíades. «Las cosas tienen vida propia —pregonaba el gitano con áspero acento—, todo es cuestión de despertarles el ánima». José Arcadio Buendía, cuya desaforada imaginación iba siempre más lejos que el ingenio de la naturaleza, y aun más allá del milagro y la magia, pensó que era posible servirse de aquella invención inútil para desentrañar el oro de la tierra. Melquíades, que era un hombre honrado, le previno: «Para eso no sirve». Pero José Arcadio Buendía no creía en aquel tiempo en la honradez de los gitanos, así que cambió su mulo y una partida de chivos por los dos lingotes imantados. Úrsula Iguarán, su mujer, que contaba con aquellos animales para ensanchar el desmedrado patrimonio doméstico, no consiguió disuadirlo. «Muy pronto ha de sobrarnos oro para empedrar la casa», replicó su marido. Durante varios meses se empeñó en demostrar el acierto de sus conjeturas. Exploró palmo a palmo la región, inclusive el fondo del río, arrastrando los dos lingotes de hierro y recitando en voz alta el conjuro de Melquíades. Lo único que logró desenterrar fue una armadura del siglo XV con todas sus partes soldadas por un cascote de óxido, cuyo interior tenía la resonancia hueca de un enorme calabazo lleno de piedras. Cuando José Arcadio Buendía y los cuatro hombres de su expedición lograron desarticular la armadura, encontraron dentro un esqueleto calcificado que llevaba colgado en el cuello un relicario de cobre con un rizo de mujer.
+                            En marzo volvieron los gitanos. Esta vez llevaban un catalejo y una lupa del tamaño de un tambor, que exhibieron como el último descubrimiento de los judíos de Amsterdam. Sentaron una gitana en un extremo de la aldea e instalaron el catalejo a la entrada de la carpa. Mediante el pago de cinco reales, la gente se asomaba al catalejo y veía a la gitana al alcance de desarrapados plantaba su carpa cerca de la aldea, y con un grande alboroto de pitos y timbales daban a conocer los nuevos inventos. Primero llevaron el imán. Un gitano corpulento, de barba montaraz y manos de gorrión, que se presentó con el nombre de Melquíades, hizo una truculenta demostración pública de lo que él mismo llamaba la octava maravilla de los sabios alquimistas de Macedonia. Fue de casa en casa arrastrando dos lingotes metálicos, y todo el mundo se espantó al ver que los calderos, las pailas, las tenazas y los anafes se caían de su sitio, y las maderas crujían por la desesperación de los clavos y los tornillos tratando de desenclavarse, y aun los objetos perdidos desde hacía mucho tiempo aparecían por donde más se les había buscado, y se arrastraban en desbandada turbulenta detrás de los fierros mágicos de Melquíades. «Las cosas tienen vida propia —pregonaba el gitano con áspero acento—, todo es cuestión de despertarles el ánima». José Arcadio Buendía, cuya desaforada imaginación iba siempre más lejos que el ingenio de la naturaleza, y aun más allá del milagro y la magia, pensó que era posible servirse de aquella invención inútil para desentrañar el oro de la tierra. Melquíades, que era un hombre honrado, le previno: «Para eso no sirve». Pero José Arcadio Buendía no creía en aquel tiempo en la honradez de los gitanos, así que cambió su mulo y una partida de chivos por los dos lingotes imantados. Úrsula Iguarán, su mujer, que contaba con aquellos animales para ensanchar el desmedrado patrimonio doméstico, no consiguió disuadirlo. «Muy pronto ha de sobrarnos oro para empedrar la casa», replicó su marido. Durante varios meses se empeñó en demostrar el acierto de sus conjeturas. Exploró palmo a palmo la región, inclusive el fondo del río, arrastrando los dos lingotes de hierro y recitando en voz alta el conjuro de Melquíades. Lo único que logró desenterrar fue una armadura del siglo XV con todas sus partes soldadas por un cascote de óxido, cuyo interior tenía la resonancia hueca de un enorme calabazo lleno de piedras. Cuando José Arcadio Buendía y los cuatro hombres de su expedición lograron desarticular la armadura, encontraron dentro un esqueleto calcificado que llevaba colgado en el cuello un relicario de cobre con un rizo de mujer.
+                            En marzo volvieron los gitanos. Esta vez llevaban un catalejo y una lupa del tamaño de un tambor, que exhibieron como el último descubrimiento de los judíos de Amsterdam. Sentaron una gitana en un extremo de la aldea e instalaron el catalejo a la entrada de la carpa. Mediante el pago de cinco reales, la gente se asomaba al catalejo y veía a la gitana al alcance de su mano. «La ciencia ha eliminado las distancias», pregonaba Melquíades. «Dentro de poco, el hombre podrá ver lo que ocurre en cualquier lugar de la tierra, sin moverse de su casa». Un mediodía ardiente hicieron una asombrosa demostración con la lupa gigantesca: pusieron un montón de hierba seca en mitad de la calle y le prendieron fuego mediante la concentración de los rayos solares. José Arcadio Buendía, que aún no acababa de consolarse por el fracaso de sus imanes, concibió la idea de utilizar aquel invento como un arma de guerra. Melquíades, otra vez, trató de disuadirlo. Pero terminó por aceptar los dos lingotes imantados y tres piezas de dinero colonial a cambio de la lupa. Úrsula lloró de consternación. Aquel dinero formaba parte de un cofre de monedas de oro que su padre había acumulado en toda una vida de privaciones, y que ella había enterrado debajo de la cama en espera de una buena ocasión para invertirlas. José Arcadio Buendía no trató siquiera de consolarla, entregado por entero a sus experimentos tácticos con la abnegación de un científico y aun a riesgo de su propia vida. Tratando de demostrar los efectos de la lupa en la tropa enemiga, se expuso él mismo a la concentración de los rayos solares y sufrió quemaduras que se convirtieron en úlceras y tardaron mucho tiempo en sanar. Ante las protestas de su mujer, alarmada por tan peligrosa inventiva, estuvo a punto de incendiar la casa. Pasaba largas horas en su cuarto, haciendo cálculos sobre las posibilidades estratégicas de su arma novedosa, hasta que logró componer un manual de una asombrosa claridad didáctica y un poder de convicción irresistible. Lo envió a las autoridades acompañado de numerosos testimonios sobre sus experiencias y de varios pliegos de dibujos explicativos, al cuidado de un mensajero que atravesó la sierra, se extravió en pantanos desmesurados, remontó ríos tormentosos y estuvo a punto de perecer bajo el azote de las fieras, la desesperación y la peste, antes de conseguir una ruta de enlace con las mulas del correo. A pesar de que el viaje a la capital era en aquel tiempo poco menos que imposible, José Arcadio Buendía prometía intentarlo tan pronto como se lo ordenara el gobierno, con el fin de hacer demostraciones prácticas de su invento ante los poderes militares, y adiestrarlos personalmente en las complicadas artes de la guerra solar. Durante varios años esperó la respuesta. Por último, cansado de esperar, se lamentó ante Melquíades del fracaso de su iniciativa, y el gitano dio entonces una prueba convincente de honradez: le devolvió los doblones a cambio de la lupa, y le dejó además unos mapas portugueses y varios cama en espera de una buena ocasión para invertirlas. José Arcadio Buendía no trató siquiera de consolarla, entregado por entero a sus experimentos tácticos con la abnegación de un científico y aun a riesgo de su propia vida. Tratando de demostrar los efectos de la lupa en la tropa enemiga, se expuso él mismo a la concentración de los rayos solares y sufrió quemaduras que se convirtieron en úlceras y tardaron mucho tiempo en sanar. Ante las protestas de su mujer, alarmada por tan peligrosa inventiva, estuvo a punto de incendiar la casa. Pasaba largas horas en su cuarto, haciendo cálculos sobre las posibilidades estratégicas de su arma novedosa, hasta que logró componer un manual de una asombrosa claridad didáctica y un poder de convicción irresistible. Lo envió a las autoridades acompañado de numerosos testimonios sobre sus experiencias y de varios pliegos de dibujos explicativos, al cuidado de un mensajero que atravesó la sierra, se extravió en pantanos desmesurados, remontó ríos tormentosos y estuvo a punto de perecer bajo el azote de las fieras, la desesperación y la peste, antes de conseguir una ruta de enlace con las mulas del correo. A pesar de que el viaje a la capital era en aquel tiempo poco menos que imposible, José Arcadio Buendía prometía intentarlo tan pronto como se lo ordenara el gobierno, con el fin de hacer demostraciones prácticas de su invento ante los poderes militares, y adiestrarlos personalmente en las complicadas artes de la guerra solar. Durante varios años esperó la respuesta. Por último, cansado de esperar, se lamentó ante Melquíades del fracaso de su iniciativa, y el gitano dio entonces una prueba convincente de honradez: le devolvió los doblones a cambio de la lupa, y le dejó además unos mapas portugueses y varios ríos tormentosos y estuvo a punto de perecer bajo el azote de las fieras, la desesperación y la peste, antes de conseguir una ruta de enlace con las mulas del correo. A pesar de que el viaje a la capital era en aquel tiempo poco menos que imposible, José Arcadio Buendía prometía intentarlo tan pronto como se lo ordenara el gobierno, con el fin de hacer demostraciones prácticas de su invento ante los poderes militares, y adiestrarlos personalmente en las complicadas artes de la guerra solar. Durante varios años esperó la respuesta. Por último, cansado de esperar, se lamentó ante Melquíades del fracaso de su iniciativa, y el gitano dio entonces una prueba convincente de honradez: le devolvió los doblones a cambio de la lupa, y le dejó además unos mapas portugueses y varios instrumentos de navegación. De su puño y letra escribió una apretada síntesis de los estudios del monje Hermann, que dejó a su disposición para que pudiera servirse del astrolabio, la brújula y el sextante. José Arcadio Buendía pasó los largos meses de lluvia encerrado en un cuartito que construyó en el fondo de la casa para que nadie perturbara sus experimentos. Habiendo abandonado por completo las obligaciones domésticas, permaneció noches enteras en el patio vigilando el curso de los astros, y estuvo a punto de contraer una insolación por tratar de establecer un método exacto para encontrar el mediodía. Cuando se hizo experto en el uso y manejo de sus instrumentos, tuvo una noción del espacio que le permitió navegar por mares incógnitos, visitar territorios deshabitados y trabar relación con seres espléndidos, sin necesidad de abandonar su gabinete. Fue esa la época en que adquirió el hábito de hablar a solas, paseándose por la casa sin hacer caso de nadie, mientras Úrsula y los niños se partían el espinazo en la huerta cuidando el plátano y la malanga, la yuca y el ñame, la ahuyama y la berenjena. De pronto, sin ningún anuncio, su actividad febril se interrumpió y fue sustituida por una especie de fascinación. Estuvo varios días como hechizado, repitiéndose a sí mismo en voz baja un sartal de asombrosas conjeturas, sin dar crédito a su propio entendimiento. Por fin, un martes de diciembre, a la hora del almuerzo, soltó de un golpe toda la carga de su tormento. Los niños habían de recordar por el resto de su vida la augusta solemnidad con que su padre se sentó a la cabecera de la mesa, temblando de fiebre, devastado por la prolongada vigilia y por el encono de su imaginación, y les reveló su descubrimiento:—La tierra es redonda como una naranja.
+                            Úrsula perdió la paciencia. «Si has de volverte loco, vuélvete tú solo», gritó. «Pero no trates de inculcar a los niños tus ideas de gitano». José Arcadio Buendía, impasible, no se dejó amedrentar por la desesperación de su mujer, que en un rapto de cólera le destrozó el astrolabio contra el suelo. Construyó otro, reunió en el cuartito a los hombres del pueblo y les demostró, con teorías que para todos resultaban incomprensibles, la posibilidad de regresar al punto de partida navegando siempre hacia el Oriente. Toda la aldea estaba convencida de que José Arcadio Buendía había perdido el juicio, cuando llegó Melquíades a poner las cosas en su punto. Exaltó en público la inteligencia de aquel hombre que por pura especulación astronómica había construido una teoría ya comprobada en la práctica, aunque desconocida hasta entonces en Macondo, y como una prueba de su admiración le hizo un regalo que había de ejercer una influencia terminante en el futuro de la aldea: un laboratorio de alquimia.
+                            Para esa época, Melquíades había envejecido con una rapidez asombrosa. En sus primeros viajes parecía tener la misma edad de José Arcadio Buendía. Pero mientras éste conservaba su fuerza descomunal, que le permitía derribar un caballo agarrándolo por las orejas, el gitano parecía estragado por una dolencia tenaz. Era, en realidad, el resultado de múltiples y raras enfermedades contraídas en sus incontables viajes alrededor del mundo. Según él mismo le contó a José Arcadio Buendía mientras lo ayudaba a montar el laboratorio, la muerte lo seguía a todas partes, husmeándole los pantalones, pero sin decidirse a darle el zarpazo final. Era un fugitivo de cuantas plagas y —La tierra es redonda como una naranja.
+                            Úrsula perdió la paciencia. «Si has de volverte loco, vuélvete tú solo», gritó. «Pero no trates de inculcar a los niños tus ideas de gitano». José Arcadio Buendía, impasible, no se dejó amedrentar por la desesperación de su mujer, que en un rapto de cólera le destrozó el astrolabio contra el suelo. Construyó otro, reunió en el cuartito a los hombres del pueblo y les demostró, con teorías que para todos resultaban incomprensibles, la posibilidad de regresar al punto de partida navegando siempre hacia el Oriente. Toda la aldea estaba convencida de que José Arcadio Buendía había perdido el juicio, cuando llegó Melquíades a poner las cosas en su punto. Exaltó en público la inteligencia de aquel hombre que por pura especulación astronómica había construido una teoría ya comprobada en la práctica, aunque desconocida hasta entonces en Macondo, y como una prueba de su admiración le hizo un regalo que había de ejercer una influencia terminante en el futuro de la aldea: un laboratorio de alquimia.
+                            Para esa época, Melquíades había envejecido con una rapidez asombrosa. En sus primeros viajes parecía tener la misma edad de José Arcadio Buendía. Pero mientras éste conservaba su fuerza descomunal, que le permitía derribar un caballo agarrándolo por las orejas, el gitano parecía estragado por una dolencia tenaz. Era, en realidad, el resultado de múltiples y raras enfermedades contraídas en sus incontables viajes alrededor del mundo. Según él mismo le contó a José Arcadio Buendía mientras lo ayudaba a montar el laboratorio, la muerte lo seguía a todas partes, husmeándole los pantalones, pero sin decidirse a darle el zarpazo final. Era un fugitivo de cuantas plagas y en que Melquíades rompió por distracción un frasco de bicloruro de mercurio.
+                            —Es el olor del demonio —dijo ella.
+                            —En absoluto —corrigió Melquíades—. Está comprobado que el demonio tiene propiedades sulfúricas, y esto no es más que un poco de solimán.
+                            Siempre didáctico, hizo una sabia exposición sobre las virtudes diabólicas del cinabrio, pero Úrsula no le hizo caso, sino que se llevó los niños a rezar. Aquel olor mordiente quedaría para siempre en su memoria, vinculado al recuerdo de Melquíades.
+                            El rudimentario laboratorio —sin contar una profusión de cazuelas, embudos, retortas, filtros y coladores— estaba compuesto por un atanor primitivo; una probeta de cristal de cuello largo y angosto, imitación del huevo filosófico, y un destilador construido por los propios gitanos según las descripciones modernas del alambique de tres brazos de María la judía. Además de estas cosas, Melquíades dejó muestras de los siete metales correspondientes a los siete planetas, las fórmulas de Moisés y Zósimo para el doblado del oro, y una serie de apuntes y dibujos sobre los procesos del Gran Magisterio, que permitían a quien supiera interpretarlos intentar la fabricación de la piedra filosofal. Seducido por la simplicidad de las fórmulas para doblar el oro, José Arcadio Buendía cortejó a Úrsula durante varias semanas, para que le permitiera desenterrar sus monedas coloniales y aumentarlas tantas veces como era posible subdividir el azogue. Úrsula cedió, como ocurría siempre, ante la inquebrantable obstinación de su marido. Entonces José Arcadio Buendía echó treinta doblones en una cazuela, y los fundió con raspadura de cobre, oropimente, azufre y plomo. Puso a hervir todo a fuego vivo en un caldero de aceite de ricino hasta obtener un jarabe espeso y pestilente más parecido al caramelo vulgar que al oro magnífico. En azarosos y desesperados procesos de destilación, fundida con los siete metales planetarios, trabajada con el mercurio hermético y el vitriolo de Chipre, y vuelta a cocer en manteca de cerdo a falta de aceite de rábano, la preciosa herencia de Úrsula quedó reducida a un chicharrón carbonizado que no pudo ser desprendido del fondo del caldero.
+                            Cuando volvieron los gitanos, Úrsula había predispuesto contra ellos a toda la población. Pero la curiosidad pudo más que el temor, porque aquella vez los gitanos recorrieron la aldea haciendo un ruido ensordecedor con toda clase de instrumentos músicos, mientras el pregonero anunciaba la exhibición del más fabuloso hallazgo de los nasciancenos. De modo que todo el mundo se fue a la carpa, y mediante el pago de un centavo vieron un Melquíades juvenil, repuesto, desarrugado, con una dentadura nueva y radiante. Quienes recordaban sus encías destruidas por el escorbuto, sus mejillas fláccidas y sus labios marchitos se estremecieron de pavor ante aquella prueba terminante de los poderes sobrenaturales del gitano. El pavor se convirtió en pánico cuando Melquíades se sacó los dientes, intactos, engastados en las encías, y se los mostró al público por un instante —un instante fugaz en que volvió a ser el mismo hombre decrépito de los años anteriores— y se los puso otra vez y sonrió de nuevo con un dominio pleno de su juventud restaurada. Hasta el propio José Arcadio Buendía consideró que los conocimientos de Melquíades habían llegado a extremos intolerables, pero experimentó un saludable alborozo cuando el gitano le explicó a solas el mecanismo de su dentadura postiza. Aquello le pareció a la vez tan sencillo y prodigioso, que de la noche a la mañana perdió todo interés en las investigaciones de alquimia; sufrió una nueva crisis de mal humor, no volvió a comer en forma regular y se pasaba el día dando vueltas por la casa. «En el mundo están ocurriendo cosas increíbles», le decía a Úrsula. «Ahí mismo, al otro lado del río, hay toda clase de aparatos mágicos, mientras nosotros seguimos viviendo como los burros». Quienes lo conocían desde los tiempos de la fundación de Macondo se asombraban de cuánto había cambiado bajo la influencia de Melquíades.
+                            Al principio, José Arcadio Buendía era una especie de patriarca juvenil, que daba instrucciones para la siembra y consejos para la crianza de niños y animales, y colaboraba con todos, aun en el trabajo físico, para la buena marcha de la comunidad. Puesto que su casa fue desde el primer momento la mejor de la aldea, las otras fueron arregladas a su imagen y semejanza. Tenía una salita amplia y bien iluminada, un comedor en forma de terraza con flores de colores alegres, dos dormitorios, un patio con un castaño gigantesco, un huerto bien plantado y un corral donde vivían en comunidad pacífica los chivos, los cerdos y las gallinas. Los únicos animales prohibidos no sólo en la casa, sino en todo el poblado, eran los gallos de pelea.
+                            La laboriosidad de Úrsula andaba a la par con la de su marido. Activa, menuda, severa, aquella mujer de nervios inquebrantables, a quien en ningún momento de su vida se la oyó cantar, parecía estar en todas partes desde el amanecer hasta muy entrada la noche, siempre perseguida por el suave susurro de sus pollerines de olán. Gracias a ella, los pisos de tierra golpeada, los muros de barro sin encalar, los rústicos muebles de madera construidos por ellos mismos estaban siempre limpios, y los viejos arcones donde se guardaba la ropa exhalaban un tibio olor de albahaca.
+                            José Arcadio Buendía, que era el hombre más emprendedor que se vería jamás en la aldea, había dispuesto de tal modo la posición de las casas, que desde todas podía llegarse al río y abastecerse de agua con igual esfuerzo, y trazó las calles con tan buen sentido que ninguna casa recibía más sol que otra a la hora del calor. En pocos años, Macondo fue una aldea más ordenada y laboriosa que cualquiera de las conocidas hasta entonces por sus 300 habitantes. Era en verdad una aldea feliz, donde nadie era mayor de treinta años y donde nadie había muerto.
+                            Desde los tiempos de la fundación, José Arcadio Buendía construyó trampas y jaulas. En poco tiempo llenó de turpiales, canarios, azulejos y petirrojos no sólo la propia casa, sino todas las de la aldea. El concierto de tantos pájaros distintos llegó a ser tan aturdidor, que Úrsula se tapó los oídos con cera de abejas para no perder el sentido de la realidad. La primera vez que llegó la tribu de Melquíades vendiendo bolas de vidrio para el dolor de cabeza, todo el mundo se sorprendió de que hubieran podido encontrar aquella aldea perdida en el sopor de la ciénaga, y los gitanos confesaron que se habían orientado por el canto de los pájaros.
+                            Aquel espíritu de iniciativa social desapareció en poco tiempo, arrastrado por la fiebre de los imanes, los cálculos astronómicos, los sueños de transmutación y las ansias de conocer las maravillas del mundo. De emprendedor y limpio, José Arcadio Buendía se convirtió en un hombre de aspecto holgolpeada, los muros de barro sin encalar, los rústicos muebles de madera construidos por ellos mismos estaban siempre limpios, y los viejos arcones donde se guardaba la ropa exhalaban un tibio olor de albahaca.
+                            José Arcadio Buendía, que era el hombre más emprendedor que se vería jamás en la aldea, había dispuesto de tal modo la posición de las casas, que desde todas podía llegarse al río y abastecerse de agua con igual esfuerzo, y trazó las calles con tan buen sentido que ninguna casa recibía más sol que otra a la hora del calor. En pocos años, Macondo fue una aldea más ordenada y laboriosa que cualquiera de las conocidas hasta entonces por sus 300 habitantes. Era en verdad una aldea feliz, donde nadie era mayor de treinta años y donde nadie había muerto.
+                            Desde los tiempos de la fundación, José Arcadio Buendía construyó trampas y jaulas. En poco tiempo llenó de turpiales, canarios, azulejos y petirrojos no sólo la propia casa, sino todas las de la aldea. El concierto de tantos pájaros distintos llegó a ser tan aturdidor, que Úrsula se tapó los oídos con cera de abejas para no perder el sentido de la realidad. La primera vez que llegó la tribu de Melquíades vendiendo bolas de vidrio para el dolor de cabeza, todo el mundo se sorprendió de que hubieran podido encontrar aquella aldea perdida en el sopor de la ciénaga, y los gitanos confesaron que se habían orientado por el canto de los pájaros.
+                            Aquel espíritu de iniciativa social desapareció en poco tiempo, arrastrado por la fiebre de los imanes, los cálculos astronómicos, los sueños de transmutación y las ansias de conocer las maravillas del mundo. De emprendedor y limpio, José Arcadio Buendía se convirtió en un hombre de aspecto holDe acuerdo con los cálculos de José Arcadio Buendía, la única posibilidad de contacto con la civilización era la ruta del norte. De modo que dotó de herramientas de desmonte y armas de cacería a los mismos hombres que lo acompañaron en la fundación de Macondo; echó en una mochila sus instrumentos de orientación y sus mapas, y emprendió la temeraria aventura.
+                            Los primeros días no encontraron un obstáculo apreciable. Descendieron por la pedregosa ribera del río hasta el lugar en que años antes habían encontrado la armadura del guerrero, y allí penetraron al bosque por un sendero de naranjos silvestres. Al término de la primera semana, mataron y asaron un venado, pero se conformaron con comer la mitad y salar el resto para los próximos días. Trataban de aplazar con esa precaución la necesidad de seguir comiendo guacamayas, cuya carne azul tenía un áspero sabor de almizcle. Luego, durante más de diez días, no volvieron a ver el sol. El suelo se volvió blando y húmedo, como ceniza volcánica, y la vegetación fue cada vez más insidiosa y se hicieron cada vez más lejanos los gritos de los pájaros y la bullaranga de los monos, y el mundo se volvió triste para siempre. Los hombres de la expedición se sintieron abrumados por sus recuerdos más antiguos en aquel paraíso de humedad y silencio, anterior al pecado original, donde las botas se hundían en pozos de aceites humeantes y los machetes destrozaban lirios sangrientos y salamandras doradas. Durante una semana, casi sin hablar, avanzaron como sonámbulos por un universo de pesadumbre, alumbrados apenas por una tenue reverberación de insectos luminosos y con los pulmones agobiados por un sofocante olor de sangre. No podían regresar, porque la trocha que iban abriendo a su paso se volvía a cerrar en poco tiempo, con una vegetación nueva que casi veían crecer ante sus ojos. «No importa», decía José Arcadio Buendía. «Lo esencial es no perder la orientación». Siempre pendiente de la brújula, siguió guiando a sus hombres hacia el norte invisible, hasta que lograron salir de la región encantada. Era una noche densa, sin estrellas, pero la oscuridad estaba impregnada por un aire nuevo y limpio. Agotados por la prolongada travesía, colgaron las hamacas y durmieron a fondo por primera vez en dos semanas. Cuando despertaron, ya con el sol alto, se quedaron pasmados de fascinación. Frente a ellos, rodeado de helechos y palmeras, blanco y polvoriento en la silenciosa luz de la mañana, estaba un enorme galeón español. Ligeramente volteado a estribor, de su arboladura intacta colgaban las piltrafas escuálidas del velamen, entre jarcias adornadas de orquídeas. El casco, cubierto con una tersa coraza de rémora petrificada y musgo tierno, estaba firmemente enclavado en un suelo de piedras. Toda la estructura parecía ocupar un ámbito propio, un espacio de soledad y de olvido, vedado a los vicios del tiempo y a las costumbres de los pájaros. En el interior, que los expedicionarios exploraron con un fervor sigiloso, no había nada más que un apretado bosque de flores.
+                            El hallazgo del galeón, indicio de la proximidad del mar, quebrantó el ímpetu de José Arcadio Buendía. Consideraba como una burla de su travieso destino haber buscado el mar sin encontrarlo, al precio de sacrificios y penalidades sin cuento, y haberlo encontrado entonces sin buscarlo, atravesado en su camino como un obstáculo insalvable. Muchos años después, el coronel Aureliano Buendía volvió a atravesar la región, cuando era ya una ruta regular del correo, y lo único que encontró de la nave fue el costillar carbonizado en medio de un campo de amapolas. Sólo entonces, convencido de que aquella historia no había sido un engendro de la imaginación de su padre, se preguntó cómo había podido el galeón adentrarse hasta ese punto en tierra firme. Pero José Arcadio Buendía no se planteó esa inquietud cuando encontró el mar, al cabo de otros cuatro días de viaje, a doce kilómetros de distancia del galeón. Sus sueños terminaban frente a ese mar color de ceniza, espumoso y sucio, que no merecía los riesgos y sacrificios de su aventura.
+                            —¡Carajo! —gritó—. Macondo está rodeado de agua por todas partes.
+                            La idea de un Macondo peninsular prevaleció durante mucho tiempo, inspirada en el mapa arbitrario que dibujó José Arcadio Buendía al regreso de su expedición. Lo trazó con rabia, exagerando de mala fe las dificultades de comunicación, como para castigarse a sí mismo por la absoluta falta de sentido con que eligió el lugar. «Nunca llegaremos a ninguna parte», se lamentaba ante Úrsula. «Aquí nos hemos de pudrir en vida sin recibir los beneficios de la ciencia». Esa certidumbre, rumiada varios meses en el cuartito del laboratorio, lo llevó a concebir el proyecto de trasladar a Macondo a un lugar más propicio. Pero esta vez, Úrsula se anticipó a sus designios febriles. En una secreta e implacable labor de hormiguita predispuso a las mujeres de la aldea contra la veleidad de sus hombres, que ya empezaban a prepararse para la mudanza. José Arcadio Buendía no supo en qué momento, ni en virtud de qué fuerzas adversas, sus planes se fueron enredando en una maraña de pretextos, contratiempos y evasivas, hasta convertirse en pura y simple ilusión. Úrsula lo observó con una atención inocente, y hasta sintió por él un poco de piedad, la mañana en que lo encontró en el cuartito del fondo comentando entre dientes sus sueños de mudanza, mientras colocaba en sus cajas originales las piezas del laboratorio. Lo dejó terminar. Lo dejó clavar las cajas y poner sus iniciales encima con un hisopo entintado, sin hacerle ningún reproche, pero sabiendo ya que él sabía (porque se lo oyó decir en sus sordos monólogos) que los hombres del pueblo no lo secundarían en su empresa. Sólo cuando empezó a desmontar la puerta del cuartito, Úrsula se atrevió a preguntarle por qué lo hacía, y él le contestó con una cierta amargura: «Puesto que nadie quiere irse, nos iremos solos». Úrsula no se alteró.
+                            —No nos iremos —dijo—. Aquí nos quedamos, porque aquí hemos tenido un hijo.
+                            —Todavía no tenemos un muerto —dijo él—. Uno no es de ninguna parte mientras no tenga un muerto bajo la tierra.
+                            Úrsula replicó, con una suave firmeza:
+                            —Si es necesario que yo me muera para que se queden aquí, me muero.
+                            José Arcadio Buendía no creyó que fuera tan rígida la voluntad de su mujer. Trató de seducirla con el hechizo de su fantasía, con la promesa de un mundo prodigioso dondbastaba con echar unos líquidos mágicos en la tierra para que las plantas dieran frutos a voluntad del hombre, y donde se vendían a precio de baratillo toda clase de aparatos para el dolor. Pero Úrsula fue insensible a su clarividencia.
+                            —En vez de andar pensando en tus alocadas novelerías, debes ocuparte de tus hijos —replicó—. Míralos cómo están, abandonados a la buena de Dios, igual que los burros.
+                            José Arcadio Buendía tomó al pie de la letra las palabras de su mujer. Miró a través de la ventana y vio a los dos niños descalzos en la huerta soleada, y tuvo la impresión de que sólo en aquel instante habían empezado a existir, concebidos por el conjuro de Úrsula. Algo ocurrió entonces en su interior; algo misterioso y definitivo que lo desarraigó de su tiempo actual y lo llevó a la deriva por una región inexplorada de los recuerdos. Mientras Úrsula seguía barriendo la casa que ahora estaba segura de no abandonar en el resto de su vida, él permaneció contemplando a los niños con mirada absorta, hasta que los ojos se le humedecieron y se los secó con el dorso de la mano, y exhaló un hondo suspiro de resignación.
+                            —Bueno —dijo—. Diles que vengan a ayudarme a sacar las cosas de los cajones.
+                            José Arcadio, el mayor de los niños, había cumplido catorce años. Tenía la cabeza cuadrada, el pelo hirsuto y el carácter voluntarioso de su padre. Aunque llevaba el mismo impulso de crecimiento y fortaleza física, ya desde entonces era evidente que carecía de imaginación. Fue concebido y dado a luz durante la penosa travesía de la sierra, antes de la fundación de Macondo, y sus padres dieron gracias al cielo al comprobar que no tenía ningún órgano de animal. Aureliano, el primer ser humano que nació en Macondo, iba a cumplir seis años en marzo. Era silencioso y retraído. Había llorado en el vientre de su madre y nació con los ojos abiertos. Mientras le cortaban el ombligo movía la cabeza de un lado a otro reconociendo las cosas del cuarto, y examinaba el rostro de la gente con una curiosidad sin asombro. Luego, indiferente a quienes se acercaban a conocerlo, mantuvo la atención concentrada en el techo de palma, que parecía a punto de derrumbarse bajo la tremenda presión de la lluvia. Úrsula no volvió a acordarse de la intensidad de esa mirada hasta un día en que el pequeño Aureliano, a la edad de tres años, entró a la cocina en el momento en que ella retiraba del fogón y ponía en la mesa una olla de caldo hirviendo. El niño, perplejo en la puerta, dijo: «Se va a caer». La olla estaba bien puesta en el centro de la mesa, pero tan pronto como el niño hizo el anuncio, inició un movimiento irrevocable hacia el borde, como impulsada por un dinamismo interior, y se despedazó en el suelo. Úrsula, alarmada, le contó el episodio a su marido, pero éste lo interpretó como un fenómeno natural. Así fue siempre, ajeno a la existencia de sus hijos, en parte porque consideraba la infancia como un período de insuficiencia mental, y en parte porque siempre estaba demasiado absorto en sus propias especulaciones quiméricas.
+                            Pero desde la tarde en que llamó a los niños para que lo ayudaran a desempacar las cosas del laboratorio, les dedicó sus horas mejores. En el cuartito apartado, cuyas paredes se fueron llenando poco a poco de mapas inverosímiles y gráficos fabulosos, les enseñó a leer y escribir y a sacar cuentas, y les habló de las maravillas del mundo no sólo hasta donde le alcanzaban sus conocimientos, sino forzando a extremos increíbles los límites de su imaginación. Fue así como los niños terminaron por aprender que en el extremo meridional del África había hombres tan inteligentes y pacíficos que su único entretenimiento era sentarse a pensar, y que era posible atravesar a pie el mar Egeo saltando de isla en isla hasta el puerto de Salónica. Aquellas alucinantes sesiones quedaron de tal modo impresas en la memoria de los niños, que muchos años más tarde, un segundo antes de que el oficial de los ejércitos regulares diera la orden de fuego al pelotón de fusilamiento, el coronel Aureliano Buendía volvió a vivir la tibia tarde de marzo en que su padre interrumpió la lección de física, y se quedó fascinado, con la mano en el aire y los ojos inmóviles, oyendo a la distancia los pífanos y tambores y sonajas de los gitanos que una vez más llegaban a la aldea, pregonando el último y asombroso descubrimiento de los sabios de Memphis.
+                            Eran gitanos nuevos. Hombres y mujeres jóvenes que sólo conocían su propia lengua, ejemplares hermosos de piel aceitada y manos inteligentes, cuyos bailes y músicas sembraron en las calles un pánico de alborotada alegría, con sus loros pintados de todos los colores que recitaban romanzas italianas, y la gallina que ponía un centenar de huevos de bastaba con echar unos líquidos mágicos en la tierra para que las plantas dieran frutos a voluntad del hombre, y donde se vendían a precio de baratillo toda clase de aparatos para el dolor. Pero Úrsula fue insensible a su clarividencia.
+                            —En vez de andar pensando en tus alocadas novelerías, debes ocuparte de tus hijos —replicó—. Míralos cómo están, abandonados a la buena de Dios, igual que los burros.
+                            José Arcadio Buendía tomó al pie de la letra las palabras de su mujer. Miró a través de la ventana y vio a los dos niños descalzos en la huerta soleada, y tuvo la impresión de que sólo en aquel instante habían empezado a existir, concebidos por el conjuro de Úrsula. Algo ocurrió entonces en su interior; algo misterioso y definitivo que lo desarraigó de su tiempo actual y lo llevó a la deriva por una región inexplorada de los recuerdos. Mientras Úrsula seguía barriendo la casa que ahora estaba segura de no abandonar en el resto de su vida, él permaneció contemplando a los niños con mirada absorta, hasta que los ojos se le humedecieron y se los secó con el dorso de la mano, y exhaló un hondo suspiro de resignación.
+                            —Bueno —dijo—. Diles que vengan a ayudarme a sacar las cosas de los cajones.
+                            José Arcadio, el mayor de los niños, había cumplido catorce años. Tenía la cabeza cuadrada, el pelo hirsuto y el carácter voluntarioso de su padre. Aunque llevaba el mismo impulso de crecimiento y fortaleza física, ya desde entonces era evidente que carecía de imaginación. Fue concebido y dado a luz durante la penosa travesía de la sierra, antes de la fundación de Macondo, y sus padres dieron gracias al cielo al comprobar que no tenía ningún órgano de animal. Aureliano, el primer ser humano que nació en Macondo, iba a cumplir seis años en marzo. Era silencioso y retraído. Había llorado en el vientre de su madre y nació con los ojos abiertos. Mientras le cortaban el ombligo movía la cabeza de un lado a otro reconociendo las cosas del cuarto, y examinaba el rostro de la gente con una curiosidad sin asombro. Luego, indiferente a quienes se acercaban a conocerlo, mantuvo la atención concentrada en el techo de palma, que parecía a punto de derrumbarse bajo la tremenda presión de la lluvia. Úrsula no volvió a acordarse de la intensidad de esa mirada hasta un día en que el pequeño Aureliano, a la edad de tres años, entró a la cocina en el momento en que ella retiraba del fogón y ponía en la mesa una olla de caldo hirviendo. El niño, perplejo en la puerta, dijo: «Se va a caer». La olla estaba bien puesta en el centro de la mesa, pero tan pronto como el niño hizo el anuncio, inició un movimiento irrevocable hacia el borde, como impulsada por un dinamismo interior, y se despedazó en el suelo. Úrsula, alarmada, le contó el episodio a su marido, pero éste lo interpretó como un fenómeno natural. Así fue siempre, ajeno a la existencia de sus hijos, en parte porque consideraba la infancia como un período de insuficiencia mental, y en parte porque siempre estaba demasiado absorto en sus propias especulaciones quiméricas.
+                            Pero desde la tarde en que llamó a los niños para que lo ayudaran a desempacar las cosas del laboratorio, les dedicó sus horas mejores. En el cuartito apartado, cuyas paredes se fueron llenando poco a poco de mapas inverosímiles y gráficos fabulosos, les enseñó a leer y escribir y a sacar cuentas, y les habló de las maravillas del mundo no sólo hasta donde le alcanzaban sus conocimientos, sino forzando a extremos increíbles los límites de su imaginación. Fue así como los niños terminaron por aprender que en el extremo meridional del África había hombres tan inteligentes y pacíficos que su único entretenimiento era sentarse a pensar, y que era posible atravesar a pie el mar Egeo saltando de isla en isla hasta el puerto de Salónica. Aquellas alucinantes sesiones quedaron de tal modo impresas en la memoria de los niños, que muchos años más tarde, un segundo antes de que el oficial de los ejércitos regulares diera la orden de fuego al pelotón de fusilamiento, el coronel Aureliano Buendía volvió a vivir la tibia tarde de marzo en que su padre interrumpió la lección de física, y se quedó fascinado, con la mano en el aire y los ojos inmóviles, oyendo a la distancia los pífanos y tambores y sonajas de los gitanos que una vez más llegaban a la aldea, pregonando el último y asombroso descubrimiento de los sabios de Memphis.
+                            Eran gitanos nuevos. Hombres y mujeres jóvenes que sólo conocían su propia lengua, ejemplares hermosos de piel aceitada y manos inteligentes, cuyos bailes y músicas sembraron en las calles un pánico de alborotada alegría, con sus loros pintados de todos los colores que recitaban romanzas italianas, y la gallina que ponía un centenar de huevos de hirviendo. El niño, perplejo en la puerta, dijo: «Se va a caer». La olla estaba bien puesta en el centro de la mesa, pero tan pronto como el niño hizo el anuncio, inició un movimiento irrevocable hacia el borde, como impulsada por un dinamismo interior, y se despedazó en el suelo. Úrsula, alarmada, le contó el episodio a su marido, pero éste lo interpretó como un fenómeno natural. Así fue siempre, ajeno a la existencia de sus hijos, en parte porque consideraba la infancia como un período de insuficiencia mental, y en parte porque siempre estaba demasiado absorto en sus propias especulaciones quiméricas.
+                            Pero desde la tarde en que llamó a los niños para que lo ayudaran a desempacar las cosas del laboratorio, les dedicó sus horas mejores. En el cuartito apartado, cuyas paredes se fueron llenando poco a poco de mapas inverosímiles y gráficos fabulosos, les enseñó a leer y escribir y a sacar cuentas, y les habló de las maravillas del mundo no sólo hasta donde le alcanzaban sus conocimientos, sino forzando a extremos increíbles los límites de su imaginación. Fue así como los niños terminaron por aprender que en el extremo meridional del África había hombres tan inteligentes y pacíficos que su único entretenimiento era sentarse a pensar, y que era posible atravesar a pie el mar Egeo saltando de isla en isla hasta el puerto de Salónica. Aquellas alucinantes sesiones quedaron de tal modo impresas en la memoria de los niños, que muchos años más tarde, un segundo antes de que el oficial de los ejércitos regulares diera la orden de fuego al pelotón de fusilamiento, el coronel Aureliano Buendía volvió a vivir la tibia tarde de marzo en que su padre interrumpió la lección de física, y se quedó fascinado, con la mano en el aire y los ojos inmóviles, oyendo a la distancia los pífanos y tambores y sonajas de los gitanos que una vez más llegaban a la aldea, pregonando el último y asombroso descubrimiento de los sabios de Memphis.
+                            Eran gitanos nuevos. Hombres y mujeres jóvenes que sólo conocían su propia lengua, ejemplares hermosos de piel aceitada y manos inteligentes, cuyos bailes y músicas sembraron en las calles un pánico de alborotada alegría, con sus loros pintados de todos los colores que recitaban romanzas italianas, y la gallina que ponía un centenar de huevos de oro al son de la pandereta, y el mono amaestrado que adivinaba el pensamiento, y la máquina múltiple que servía al mismo tiempo para pegar botones y bajar la fiebre, y el aparato para olvidar los malos recuerdos, y el emplasto para perder el tiempo, y un millar de invenciones más, tan ingeniosas e insólitas, que José Arcadio Buendía hubiera querido inventar la máquina de la memoria para poder acordarse de todas. En un instante transformaron la aldea. Los habitantes de Macondo se encontraron de pronto perdidos en sus propias calles, aturdidos por la feria multitudinaria.
+                            Llevando un niño de cada mano para no perderlos en el tumulto, tropezando con saltimbanquis de dientes acorazados de oro y malabaristas de seis brazos, sofocado por el confuso aliento de estiércol y sándalo que exhalaba la muchedumbre, José Arcadio Buendía andaba como un loco buscando a Melquíades por todas partes, para que le revelara los infinitos secretos de aquella pesadilla fabulosa. Se dirigió a varios gitanos que no entendieron su lengua. Por último, llegó hasta el lugar donde Melquíades solía plantar su tienda, y encontró un armenio taciturno que anunciaba en castellano un jarabe para hacerse invisible. Se había tomado de un golpe una copa de la sustancia ambarina, cuando José Arcadio Buendía se abrió paso a empujones por entre el grupo absorto que presenciaba el espectáculo, y alcanzó a hacer la pregunta. El gitano lo envolvió en el clima atónito de su mirada, antes de convertirse en un charco de alquitrán pestilente y humeante sobre el cual quedó flotando la resonancia de su respuesta: «Melquíades murió». Aturdido por la noticia, José Arcadio Buendía permaneció inmóvil, tratando de sobreponerse a la aflicción, hasta que el grupo se dispersó reclamado por otros artificios y el charco del armenio taciturno se evaporó por completo. Más tarde, otros gitanos le confirmaron que en efecto Melquíades había sucumbido a las fiebres en los médanos de Singapur, y su cuerpo había sido arrojado en el lugar más profundo del mar de Java. A los niños no les interesó la noticia. Estaban obstinados en que su padre los llevara a conocer la portentosa novedad de los sabios de Memphis, anunciada a la entrada de una tienda que, según decían, perteneció al rey Salomón. Tanto insistieron, que José Arcadio Buendía pagó los treinta reales y los condujo hasta el centro de la carpa, donde había un gigante de torso peludo y cabeza rapada, con un anillo de cobre en la nariz y una pesada cadena de hierro en el tobillo, custodiando un cofre de pirata. Al ser destapado por el gigante, el cofre dejó escapar un aliento glacial. Dentro sólo había un enorme bloque transparente, con infinitas agujas internas en las cuales se despedazaba en estrellas de colores la claridad del crepúsculo. Desconcertado, sabiendo que los niños esperaban una explicación inmediata, José Arcadio Buendía se atrevió a murmurar:
+                            —Es el diamante más grande del mundo.
+                            —No —corrigió el gitano—. Es hielo.
+                            José Arcadio Buendía, sin entender, extendió la mano hacia el témpano, pero el gigante se la apartó. «Cinco reales más para tocarlo», dijo. José Arcadio Buendía los pagó, y entonces puso la mano sobre el hielo, y la mantuvo puesta por varios minutos, mientras el corazón se le hinchaba de temor y de júbilo al contacto del misterio. Sin saber qué decir, pagó otros diez reales para que sus hijos vivieran la prodigiosa experiencia. El pequeño José Arcadio se negó a tocarlo. Aureliano, en cambio, dio un paso hacia adelante, puso la mano y la retiró en el acto. «Está hirviendo», exclamó asustado. Pero su padre no le prestó atención. Embriagado por la evidencia del prodigio, en aquel momento se olvidó de la frustración de sus empresas delirantes y del cuerpo de Melquíades abandonado al apetito de los calamares. Pagó otros cinco reales, y con la mano puesta en el témpano, como expresando un testimonio sobre el texto sagrado, exclamó:
+                            —Este es el gran invento de nuestro tiempo.
+                        </textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
 
+                <!--#endregion-->
+
+                <div class="form-row form-check mt-4">
+                    <div class="col-12">
+                        <input type="checkbox" class="form-check-input" id="aceptacion_contrato" name="aceptacion_contrato">
+                        <label class="form-check-label" for="aceptacion_contrato">He leído y acepto los terminos y condiciones del contrato de adhesión</label>
+                    </div>
+                    <div class="col-12">
+                        <input type="checkbox" class="form-check-input" id="aceptacion_datos"  name="aceptacion_datos">
+                        <label class="form-check-label" for="aceptacion_datos">He leído y acepto los terminos y condiciones del tratado de datos</label>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-lg btn-yamaha">Envíar</button> 
+                    </div>
+                </div>
 
             </form>
         </div>
