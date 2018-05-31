@@ -37,17 +37,17 @@ namespace ContratoDigital.Controllers
         {
             MemoryStream stream = new MemoryStream();
 
-            string src = _hostingEnvironment.WebRootPath + "/pdf/Electroplan_MotoPlus_Contrato.pdf";
-            string dest = _hostingEnvironment.WebRootPath + "/pdf/unused.pdf";
+            string src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_yamaha_motomas_contrato_v1_20180523.pdf";            
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);
             
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
-            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
-            //PdfFormField toSet;
-            fields.TryGetValue("numero_de_contrato", out PdfFormField toSet);
-            toSet.SetValue("Alguna cosa");
+            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();            
+
+            ContratoDigitalModel persona =  FillPersona(form);
+            FillPdf(fields, persona);
+
             pdfForm.FlattenFields();
             pdf.Close();
             stream.Flush();
@@ -56,8 +56,8 @@ namespace ContratoDigital.Controllers
 
 
 
-            string contrato = form["numero_contrato"];
-            return View();
+            //string contrato = form["numero_contrato"];
+            //return View();
         }
 
         public IActionResult About()
