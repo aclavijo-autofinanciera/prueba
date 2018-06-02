@@ -183,11 +183,12 @@
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="telefono_suscriptor">Teléfono</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefono_suscriptor" name="telefono_suscriptor" />
+                        <!--<input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefono_suscriptor" name="telefono_suscriptor" />-->
+                        <input type="tel"  class="form-control form-control-lg" id="telefono_suscriptor" name="telefono_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="celular_suscriptor">Celular/Móvil</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_suscriptor" name="celular_suscriptor" />
+                        <input type="tel"  class="form-control form-control-lg" id="celular_suscriptor" name="celular_suscriptor" />
                     </div>
                 </div>
 
@@ -299,11 +300,11 @@
                 <div class="form-row mt-4">
                     <div class="col">
                         <label for="telefono_empleo_suscriptor">Teléfono</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefono_empleo_suscriptor"  name="telefono_empleo_suscriptor" />
+                        <input type="tel"  class="form-control form-control-lg" id="telefono_empleo_suscriptor"  name="telefono_empleo_suscriptor" />
                     </div>
                     <div class="col">
                         <label for="celular_empleo_suscriptor">Celular/Móvil</label>
-                        <input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="celular_empleo_suscriptor" name="celular_empleo_suscriptor" />
+                        <input type="tel"  class="form-control form-control-lg" id="celular_empleo_suscriptor" name="celular_empleo_suscriptor" />
                     </div>
                 </div>
 
@@ -649,6 +650,10 @@
                             </div>
                             <input type="text" class="form-control form-control-lg" aria-label="valor_bien" aria-describedby="valor_bien_addon" id="valor_bien" name="valor_bien" placeholder="0.00" />
                         </div>
+                    </div>
+                    <div class="col">
+                        <label for="codigo_bien">Código del bien</label>
+                        <input type="text" class="form-control form-control-lg" id="codigo_bien" name="codigo_bien" />
                     </div>
                 </div>
                 <div class="form-row mt-4">
