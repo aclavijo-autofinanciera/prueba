@@ -26,12 +26,348 @@ jQuery(function ($) {
         changeMonth: true,
         changeYear: true,
         dateFormat: 'yy-mm-dd',
-        yearRange: "c-70:c-18"
+        yearRange: "c-60:c-18"
+    });    
+
+    $.validator.addMethod("phoneColombia", function (phone_number, element) {
+        phone_number = phone_number.replace(/\s+/g, "");
+        return this.optional(element) || phone_number.length > 10 &&
+            phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/])?$/i);
+            //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i);
+    }, "Especifique un número de teléfono");
+
+    $(".needs-validation").validate({
+        rules: {
+            // Suscriptor
+            nombre_suscriptor: {
+                required: true                
+            },
+            tipo_identificacion_suscriptor: {
+                required:true
+            },
+            documento_identidad_suscriptor: {
+                required: true,
+                digits:true
+            },
+            procedencia_documento_identidad_suscriptor: {
+                    required:true
+            },
+            fecha_nacimiento_suscriptor: {
+                required: true,
+                dateISO: true
+            },
+            lugar_nacimiento_suscriptor: {
+                required:true
+            },
+            sexo_suscriptor: {
+                required:true
+            },
+            estado_civil_suscriptor: {
+                required:true
+            },
+            direccion_domicilio_suscriptor: {
+                required: true,
+                maxlength:200
+            },
+            departamento_suscriptor:{
+                required: true                
+            },
+            ciudad_suscriptor:{
+                required:true
+            },
+            telefono_suscriptor: {
+                required: true,
+                phoneColombia: true
+            },
+            celular_suscriptor: {
+                required: true,
+                phoneColombia:true
+            },
+            empresa_empleadora_suscriptor: {
+                    required:true
+            },
+            cargo_suscriptor: {
+                    required:true
+            },
+            ingresos_mensuales_suscriptor: {
+                required: true,
+                number: true,
+            },
+            egresos_mensuales_suscriptor: {
+                required: true,
+                number:true
+            },
+            otros_ingresos_suscriptor: {
+                required: true,
+                number:true
+            },
+            direccion_empleo_suscriptor: {
+                required: true,
+                maxlength:200
+            },
+            departamento_empleo_suscriptor: {
+                required: true
+            },
+            ciudad_empleo_suscriptor: {
+                required:true
+            },
+            telefono_empleo_suscriptor: {
+                phoneColombia:true
+            },
+            celular_empleo_suscriptor: {
+                phoneColombia:true
+            },
+            profesion_suscriptor: {
+                    required:true
+            },
+            envio_correspondencia_suscriptor: {
+                    required:true
+            },
+            email_suscriptor: {
+                required: true,
+                email:true                
+            },
+            detalles_bien: {
+                required:true                    
+            },
+            valor_bien: {
+                required: true,
+                number:true
+            },
+            codigo_bien: {
+                required:true
+            },
+            cuota_bien: {
+                required:true
+            },
+            plazo_bien: {
+                required:true
+            },
+            cuota_ingreso: {
+                required: true,
+                number:true
+            },
+            administracion: {
+                required: true,
+                number: true
+            },
+            iva_cuota_ingreso: {
+                required: true,
+                number: true
+            },
+            iva_administracion: {
+                required: true,
+                number: true
+            },
+            total_cuota_ingreso: {
+                required: true,
+                number: true
+            },
+            total_cuota_bruta: {
+                required: true,
+                number: true
+            },
+            primera_cuota_neta: {
+                required: true,
+                number: true
+            },
+            valor_primer_pago: {
+                required: true,
+                number: true
+            }
+
+
+
+
+
+        },
+        messages: {
+            // Suscriptor
+            nombre_suscriptor: {
+                required: "Requerido"                
+            },
+            tipo_identificacion_suscriptor: {
+                    required: "Requerido"
+            },
+            documento_identidad_suscriptor: {
+                required: "Requerido",
+                digits: "La identificación debe ser numérica"
+            },
+            procedencia_documento_identidad_suscriptor: {
+                required: "Requerido"
+            },
+            fecha_nacimiento_suscriptor: {
+                required: "Requerido",
+                dateISO: "Debe ingresar una fecha válida"
+            },
+            lugar_nacimiento_suscriptor: {
+                required: "Requerido"
+            },
+            sexo_suscriptor: {
+                required: "Requerido"
+            },
+            estado_civil_suscriptor: {
+                required: "Requerido"
+            },
+            direccion_domicilio_suscriptor: {
+                required: "Requerido",
+                maxlength: "El campo no puede ser mayor a 200 caracteres"
+            },
+            departamento_suscriptor:{
+                required: "Requerido"
+            },
+            ciudad_suscriptor:{
+                required: "Requerido"
+            },
+            telefono_suscriptor: {
+                required: "Requerido",
+                phoneColombia: "Debe ingresar un número de teléfono válido"
+            },
+            celular_suscriptor: {
+                required: "Requerido",
+                phoneColombia: "Debe ingresar un número de teléfono válido"
+            },
+            empresa_empleadora_suscriptor: {
+                required: "Requerido"
+            },
+            cargo_suscriptor: {
+                required: "Requerido"
+            },
+            ingresos_mensuales_suscriptor: {
+                required: "Requerido",
+                number: "Debe ingresar solo números",
+            },
+            egresos_mensuales_suscriptor: {
+                required: "Requerido",
+                number: "Debe ingresar solo números"
+            },
+            otros_ingresos_suscriptor: {
+                required: "Requerido",
+                number: "Debe ingresar solo números"
+            },
+            direccion_empleo_suscriptor: {
+                required: "Requerido",
+                maxlength: "El campo no puede ser mayor a 200 caracteres"
+            },
+            departamento_empleo_suscriptor: {
+                required: "Requerido"
+            },
+            ciudad_empleo_suscriptor: {
+                required: "Requerido"
+            },
+            telefono_empleo_suscriptor: {
+                phoneColombia: "Debe ingresar un númerdo de teléfono válido"
+            },
+            celular_empleo_suscriptor: {
+                phoneColombia: "Debe ingresar un númerdo de teléfono válido"
+            },
+            profesion_suscriptor: {
+                required: "Requerido"
+            },
+            envio_correspondencia_suscriptor: {
+                required: "Requerido"
+            },
+            email_suscriptor: {
+                required: "Requerido",
+                email:"Debe ingresar una dirección de correo válida"
+            },
+            detalles_bien: {
+                required: "Requerido"
+            },
+            valor_bien: {
+                required: "Requerido",
+                number: "Debe ingresar un valor númerico válido"
+            },
+            codigo_bien: {
+                required: "Requerido"
+            },
+            cuota_bien: {
+                required: "Rrequerido"
+            },
+            plazo_bien: {
+                required: "Requerido"
+            },
+            cuota_ingreso: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            },
+            administracion: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            },
+            iva_cuota_ingreso: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            },
+            iva_administracion: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            },
+            total_cuota_ingreso: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            },
+            total_cuota_bruta: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            },
+            primera_cuota_neta: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            },
+            valor_primer_pago: {
+                required: "Requerido",
+                number: "Debe ingresar una cifra válida"
+            }
+            
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
     });
     
 });
 
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+    'use strict';
+    window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
 
+/*
+ rules: {
+    field_name: {
+      required: true, //Makes the element required.
+      minlength: 3, //Makes the element require a given minimum length
+      maxlength: 4, //Makes the element require a given maximum length.
+      rangelength: [2,7], // Makes the element require a given value range.
+
+      // These are integer values
+      min: 13, //Makes the element require a given minimum
+      max: 25, // Makes the element require a given maximum
+      range: [2,7], // Makes the element require a given value range
+
+      // Miscellaneous
+      email : true, // Makes the element require a valid email
+      dateISO: true, // Makes the element require an ISO date.
+      number: true, // Makes the element require a decimal number
+      digits: true, // Makes the element require digits only.
+    }
+  }
+ */
 /*Masked Input
  
  window.onload = function() {
