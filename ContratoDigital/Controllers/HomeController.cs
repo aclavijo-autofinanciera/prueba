@@ -90,273 +90,309 @@ namespace ContratoDigital.Controllers
 
             // Número de contrato
             fields.TryGetValue("numero_de_contrato", out toSet);
-            toSet.SetValue(persona.numero_de_contrato.ToString());
+            toSet.SetValue(persona.numero_de_contrato.ToString().ToUpper());
 
             // Nombre razón social suscriptor
             fields.TryGetValue("nombre_razon_social_suscriptor", out toSet);
-            toSet.SetValue(persona.nombre_razon_social_suscriptor);
+            toSet.SetValue(persona.nombre_razon_social_suscriptor.ToUpper());
 
             // Tipo de documento de identidad
             fields.TryGetValue("tipo_documento_identidad_suscriptor", out toSet);
-            toSet.SetValue(persona.tipo_documento_identidad_suscriptor);
+            toSet.SetValue(persona.tipo_documento_identidad_suscriptor.ToUpper());
 
             // Número de documento de identidad
             fields.TryGetValue("documento_identidad_suscriptor", out toSet);
-            toSet.SetValue(persona.documento_identidad_suscriptor.ToString());
+            toSet.SetValue(persona.documento_identidad_suscriptor.ToString().ToUpper());
 
             // Procedencia documento de identidad
             fields.TryGetValue("procedencia_documento_identidad_suscriptor", out toSet);
-            toSet.SetValue(persona.procedencia_documento_identidad_suscriptor);
+            toSet.SetValue(persona.procedencia_documento_identidad_suscriptor.ToUpper());
 
             // Nombre representante Legal
             fields.TryGetValue("nombre_razon_social_representante_legal", out toSet);
-            toSet.SetValue(persona.nombre_razon_social_representante_legal);
+            toSet.SetValue(persona.nombre_razon_social_representante_legal.ToUpper());
 
             // Tipo de documento identidad
             fields.TryGetValue("tipo_documento_representante_legal", out toSet);
-            toSet.SetValue(persona.tipo_documento_representante_legal);
+            toSet.SetValue(persona.tipo_documento_representante_legal.ToUpper());
 
             // Documento identidad del representante legal
             fields.TryGetValue("documento_identidad_representante_legal", out toSet);
-            toSet.SetValue(persona.documento_identidad_representante_legal.ToString());
+            toSet.SetValue(persona.documento_identidad_representante_legal.ToString().ToUpper());
 
             // Procedencia documento de identidad representate legal
             fields.TryGetValue("procedencia_documento_identidad_representante_legal", out toSet);
-            toSet.SetValue(persona.procedencia_documento_identidad_representante_legal);
+            toSet.SetValue(persona.procedencia_documento_identidad_representante_legal.ToUpper());
 
             // Fecha nacimiento suscriptor
             fields.TryGetValue("ano_nacimiento_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:yyyy}", persona.fecha_nacimiento_suscriptor));
+            toSet.SetValue(String.Format("{0:yyyy}", persona.fecha_nacimiento_suscriptor).ToUpper());
             fields.TryGetValue("mes_nacimiento_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:MM}", persona.fecha_nacimiento_suscriptor));
+            toSet.SetValue(String.Format("{0:MM}", persona.fecha_nacimiento_suscriptor).ToUpper());
             fields.TryGetValue("dia_nacimiento_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:dd}", persona.fecha_nacimiento_suscriptor));
+            toSet.SetValue(String.Format("{0:dd}", persona.fecha_nacimiento_suscriptor).ToUpper());
 
             // Lugar de nacimiento suscriptor
             fields.TryGetValue("lugar_nacimiento_suscriptor", out toSet);
-            toSet.SetValue(persona.lugar_nacimiento_suscriptor);
+            toSet.SetValue(persona.lugar_nacimiento_suscriptor.ToUpper());
 
             // Sexo suscriptor
             fields.TryGetValue("sexo_suscriptor", out toSet);
-            toSet.SetValue(persona.sexo_suscriptor);
+            toSet.SetValue(persona.sexo_suscriptor.ToUpper());
 
             // Estado Civil Suscriptor
             fields.TryGetValue("estado_civil_suscriptor", out toSet);
-            toSet.SetValue(persona.estado_civil_suscriptor);
+            toSet.SetValue(persona.estado_civil_suscriptor.ToUpper());
 
             // Dirección de domicilio suscriptor
             fields.TryGetValue("direccion_domicilio_suscriptor", out toSet);
-            toSet.SetValue(persona.direccion_domicilio_suscriptor);
+            toSet.SetValue(persona.direccion_domicilio_suscriptor.ToUpper());
 
             // Departamento de suscriptor 
             fields.TryGetValue("departamento_suscriptor", out toSet);
-            toSet.SetValue(persona.departamento_suscriptor);
+            toSet.SetValue(persona.departamento_suscriptor.ToUpper());
 
             // Ciudad suscriptor
             fields.TryGetValue("ciudad_suscriptor", out toSet);
-            toSet.SetValue(persona.ciudad_suscriptor);
+            toSet.SetValue(persona.ciudad_suscriptor.ToUpper());
 
             // Teléfono suscritpro
             fields.TryGetValue("telefono_suscriptor", out toSet);
-            toSet.SetValue(persona.telefono_suscriptor);
+            toSet.SetValue(persona.telefono_suscriptor.ToUpper());
 
             // Celular Suscriptor
             fields.TryGetValue("celular_suscriptor", out toSet);
-            toSet.SetValue(persona.celular_suscriptor);
+            toSet.SetValue(persona.celular_suscriptor.ToUpper());
 
             // Empresa Empleadora suscriptor
             fields.TryGetValue("empresa_empleadora_suscriptor", out toSet);
-            toSet.SetValue(persona.empresa_empleadora_suscriptor);
+            toSet.SetValue(persona.empresa_empleadora_suscriptor.ToUpper());
             
             // Cargo Suscriptor
             fields.TryGetValue("cargo_suscriptor", out toSet);
-            toSet.SetValue(persona.cargo_suscriptor);
+            toSet.SetValue(persona.cargo_suscriptor.ToUpper());
 
             // Ingresos mensuales suscriptor
             fields.TryGetValue("ingresos_mensuales_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", persona.ingresos_mensuales_suscriptor));
+            toSet.SetValue(String.Format("{0:0.00}", persona.ingresos_mensuales_suscriptor).ToUpper());
 
             // Egresos mensuales suscriptor
             fields.TryGetValue("egresos_mensuales_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", persona.egresos_mensuales_suscriptor));
+            toSet.SetValue(String.Format("{0:0.00}", persona.egresos_mensuales_suscriptor).ToUpper());
 
             // Otros ingresos mensuales suscriptor
             fields.TryGetValue("otros_ingresos_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", persona.otros_ingresos_suscriptor));
+            toSet.SetValue(String.Format("{0:0.00}", persona.otros_ingresos_suscriptor).ToUpper());
 
 
             // Dirección oficina laboral suscriptor
             fields.TryGetValue("direccion_empleo_suscriptor", out toSet);
-            toSet.SetValue(persona.dirección_empleo_suscriptor);
+            toSet.SetValue(persona.dirección_empleo_suscriptor.ToUpper());
 
             // Departamento laboral suscriptor
             fields.TryGetValue("departamento_empleo_suscriptor", out toSet);
-            toSet.SetValue(persona.departamento_empleo_suscriptor);
+            toSet.SetValue(persona.departamento_empleo_suscriptor.ToUpper());
 
             // ciudad laboral suscriptor
             fields.TryGetValue("ciudad_empleo_suscriptor", out toSet);
-            toSet.SetValue(persona.ciudad_empleo_suscriptor);
+            toSet.SetValue(persona.ciudad_empleo_suscriptor.ToUpper());
 
             //Teléfono Laboral Suscriptor
             fields.TryGetValue("telefono_empleo_suscriptor", out toSet);
-            toSet.SetValue(persona.telefono_empleo_suscriptor);
+            toSet.SetValue(persona.telefono_empleo_suscriptor.ToUpper());
 
             // Celular Laboral Suscriptor
             fields.TryGetValue("celular_empleo_suscriptor", out toSet);
-            toSet.SetValue(persona.celular_empleo_suscriptor);
+            toSet.SetValue(persona.celular_empleo_suscriptor.ToUpper());
 
             // Profesión o Actividad Económica
             fields.TryGetValue("profesion_suscriptor", out toSet);
-            toSet.SetValue(persona.profesion_suscriptor);
+            toSet.SetValue(persona.profesion_suscriptor.ToUpper());
 
             // Envío correspondencia
             fields.TryGetValue("envio_correspondencia_suscriptor", out toSet);
-            toSet.SetValue(persona.envio_correspondencia_suscriptor);
+            toSet.SetValue(persona.envio_correspondencia_suscriptor.ToUpper());
 
             // Email
             fields.TryGetValue("email_suscriptor", out toSet);
-            toSet.SetValue(persona.email_suscriptor);
+            toSet.SetValue(persona.email_suscriptor.ToUpper());
 
             // Suscriptor Conjunto
             // Nombre suscriptor conjunto
             fields.TryGetValue("nombre_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.nombre_suscriptor_conjunto);
+            toSet.SetValue(persona.nombre_suscriptor_conjunto.ToUpper());
 
             // Tipo de documento de identidad
             fields.TryGetValue("tipo_identidad_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.tipo_identidad_suscriptor_conjunto);
+            toSet.SetValue(persona.tipo_identidad_suscriptor_conjunto.ToUpper());
 
             // Número de documento identidad
             fields.TryGetValue("documento_identidad_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.documento_identidad_suscriptor_conjunto.ToString());
+            toSet.SetValue(persona.documento_identidad_suscriptor_conjunto.ToString().ToUpper());
 
             // Procedencia de documento de identidad
             fields.TryGetValue("procedencia_documento_identidad_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.procedencia_documento_identidad_suscriptor);
+            toSet.SetValue(persona.procedencia_documento_identidad_suscriptor.ToUpper());
 
             // Nombre representante legal de suscriptor conjunto
             fields.TryGetValue("representante_legal_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.representante_legal_suscriptor_conjunto);           
+            toSet.SetValue(persona.representante_legal_suscriptor_conjunto.ToUpper());           
 
             // Tipo de documento representante legal suscritpr conjunto 
             fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.tipo_identidad_representante_legal_suscriptor_conjunto);
+            toSet.SetValue(persona.tipo_identidad_representante_legal_suscriptor_conjunto.ToUpper());
 
             // documento de identidad representante legal
             fields.TryGetValue("documento_identidad_representante_legal_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.documento_identidad_representante_legal_suscriptor_conjunto.ToString());
+            toSet.SetValue(persona.documento_identidad_representante_legal_suscriptor_conjunto.ToString().ToUpper());
 
             // Procedencia del documento de identidad representante legal
             fields.TryGetValue("procedencia_identificacion_representante_legal_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.procedencia_identificacion_representante_legal_suscriptor_conjunto);
+            toSet.SetValue(persona.procedencia_identificacion_representante_legal_suscriptor_conjunto.ToUpper());
 
             // fecha suscriptor conjunto
             fields.TryGetValue("ano_nacimiento_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:yyyy}", persona.fecha_nacimiento_suscriptor_conjunto));
+            toSet.SetValue(String.Format("{0:yyyy}", persona.fecha_nacimiento_suscriptor_conjunto).ToUpper());
             fields.TryGetValue("mes_nacimiento_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:MM}", persona.fecha_nacimiento_suscriptor_conjunto));
+            toSet.SetValue(String.Format("{0:MM}", persona.fecha_nacimiento_suscriptor_conjunto).ToUpper());
             fields.TryGetValue("dia_nacimiento_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:dd}", persona.fecha_nacimiento_suscriptor_conjunto));
+            toSet.SetValue(String.Format("{0:dd}", persona.fecha_nacimiento_suscriptor_conjunto).ToUpper());
 
             // lugar nacimiento suscriptor conjunto
             fields.TryGetValue("lugar_nacimiento_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.lugar_nacimiento_suscriptor_conjunto);
+            toSet.SetValue(persona.lugar_nacimiento_suscriptor_conjunto.ToUpper());
 
             // Sexo Suscriptor conjunto
             fields.TryGetValue("sexo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.sexo_suscriptor_conjunto);
+            toSet.SetValue(persona.sexo_suscriptor_conjunto.ToUpper());
 
             // Estado civil
             fields.TryGetValue("estado_civil_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.estado_civil_suscriptor_conjunto);
+            toSet.SetValue(persona.estado_civil_suscriptor_conjunto.ToUpper());
 
             // Dirección domicilio suscriptor conjunto
             fields.TryGetValue("dirección_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.direccion_suscriptor_conjunto);
+            toSet.SetValue(persona.direccion_suscriptor_conjunto.ToUpper());
 
             // departamento suscriptor conjunto
             fields.TryGetValue("departamento_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.departamento_suscriptor_conjunto);
+            toSet.SetValue(persona.departamento_suscriptor_conjunto.ToUpper());
 
             // ciudad suscriptor conjuntos
             fields.TryGetValue("ciudad_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.ciudad_suscriptor_conjunto);
+            toSet.SetValue(persona.ciudad_suscriptor_conjunto.ToUpper());
 
             // Telefono suscriptor conjunto
             fields.TryGetValue("telefono_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.telefono_suscriptor_conjunto);
+            toSet.SetValue(persona.telefono_suscriptor_conjunto.ToUpper());
 
             // Celular suscriptor conjunto
             fields.TryGetValue("celular_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.celular_suscriptor_conjunto);
+            toSet.SetValue(persona.celular_suscriptor_conjunto.ToUpper());
 
             // Empresa laboral del Suscriptor conjunto
             fields.TryGetValue("empresa_empleadora_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.empresa_empleadora_suscriptor_conjunto);
+            toSet.SetValue(persona.empresa_empleadora_suscriptor_conjunto.ToUpper());
 
             // Cargo laboral suscriptor conjunto
             fields.TryGetValue("cargo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.cargo_suscriptor_conjunto);
+            toSet.SetValue(persona.cargo_suscriptor_conjunto.ToUpper());
 
             // ingresos Mensuales
             fields.TryGetValue("ingresos_mensuales_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", persona.ingresos_mensuales_suscriptor_conjunto));
+            toSet.SetValue(String.Format("{0:0.00}", persona.ingresos_mensuales_suscriptor_conjunto).ToUpper());
 
             // Egresos Mensuales
             fields.TryGetValue("egresos_mensuales_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", persona.egresos_mensuales_suscriptor_conjunto));
+            toSet.SetValue(String.Format("{0:0.00}", persona.egresos_mensuales_suscriptor_conjunto).ToUpper());
 
             // Otros ingresos
             fields.TryGetValue("otros_ingresos_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", persona.otros_ingresos_suscriptor_conjunto));
+            toSet.SetValue(String.Format("{0:0.00}", persona.otros_ingresos_suscriptor_conjunto).ToUpper());
 
             // Dirección oficina laboral suscriptor conjunto
             fields.TryGetValue("direccion_empleo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", persona.direccion_empleo_suscriptor_conjunto));
+            toSet.SetValue(String.Format("{0:0.00}", persona.direccion_empleo_suscriptor_conjunto).ToUpper());
 
             //Departamento suscriptor conjunto
             fields.TryGetValue("departamento_empleo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.departamento_empleo_suscriptor_conjunto);
+            toSet.SetValue(persona.departamento_empleo_suscriptor_conjunto.ToUpper());
 
             // CIudad empleo suscriptor conjunto
             fields.TryGetValue("ciudad_empleo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.ciudad_empleo_suscriptor_conjunto);
+            toSet.SetValue(persona.ciudad_empleo_suscriptor_conjunto.ToUpper());
 
             // Teléfono empleo Suscriptor Conjunto            
             fields.TryGetValue("telefono_empleo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.telefono_empleo_suscriptor_conjunto);
+            toSet.SetValue(persona.telefono_empleo_suscriptor_conjunto.ToUpper());
 
             // Celular empleo Suscriptor conjunto
             fields.TryGetValue("celular_empleo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.celular_empleo_suscriptor);
+            toSet.SetValue(persona.celular_empleo_suscriptor.ToUpper());
 
             // Profesion o actividad económica y suscriptor conjunto
             fields.TryGetValue("profesion_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.profesion_suscriptor_conjunto);
+            toSet.SetValue(persona.profesion_suscriptor_conjunto.ToUpper());
 
             // Envio Correspondencia suscriptor conjunto 
             fields.TryGetValue("correspondencia_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.envio_correspondencia_suscriptor);
+            toSet.SetValue(persona.envio_correspondencia_suscriptor.ToUpper());
 
             // Email Suscriptor Conjunto
             fields.TryGetValue("email_suscriptor_conjunto", out toSet);
-            toSet.SetValue(persona.email_suscriptor_conjunto);
+            toSet.SetValue(persona.email_suscriptor_conjunto.ToUpper());
 
             // Tipo de bien
             fields.TryGetValue("tipo_de_bien", out toSet);
-            toSet.SetValue(persona.tipo_de_bien);
+            toSet.SetValue(persona.tipo_de_bien.ToUpper());
 
             // marca exclusiva bien
             fields.TryGetValue("marca_exclusiva_bien", out toSet);
-            toSet.SetValue(persona.marca_exclusiva_bien);
+            toSet.SetValue(persona.marca_exclusiva_bien.ToUpper());
 
             // Detalles bien
             fields.TryGetValue("detalles_bien", out toSet);
-            toSet.SetValue(persona.detalles_bien);
+            toSet.SetValue(persona.detalles_bien.ToUpper());
 
             // codigo bien
             fields.TryGetValue("codigo_bien", out toSet);
-            toSet.SetValue(persona.codigo_bien);
+            toSet.SetValue(persona.codigo_bien.ToUpper());
+
+            // cuota ingreso
+            fields.TryGetValue("cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", persona.cuota_ingreso));
+
+            // Administración
+            fields.TryGetValue("administracion", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", persona.administracion));
+
+            // IVA Cuota Ingreso
+            fields.TryGetValue("iva_cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", persona.iva_cuota_ingreso));
+
+            // IVA Administración
+            fields.TryGetValue("iva_administracion", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", persona.iva_administracion));
+
+            // Total Cuota ingreso
+            fields.TryGetValue("total_cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:00}", persona.total_cuota_ingreso));
+
+            // Total Cuota Bruta
+            fields.TryGetValue("total_cuota_bruta", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", persona.total_cuota_bruta));
+
+            // Primera cuota neta
+            fields.TryGetValue("primera_cuota_neta", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", persona.primera_cuota_neta));
+
+            // Valor primer pago
+            fields.TryGetValue("valor_primer_pago", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", persona.valor_primero_pago));
+
+            //
+
+
         }
 
         /// <summary>
@@ -384,7 +420,7 @@ namespace ContratoDigital.Controllers
             int.TryParse(s: form["documento_identidad_representante_legal"], result: out int documento_identidad_representante_legal);
             persona.documento_identidad_representante_legal = documento_identidad_representante_legal;
 
-            persona.procedencia_documento_identidad_representante_legal = form["procedencia_documento_identidad_suscriptor"];
+            persona.procedencia_documento_identidad_representante_legal = form["procedencia_documento_identidad_representante_legal"];
 
             // Datos del suscriptor
             DateTime fecha_nacimiento_suscriptor = DateTime.Today;
