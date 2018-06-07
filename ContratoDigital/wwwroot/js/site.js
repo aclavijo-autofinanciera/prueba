@@ -36,6 +36,31 @@ jQuery(function ($) {
             //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i);
     }, "Especifique un número de teléfono");
 
+    $("#tipo_identificacion_suscriptor").on('change', function () {
+
+        if ($("#tipo_identificacion_suscriptor").find(":selected").val() === "NIT") {
+            $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
+        }
+        else {
+            $("#RepreentanteLegalSection").fadeOut("slow").Finish().addClass("d-none");
+        }
+    });
+
+    $("#tipo_identidad_suscriptor_conjunto").on('change', function () {
+
+        if ($("#tipo_identidad_suscriptor_conjunto").find(":selected").val() === "NIT") {
+            $("#RepresentanteLegalConjuntoSection").fadeIn("slow").removeClass("d-none");
+        }
+        else {
+            $("#RepresentanteLegalConjuntoSection").fadeOut("slow").Finish().addClass("d-none");
+        }
+    });
+
+    $("#isSuscriptorConjunto").on("click", function () {
+        $("#SuscriptorConjuntoSection").fadeIn("slow").removeClass("d-none");    
+        $("#nombre_suscriptor_conjunto").prop("required", true);
+    });
+
     $(".needs-validation").validate({
         rules: {
             // Suscriptor
@@ -175,11 +200,6 @@ jQuery(function ($) {
                 required: true,
                 number: true
             }
-
-
-
-
-
         },
         messages: {
             // Suscriptor
