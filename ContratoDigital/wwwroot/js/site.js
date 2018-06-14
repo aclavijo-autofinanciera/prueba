@@ -22,7 +22,7 @@ jQuery(function ($) {
     };
     $.datepicker.setDefaults($.datepicker.regional['es-es']);
 
-    $("#fecha_nacimiento_suscriptor,#fecha_nacimiento_suscriptor_conjunto").datepicker({        
+    $("#fecha_nacimiento_suscriptor,#fecha_nacimiento_suscriptor_conjunto,#FechaNacimiento").datepicker({        
         changeMonth: true,
         changeYear: true,
         dateFormat: 'yy-mm-dd',
