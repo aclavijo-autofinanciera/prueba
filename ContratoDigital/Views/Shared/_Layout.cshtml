@@ -4,12 +4,33 @@
     <meta name="robots" content="index,follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="~/favicon.png" />
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="~/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="~/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="~/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="~/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="~/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="~/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="~/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="~/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="~/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="~/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="&nbsp;" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="~/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="~/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="~/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="~/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="~/mstile-310x310.png" />
+
     <meta name="keywords" content="">
     <title>@ViewData["Title"] - ContratoDigital</title>
 
     <environment include="Development">
-        <link href="https://fonts.googleapis.com/css?family=Catamaran:400,500" rel="stylesheet" />
+        <link href="~/css/localfonts.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/lib/fontawesome/css/fontawesome-all.min.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
         <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -30,9 +51,9 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <nav class="navbar navbar-expand-lg navbar-light">
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-azul">
                         <a class="navbar-brand" href="#">
-                            <img src="~/images/logo_autofinanciera.png" class="img-fluid logo" alt="Autofinanciera" />
+                            <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo" alt="Autofinanciera" />
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -40,16 +61,40 @@
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
+                                <li class="nav-item">
                                     <a class="nav-link text-uppercase" href="@Url.Action("Index","Home")">Inicio</span></a>
-                                </li>                                
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="@Url.Action("Index","Prospectos")" id="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Prospectos
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="contratosDigitalesMenuDropdown">
+                                        <a class="dropdown-item" href="@Url.Action("Index","Prospectos")">Prospectos</a>
+                                        <a class="dropdown-item" href="@Url.Action("Create","Prospectos")">Registrar prospectos</a>
+                                        <a class="dropdown-item" href="@Url.Action("Find","Prospectos")">Buscar prospectos</a>
+                                                                                
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Contratos digitales
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="contratosDigitalesMenuDropdown">
+                                        <a class="dropdown-item" href="#">Todos los contratos</a>
+                                        <a class="dropdown-item" href="#">Autofinanciera</a>
+                                        <a class="dropdown-item" href="#">Electroplan</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="@Url.Action("yamahamotomas", "contratodigital")">Yamaha MotoMas</a>
+                                        <a class="dropdown-item" href="#">Kia Plan</a>
+                                        <a class="dropdown-item" href="#">Autokoreana</a>
+                                        <a class="dropdown-item" href="#">Autokoreana</a>
+                                    </div>
+                                </li>
                             </ul>                            
                         </div>
                     </nav>
                 </div>
             </div>
-            
-            
         </div>
     </header>
         
