@@ -1,8 +1,15 @@
 ﻿:root {
+    /* Colores Autofinanciera */
     --azul: #274099;
     --gris: #a7a9ac;
     --verde: #37b44a;
+    /* Colores de planes */
     --yamaha: #ee3436;
+    --kia: #c41230;
+    --hyundai: #211b43;
+
+
+    /*Miscelanea*/
     --fucsia: #d60b52;
     --naranaja: #e94e1b;
     --lila: #662483;
@@ -13,31 +20,31 @@ body {
 }
 
 a {
-    /*color: #262626;*/
+    color: #274099;
     cursor: pointer;
     transition: all .3s linear;
 }
 
 a:hover {
     text-decoration: none;
-    color: #f6a22d;
+    color: #37b44a;
     transition: all .3s linear;
 }
 
 
 article a {
-    border-bottom: 3px solid #b4e7f8;
-    box-shadow: inset 0 -4px 0 #b4e7f8;
+    border-bottom: 3px solid #274099;
+    box-shadow: inset 0 -4px 0 #274099;
     color: inherit;
     transition: all .5s cubic-bezier(.33, .66, .66, 1);
 }
 
-article a:hover {
-    background: #b4e7f8;
-    color: inherit;
-    box-shadow: inset 0 -4px 0 #b4e7f8;
-    transition: all .5s cubic-bezier(.33, .66, .66, 1);
-}
+    article a:hover {
+        background: #274099;
+        color: inherit;
+        box-shadow: inset 0 -4px 0 #274099;
+        transition: all .5s cubic-bezier(.33, .66, .66, 1);
+    }
 
 a > h1, h2, h3, h4, h5:hover {
     text-decoration: none;
@@ -92,11 +99,11 @@ cite {
 
 aside {
 }
-footer{background-color:var(--negro); border-top:2px solid var(--verde);min-height:5rem;padding-top:2rem;padding-bottom:2rem;}
-
+footer{background-color:var(--negro); border-top:2px solid var(--verde);min-height:5rem;padding-top:2rem;padding-bottom:2rem;margin-top:3rem;}
+header{padding-top:20px;}
 
 /*Classes*/
-.logo{max-width:5rem;}
+.logo{max-width:3rem;}
 .logo-footer{max-width:10rem;}
 
 .polymer-box {
@@ -369,6 +376,10 @@ And XLG EXtra Large
 }
 
 .yamaha{ color:var(--yamaha);}
+.kia{color:var(--kia);}
+.hyundai{color:var(--hyundai);}
+.azul{color:var(--azul);}
+.verde{color:var(--verde);}
 
 /*Asorted*/
 .absolute {
@@ -392,8 +403,8 @@ And XLG EXtra Large
 /* BS OVerrides */
 .bg-yamaha{
     background-color:var(--yamaha) !important;
+    color:#fff;
 }
-
 .border-yamaha {
     border-color: var(--yamaha) !important;
 }
@@ -401,16 +412,125 @@ And XLG EXtra Large
     color: #fff;
     background-color: var(--yamaha);
 }
-
-
 .btn-yamaha {
     color: #fff;
     background-color: var(--yamaha);
     border-color: var(--yamaha);
 }
-
 .btn-yamaha:hover {
     color: #fff;
     background-color: #d73133;
     border-color: var(--yamaha);
+}
+
+.bg-kia {
+    background-color: var(--kia) !important;
+    color: #fff;
+}
+
+.border-kia {
+    border-color: var(--kia) !important;
+}
+
+.badge-kia {
+    color: #fff;
+    background-color: var(--kia);
+}
+
+.btn-kia {
+    color: #fff;
+    background-color: var(--kia);
+    border-color: var(--kia);
+}
+
+.btn-kia:hover {
+    color: #fff;
+    background-color: #d73133;
+    border-color: var(--kia);
+}
+
+.bg-hyundai {
+    background-color: var(--hyundai) !important;
+    color: #fff;
+}
+
+.border-hyundai {
+    border-color: var(--hyundai) !important;
+}
+
+.badge-hyundai {
+    color: #fff;
+    background-color: var(--hyundai);
+}
+
+.btn-hyundai {
+    color: #fff;
+    background-color: var(--hyundai);
+    border-color: var(--hyundai);
+}
+
+.btn-hyundai:hover {
+    color: #fff;
+    background-color: #423783;
+    border-color: var(--hyundai);
+}
+.bg-azul {
+    background-color: var(--azul) !important;
+    color: #fff;
+}
+
+.border-azul {
+    border-color: var(--azul) !important;
+}
+
+.badge-azul {
+    color: #fff;
+    background-color: var(--azul);
+}
+
+.btn-azul {
+    color: #fff;
+    background-color: var(--azul);
+    border-color: var(--azul);
+}
+
+.btn-azul:hover {
+    color: #fff;
+    background-color: #2f4ebe;
+    border-color: var(--azul);
+}
+
+.bg-verde {
+    background-color: var(--verde) !important;
+    color: #fff;
+}
+
+.border-verde {
+    border-color: var(--verde) !important;
+}
+
+.badge-verde {
+    color: #fff;
+    background-color: var(--verde);
+}
+
+.btn-verde {
+    color: #fff;
+    background-color: var(--verde);
+    border-color: var(--verde);
+}
+
+.btn-verde:hover {
+    color: #fff;
+    background-color: #44db5b;
+    border-color: var(--verde);
+}
+
+.badge-autofinanciera {
+    color: #fff;
+    background-color: var(--azul);
+}
+.badge-electroplan {
+    color: #fff;
+    background-color: var(--verde);
 }
