@@ -1,4 +1,41 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h4>Bienvenido &lt;!YourNameHere&gt; </h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 mt-2">
+            <div class="polymer-box text-center p-4">
+                <a href="@Url.Action("Create", "Prospectos")">
+                    <h4><i class="far fa-address-card"></i> Registrar un prospecto</h4>
+                </a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 mt-2">
+            <div class="polymer-box text-center p-4">
+                <a href="@Url.Action("Find", "Prospectos")">
+                    <h4><i class="fas fa-search"></i> Consultar prospectos</h4>
+                </a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 mt-2">
+            <div class="polymer-box text-center p-4">
+                <a href="@Url.Action("Find", "ContratoDigital")">
+                    <h4><i class="fas fa-clipboard-list"></i> Consultar contrato</h4>
+                </a>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 mt-2">
+            <div class="polymer-box text-center p-4">
+                <a href="@Url.Action("CargaMasiva", "Prospectos")">
+                    <h4><i class="far fa-file-alt"></i> Carga masiva</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
