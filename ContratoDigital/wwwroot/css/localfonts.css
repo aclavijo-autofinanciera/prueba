@@ -1,4 +1,4 @@
-﻿@font-face {
+﻿/*@font-face {
     font-family: 'Catamaran';
     src: url('../lib/fonts/catamaran/Catamaran-Regular.ttf') format('opentype');
     font-style: normal;
@@ -9,5 +9,19 @@
     font-family: 'Catamaran';
     src: url('../lib/fonts/catamaran/Catamaran-Medium.ttf') format('opentype');
     font-style: normal;
+    font-weight: 500;
+}*/
+
+@font-face {
+    font-family: 'Fira Sans', sans-serif;
+    src: url('../lib/fonts/FiraSans/FiraSans-Medium.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Fira Sans', sans-serif;
+    src: url('../lib/fonts/FiraSans/FiraSans-MediumItalic.ttf') format('truetype');
+    font-style: italic;
     font-weight: 500;
 }
