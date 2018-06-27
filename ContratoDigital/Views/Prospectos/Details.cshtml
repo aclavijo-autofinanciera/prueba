@@ -1,0 +1,117 @@
+﻿@model ContratoDigital.Models.Prospecto
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <label>Nombre prospecto</label>
+                <h3>@(Model.PrimerNombre + " " + Model.SegundoNombre + " " + Model.PrimerApellido + " " + Model.SegundoApellido)</h3>
+            </div>
+            <div class="col-12 col-md-6">
+                <label>Número de documento</label>
+                <h3>@Model.NumeroDocumento</h3>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 col-md-6">
+                <label>Teléfono fijo</label>
+                <h5>@Model.Telefono</h5>
+            </div>
+            <div class="col-12 col-md-6">
+                <label>Celular</label>
+                <h5>@Model.Celular</h5>
+            </div>
+        </div>
+
+        
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="bg-azul">
+                    <h4 class="p-3 mb-0 text-center">Cotización</h4>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <label>Decripción del bien</label>
+                <h5>ID de la referencia < @Model.Referencia ></h5>
+            </div>
+            <div class="col-12 col-md-6">
+                <label>Valor del bien</label>
+                <h5 id="valorDelBien">@String.Format("{0:0,0.00}",Model.ValorDelBien)</h5>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 col-md-6">                
+                <label><span class="badge badge-azul">1</span> Cuota de ingreso (4.5% sobre el valor del bien) </label>
+                <h5 id="CuotaDeIngreso">$@String.Format("{0:0,0.00}",Model.CuotaDeIngreso)</h5>
+                <label class="mt-4"><span class="badge badge-azul">2</span> I.V.A Sobre la cuota de ingreso (N%)</label>
+                <h5 id="IvaCuotaIngreso">$@String.Format("{0:0,0.00}", Model.IvaCuotaIngreso)</h5>
+                <label class="mt-4"><span class="badge badge-azul">3</span> Total cuota de ingreso (N%) (<span class="badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+                <h5 id="TotalCuotaIngreso">$@String.Format("{0:0,0.00}", Model.TotalCuotaIngreso)</h5>
+                <label class="mt-4"><span class="badge badge-azul">4</span> Primera cuota neta: (valor del bien / plazo)</label>
+                <h5 id="PrimeraCuotaNeta">$@String.Format("{0:0,0.00}", Model.PrimeraCuotaNeta)</h5>
+                
+            </div>
+            <div class="col-12 col-md-6">
+                <label><span class="badge badge-azul">5</span> Administración (N% sobre cuota neta)</label>
+                <h5 id="Administracion">$@String.Format("{0:0,0.00}", Model.Administracion)</h5>
+                <label class="mt-4"><span class="badge badge-azul">6</span> I.V.A. Sobre la administración (N%)</label>
+                <h5 id="IvaAdministracion">$@String.Format("{0:0,0.00}", Model.IvaAdministracion)</h5>
+                <label class="mt-4"><span class="badge badge-azul">7</span> Total cuota bruta (N%) ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+                <h5 id="TotalCuotaBruta">$@String.Format("{0:0,0.00}", Model.TotalCuotaBruta)</h5>
+                <label class="mt-4"><span class="badge badge-azul">8</span> Valor total primer pago ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
+                <h5 id="ValorTotalPrimerPago">$@String.Format("{0:0,0.00}", Model.ValorTotalPrimerPago)</h5>
+
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3>Contratos</h3>
+            </div>
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Acciones</th>
+                            <th>Número contrato</th>
+                            <th>Fecha del contrato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(Contrato item in Model.Contratos)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Acciones">                                        
+                                        <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato })"><i class="far fa-edit"></i> Editar</a>
+                                        <a class="btn btn-azul" href="@Url.Action("Details", "ContratoDigital", new { id = item.IdContrato })"><i class="far fa-file-pdf"></i> Detalles</a>
+                                    </div>
+                                </td>
+                                <td>@item.numero_de_contrato</td>
+                                <td>@item.fecha_suscripcion_contrato</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-12  text-center">
+                <div class="btn-group" role="group" aria-label="Acciones">
+                    <a class="btn btn-azul" href="@Url.Action("Index", "Prospectos")" ><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                    <a class="btn btn-azul" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
+                    <a class="btn btn-azul" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar contrato PDF</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
