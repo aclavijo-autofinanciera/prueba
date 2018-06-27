@@ -2,10 +2,10 @@
 
     Random rnd = new Random();
     var contrato = rnd.Next(8000000, 8999999);
-}
-@{
     ViewData["Title"] = "Contrato Digital";
 }
+
+
 <div class="container">
     <div class="row">
         <div class="col text-center">
@@ -828,7 +828,7 @@
                                     <div class="card-body">
                                         <div class="form-control-plaintext h-25" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
 
-                                            @await Html.PartialAsync("Legalese")
+                                            @await Html.PartialAsync("~/Views/Shared/LegaleseYamahaMotomas.cshtml")
 
                                         </div>
                                     </div>
