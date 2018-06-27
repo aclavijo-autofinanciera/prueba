@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContratoDigital.Models
 {
-    public class ContratoDigitalModel
+    public class Contrato
     {
         // Datos Suscriptor
+        [Key]
+        public int IdContrato { get; set; }
+        public int IdProspecto { get; set; }
         public int numero_de_contrato { get; set; }
-        public string nombre_razon_social_suscriptor { get; set; }
+        public string primer_nombre { get; set; }
+        public string segundo_nombre { get; set; }
+        public string primer_apellido { get; set; }
+        public string segundo_apellido { get; set; }
         public string tipo_documento_identidad_suscriptor { get; set; }
         public int documento_identidad_suscriptor { get; set; }
         public string procedencia_documento_identidad_suscriptor { get; set; }
@@ -29,12 +36,13 @@ namespace ContratoDigital.Models
         public string celular_suscriptor { get; set; }
         public string empresa_empleadora_suscriptor { get; set; }
         public string cargo_suscriptor { get; set; }
-        public decimal ingresos_mensuales_suscriptor { get; set; }
-        public decimal egresos_mensuales_suscriptor { get; set; }
-        public decimal otros_ingresos_suscriptor { get; set; }
-        public string dirección_empleo_suscriptor { get; set; }
+        public double ingresos_mensuales_suscriptor { get; set; }
+        public double egresos_mensuales_suscriptor { get; set; }
+        public double otros_ingresos_suscriptor { get; set; }
+        public string direccion_empleo_suscriptor { get; set; }
         public string departamento_empleo_suscriptor { get; set; }
         public string ciudad_empleo_suscriptor { get; set; }
+        public string pais_empleo_suscriptor { get; set; }
         public string telefono_empleo_suscriptor { get; set; }
         public string celular_empleo_suscriptor { get; set; }
         public string profesion_suscriptor { get; set; }
@@ -56,17 +64,19 @@ namespace ContratoDigital.Models
         public string estado_civil_suscriptor_conjunto { get; set; }
         public string direccion_suscriptor_conjunto { get; set; }
         public string departamento_suscriptor_conjunto { get; set; }
+        public string pais_suscriptor_conjunto { get; set; }
         public string ciudad_suscriptor_conjunto { get; set; }
         public string telefono_suscriptor_conjunto { get; set; }
         public string celular_suscriptor_conjunto { get; set; }
         public string empresa_empleadora_suscriptor_conjunto { get; set; }
         public string cargo_suscriptor_conjunto { get; set; }
-        public decimal ingresos_mensuales_suscriptor_conjunto { get; set; }
-        public decimal egresos_mensuales_suscriptor_conjunto { get; set; }
-        public decimal otros_ingresos_suscriptor_conjunto { get; set; }
+        public double ingresos_mensuales_suscriptor_conjunto { get; set; }
+        public double egresos_mensuales_suscriptor_conjunto { get; set; }
+        public double otros_ingresos_suscriptor_conjunto { get; set; }
         public string direccion_empleo_suscriptor_conjunto { get; set; }
         public string departamento_empleo_suscriptor_conjunto { get; set; }
-        public string ciudad_empleo_suscriptor_conjunto { get; set; }
+        public string ciudad_empleo_suscriptor_conjunto { get; set; }        
+        public string pais_empleo_suscriptor_conjunto { get; set; }        
         public string telefono_empleo_suscriptor_conjunto { get; set; }
         public string celular_empleo_suscriptor_conjunto { get; set; }
         public string profesion_suscriptor_conjunto { get; set; }
@@ -77,22 +87,22 @@ namespace ContratoDigital.Models
         public string tipo_de_bien { get; set; }
         public string marca_exclusiva_bien { get; set; }
         public string detalles_bien { get; set; }
-        public Decimal valor_bien { get; set; }
+        public double valor_bien { get; set; }
         public string cuota_bien { get; set; }
         public string codigo_bien { get; set; }
         public string plazo_bien { get; set; }
-        public decimal porcentaje_cuota_ingreso { get; set; }
-        public decimal cuota_ingreso { get; set; }
-        public decimal porcentaje_iva_cuota_ingreso { get; set; }
-        public decimal iva_cuota_ingreso { get; set; }
-        public decimal total_cuota_ingreso { get; set; }
-        public decimal primera_cuota_neta { get; set; }
-        public decimal porcentaje_administracion { get; set; }
-        public decimal administracion { get; set; }
-        public decimal porcentaje_iva_administracion { get; set; }
-        public decimal iva_administracion { get; set; }
-        public decimal total_cuota_bruta { get; set; }
-        public decimal valor_primero_pago { get; set; }
+        public double porcentaje_cuota_ingreso { get; set; }
+        public double cuota_ingreso { get; set; }
+        public double porcentaje_iva_cuota_ingreso { get; set; }
+        public double iva_cuota_ingreso { get; set; }
+        public double total_cuota_ingreso { get; set; }
+        public double primera_cuota_neta { get; set; }
+        public double porcentaje_administracion { get; set; }
+        public double administracion { get; set; }
+        public double porcentaje_iva_administracion { get; set; }
+        public double iva_administracion { get; set; }
+        public double total_cuota_bruta { get; set; }
+        public double valor_primer_pago { get; set; }
         public string agencia { get; set; }
         public string consecionario { get; set; }
         public string gerente { get; set; }
@@ -101,7 +111,7 @@ namespace ContratoDigital.Models
         public DateTime fecha_suscripcion_contrato { get; set; }
         public string distribuido_por_marca { get; set; }
 
-
+        public virtual Prospecto Prospecto { get; set; }
     }
 }
 
