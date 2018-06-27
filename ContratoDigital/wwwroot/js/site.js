@@ -1,6 +1,21 @@
 ﻿// Write your JavaScript code.
 jQuery(function ($) {
-    
+
+    // Formato de los montos
+    /*$("#valorDelBien").text('$ ' + parseFormat($("#valorDelBien").html()));
+    $("#CuotaDeIngreso").text('$ ' + parseFormat($("#CuotaDeIngreso").html()));
+    $("#IvaCuotaIngreso").text('$ ' + parseFormat($("#IvaCuotaIngreso").html()));
+    $("#TotalCuotaIngreso").text('$ ' + parseFormat($("#TotalCuotaIngreso").html()));
+    $("#PrimeraCuotaNeta").text('$ ' + parseFormat($("#PrimeraCuotaNeta").html()));
+    $("#Administracion").text('$ ' + parseFormat($("#Administracion").html()));
+    $("#IvaAdministracion").text('$ ' + parseFormat($("#IvaAdministracion").html()));
+    $("#TotalCuotaBruta").text('$ ' + parseFormat($("#TotalCuotaBruta").html()));
+    $("#ValorTotalPrimerPago").text('$ ' + parseFormat($("#ValorTotalPrimerPago").html()));*/
+    $('[data-toggle="tooltip"]').tooltip()
+
+
+
+    // <!-- Métodos de validación -->
     $.datepicker.regional['es-es'] = {
         clearText: 'Borrar', clearStatus: '',
         closeText: 'Cerrar', closeStatus: 'Cerrar sin modificar',
@@ -21,6 +36,18 @@ jQuery(function ($) {
         initStatus: 'Elija una fecha', isRTL: false
     };
     $.datepicker.setDefaults($.datepicker.regional['es-es']);
+    $.validator.addMethod("phoneColombia", function (phone_number, element) {
+        phone_number = phone_number.replace(/\s+/g, "");
+        return this.optional(element) || phone_number.length > 10 &&
+            phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/])?$/i);
+        //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/])?$/i);
+        //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i);
+    }, "Especifique un número de teléfono");
+    jQuery.validator.addMethod("alphabetical", function (value, element) {
+        return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ- ]+$/i.test(value);
+    }, "Este campo debe ser alfabético"); 
+    // <!-- Métodos de validación -->
+
 
     $("#fecha_nacimiento_suscriptor,#fecha_nacimiento_suscriptor_conjunto,#FechaNacimiento").datepicker({        
         changeMonth: true,
@@ -28,14 +55,7 @@ jQuery(function ($) {
         dateFormat: 'yy-mm-dd',
         yearRange: "c-60:c-18"
     });    
-
-    $.validator.addMethod("phoneColombia", function (phone_number, element) {
-        phone_number = phone_number.replace(/\s+/g, "");
-        return this.optional(element) || phone_number.length > 10 &&
-            phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/])?$/i);
-            //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i);
-    }, "Especifique un número de teléfono");
-
+    
     $("#tipo_identificacion_suscriptor").on('change', function () {
 
         if ($("#tipo_identificacion_suscriptor").find(":selected").val() === "NIT") {
@@ -61,11 +81,82 @@ jQuery(function ($) {
         $("#nombre_suscriptor_conjunto").prop("required", true);
     });
 
+    $(".ProspectoValidation").validate({
+        rules: {
+            // Prospecto
+            PrimerNombre: {
+                required: true,
+                alphabetical: true
+            },
+            SegundoNombre: {                
+                alphabetical: true
+            },
+            PrimerApellido: {
+                required: true,
+                alphabetical: true
+            },
+            SegundoApellido: {                
+                alphabetical: true
+            },            
+            TipoDocumentoIdentidad: {
+                required: true,
+                digits: true
+            },            
+            Telefono: {
+                required: true,
+                phoneColombia: true
+            },
+            Celular: {
+                required: true,
+                phoneColombia: true
+            },
+            Email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            // Prospecto
+            PrimerNombre: {
+                required: "Este campo es requerido",
+                alphabetical: "Este campo debe ser alfabético"
+            },
+            SegundoNombre: {                
+                alphabetical: "Este campo debe ser alfabético"
+            },
+            PrimerApellido: {
+                required: "Este campo es requerido",
+                alphabetical: "Este campo debe ser alfabético"
+            },
+            SegundoApellido: {                
+                alphabetical: "Este campo debe ser alfabético"
+            },
+            TipoDocumentoIdentidad: {
+                required: "Este campo es requerido",
+                digits: "Este campo debe ser numérico"
+            },            
+            Telefono: {
+                required: "Este campo es requerido",
+                phoneColombia: "Este campo debe ser un teléfono válido"
+            },
+            Celular: {
+                required: "Este campo es requerido",
+                phoneColombia: "Este campo debe ser unt teléfono válido"
+            },
+            Email: {
+                required: "Este campo es requerido",
+                email: "Este cmapo debe ser un correo válido"
+            }
+        }
+
+    });
+
     $(".needs-validation").validate({
         rules: {
             // Suscriptor
             nombre_suscriptor: {
-                required: true                
+                required: true,
+                alphabetical:true
             },
             tipo_identificacion_suscriptor: {
                 required:true
@@ -116,7 +207,7 @@ jQuery(function ($) {
             },
             ingresos_mensuales_suscriptor: {
                 required: true,
-                number: true,
+                number: true
             },
             egresos_mensuales_suscriptor: {
                 required: true,
@@ -204,7 +295,8 @@ jQuery(function ($) {
         messages: {
             // Suscriptor
             nombre_suscriptor: {
-                required: "Requerido"                
+                required: "Requerido",
+                alphabetical: "El nombre debe ser alfanumérico"
             },
             tipo_identificacion_suscriptor: {
                     required: "Requerido"
@@ -255,7 +347,7 @@ jQuery(function ($) {
             },
             ingresos_mensuales_suscriptor: {
                 required: "Requerido",
-                number: "Debe ingresar solo números",
+                number: "Debe ingresar solo números"
             },
             egresos_mensuales_suscriptor: {
                 required: "Requerido",
@@ -345,6 +437,82 @@ jQuery(function ($) {
             form.submit();
         }
     });
+
+// Calculadora
+$("#referencia").on('change', function () {
+        var canmes_72 = 72;
+        var canmes_60 = 60;
+        var canmes_40 = 40;
+        var adm_72 = 0.15;
+        var adm_60 = 0.25;
+        var adm_40 = 0.20;
+        var porcentajeInscripcion = 0.03;
+        var iva = 0.19;
+        canmes = 0;
+        valbien = $("#referencia").find(":selected").val(); //document.getElementById("select").value;
+        //tipo_plan =  document.getElementById("nombre_plan").value;
+        //tipo_plan = tipo_plan.split(':');
+        //tipo_plan_adm = tipo_plan[0];
+        //tipo_plan_inscrip = tipo_plan[1];
+
+
+        var por_inscripcion_72 = 0.035;
+        var tasafil = 0.035;
+        var gasadm36 = 0.15;
+        var gasadm = 0.25;
+        var gasadm144 = 0.48;
+        var cuotmens = 0;
+        var pripag = 0;
+        var costodelbien = $("#referencia").val();
+        if (valbien === "" || valbien === 0) {
+            valbien = 0;
+            $("#costo_del_bien, #cuota_ingreso, #administracion, #iva_cuota_ingreso, #iva_administracion, #total_cuota_ingreso, #total_cuota_bruta, #primera_cuota_neta, #valor_primer_pago").val(0.00);
+        }
+
+        // Valor del costo del bien
+        $("#costo_del_bien").finish().fadeTo('normal', 0).val(parseFormat(costodelbien)).finish().fadeTo('normal', 1);
+
+        // Cuota de ingreso
+        valorPorcentajeInscripcion = costodelbien * 0.045;
+        $("#cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(valorPorcentajeInscripcion)).finish().fadeTo('normal', 1);
+
+        // Iva Inscripción
+        ivaInscripcion = 0.045 * valbien * iva;
+        $("#iva_cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(ivaInscripcion)).finish().fadeTo('normal', 1);
+
+        // Total de la inscripción
+        totalInscripcion = valorPorcentajeInscripcion + ivaInscripcion;
+        $("#total_cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(totalInscripcion)).finish().fadeTo('normal', 1);
+
+        // Primera cuota
+        cuotaNeta40 = valbien / canmes_40;
+        $('#primera_cuota_neta').finish().fadeTo('normal', 0).val(parseFormat(cuotaNeta40)).finish().fadeTo('normal', 1);
+
+        // Administracion
+        administracion40 = 0.2 * cuotaNeta40;
+        $("#administracion").finish().fadeTo('normal', 0).val( parseFormat(administracion40)).finish().fadeTo('normal', 1);
+
+        // IVA Administración
+        ivaAdministracion40 = administracion40 * iva;
+        $("#iva_administracion").finish().fadeTo('normal', 0).val(parseFormat(ivaAdministracion40)).finish().fadeTo('normal', 1);
+
+        //Total Cuota Bruta
+        totalCuotaMensual40 = cuotaNeta40 + administracion40 + ivaAdministracion40;
+        $("#total_cuota_bruta").finish().fadeTo('normal', 0).val(parseFormat(totalCuotaMensual40)).finish().fadeTo('normal', 1);
+
+        // Valor total del primer pago
+        valorPrimeraInversion40 = totalInscripcion + totalCuotaMensual40;
+        $("#valor_primer_pago").finish().fadeTo('normal', 0).val( parseFormat(valorPrimeraInversion40)).finish().fadeTo('normal', 1);
+
+
+
+
+
+
+
+
+        
+    });
     
 });
 
@@ -366,6 +534,26 @@ jQuery(function ($) {
         });
     }, false);
 })();
+
+function parseFormat(num) {
+    var entero, decimal;
+    var numero = "" + num + "";
+    if (numero.indexOf(".") !== -1) {
+        decimal = numero.substring(numero.indexOf("."), numero.indexOf(".") + 3);
+    }
+    else {
+        decimal = ".00";
+    }
+    entero = "" + parseInt(numero) + "";
+    var l = entero.length;
+    var s = l - 3;
+    while (s > 0) {
+        entero = entero.substring(0, s) + "," + entero.substring(s, l + 1);
+        s = s - 3;
+    }
+    numero = entero + decimal;
+    return numero;
+}
 
 /*
  rules: {
