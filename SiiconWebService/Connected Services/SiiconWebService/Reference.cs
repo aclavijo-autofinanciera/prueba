@@ -17,28 +17,28 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/ConsultarFacturaReferencia", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.ConsultarFacturaReferenciaResponse> ConsultarFacturaReferenciaAsync(global::SiiconWebService.ConsultarFacturaReferenciaRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.ConsultarFacturaReferenciaResponse> ConsultarFacturaReferenciaAsync(SiiconWebService.ConsultarFacturaReferenciaRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/ConsultarFacturasCliente", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.ConsultarFacturasClienteResponse> ConsultarFacturasClienteAsync(global::SiiconWebService.ConsultarFacturasClienteRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.ConsultarFacturasClienteResponse> ConsultarFacturasClienteAsync(SiiconWebService.ConsultarFacturasClienteRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/SelecccionarCompañias", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarCompañiasResponse> SelecccionarCompañiasAsync(global::SiiconWebService.SelecccionarCompañiasRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarCompañiasResponse> SelecccionarCompañiasAsync(SiiconWebService.SelecccionarCompañiasRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/SelecccionarAgencias", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarAgenciasResponse> SelecccionarAgenciasAsync(global::SiiconWebService.SelecccionarAgenciasRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarAgenciasResponse> SelecccionarAgenciasAsync(SiiconWebService.SelecccionarAgenciasRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/SelecccionarMarcas", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarMarcasResponse> SelecccionarMarcasAsync(global::SiiconWebService.SelecccionarMarcasRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarMarcasResponse> SelecccionarMarcasAsync(SiiconWebService.SelecccionarMarcasRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/SelecccionarPorcAdministracionCompañia", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarPorcAdministracionCompañiaResponse> SelecccionarPorcAdministracionCompañiaAsync(global::SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarPorcAdministracionCompañiaResponse> SelecccionarPorcAdministracionCompañiaAsync(SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/SelecccionarPorcInscripcionCompañia", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarPorcInscripcionCompañiaResponse> SelecccionarPorcInscripcionCompañiaAsync(global::SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarPorcInscripcionCompañiaResponse> SelecccionarPorcInscripcionCompañiaAsync(SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://wstienda.autofinanciera.com.co/SelecccionarTiposBienesCompañia", ReplyAction="*")]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarTiposBienesCompañiaResponse> SelecccionarTiposBienesCompañiaAsync(global::SiiconWebService.SelecccionarTiposBienesCompañiaRequest request);
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarTiposBienesCompañiaResponse> SelecccionarTiposBienesCompañiaAsync(SiiconWebService.SelecccionarTiposBienesCompañiaRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -49,13 +49,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ConsultarFacturaReferencia", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.ConsultarFacturaReferenciaRequestBody Body;
+        public SiiconWebService.ConsultarFacturaReferenciaRequestBody Body;
         
         public ConsultarFacturaReferenciaRequest()
         {
         }
         
-        public ConsultarFacturaReferenciaRequest(global::SiiconWebService.ConsultarFacturaReferenciaRequestBody Body)
+        public ConsultarFacturaReferenciaRequest(SiiconWebService.ConsultarFacturaReferenciaRequestBody Body)
         {
             this.Body = Body;
         }
@@ -89,13 +89,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ConsultarFacturaReferenciaResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.ConsultarFacturaReferenciaResponseBody Body;
+        public SiiconWebService.ConsultarFacturaReferenciaResponseBody Body;
         
         public ConsultarFacturaReferenciaResponse()
         {
         }
         
-        public ConsultarFacturaReferenciaResponse(global::SiiconWebService.ConsultarFacturaReferenciaResponseBody Body)
+        public ConsultarFacturaReferenciaResponse(SiiconWebService.ConsultarFacturaReferenciaResponseBody Body)
         {
             this.Body = Body;
         }
@@ -129,13 +129,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ConsultarFacturasCliente", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.ConsultarFacturasClienteRequestBody Body;
+        public SiiconWebService.ConsultarFacturasClienteRequestBody Body;
         
         public ConsultarFacturasClienteRequest()
         {
         }
         
-        public ConsultarFacturasClienteRequest(global::SiiconWebService.ConsultarFacturasClienteRequestBody Body)
+        public ConsultarFacturasClienteRequest(SiiconWebService.ConsultarFacturasClienteRequestBody Body)
         {
             this.Body = Body;
         }
@@ -169,13 +169,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ConsultarFacturasClienteResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.ConsultarFacturasClienteResponseBody Body;
+        public SiiconWebService.ConsultarFacturasClienteResponseBody Body;
         
         public ConsultarFacturasClienteResponse()
         {
         }
         
-        public ConsultarFacturasClienteResponse(global::SiiconWebService.ConsultarFacturasClienteResponseBody Body)
+        public ConsultarFacturasClienteResponse(SiiconWebService.ConsultarFacturasClienteResponseBody Body)
         {
             this.Body = Body;
         }
@@ -209,13 +209,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarCompañias", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarCompañiasRequestBody Body;
+        public SiiconWebService.SelecccionarCompañiasRequestBody Body;
         
         public SelecccionarCompañiasRequest()
         {
         }
         
-        public SelecccionarCompañiasRequest(global::SiiconWebService.SelecccionarCompañiasRequestBody Body)
+        public SelecccionarCompañiasRequest(SiiconWebService.SelecccionarCompañiasRequestBody Body)
         {
             this.Body = Body;
         }
@@ -241,13 +241,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarCompañiasResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarCompañiasResponseBody Body;
+        public SiiconWebService.SelecccionarCompañiasResponseBody Body;
         
         public SelecccionarCompañiasResponse()
         {
         }
         
-        public SelecccionarCompañiasResponse(global::SiiconWebService.SelecccionarCompañiasResponseBody Body)
+        public SelecccionarCompañiasResponse(SiiconWebService.SelecccionarCompañiasResponseBody Body)
         {
             this.Body = Body;
         }
@@ -281,13 +281,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarAgencias", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarAgenciasRequestBody Body;
+        public SiiconWebService.SelecccionarAgenciasRequestBody Body;
         
         public SelecccionarAgenciasRequest()
         {
         }
         
-        public SelecccionarAgenciasRequest(global::SiiconWebService.SelecccionarAgenciasRequestBody Body)
+        public SelecccionarAgenciasRequest(SiiconWebService.SelecccionarAgenciasRequestBody Body)
         {
             this.Body = Body;
         }
@@ -313,13 +313,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarAgenciasResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarAgenciasResponseBody Body;
+        public SiiconWebService.SelecccionarAgenciasResponseBody Body;
         
         public SelecccionarAgenciasResponse()
         {
         }
         
-        public SelecccionarAgenciasResponse(global::SiiconWebService.SelecccionarAgenciasResponseBody Body)
+        public SelecccionarAgenciasResponse(SiiconWebService.SelecccionarAgenciasResponseBody Body)
         {
             this.Body = Body;
         }
@@ -353,13 +353,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarMarcas", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarMarcasRequestBody Body;
+        public SiiconWebService.SelecccionarMarcasRequestBody Body;
         
         public SelecccionarMarcasRequest()
         {
         }
         
-        public SelecccionarMarcasRequest(global::SiiconWebService.SelecccionarMarcasRequestBody Body)
+        public SelecccionarMarcasRequest(SiiconWebService.SelecccionarMarcasRequestBody Body)
         {
             this.Body = Body;
         }
@@ -385,13 +385,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarMarcasResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarMarcasResponseBody Body;
+        public SiiconWebService.SelecccionarMarcasResponseBody Body;
         
         public SelecccionarMarcasResponse()
         {
         }
         
-        public SelecccionarMarcasResponse(global::SiiconWebService.SelecccionarMarcasResponseBody Body)
+        public SelecccionarMarcasResponse(SiiconWebService.SelecccionarMarcasResponseBody Body)
         {
             this.Body = Body;
         }
@@ -425,13 +425,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarPorcAdministracionCompañia", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarPorcAdministracionCompañiaRequestBody Body;
+        public SiiconWebService.SelecccionarPorcAdministracionCompañiaRequestBody Body;
         
         public SelecccionarPorcAdministracionCompañiaRequest()
         {
         }
         
-        public SelecccionarPorcAdministracionCompañiaRequest(global::SiiconWebService.SelecccionarPorcAdministracionCompañiaRequestBody Body)
+        public SelecccionarPorcAdministracionCompañiaRequest(SiiconWebService.SelecccionarPorcAdministracionCompañiaRequestBody Body)
         {
             this.Body = Body;
         }
@@ -465,13 +465,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarPorcAdministracionCompañiaResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarPorcAdministracionCompañiaResponseBody Body;
+        public SiiconWebService.SelecccionarPorcAdministracionCompañiaResponseBody Body;
         
         public SelecccionarPorcAdministracionCompañiaResponse()
         {
         }
         
-        public SelecccionarPorcAdministracionCompañiaResponse(global::SiiconWebService.SelecccionarPorcAdministracionCompañiaResponseBody Body)
+        public SelecccionarPorcAdministracionCompañiaResponse(SiiconWebService.SelecccionarPorcAdministracionCompañiaResponseBody Body)
         {
             this.Body = Body;
         }
@@ -505,13 +505,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarPorcInscripcionCompañia", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarPorcInscripcionCompañiaRequestBody Body;
+        public SiiconWebService.SelecccionarPorcInscripcionCompañiaRequestBody Body;
         
         public SelecccionarPorcInscripcionCompañiaRequest()
         {
         }
         
-        public SelecccionarPorcInscripcionCompañiaRequest(global::SiiconWebService.SelecccionarPorcInscripcionCompañiaRequestBody Body)
+        public SelecccionarPorcInscripcionCompañiaRequest(SiiconWebService.SelecccionarPorcInscripcionCompañiaRequestBody Body)
         {
             this.Body = Body;
         }
@@ -545,13 +545,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarPorcInscripcionCompañiaResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarPorcInscripcionCompañiaResponseBody Body;
+        public SiiconWebService.SelecccionarPorcInscripcionCompañiaResponseBody Body;
         
         public SelecccionarPorcInscripcionCompañiaResponse()
         {
         }
         
-        public SelecccionarPorcInscripcionCompañiaResponse(global::SiiconWebService.SelecccionarPorcInscripcionCompañiaResponseBody Body)
+        public SelecccionarPorcInscripcionCompañiaResponse(SiiconWebService.SelecccionarPorcInscripcionCompañiaResponseBody Body)
         {
             this.Body = Body;
         }
@@ -585,13 +585,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarTiposBienesCompañia", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarTiposBienesCompañiaRequestBody Body;
+        public SiiconWebService.SelecccionarTiposBienesCompañiaRequestBody Body;
         
         public SelecccionarTiposBienesCompañiaRequest()
         {
         }
         
-        public SelecccionarTiposBienesCompañiaRequest(global::SiiconWebService.SelecccionarTiposBienesCompañiaRequestBody Body)
+        public SelecccionarTiposBienesCompañiaRequest(SiiconWebService.SelecccionarTiposBienesCompañiaRequestBody Body)
         {
             this.Body = Body;
         }
@@ -625,13 +625,13 @@ namespace SiiconWebService
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="SelecccionarTiposBienesCompañiaResponse", Namespace="http://wstienda.autofinanciera.com.co/", Order=0)]
-        public global::SiiconWebService.SelecccionarTiposBienesCompañiaResponseBody Body;
+        public SiiconWebService.SelecccionarTiposBienesCompañiaResponseBody Body;
         
         public SelecccionarTiposBienesCompañiaResponse()
         {
         }
         
-        public SelecccionarTiposBienesCompañiaResponse(global::SiiconWebService.SelecccionarTiposBienesCompañiaResponseBody Body)
+        public SelecccionarTiposBienesCompañiaResponse(SiiconWebService.SelecccionarTiposBienesCompañiaResponseBody Body)
         {
             this.Body = Body;
         }
@@ -658,13 +658,13 @@ namespace SiiconWebService
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
-    public interface WSTiendaSoapChannel : global::SiiconWebService.WSTiendaSoap, System.ServiceModel.IClientChannel
+    public interface WSTiendaSoapChannel : SiiconWebService.WSTiendaSoap, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
-    public partial class WSTiendaSoapClient : System.ServiceModel.ClientBase<global::SiiconWebService.WSTiendaSoap>, global::SiiconWebService.WSTiendaSoap
+    public partial class WSTiendaSoapClient : System.ServiceModel.ClientBase<SiiconWebService.WSTiendaSoap>, SiiconWebService.WSTiendaSoap
     {
         
     /// <summary>
@@ -701,112 +701,112 @@ namespace SiiconWebService
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.ConsultarFacturaReferenciaResponse> global::SiiconWebService.WSTiendaSoap.ConsultarFacturaReferenciaAsync(global::SiiconWebService.ConsultarFacturaReferenciaRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.ConsultarFacturaReferenciaResponse> SiiconWebService.WSTiendaSoap.ConsultarFacturaReferenciaAsync(SiiconWebService.ConsultarFacturaReferenciaRequest request)
         {
             return base.Channel.ConsultarFacturaReferenciaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.ConsultarFacturaReferenciaResponse> ConsultarFacturaReferenciaAsync(string referenciaFactura)
+        public System.Threading.Tasks.Task<SiiconWebService.ConsultarFacturaReferenciaResponse> ConsultarFacturaReferenciaAsync(string referenciaFactura)
         {
-            global::SiiconWebService.ConsultarFacturaReferenciaRequest inValue = new global::SiiconWebService.ConsultarFacturaReferenciaRequest();
-            inValue.Body = new global::SiiconWebService.ConsultarFacturaReferenciaRequestBody();
+            SiiconWebService.ConsultarFacturaReferenciaRequest inValue = new SiiconWebService.ConsultarFacturaReferenciaRequest();
+            inValue.Body = new SiiconWebService.ConsultarFacturaReferenciaRequestBody();
             inValue.Body.referenciaFactura = referenciaFactura;
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).ConsultarFacturaReferenciaAsync(inValue);
+            return ((SiiconWebService.WSTiendaSoap)(this)).ConsultarFacturaReferenciaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.ConsultarFacturasClienteResponse> global::SiiconWebService.WSTiendaSoap.ConsultarFacturasClienteAsync(global::SiiconWebService.ConsultarFacturasClienteRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.ConsultarFacturasClienteResponse> SiiconWebService.WSTiendaSoap.ConsultarFacturasClienteAsync(SiiconWebService.ConsultarFacturasClienteRequest request)
         {
             return base.Channel.ConsultarFacturasClienteAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.ConsultarFacturasClienteResponse> ConsultarFacturasClienteAsync(string IdentificacionCliente)
+        public System.Threading.Tasks.Task<SiiconWebService.ConsultarFacturasClienteResponse> ConsultarFacturasClienteAsync(string IdentificacionCliente)
         {
-            global::SiiconWebService.ConsultarFacturasClienteRequest inValue = new global::SiiconWebService.ConsultarFacturasClienteRequest();
-            inValue.Body = new global::SiiconWebService.ConsultarFacturasClienteRequestBody();
+            SiiconWebService.ConsultarFacturasClienteRequest inValue = new SiiconWebService.ConsultarFacturasClienteRequest();
+            inValue.Body = new SiiconWebService.ConsultarFacturasClienteRequestBody();
             inValue.Body.IdentificacionCliente = IdentificacionCliente;
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).ConsultarFacturasClienteAsync(inValue);
+            return ((SiiconWebService.WSTiendaSoap)(this)).ConsultarFacturasClienteAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarCompañiasResponse> global::SiiconWebService.WSTiendaSoap.SelecccionarCompañiasAsync(global::SiiconWebService.SelecccionarCompañiasRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarCompañiasResponse> SiiconWebService.WSTiendaSoap.SelecccionarCompañiasAsync(SiiconWebService.SelecccionarCompañiasRequest request)
         {
             return base.Channel.SelecccionarCompañiasAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarCompañiasResponse> SelecccionarCompañiasAsync()
+        public System.Threading.Tasks.Task<SiiconWebService.SelecccionarCompañiasResponse> SelecccionarCompañiasAsync()
         {
-            global::SiiconWebService.SelecccionarCompañiasRequest inValue = new global::SiiconWebService.SelecccionarCompañiasRequest();
-            inValue.Body = new global::SiiconWebService.SelecccionarCompañiasRequestBody();
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).SelecccionarCompañiasAsync(inValue);
+            SiiconWebService.SelecccionarCompañiasRequest inValue = new SiiconWebService.SelecccionarCompañiasRequest();
+            inValue.Body = new SiiconWebService.SelecccionarCompañiasRequestBody();
+            return ((SiiconWebService.WSTiendaSoap)(this)).SelecccionarCompañiasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarAgenciasResponse> global::SiiconWebService.WSTiendaSoap.SelecccionarAgenciasAsync(global::SiiconWebService.SelecccionarAgenciasRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarAgenciasResponse> SiiconWebService.WSTiendaSoap.SelecccionarAgenciasAsync(SiiconWebService.SelecccionarAgenciasRequest request)
         {
             return base.Channel.SelecccionarAgenciasAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarAgenciasResponse> SelecccionarAgenciasAsync()
+        public System.Threading.Tasks.Task<SiiconWebService.SelecccionarAgenciasResponse> SelecccionarAgenciasAsync()
         {
-            global::SiiconWebService.SelecccionarAgenciasRequest inValue = new global::SiiconWebService.SelecccionarAgenciasRequest();
-            inValue.Body = new global::SiiconWebService.SelecccionarAgenciasRequestBody();
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).SelecccionarAgenciasAsync(inValue);
+            SiiconWebService.SelecccionarAgenciasRequest inValue = new SiiconWebService.SelecccionarAgenciasRequest();
+            inValue.Body = new SiiconWebService.SelecccionarAgenciasRequestBody();
+            return ((SiiconWebService.WSTiendaSoap)(this)).SelecccionarAgenciasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarMarcasResponse> global::SiiconWebService.WSTiendaSoap.SelecccionarMarcasAsync(global::SiiconWebService.SelecccionarMarcasRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarMarcasResponse> SiiconWebService.WSTiendaSoap.SelecccionarMarcasAsync(SiiconWebService.SelecccionarMarcasRequest request)
         {
             return base.Channel.SelecccionarMarcasAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarMarcasResponse> SelecccionarMarcasAsync()
+        public System.Threading.Tasks.Task<SiiconWebService.SelecccionarMarcasResponse> SelecccionarMarcasAsync()
         {
-            global::SiiconWebService.SelecccionarMarcasRequest inValue = new global::SiiconWebService.SelecccionarMarcasRequest();
-            inValue.Body = new global::SiiconWebService.SelecccionarMarcasRequestBody();
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).SelecccionarMarcasAsync(inValue);
+            SiiconWebService.SelecccionarMarcasRequest inValue = new SiiconWebService.SelecccionarMarcasRequest();
+            inValue.Body = new SiiconWebService.SelecccionarMarcasRequestBody();
+            return ((SiiconWebService.WSTiendaSoap)(this)).SelecccionarMarcasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarPorcAdministracionCompañiaResponse> global::SiiconWebService.WSTiendaSoap.SelecccionarPorcAdministracionCompañiaAsync(global::SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarPorcAdministracionCompañiaResponse> SiiconWebService.WSTiendaSoap.SelecccionarPorcAdministracionCompañiaAsync(SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest request)
         {
             return base.Channel.SelecccionarPorcAdministracionCompañiaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarPorcAdministracionCompañiaResponse> SelecccionarPorcAdministracionCompañiaAsync(string CompañiaId)
+        public System.Threading.Tasks.Task<SiiconWebService.SelecccionarPorcAdministracionCompañiaResponse> SelecccionarPorcAdministracionCompañiaAsync(string CompañiaId)
         {
-            global::SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest inValue = new global::SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest();
-            inValue.Body = new global::SiiconWebService.SelecccionarPorcAdministracionCompañiaRequestBody();
+            SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest inValue = new SiiconWebService.SelecccionarPorcAdministracionCompañiaRequest();
+            inValue.Body = new SiiconWebService.SelecccionarPorcAdministracionCompañiaRequestBody();
             inValue.Body.CompañiaId = CompañiaId;
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).SelecccionarPorcAdministracionCompañiaAsync(inValue);
+            return ((SiiconWebService.WSTiendaSoap)(this)).SelecccionarPorcAdministracionCompañiaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarPorcInscripcionCompañiaResponse> global::SiiconWebService.WSTiendaSoap.SelecccionarPorcInscripcionCompañiaAsync(global::SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarPorcInscripcionCompañiaResponse> SiiconWebService.WSTiendaSoap.SelecccionarPorcInscripcionCompañiaAsync(SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest request)
         {
             return base.Channel.SelecccionarPorcInscripcionCompañiaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarPorcInscripcionCompañiaResponse> SelecccionarPorcInscripcionCompañiaAsync(string CompañiaId)
+        public System.Threading.Tasks.Task<SiiconWebService.SelecccionarPorcInscripcionCompañiaResponse> SelecccionarPorcInscripcionCompañiaAsync(string CompañiaId)
         {
-            global::SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest inValue = new global::SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest();
-            inValue.Body = new global::SiiconWebService.SelecccionarPorcInscripcionCompañiaRequestBody();
+            SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest inValue = new SiiconWebService.SelecccionarPorcInscripcionCompañiaRequest();
+            inValue.Body = new SiiconWebService.SelecccionarPorcInscripcionCompañiaRequestBody();
             inValue.Body.CompañiaId = CompañiaId;
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).SelecccionarPorcInscripcionCompañiaAsync(inValue);
+            return ((SiiconWebService.WSTiendaSoap)(this)).SelecccionarPorcInscripcionCompañiaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarTiposBienesCompañiaResponse> global::SiiconWebService.WSTiendaSoap.SelecccionarTiposBienesCompañiaAsync(global::SiiconWebService.SelecccionarTiposBienesCompañiaRequest request)
+        System.Threading.Tasks.Task<SiiconWebService.SelecccionarTiposBienesCompañiaResponse> SiiconWebService.WSTiendaSoap.SelecccionarTiposBienesCompañiaAsync(SiiconWebService.SelecccionarTiposBienesCompañiaRequest request)
         {
             return base.Channel.SelecccionarTiposBienesCompañiaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<global::SiiconWebService.SelecccionarTiposBienesCompañiaResponse> SelecccionarTiposBienesCompañiaAsync(string CompañiaId)
+        public System.Threading.Tasks.Task<SiiconWebService.SelecccionarTiposBienesCompañiaResponse> SelecccionarTiposBienesCompañiaAsync(string CompañiaId)
         {
-            global::SiiconWebService.SelecccionarTiposBienesCompañiaRequest inValue = new global::SiiconWebService.SelecccionarTiposBienesCompañiaRequest();
-            inValue.Body = new global::SiiconWebService.SelecccionarTiposBienesCompañiaRequestBody();
+            SiiconWebService.SelecccionarTiposBienesCompañiaRequest inValue = new SiiconWebService.SelecccionarTiposBienesCompañiaRequest();
+            inValue.Body = new SiiconWebService.SelecccionarTiposBienesCompañiaRequestBody();
             inValue.Body.CompañiaId = CompañiaId;
-            return ((global::SiiconWebService.WSTiendaSoap)(this)).SelecccionarTiposBienesCompañiaAsync(inValue);
+            return ((SiiconWebService.WSTiendaSoap)(this)).SelecccionarTiposBienesCompañiaAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
