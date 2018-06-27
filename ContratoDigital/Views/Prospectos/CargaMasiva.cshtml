@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "CargaMasiva";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>Carga masiva</h2>
+                <p>En este página se podrá hacer una carga masiva de prospectos.
+                El archivo debe tener el siguiente formato, separado por comas:</p>
+                <table class="table table-bordered table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>PrimerNombre</th>
+                            <th>SegundoNombre</th>
+                            <th>PrimerApellido</th>
+                            <th>SegundoApellido</th>
+                            <th>NumeroDocumento</th>
+                            <th>Telefono</th>
+                            <th>Celular</th>
+                            <th>Email</th>
+                            <th>ValorDelBien</th>
+                            <th>Referencia</th>
+                            <th>Marca</th>
+                            <th>Modelod</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Elija un archivo</label>
+                    <input type="file" class="form-control-file form-control-lg" accept=".txt,.csv,text/csv" id="exampleFormControlFile1" lang="es-co">
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
