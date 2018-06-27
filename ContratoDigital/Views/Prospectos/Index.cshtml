@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ContratoDigital.Models.Prospecto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="mt-5">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-12 mb-3">
+                <h3>Lista de prospectos</h3>
+            </div>
+            <div class="col-12 mt-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="@Url.Action("Create", "Prospectos")" class="btn btn-azul"><i class="far fa-plus-square"></i> Registrar Prospecto</a>
+                    <a href="@Url.Action("Find", "Prospectos")" class="btn btn-azul"><i class="fas fa-search"></i>  Buscar prospectos</a>                    
+                </div>                
+            </div>            
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Cedula</th>
+                            <th>Fecha De nacimiento</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <ul class="list-inline" >
+                                        <li class="list-inline-item"><a href="@Url.Action("Edit", "Prospectos", new {id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="far fa-edit"></i></a></li>
+                                        <li class="list-inline-item"><a href="@Url.Action("Details", "Prospectos", new { id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Detalles"><i class="far fa-list-alt"></i></a></li>
+                                        <li class="list-inline-item"><a href="@Url.Action("Fill", "ContratoDigital", new {id= item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Llenar PDF"><i class="far fa-file-pdf"></i></a></li>                                        
+                                    </ul>
+                                </td>
+                                <td>@(item.PrimerNombre + " " + item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NumeroDocumento)</td>
+                                <td></td>
+                                
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
