@@ -1,0 +1,104 @@
+﻿@model IEnumerable<ContratoDigital.Models.Prospecto>
+@{
+    ViewData["Title"] = "Búsqueda de prospectos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Búsqueda de prospectos</h2>
+            </div>
+            <div class="col-12">
+                @if(ViewData["NoEncontrado"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>@ViewData["NoEncontrado"]</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <form class="" method="post">
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="NumeroDocumento">Número de documento</label>
+                            <input type="text" class="form-control form-control-lg" name="NumeroDocumento" id="NumeroDocumento" placeholder="ej: 50123987" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="Nombre">Nombre del prospecto</label>
+                            <input type="text" class="form-control form-control-lg" name="Nombre" id="Nombre" placeholder="Ej: Juanita Morel" />
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-azul"><i class="fas fa-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+}
+@if (Model != null)
+{
+    <section class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    Resultados de la búsqueda
+                    <hr />
+                    <h2>
+                        <span class="badge badge-autofinanciera">@ViewData["NumeroDocumento"]</span>
+                        <span class="badge badge-autofinanciera">@ViewData["Nombre"]</span>
+                    </h2>
+                    
+                    
+                </div>
+                <div class="col-12">
+                    @if(Model.Count() > 0)
+                    {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Cédula de ciudadanía</th>
+                                    <th>Fecha de nacimiento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td>@(item.PrimerNombre + " "+ item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>
+                                        <td>@item.NumeroDocumento</td>
+                                        <td></td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <h5>No se encontraron resultados para su búsqueda.</h5>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+
+
