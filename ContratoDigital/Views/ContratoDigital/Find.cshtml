@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Find";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="mt-4">Buscar contrato</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form method="post">
+                    <div class="form-row">
+                        <div class="col-12 col-md-6 mt-3">
+                            <label for="NumeroContrato">Número de contrato</label>
+                            <input type="text" name="NumeroContrato" id="NumeroContrato" class="form-control-lg form-control" placeholder="Ej: 8000001" />
+                        </div>
+                        <div class="col-12 col-md-6 mt-3">
+                            <label for="NumeroIdentificacion">Número identificación</label>
+                            <input type="text" name="NumeroIdentificacion" id="NumeroIdentificacion" class="form-control col-form-label-lg" placeholder="Ej: 80123456" />
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-azul btn-lg">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
