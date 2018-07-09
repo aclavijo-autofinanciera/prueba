@@ -1,6 +1,6 @@
-﻿
+﻿@model IEnumerable<ContratoDigital.Models.Contrato>
 @{
-    ViewData["Title"] = "Find";
+    ViewData["Title"] = "Buscar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,6 +9,18 @@
         <div class="row">
             <div class="col">
                 <h3 class="mt-4">Buscar contrato</h3>
+            </div>
+            <div class="col-12">
+                @if (ViewData["NoEncontrado"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>@ViewData["NoEncontrado"]</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                }
             </div>
         </div>
         <div class="row">
@@ -20,10 +32,21 @@
                             <input type="text" name="NumeroContrato" id="NumeroContrato" class="form-control-lg form-control" placeholder="Ej: 8000001" />
                         </div>
                         <div class="col-12 col-md-6 mt-3">
-                            <label for="NumeroIdentificacion">Número identificación</label>
+                            <label for="NumeroIdentificacion">Número documento</label>
                             <input type="text" name="NumeroIdentificacion" id="NumeroIdentificacion" class="form-control col-form-label-lg" placeholder="Ej: 80123456" />
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-12 col-md-6 mt-3">
+                            <label for="Nombre">Nombre</label>
+                            <input type="text" name="PrimerNombre" id="PrimerNombre" class="form-control form-control-lg" placeholder="Antonio Amador José Nariño" /> 
+                        </div>
+                        <div class="col-12 col-md-6 mt-3">
+                            <label for="Apellido">Apellido</label>
+                            <input type="text" name="Apellido" id="Apellido" class="form-control form-control-lg" placeholder=" Álvarez del Casal " />
+                        </div>
+                    </div>
+                   
                     <div class="form-row mt-4">
                         <div class="col text-center">
                             <button type="submit" class="btn btn-azul btn-lg">
@@ -37,4 +60,72 @@
         </div>
     </div>
 </section>
+
+@if(Model != null)
+{
+    <section class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    Resultados de la búsqueda<hr />
+                    <h2>
+                        <span class="badge badge-autofinanciera">@ViewData["NumeroDocumento"]</span>
+                        <span class="badge badge-autofinanciera">@ViewData["NumeroContrato"]</span>
+                        <span class="badge badge-autofinanciera">@ViewData["Nombre"]</span>
+                        <span class="badge badge-autofinanciera">@ViewData["Apellido"]</span>
+                    </h2>
+                </div>
+                <div class="col-12">
+                    @if(Model.Count()>0)
+                    {
+                        <table class="table table-striped text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Acciones</th>
+                                    <th>Nombre</th>
+                                    <th>Número de contrato</th>
+                                    <th>Fecha de Contrato</th>
+                                    <th>Bien</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Acciones">
+                                                <a class="btn btn-azul" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
+                                                <a class="btn btn-azul" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
+                                                <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @(item.primer_nombre + " " + item.segundo_nombre + " " + item.primer_apellido + " " + item.segundo_apellido)
+                                        </td>
+                                        <td>
+                                            @item.numero_de_contrato
+                                        </td>
+                                        <td>
+                                            @item.fecha_suscripcion_contrato.ToString("dd-MM-yyyy")
+                                        </td>
+                                        <td>
+                                            @item.detalles_bien
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-success"><i class="fas fa-check"></i></span>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
 
