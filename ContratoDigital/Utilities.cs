@@ -10,7 +10,10 @@ using iText.Forms.Fields;
 using iText.Kernel.Colors;
 using iText.Kernel.Pdf;
 using iText.Layout.Element;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
+using MimeKit;
+using MimeKit.Text;
 
 namespace ContratoDigital
 {
@@ -294,6 +297,10 @@ namespace ContratoDigital
             fields.TryGetValue("detalles_bien", out toSet);
             toSet.SetValue(contrato.detalles_bien.ToUpper());
 
+            // Detalles bien
+            fields.TryGetValue("valor_bien", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
+
             // codigo bien
             fields.TryGetValue("codigo_bien", out toSet);
             toSet.SetValue(contrato.codigo_bien.ToUpper());
@@ -343,6 +350,167 @@ namespace ContratoDigital
         static public Contrato FillContrato(IFormCollection form)
         {
             Contrato contrato = new Contrato();
+            // Suscriptor
+            contrato.IdProspecto = int.Parse(form["IdProspecto"]);
+            contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
+            contrato.primer_nombre = form["primer_nombre"];
+            contrato.segundo_nombre = form["segundo_nombre"];
+            contrato.primer_apellido = form["primer_apellido"];
+            contrato.segundo_apellido = form["segundo_apellido"];
+            contrato.tipo_documento_identidad_suscriptor = form["tipo_identificacion_suscriptor"];
+
+            int.TryParse(s: form["documento_identidad_suscriptor"], result: out int documento_identidad_suscriptor);
+            contrato.documento_identidad_suscriptor = documento_identidad_suscriptor;
+
+            contrato.procedencia_documento_identidad_suscriptor = form["procedencia_documento_identidad_suscriptor"];
+
+            // Representante legal del suscriptor
+            contrato.nombre_razon_social_representante_legal = form["nombre_razon_social_representante_legal"];
+            contrato.tipo_documento_representante_legal = form["tipo_documento_representante_legal"];
+
+            int.TryParse(s: form["documento_identidad_representante_legal"], result: out int documento_identidad_representante_legal);
+            contrato.documento_identidad_representante_legal = documento_identidad_representante_legal;
+
+            contrato.procedencia_documento_identidad_representante_legal = form["procedencia_documento_identidad_representante_legal"];
+
+            // Datos del suscriptor
+            DateTime fecha_nacimiento_suscriptor = DateTime.Today;
+            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor"], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor);
+            contrato.fecha_nacimiento_suscriptor = fecha_nacimiento_suscriptor;
+
+
+            contrato.lugar_nacimiento_suscriptor = form["lugar_nacimiento_suscriptor"];
+            contrato.sexo_suscriptor = form["sexo_suscriptor"];
+            contrato.estado_civil_suscriptor = form["estado_civil_suscriptor"];
+            contrato.direccion_domicilio_suscriptor = form["direccion_domicilio_suscriptor"];
+            contrato.pais_suscriptor = form["pais_suscriptor"];
+            contrato.departamento_suscriptor = form["departamento_suscriptor"];
+            contrato.ciudad_suscriptor = form["ciudad_suscriptor"];
+            contrato.telefono_suscriptor = form["telefono_suscriptor"];
+            contrato.celular_suscriptor = form["celular_suscriptor"];
+            contrato.empresa_empleadora_suscriptor = form["empresa_empleadora_suscriptor"];
+            contrato.cargo_suscriptor = form["cargo_suscriptor"];
+
+            Double.TryParse(s: form["ingresos_mensuales_suscriptor"], result: out double ingresos_mensuales_suscriptor);
+            contrato.ingresos_mensuales_suscriptor = ingresos_mensuales_suscriptor;
+
+            Double.TryParse(s: form["egresos_mensuales_suscriptor"], result: out double egresos_mensuales_suscriptor);
+            contrato.egresos_mensuales_suscriptor = egresos_mensuales_suscriptor;
+
+            Double.TryParse(s: form["otros_ingresos_suscriptor"], result: out Double otros_ingresos_suscriptor);
+            contrato.otros_ingresos_suscriptor = otros_ingresos_suscriptor;
+
+            contrato.direccion_empleo_suscriptor = form["direccion_empleo_suscriptor"];
+            contrato.departamento_empleo_suscriptor = form["departamento_empleo_suscriptor"];
+            contrato.ciudad_empleo_suscriptor = form["ciudad_empleo_suscriptor"];
+            contrato.telefono_empleo_suscriptor = form["telefono_empleo_suscriptor"];
+            contrato.celular_empleo_suscriptor = form["celular_empleo_suscriptor"];
+            contrato.profesion_suscriptor = form["profesion_suscriptor"];
+            contrato.envio_correspondencia_suscriptor = form["envio_correspondencia_suscriptor"];
+            contrato.email_suscriptor = form["email_suscriptor"];
+
+            // Suscriptor conjunto
+            contrato.nombre_suscriptor_conjunto = form["nombre_suscriptor_conjunto"];
+            contrato.tipo_identidad_suscriptor_conjunto = form["tipo_identidad_suscriptor_conjunto"];
+
+            int.TryParse(s: form["documento_identidad_suscriptor_conjunto"], result: out int documento_identidad_suscriptor_conjunto);
+            contrato.documento_identidad_suscriptor_conjunto = documento_identidad_suscriptor_conjunto;
+
+            contrato.procedencia_documento_identidad_suscriptor_conjunto = form["procedencia_documento_identidad_suscriptor_conjunto"];
+
+            // Representante legal Suscriptor conjunto
+            contrato.representante_legal_suscriptor_conjunto = form["representante_legal_suscriptor_conjunto"];
+            contrato.tipo_identidad_representante_legal_suscriptor_conjunto = form["tipo_identidad_representante_legal_suscriptor_conjunto"];
+
+            int.TryParse(s: form["documento_identidad_representante_legal_suscriptor_conjunto"], result: out int documento_identidad_representante_legal_suscriptor_conjunto);
+            contrato.documento_identidad_representante_legal_suscriptor_conjunto = documento_identidad_representante_legal_suscriptor_conjunto;
+
+            contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto = form["procedencia_identificacion_representante_legal_suscriptor_conjunto"];
+
+
+            // Datos del suscriptor conjunto
+
+            DateTime fecha_nacimiento_suscriptor_conjunto = DateTime.Now;
+            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor_conjunto"], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor_conjunto);
+            contrato.fecha_nacimiento_suscriptor_conjunto = fecha_nacimiento_suscriptor_conjunto;
+
+            contrato.lugar_nacimiento_suscriptor_conjunto = form["fecha_nacimiento_suscriptor_conjunto"];
+            contrato.sexo_suscriptor_conjunto = form["sexo_suscriptor_conjunto"];
+            contrato.estado_civil_suscriptor_conjunto = form["estado_civil_suscriptor_conjunto"];
+            contrato.direccion_suscriptor_conjunto = form["dirección_suscriptor_conjunto"];
+            contrato.departamento_suscriptor_conjunto = form["departamento_suscriptor_conjunto"];
+            contrato.ciudad_suscriptor_conjunto = form["ciudad_suscriptor_conjunto"];
+            contrato.telefono_suscriptor_conjunto = form["telefono_suscriptor_conjunto"];
+            contrato.celular_suscriptor_conjunto = form["celular_suscriptor_conjunto"];
+            contrato.empresa_empleadora_suscriptor_conjunto = form["empresa_empleadora_suscriptor_conjunto"];
+            contrato.cargo_suscriptor_conjunto = form["cargo_suscriptor_conjunto"];
+
+            Double.TryParse(s: form["ingresos_mensuales_suscriptor_conjunto"], result: out double ingresos_mensuales_suscriptor_conjunto);
+            contrato.ingresos_mensuales_suscriptor_conjunto = ingresos_mensuales_suscriptor_conjunto;
+
+            Double.TryParse(s: form["egresos_mensuales_suscriptor_conjunto"], result: out double egresos_mensuales_suscriptor_conjunto);
+            contrato.egresos_mensuales_suscriptor_conjunto = egresos_mensuales_suscriptor_conjunto;
+
+            Double.TryParse(s: form["otros_ingresos_suscriptor_conjunto"], result: out double otros_ingresos_suscriptor_conjunto);
+            contrato.otros_ingresos_suscriptor_conjunto = otros_ingresos_suscriptor_conjunto;
+
+            contrato.direccion_empleo_suscriptor_conjunto = form["direccion_empleo_suscriptor_conjunto"];
+            contrato.departamento_empleo_suscriptor_conjunto = form["departamento_empleo_suscriptor_conjunto"];
+            contrato.ciudad_empleo_suscriptor_conjunto = form["ciudad_empleo_suscriptor_conjunto"];
+            contrato.telefono_empleo_suscriptor_conjunto = form["telefono_empleo_suscriptor_conjunto"];
+            contrato.celular_empleo_suscriptor_conjunto = form["celular_empleo_suscriptor_conjunto"];
+            contrato.profesion_suscriptor_conjunto = form["profesion_suscriptor_conjunto"];
+            contrato.correspondencia_suscriptor_conjunto = form["correspondencia_suscriptor_conjunto"];
+            contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"];
+
+            //Datos del bien
+            contrato.tipo_de_bien = form["tipo_de_bien"];
+            contrato.marca_exclusiva_bien = form["marca_exclusiva_bien"];
+            contrato.detalles_bien = form["detalles_bien"];
+            contrato.codigo_bien = form["codigo_bien"];
+
+            Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
+            contrato.valor_bien = valor_bien;
+
+            contrato.cuota_bien = form["cuota_bien"];
+            contrato.plazo_bien = form["plazo_bien"];
+
+            // pago Inicial
+
+            Double.TryParse(s: form["cuota_ingreso"], result: out double cuota_ingreso);
+            contrato.cuota_ingreso = cuota_ingreso;
+
+            Double.TryParse(s: form["administracion"], result: out double administracion);
+            contrato.administracion = administracion;
+
+            Double.TryParse(s: form["iva_cuota_ingreso"], result: out double iva_cuota_ingreso);
+            contrato.iva_cuota_ingreso = iva_cuota_ingreso;
+
+            Double.TryParse(s: form["iva_administracion"], result: out double iva_administracion);
+            contrato.iva_administracion = iva_administracion;
+
+            Double.TryParse(s: form["total_cuota_ingreso"], result: out double total_cuota_ingreso);
+            contrato.total_cuota_ingreso = total_cuota_ingreso;
+
+            Double.TryParse(s: form["total_cuota_bruta"], result: out double total_cuota_bruta);
+            contrato.total_cuota_bruta = total_cuota_bruta;
+
+            Double.TryParse(s: form["primera_cuota_neta"], result: out double primera_cuota_neta);
+            contrato.primera_cuota_neta = primera_cuota_neta;
+
+            Double.TryParse(s: form["valor_primer_pago"], result: out double valor_primer_pago);
+            contrato.valor_primer_pago = valor_primer_pago;
+
+            return contrato;
+        }
+
+        /// <summary>
+        /// Transforma el formulario HTML de contrato en una clase modelo.
+        /// </summary>
+        /// <param name="form">Los datos del formulario HTML capturados</param>
+        /// <returns>una entidad de personas con todos los datos del contrato PDF</returns>
+        static public Contrato UpdateContrato(IFormCollection form, Contrato contrato)
+        {            
             // Suscriptor
             contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
             contrato.primer_nombre = form["primer_nombre"];
@@ -520,6 +688,62 @@ namespace ContratoDigital
             prospecto.Email = form["Email"];
             // TODO: Change this for its actual value.
             prospecto.Referencia = 1030;
+            prospecto.DescripcionDelBien = form["DescripcionDelBien"];
+
+            double.TryParse(s: form["costo_del_bien"], result: out double costodelbien);
+            prospecto.ValorDelBien = costodelbien;
+
+            double.TryParse(s: form["cuota_ingreso"], result: out double cuotaingreso);
+            prospecto.CuotaDeIngreso = cuotaingreso;
+
+            double.TryParse(s: form["administracion"], result: out double administracion);
+            prospecto.Administracion = administracion;
+
+            double.TryParse(s: form["iva_cuota_ingreso"], result: out double ivacuotaingreso);
+            prospecto.IvaCuotaIngreso = ivacuotaingreso;
+
+            double.TryParse(s: form["iva_administracion"], result: out double iva_administracion);
+            prospecto.IvaAdministracion = iva_administracion;
+
+            double.TryParse(s: form["total_cuota_ingreso"], result: out double totalcuotaingreso);
+            prospecto.TotalCuotaIngreso = totalcuotaingreso;
+
+            double.TryParse(s: form["total_cuota_bruta"], result: out double total_cuota_bruta);
+            prospecto.TotalCuotaBruta = total_cuota_bruta;
+
+            double.TryParse(s: form["primera_cuota_neta"], result: out double primera_cuota_neta);
+            prospecto.PrimeraCuotaNeta = primera_cuota_neta;
+
+            double.TryParse(s: form["valor_primer_pago"], result: out double valor_primer_pago);
+            prospecto.ValorTotalPrimerPago = valor_primer_pago;
+
+            return prospecto;
+        }
+
+        /// <summary>
+        /// Transforma el formulario HTML de prospectos en una clase modelo 
+        /// </summary>
+        /// <param name="form">Los datos del formulario HTML capturados</param>
+        /// <returns>Un entidad de persnoas cona todos los datos del contrato PDF</returns>
+        static public Prospecto UpdateProspecto(IFormCollection form, Prospecto prospecto)
+        {            
+            prospecto.PrimerNombre = form["PrimerNombre"];
+            prospecto.SegundoNombre = form["SegundoNombre"];
+            prospecto.PrimerApellido = form["PrimerApellido"];
+            prospecto.SegundoApellido = form["SegundoApellido"];
+
+            int.TryParse(s: form["TipoDocumentoIdentidad"], result: out int tipoDocumentoIdentidad);
+            prospecto.TipoDocumentoIdentidad = tipoDocumentoIdentidad;
+
+            int.TryParse(s: form["NumeroDocumento"], result: out int documentoIdentidad);
+            prospecto.NumeroDocumento = documentoIdentidad;
+
+            prospecto.Telefono = form["Telefono"];
+            prospecto.Celular = form["Celular"];
+            prospecto.Email = form["Email"];
+            // TODO: Change this for its actual value.
+            prospecto.Referencia = 1030;
+            prospecto.DescripcionDelBien = form["DescripcionDelBien"];
 
             double.TryParse(s: form["costo_del_bien"], result: out double costodelbien);
             prospecto.ValorDelBien = costodelbien;
@@ -685,28 +909,7 @@ namespace ContratoDigital
                 }
             }
             return;
-        }
-
-        /// <summary>
-        /// Crea una imagen del código de barras para poder insertarla en el PDF
-        /// </summary>
-        /// <param name="mw">Ancho de la imagen</param>
-        /// <param name="mh">Alto de la imagen</param>
-        /// <param name="pdfdoc">El PDF al que se le va a insertar la imagen</param>
-        /// <returns></returns>
-        /*static public Image CreateBarcode(float mw, float mh, PdfDocument pdfdoc)
-        {
-            Barcode128 barcode = null;
-            barcode = new Barcode128(pdfdoc);
-            barcode.SetCodeType(Barcode128.CODE128_RAW);
-            barcode.SetCode(Barcode128.GetRawText(Utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620170630"), true, Barcode128.Barcode128CodeSet.B));
-            
-            //Barcode128 barcode = new Barcode128(pdfdoc);            
-            //barcode.SetCode(Utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620170630"));            
-            return new Image(barcode.CreateFormXObject(ColorConstants.BLACK, ColorConstants.BLACK, pdfdoc))
-                .Scale(mw, mh) // Escala natural del Código de barras
-                .SetFixedPosition(1, 1); // Posición que ocupa en el documento siendo 0,0 esquina inferior izquierda del documento.
-        }*/
+        }        
     }
 
     static public class Constants
