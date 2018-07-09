@@ -9,6 +9,55 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <!-- Begin -->
+            <div class="col-12 col-md-8">
+                @if (!String.IsNullOrEmpty((string)ViewData["EmailResult"]))
+                {
+                    if ((string)ViewData["EmailResult"] == "Success")
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>¡El correo ha sido envíado exitosamente!</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>¡Ha Ocurrido un error! : @ViewData["EmailResult"]</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+
+
+                }
+
+                @if (!String.IsNullOrEmpty((string)TempData["EmailResult"]))
+                {
+                    if ((string)TempData["EmailResult"] == "Success")
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>¡El correo ha sido envíado exitosamente! Temp</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>¡Ha Ocurrido un error! temp : @TempData["EmailResult"]</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+
+
+                }
+            </div>
 
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
@@ -19,10 +68,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Nombre
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @(Model.primer_nombre + " " + Model.segundo_nombre + " " + Model.primer_apellido + " " + Model.segundo_apellido)
                         </div>
                     </div>
@@ -32,11 +81,25 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Documento Identidad
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @(Model.tipo_documento_identidad_suscriptor + " - " + Model.documento_identidad_suscriptor)
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @switch (Model.tipo_documento_identidad_suscriptor)
+                            {
+                                case "1":
+                                    Write("CC - " + Model.documento_identidad_suscriptor);
+                                    break;
+                                case "2":
+                                    Write("CE -" + Model.documento_identidad_suscriptor);
+                                    break;
+                                case "3":
+                                    Write("NIT -" + Model.documento_identidad_suscriptor);
+                                    break;
+                                default:
+                                    Write("CC -" + Model.documento_identidad_suscriptor);
+                                    break;
+                            }
                         </div>
                     </div>
                 </div>
@@ -45,17 +108,17 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Procedencia
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.procedencia_documento_identidad_suscriptor
                         </div>
                     </div>
                 </div>
             </div>
 
-            @if (Model.tipo_documento_identidad_suscriptor == "NIT")
+            @if (Model.tipo_documento_identidad_suscriptor == "NIT" || Model.tipo_documento_identidad_suscriptor == "3")
             {
                 <div class="col-12 col-md-8 mt-3">
                     <div class="polymer-box">
@@ -66,10 +129,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Nombre representante legal
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.nombre_razon_social_representante_legal
                             </div>
                         </div>
@@ -79,10 +142,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Documento identidad
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @(Model.tipo_documento_representante_legal + " - " + Model.documento_identidad_representante_legal)
                             </div>
                         </div>
@@ -92,10 +155,10 @@
                 <div class="col-12 col-md-8 mb-3">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Procedencia
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.procedencia_documento_identidad_representante_legal
                             </div>
                         </div>
@@ -110,11 +173,11 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Fecha de nacimiento
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.fecha_nacimiento_suscriptor
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("{0:dd-MM-yyyy}", Model.fecha_nacimiento_suscriptor)
                         </div>
                     </div>
                 </div>
@@ -123,10 +186,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Lugar de nacimiento
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.lugar_nacimiento_suscriptor
                         </div>
                     </div>
@@ -136,10 +199,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Sexo
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.sexo_suscriptor
                         </div>
                     </div>
@@ -149,10 +212,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Estado civil
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.estado_civil_suscriptor
                         </div>
                     </div>
@@ -162,10 +225,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Dirección domicilio
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.direccion_domicilio_suscriptor
                         </div>
                     </div>
@@ -175,10 +238,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Ciudad, Departamento, País
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @(Model.ciudad_suscriptor + ", " + Model.departamento_suscriptor + ", " + Model.pais_suscriptor)
                         </div>
                     </div>
@@ -188,10 +251,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Teléfonos
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.telefono_suscriptor<br />@Model.celular_suscriptor
                         </div>
                     </div>
@@ -201,10 +264,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Empresa donde labora
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.empresa_empleadora_suscriptor
                         </div>
                     </div>
@@ -214,10 +277,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Cargo
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.cargo_suscriptor
                         </div>
                     </div>
@@ -227,10 +290,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Ingresos y egresos
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             Ingresos: @String.Format("$ {0:0,0.00}", Model.ingresos_mensuales_suscriptor) <br />
                             Egresos: @String.Format("$ {0:0,0.00}", Model.egresos_mensuales_suscriptor)
                             @if (Model.otros_ingresos_suscriptor > 0)
@@ -246,10 +309,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Dirección laboral
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.direccion_empleo_suscriptor
                         </div>
                     </div>
@@ -259,10 +322,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Ciudad, Departamento, País
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @(Model.ciudad_empleo_suscriptor + ", " + Model.departamento_empleo_suscriptor + ", " + Model.pais_empleo_suscriptor)
                         </div>
                     </div>
@@ -272,10 +335,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Teléfonos laborales
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.telefono_empleo_suscriptor<br />@Model.celular_empleo_suscriptor
                         </div>
                     </div>
@@ -285,10 +348,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Profesión o actividad económica
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.profesion_suscriptor
                         </div>
                     </div>
@@ -298,10 +361,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Envío de correspondencia
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.envio_correspondencia_suscriptor
                         </div>
                     </div>
@@ -311,10 +374,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4  font-weight-bold">
                             Email
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.email_suscriptor
                         </div>
                     </div>
@@ -323,7 +386,7 @@
 
             @if (Model.documento_identidad_suscriptor_conjunto > 0)
             {
-                <div class="col-12 col-md-8 mt-4">
+                <div class="col-12 col-md-8 mt-4 font-weight-bold">
                     <div class="polymer-box">
                         <h4 class="text-center">Datos suscriptor conjunto</h4>
                     </div>
@@ -332,10 +395,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Nombre completo
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.nombre_suscriptor_conjunto
                             </div>
                         </div>
@@ -345,10 +408,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Documento identidad
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @(Model.tipo_identidad_suscriptor_conjunto + " - " + Model.documento_identidad_suscriptor_conjunto)
                             </div>
                         </div>
@@ -358,25 +421,25 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 De
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.procedencia_documento_identidad_suscriptor_conjunto
                             </div>
                         </div>
                     </div>
                 </div>
 
-                @if (Model.tipo_identidad_suscriptor_conjunto == "NIT")
+                @if (Model.tipo_identidad_suscriptor_conjunto == "NIT" || Model.tipo_identidad_suscriptor_conjunto == "3")
                 {
                     <div class="col-12 col-md-8 mt-4">
                         <div class="polymer-box">
                             <div class="row">
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-4 font-weight-bold">
                                     Nombre representante legal
                                 </div>
-                                <div class="col-12 col-md-8 text-black-65">
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                     @Model.representante_legal_suscriptor_conjunto
                                 </div>
                             </div>
@@ -386,10 +449,10 @@
                     <div class="col-12 col-md-8">
                         <div class="polymer-box">
                             <div class="row">
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-4 font-weight-bold">
                                     Documento de identidad
                                 </div>
-                                <div class="col-12 col-md-8 text-black-65">
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                     @(Model.tipo_identidad_representante_legal_suscriptor_conjunto + " - " + Model.documento_identidad_representante_legal_suscriptor_conjunto)
                                 </div>
                             </div>
@@ -399,10 +462,10 @@
                     <div class="col-12 col-md-8 mb-4">
                         <div class="polymer-box">
                             <div class="row">
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-4 font-weight-bold">
                                     De
                                 </div>
-                                <div class="col-12 col-md-8 text-black-65">
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                     @Model.procedencia_identificacion_representante_legal_suscriptor_conjunto
                                 </div>
                             </div>
@@ -414,10 +477,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Fecha de nacimiento
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.fecha_nacimiento_suscriptor_conjunto
                             </div>
                         </div>
@@ -427,10 +490,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Lugar de nacimiento
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.lugar_nacimiento_suscriptor_conjunto
                             </div>
                         </div>
@@ -440,10 +503,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Sexo
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.sexo_suscriptor_conjunto
                             </div>
                         </div>
@@ -453,10 +516,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Estado civil
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.estado_civil_suscriptor_conjunto
                             </div>
                         </div>
@@ -466,10 +529,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Dirección domicilio
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.direccion_suscriptor_conjunto
                             </div>
                         </div>
@@ -479,10 +542,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Ciudad, Departamento, País
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @(Model.ciudad_suscriptor_conjunto + ", " + Model.departamento_suscriptor_conjunto + ", " + Model.pais_suscriptor_conjunto)
                             </div>
                         </div>
@@ -492,10 +555,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Teléfonos
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.telefono_suscriptor_conjunto<br />@Model.celular_suscriptor_conjunto
                             </div>
                         </div>
@@ -505,10 +568,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Empresa donde labora
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.empresa_empleadora_suscriptor_conjunto
                             </div>
                         </div>
@@ -518,10 +581,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Cargo
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.cargo_suscriptor_conjunto
                             </div>
                         </div>
@@ -531,10 +594,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Ingresos y Egresos
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 Ingresos: @String.Format("$ {0:0,0.00}", Model.ingresos_mensuales_suscriptor_conjunto)<br />
                                 Egresos:  @String.Format("$ {0:0,0.00}", Model.egresos_mensuales_suscriptor_conjunto)<br />
                                 @if (Model.otros_ingresos_suscriptor_conjunto > 0)
@@ -550,10 +613,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Dirección laboral
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.direccion_empleo_suscriptor_conjunto
                             </div>
                         </div>
@@ -563,10 +626,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Ciudad, Departamento, País
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @(Model.ciudad_empleo_suscriptor_conjunto + " - " + Model.departamento_empleo_suscriptor_conjunto + " - " + Model.pais_empleo_suscriptor_conjunto)
                             </div>
                         </div>
@@ -576,10 +639,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Teléfonos
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.telefono_empleo_suscriptor_conjunto<br />@Model.celular_empleo_suscriptor_conjunto
                             </div>
                         </div>
@@ -589,10 +652,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Profesión o actividad económica
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.profesion_suscriptor_conjunto
                             </div>
                         </div>
@@ -602,10 +665,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Envío de correspondencia
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.correspondencia_suscriptor_conjunto
                             </div>
                         </div>
@@ -615,10 +678,10 @@
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4 font-weight-bold">
                                 Email
                             </div>
-                            <div class="col-12 col-md-8 text-black-65">
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @Model.email_suscriptor_conjunto
                             </div>
                         </div>
@@ -636,10 +699,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Tipo de bien
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.tipo_de_bien
                         </div>
                     </div>
@@ -649,10 +712,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Marca exclusiva
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.marca_exclusiva_bien
                         </div>
                     </div>
@@ -662,10 +725,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Detalles del bien
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.detalles_bien
                         </div>
                     </div>
@@ -675,10 +738,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Codigo del bien
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.codigo_bien
                         </div>
                     </div>
@@ -688,11 +751,11 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Valor del bien
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.valor_bien
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.valor_bien)
                         </div>
                     </div>
                 </div>
@@ -701,10 +764,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
-                            Cuota
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Tipo de cuota
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.cuota_bien
                         </div>
                     </div>
@@ -714,17 +777,17 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Plazo y Número participantes
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.plazo_bien
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-md-8 mt-4">
+            <div class="col-12 col-md-8 mt-4 font-weight-bold">
                 <div class="polymer-box">
                     <h3 class="text-center">Pago inicial</h3>
                 </div>
@@ -733,10 +796,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Cuota de ingreso
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @String.Format("$ {0:0,0.00}", Model.cuota_ingreso)
                         </div>
                     </div>
@@ -746,10 +809,10 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             I.V.A. sobre la cuota de ingreso
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @String.Format("$ {0:0,0.00}", Model.iva_cuota_ingreso)
                         </div>
                     </div>
@@ -759,11 +822,11 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Total cuota de ingreso
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.total_cuota_ingreso
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.total_cuota_ingreso)
                         </div>
                     </div>
                 </div>
@@ -772,11 +835,11 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
-                            Primera cuotan eta
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Primera cuota neta
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.primera_cuota_neta
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.primera_cuota_neta)
                         </div>
                     </div>
                 </div>
@@ -785,11 +848,11 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Administración
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.administracion
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.administracion)
                         </div>
                     </div>
                 </div>
@@ -798,11 +861,11 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             I.V.A. sobre la administración
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.iva_administracion
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}",Model.iva_administracion)
                         </div>
                     </div>
                 </div>
@@ -811,24 +874,24 @@
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Total cuota bruta
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.total_cuota_bruta
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.total_cuota_bruta)
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-12 col-md-8">
-                <div class="polymer-box">
+                <div class="polymer-box alert alert-success" role="alert">
                     <div class="row">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Valor cuota primer pago
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            @Model.valor_primer_pago
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.valor_primer_pago)
                         </div>
                     </div>
                 </div>
@@ -845,10 +908,12 @@
             <div class="col text-center">
                 <hr />
                 <div class="btn-group" role="group" aria-label="Acciones">
-                    <a class="btn btn-azul" href="@Url.Action("Index", "Prospectos")"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                    <a class="btn btn-azul" href="@Url.Action("Details", "Prospectos", new { id=Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                     <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
                     <a class="btn btn-azul" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
+                    <a class="btn btn-azul" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
                     <a class="btn btn-azul" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Generar pago</a>
+                    <a class="btn btn-azul" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar pago por correo</a>
                 </div>
             </div>
         </div>
