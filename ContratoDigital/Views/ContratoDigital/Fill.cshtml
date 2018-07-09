@@ -10,10 +10,11 @@
 <div class="container mt-3 mb-3">
     <div class="row">
         <div class="col-12">
-            <form method="post" class="needs-validation">
+            <form method="post" class="ContratoValidation bootstrapValidation">
+                <input type="hidden" name="IdProspecto" id="IdProspecto" value="@Model.IdProspecto" />
                 <div class="form-row text-center">
                     <div class="col-12 col-sm-12 col-md-4 ">
-                        
+
 
 
                     </div>
@@ -32,25 +33,27 @@
                         <div class="col">
                             <div class="bg-azul p-3 mb-2 text-white text-center">
                                 <h5 class="mb-0">Datos del suscriptor</h5>
+                                <h5 class="mb-0">(o representante legal)</h5>
+
                             </div>
                         </div>
                     </div>
                     <div class="form-row mt-4">
                         <div class="col-6 col-md-3">
                             <label for="primer_nombre">Primer nombre</label>
-                            <input type="text" id="primer_nombre" name="primer_nombre" class="form-control-plaintext form-control-lg" placeholder="Primer nombre" required readonly value="@Model.PrimerNombre">
+                            <input type="text" id="primer_nombre" name="primer_nombre" class="form-control form-control-lg text-uppercase" placeholder="Primer nombre" required value="@Model.PrimerNombre">
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="segundo_nombre">Segundo nombre</label>
-                            <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control-plaintext form-control-lg" placeholder="Segundo nombre"  readonly value="@Model.SegundoNombre">
+                            <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control form-control-lg text-uppercase" placeholder="Segundo nombre" value="@Model.SegundoNombre">
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="primer_apellido">Primer apellido</label>
-                            <input type="text" id="primer_apellido" name="primer_apellido" class="form-control-plaintext form-control-lg" placeholder="Primer apellido" required readonly value="@Model.PrimerApellido">
+                            <input type="text" id="primer_apellido" name="primer_apellido" class="form-control form-control-lg text-uppercase" placeholder="Primer apellido" required value="@Model.PrimerApellido">
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="segundo_apellido">Segundo apellido</label>
-                            <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control-plaintext form-control-lg" placeholder="Nombre (nombre completo o razón social)"  readonly value="@Model.SegundoApellido">
+                            <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control form-control-lg" placeholder="Nombre (nombre completo o razón social)" value="@Model.SegundoApellido">
                         </div>
 
                     </div>
@@ -59,18 +62,18 @@
                             <label for="tipo_identificacion_suscriptor">Tipo de documento de identidad</label>
                             <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor" required>
                                 <option value="">Seleccione un tipo</option>
-                                <option value="CC">CC</option>
-                                <option value="CE">CE</option>
-                                <option value="NIT">NIT</option>
+                                @(Model.TipoDocumentoIdentidad == 1 ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
+                                @(Model.TipoDocumentoIdentidad == 2 ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
+                                @(Model.TipoDocumentoIdentidad == 3 ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"3\">NIT</option>"))
                             </select>
                         </div>
                         <div class="col">
                             <label for="documento_identidad_suscriptor">Número de documento de identidad</label>
-                            <input type="text" class="form-control-plaintext form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" required readonly value="@Model.NumeroDocumento" />
+                            <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" required readonly value="@Model.NumeroDocumento" />
                         </div>
                         <div class="col">
                             <label for="procedencia_documento_identidad_suscriptor">De:</label>
-                            <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required  />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required />
                         </div>
                     </div>
                 </section>
@@ -79,13 +82,13 @@
                 <section class="d-none" id="RepreentanteLegalSection">
                     <div class="card mt-4 border-azul ">
                         <div class="card-header text-white bg-azul">
-                            Representante legal suscriptor
+                            Nombre completo o razón social
                         </div>
                         <div class="card-body">
                             <div class="form-row mt-1">
                                 <div class="col-12">
-                                    <label for="nombre_razon_social_representante_legal">Nombre representante legal (solo personas jurídicas)</label>
-                                    <input type="text" class="form-control form-control-lg" id="nombre_razon_social_representante_legal" name="nombre_razon_social_representante_legal" placeholder="Nombre representante legal (solo personas jurídicas)" />
+                                    <label for="nombre_razon_social_representante_legal">Nombre completo o razón social</label>
+                                    <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_razon_social_representante_legal" name="nombre_razon_social_representante_legal" placeholder="Nombre completo o razón social" />
                                 </div>
                             </div>
                             <div class="form-row mt-4">
@@ -103,7 +106,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="procedencia_documento_identidad_representante_legal">De:</label>
-                                    <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" />
+                                    <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" />
                                 </div>
                             </div>
                         </div>
@@ -121,13 +124,13 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="fecha_nacimiento_suscriptor_addon"><i class="far fa-calendar-alt"></i></span>
                                 </div>
-                                <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("yyyy-MM-dd")" aria-label="fecha_nacimiento_suscriptor" aria-describedby="fecha_nacimiento_suscriptor" required />
+                                <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("dd-MM-yyyy")" aria-label="fecha_nacimiento_suscriptor" aria-describedby="fecha_nacimiento_suscriptor" required />
                             </div>
 
                         </div>
                         <div class="col">
                             <label for="lugar_nacimiento_suscriptor">Lugar de nacimiento</label>
-                            <input type="text" id="lugar_nacimiento_suscriptor" name="lugar_nacimiento_suscriptor" class="form-control form-control-lg" required />
+                            <input type="text" id="lugar_nacimiento_suscriptor" name="lugar_nacimiento_suscriptor" class="form-control form-control-lg text-uppercase" required />
                         </div>
                         <div class="col">
                             <label for="sexo_suscriptor">Sexo</label>
@@ -153,14 +156,14 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="direccion_domicilio_suscriptor">Dirección domicilio</label>
-                            <input type="text" class="form-control form-control-lg" id="direccion_domicilio_suscriptor" name="direccion_domicilio_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_domicilio_suscriptor" name="direccion_domicilio_suscriptor" required />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="pais_suscriptor">País</label>
-                            <input type="text" class="form-control-lg form-control-plaintext" readonly value="Colombia" id="pais_suscriptor" name="pais_suscriptor" />
+                            <input type="text" class="form-control-lg form-control" readonly value="Colombia" id="pais_suscriptor" name="pais_suscriptor" />
                         </div>
                         <div class="col">
                             <label for="departamento_suscriptor">Departamento</label>
@@ -203,19 +206,18 @@
                         </div>
                         <div class="col">
                             <label for="ciudad_suscriptor">Ciudad</label>
-                            <input type="text" class="form-control form-control-lg" id="ciudad_suscriptor" name="ciudad_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor" name="ciudad_suscriptor" required />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="telefono_suscriptor">Teléfono</label>
-                            <!--<input type="tel" pattern="^\+57(\s+)?\(?(17|25|29|33|44)\)?(\s+)?[0-9]{3}-?[0-9]{2}-?[0-9]{2}$" class="form-control form-control-lg" id="telefono_suscriptor" name="telefono_suscriptor" />-->
-                            <input type="tel" class="form-control-plaintext form-control-lg" id="telefono_suscriptor" name="telefono_suscriptor" required readonly value="@Model.Telefono" />
+                            <input type="tel" class="form-control form-control-lg text-uppercase" id="telefono_suscriptor" name="telefono_suscriptor" required value="@Model.Telefono" />
                         </div>
                         <div class="col">
                             <label for="celular_suscriptor">Celular/Móvil</label>
-                            <input type="tel" class="form-control-plaintext form-control-lg" id="celular_suscriptor" name="celular_suscriptor" required readonly value="@Model.Celular" />
+                            <input type="tel" class="form-control form-control-lg text-uppercase" id="celular_suscriptor" name="celular_suscriptor" required value="@Model.Celular" />
                         </div>
                     </div>
 
@@ -230,11 +232,11 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="empresa_empleadora_suscriptor">Empresa donde labora</label>
-                            <input type="text" class="form-control form-control-lg" id="empresa_empleadora_suscriptor" name="empresa_empleadora_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor" name="empresa_empleadora_suscriptor" required />
                         </div>
                         <div class="col">
                             <label for="cargo_suscriptor">Cargo</label>
-                            <input type="text" class="form-control form-control-lg" name="cargo_suscriptor" id="cargo_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" name="cargo_suscriptor" id="cargo_suscriptor" required />
                         </div>
                     </div>
 
@@ -271,14 +273,14 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="direccion_empleo_suscriptor">Dirección oficina (laboral)</label>
-                            <input type="text" class="form-control form-control-lg" id="direccion_empleo_suscriptor" name="direccion_empleo_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor" name="direccion_empleo_suscriptor" required />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="pais_laboral_suscriptor">País</label>
-                            <input type="text" class="form-control-lg form-control-plaintext" id="pais_laboral_suscriptor" name="pais_laboral_suscriptor" readonly value="Colombia" />
+                            <input type="text" class="form-control-lg form-control text-uppercase" id="pais_laboral_suscriptor" name="pais_laboral_suscriptor" readonly value="Colombia" />
                         </div>
                         <div class="col">
                             <label for="departamento_empleo_suscriptor">Departamento</label>
@@ -321,7 +323,7 @@
                         </div>
                         <div class="col">
                             <label for="ciudad_empleo_suscriptor">Ciudad</label>
-                            <input type="text" class="form-control form-control-lg" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required />
                         </div>
                     </div>
 
@@ -339,7 +341,7 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="profesion_suscriptor">Profesión o actividad económica</label>
-                            <input type="text" class="form-control form-control-lg" id="profesion_suscriptor" name="profesion_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor" name="profesion_suscriptor" required />
                         </div>
                         <div class="col">
                             <label for="envio_correspondencia_suscriptor">Envío de correspondencia</label>
@@ -347,11 +349,12 @@
                                 <option value="">Seleccione una opción</option>
                                 <option value="domicilio">Domicilio</option>
                                 <option value="oficina">Oficina</option>
+                                <option value="correoelectronico">Correo electrónico</option>
                             </select>
                         </div>
                         <div class="col">
                             <label for="email_suscriptor">Correo electrónico</label>
-                            <input type="email" class="form-control form-control-lg" id="email_suscriptor" name="email_suscriptor" required />
+                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required />
                         </div>
                     </div>
                 </section>
@@ -378,25 +381,25 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="nombre_suscriptor_conjunto">Nombre (apellidos y nombres o razón social si aplica)</label>
-                                <input type="text" class="form-control form-control-lg" id="nombre_suscriptor_conjunto" name="nombre_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_suscriptor_conjunto" name="nombre_suscriptor_conjunto" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="tipo_identidad_suscriptor_conjunto">Tipo de documento de identidad</label>
                                 <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto" name="tipo_identidad_suscriptor_conjunto">
-                                    <option value="CC">CC</option>
-                                    <option value="CE">CE</option>
-                                    <option value="NIT">NIT</option>
+                                    <option value="1">CC</option>
+                                    <option value="2">CE</option>
+                                    <option value="3">NIT</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <label for="documento_identidad_suscriptor_conjunto">Número documento identidad</label>
-                                <input type="text" class="form-control form-control-lg" id="documento_identidad_suscriptor_conjunto" name="documento_identidad_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="documento_identidad_suscriptor_conjunto" name="documento_identidad_suscriptor_conjunto" />
                             </div>
                             <div class="col">
                                 <label for="procedencia_documento_identidad_suscriptor_conjunto">De: </label>
-                                <input type="text" class="form-control form-control-lg" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" />
                             </div>
                         </div>
                     </section>
@@ -412,7 +415,7 @@
                                 <div class="form-row mt-4">
                                     <div class="col">
                                         <label for="representante_legal_suscriptor_conjunto">Nombre representante legal (solo personas jurídicas)</label>
-                                        <input type="text" class="form-control form-control-lg" id="representante_legal_suscriptor_conjunto" name="representante_legal_suscriptor_conjunto" />
+                                        <input type="text" class="form-control form-control-lg text-uppercase" id="representante_legal_suscriptor_conjunto" name="representante_legal_suscriptor_conjunto" />
                                     </div>
                                 </div>
 
@@ -420,9 +423,9 @@
                                     <div class="col">
                                         <label for="tipo_identidad_representante_legal_suscriptor_conjunto">Tipo de documento de identidad</label>
                                         <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg">
-                                            <option value="CC">CC</option>
-                                            <option value="CE">CE</option>
-                                            <option value="NIT">NIT</option>
+                                            <option value="1">CC</option>
+                                            <option value="2">CE</option>
+                                            <option value="3">NIT</option>
                                         </select>
                                     </div>
                                     <div class="col">
@@ -431,7 +434,7 @@
                                     </div>
                                     <div class="col">
                                         <label for="procedencia_identificacion_representante_legal_suscriptor_conjunto">De:</label>
-                                        <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" />
+                                        <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" />
                                     </div>
                                 </div>
 
@@ -449,7 +452,7 @@
                             </div>
                             <div class="col">
                                 <label for="lugar_nacimiento_suscriptor_conjunto">Lugar</label>
-                                <input type="text" id="lugar_nacimiento_suscriptor_conjunto" name="lugar_nacimiento_suscriptor_conjunto" class="form-control form-control-lg" />
+                                <input type="text" id="lugar_nacimiento_suscriptor_conjunto" name="lugar_nacimiento_suscriptor_conjunto" class=" text-uppercase form-control form-control-lg" />
                             </div>
                             <div class="col">
                                 <label for="sexo_suscriptor_conjunto">Sexo</label>
@@ -472,7 +475,7 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="dirección_suscriptor_conjunto">Dirección Domicilio</label>
-                                <input type="text" class="form-control form-control-lg" id="dirección_suscriptor_conjunto" name="dirección_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="dirección_suscriptor_conjunto" name="dirección_suscriptor_conjunto" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
@@ -516,7 +519,7 @@
                             </div>
                             <div class="col">
                                 <label for="ciudad_suscriptor_conjunto">Ciudad</label>
-                                <input type="text" class="form-control form-control-lg" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
@@ -533,11 +536,11 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="empresa_empleadora_suscriptor_conjunto">Empresa donde labora</label>
-                                <input type="text" class="form-control form-control-lg" id="empresa_empleadora_suscriptor_conjunto" name="empresa_empleadora_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor_conjunto" name="empresa_empleadora_suscriptor_conjunto" />
                             </div>
                             <div class="col">
                                 <label for="cargo_suscriptor_conjunto">Cargo</label>
-                                <input type="text" class="form-control form-control-lg" id="cargo_suscriptor_conjunto" name="cargo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="cargo_suscriptor_conjunto" name="cargo_suscriptor_conjunto" />
                             </div>
                         </div>
 
@@ -574,7 +577,7 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="direccion_empleo_suscriptor_conjunto">Dirección oficina (laboral)</label>
-                                <input type="text" class="form-control form-control-lg" id="direccion_empleo_suscriptor_conjunto" name="direccion_empleo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor_conjunto" name="direccion_empleo_suscriptor_conjunto" />
                             </div>
                         </div>
 
@@ -619,18 +622,18 @@
                             </div>
                             <div class="col">
                                 <label for="ciudad_empleo_suscriptor_conjunto">Ciudad</label>
-                                <input type="text" class="form-control form-control-lg" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="telefono_empleo_suscriptor_conjunto">Teléfono</label>
-                                <input type="text" class="form-control form-control-lg" name="telefono_empleo_suscriptor_conjunto" id="telefono_empleo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" name="telefono_empleo_suscriptor_conjunto" id="telefono_empleo_suscriptor_conjunto" />
                             </div>
                             <div class="col">
                                 <label for="celular_empleo_suscriptor_conjunto">Celular</label>
-                                <input type="text" class="form-control form-control-lg" id="celular_empleo_suscriptor_conjunto" name="celular_empleo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="celular_empleo_suscriptor_conjunto" name="celular_empleo_suscriptor_conjunto" />
                             </div>
                         </div>
 
@@ -638,18 +641,19 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="profesion_suscriptor_conjunto">Profesión o actividad económica</label>
-                                <input type="text" class="form-control form-control-lg" id="profesion_suscriptor_conjunto" name="profesion_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor_conjunto" name="profesion_suscriptor_conjunto" />
                             </div>
                             <div class="col">
                                 <label for="correspondencia_suscriptor_conjunto">Envío de correspondencia</label>
                                 <select class="form-control form-control-lg" id="correspondencia_suscriptor_conjunto" name="correspondencia_suscriptor_conjunto">
                                     <option value="domicilio">Domicilio</option>
                                     <option value="Oficina">Oficina</option>
+                                    <option value="correoelectronico">Correo electrónico</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <label for="email_suscriptor_conjunto">Correo electrónico</label>
-                                <input type="text" class="form-control form-control-lg" id="email_suscriptor_conjunto" name="email_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="email_suscriptor_conjunto" name="email_suscriptor_conjunto" />
                             </div>
                         </div>
                     </section>
@@ -669,7 +673,7 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-3">
                             <label for="tipo_de_bien">Tipo de bien</label>
                             <select class="form-control form-control-lg" id="tipo_de_bien" name="tipo_de_bien" required>
                                 <option value="">Seleccione un tipo de bien</option>
@@ -678,15 +682,62 @@
                                 <option value="camion">Camión</option>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-6">
+                            <label for="referencia">Referencia</label>
+                            <select id="referencia" name="referencia" class="form-control form-control-lg" required>
+                                <option value="">Seleccione una referencia</option>
+                                @(Html.Raw("<option value=\"" + Model.ValorDelBien + "\"  selected=\"selected\" id=\"" + Model.DescripcionDelBien + "\" >" + Model.DescripcionDelBien + "</option>"))
+                                <option value="7650000" id="BWS X">BWS X</option>
+                                <option value="8450000" id="BWS X BONO PAPELES">BWS X BONO PAPELES</option>
+                                <option value="8200000" id="BWS X FI">BWS X FI</option>
+                                <option value="9000000" id="BWS X FI BONO PAPELES">BWS X FI BONO PAPELES</option>
+                                <option value="6900000" id="BWS125">BWS125</option>
+                                <option value="7700000" id="BWS125 BONO PAPELES ">BWS125 BONO PAPELES </option>
+                                <option value="5840000" id="CRYPTON 115 BONO PAPELES">CRYPTON 115 BONO PAPELES</option>
+                                <option value="5040000" id="CRYPTON FI">CRYPTON FI</option>
+                                <option value="5840000" id="CRYPTON FI BONO PAPELES">CRYPTON FI BONO PAPELES</option>
+                                <option value="6790000" id="FAZER FI 2.0">FAZER FI 2.0</option>
+                                <option value="7590000" id="FAZER FI 2.0 BONO PAPELES">FAZER FI 2.0 BONO PAPELES</option>
+                                <option value="5700000" id="FINO">FINO</option>
+                                <option value="6500000" id="FINO BONO PAPELES">FINO BONO PAPELES</option>
+                                <option value="6290000" id="FZ-S FI 2.0">FZ-S FI 2.0</option>
+                                <option value="7090000" id="FZ-S FI 2.0 BONO PAPELES">FZ-S FI 2.0 BONO PAPELES</option>
+                                <option value="9250000" id="FZ25">FZ25</option>
+                                <option value="10050000" id="FZ25 BONO PAPELES">FZ25 BONO PAPELES</option>
+                                <option value="5250000" id="LIBERO 125 BONO PAPELES">LIBERO 125 BONO PAPELES</option>
+                                <option value="17500000" id="MT 03">MT 03</option>
+                                <option value="18300000" id="MT 03 BONO PAPELES">MT 03 BONO PAPELES</option>
+                                <option value="9900000" id="N-MAX">N-MAX</option>
+                                <option value="10700000" id="N-MAX BONO PAPELES">N-MAX BONO PAPELES</option>
+                                <option value="8600000" id="N-MAX S">N-MAX S</option>
+                                <option value="9400000" id="N-MAX S BONO PAPELES">N-MAX S BONO PAPELES</option>
+                                <option value="5140000" id="SZ-RR 2.0">SZ-RR 2.0</option>
+                                <option value="5940000" id="SZ-RR 2.0 BONO PAPELES">SZ-RR 2.0 BONO PAPELES</option>
+                                <option value="12890000" id="TRICITY">TRICITY</option>
+                                <option value="13690000" id="TRICITY BONO PAPELES">TRICITY BONO PAPELES</option>
+                                <option value="6650000" id="XTZ 125">XTZ 125</option>
+                                <option value="7450000" id="XTZ 125 BONO PAPELES">XTZ 125 BONO PAPELES</option>
+                                <option value="15900000" id="XTZ 250">XTZ 250</option>
+                                <option value="16700000" id="XTZ 250 BONO PAPELES">XTZ 250 BONO PAPELES</option>
+                                <option value="5750000" id="YBR 125 BONO PAPELES">YBR 125 BONO PAPELES</option>
+                                <option value="17250000" id="YZF R 3">YZF R 3</option>
+                                <option value="18050000" id="YZF R 3 BONO PAPELES">YZF R 3 BONO PAPELES</option>
+                                <option value="8990000" id="YZF R15">YZF R15</option>
+                                <option value="9790000" id="YZF R15 BONO PAPELES">YZF R15 BONO PAPELES</option>
+                                <option value="85990000" id="MR1">MR1</option>
+                                <option value="87000000" id="MR1">MR1 BONO PAPELES</option>
+
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3">
                             <label for="marca_exclusiva_bien">Marca exclusiva</label>
-                            <input type="text" class="form-control-plaintext form-control-lg" readonly id="marca_exclusiva_bien" name="marca_exclusiva_bien" value="YAMAHA" required />
+                            <input type="text" class="form-control-plaintext form-control-lg text-uppercase" readonly id="marca_exclusiva_bien" name="marca_exclusiva_bien" value="YAMAHA" required />
                         </div>
                     </div>
                     <div class="form-row mt-4">
                         <div class="col">
-                            <label for="detalles_bien">Detalles del bien</label>
-                            <input type="text" class="form-control form-control-lg" id="detalles_bien" name="detalles_bien" />
+                            <label for="detalles_bien">Detalle del bien</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="detalles_bien" name="detalles_bien" value="@Model.DescripcionDelBien" readonly />
                         </div>
                         <div class="col">
                             <label for="valor_bien">Valor del bien</label>
@@ -694,12 +745,12 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="valor_bien_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="valor_bien" aria-describedby="valor_bien_addon" id="valor_bien" name="valor_bien" value="@String.Format("{0:0,0.00}",Model.ValorDelBien)" readonly  />
+                                <input type="text" class="form-control form-control-lg" aria-label="valor_bien" aria-describedby="valor_bien_addon" id="valor_bien" name="valor_bien" value="@String.Format("{0:0,0.00}",Model.ValorDelBien)" readonly />
                             </div>
                         </div>
                         <div class="col">
                             <label for="codigo_bien">Código del bien</label>
-                            <input type="text" class="form-control form-control-lg" id="codigo_bien" name="codigo_bien" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="codigo_bien" name="codigo_bien" />
                         </div>
                     </div>
                     <div class="form-row mt-4">
@@ -707,7 +758,7 @@
                             <label for="cuota_bien">Cuota</label>
                             <select class="form-control form-control-lg " id="cuota_bien" name="cuota_bien">
                                 <option value="">Seleccione un tipo de cuota</option>
-                                <option value="fija">Fija</option>
+                                <option selected="selected" value="fija">Fija</option>
                                 <option value="variable">Variable</option>
                             </select>
                         </div>
@@ -715,7 +766,7 @@
                             <label for="plazo_bien">Plazo y número de participantes</label>
                             <select class="form-control form-control-lg" id="plazo_bien" name="plazo_bien">
                                 <option value="">Seleccione un tipo de plazo</option>
-                                <option value="40-120">40/120</option>
+                                <option selected="selected" value="40-120">40/120</option>
                                 <option value="60-180">60/180</option>
                             </select>
                         </div>
@@ -731,7 +782,7 @@
                                 <h5 class="mb-0">Pago inicial</h5>
                             </div>
                         </div>
-                    </div>                   
+                    </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
