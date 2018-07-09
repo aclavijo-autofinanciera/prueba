@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using SiiconWebService;
 
 namespace ContratoDigital.Controllers
 {
+    [Authorize]
     public class ProspectosController : Controller
     {
         ServiceClient service = new ServiceClient();
@@ -58,10 +60,22 @@ namespace ContratoDigital.Controllers
         }
 
         public async Task<IActionResult> Details(int id)
-        {
-            
-            //Prospecto prospecto = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);            
+        {               
             return View(await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id));
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            return View(await _context.Prospectos.SingleOrDefaultAsync(x=>x.IdProspecto == id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(IFormCollection form)
+        {
+            Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == int.Parse(form["IdProspecto"]));
+            prospecto = Utilities.UpdateProspecto(form, prospecto);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details","Prospectos", new {id = prospecto.IdProspecto });
         }
 
         public IActionResult Find(int errorid)
