@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using ContratoDigital.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ContratoDigital.Controllers
 {
+    [Authorize]
     public class PersonasController : Controller
     {
         /// <summary>
