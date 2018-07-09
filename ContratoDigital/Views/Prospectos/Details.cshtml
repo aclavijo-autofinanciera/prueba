@@ -3,97 +3,261 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <section>
     <div class="container mt-4">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <label>Nombre prospecto</label>
-                <h3>@(Model.PrimerNombre + " " + Model.SegundoNombre + " " + Model.PrimerApellido + " " + Model.SegundoApellido)</h3>
-            </div>
-            <div class="col-12 col-md-6">
-                <label>Número de documento</label>
-                <h3>@Model.NumeroDocumento</h3>
-            </div>
-        </div>
+        <div class="row justify-content-center">
+            <!-- Begin -->
 
-        <div class="row mt-4">
-            <div class="col-12 col-md-6">
-                <label>Teléfono fijo</label>
-                <h5>@Model.Telefono</h5>
-            </div>
-            <div class="col-12 col-md-6">
-                <label>Celular</label>
-                <h5>@Model.Celular</h5>
-            </div>
-        </div>
-
-        
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="bg-azul">
-                    <h4 class="p-3 mb-0 text-center">Cotización</h4>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <h4 class="text-center">Datos prospecto</h4>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
-                <label>Decripción del bien</label>
-                <h5>ID de la referencia < @Model.Referencia ></h5>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Nombre
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @(Model.PrimerNombre + " " + Model.SegundoNombre + " " + Model.PrimerApellido + " " + Model.SegundoApellido)
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-md-6">
-                <label>Valor del bien</label>
-                <h5 id="valorDelBien">@String.Format("{0:0,0.00}",Model.ValorDelBien)</h5>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Documento identidad
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">                            
+                            @switch(Model.TipoDocumentoIdentidad)
+                            {
+                                case 1:
+                                    Write("CC - " + Model.NumeroDocumento);
+                                    break;
+                                case 2:
+                                    Write("CE -" + Model.NumeroDocumento);
+                                    break;
+                                case 3:
+                                    Write("NIT -" + Model.NumeroDocumento);
+                                    break;
+                            }                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Teléfonos
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.Telefono<br />@Model.Celular
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Email
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.Email
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8 mt-4">
+                <div class="polymer-box">
+                    <h4 class="text-center">Datos del bien</h4>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Detalle del bien
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.DescripcionDelBien
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Valor del bien
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.ValorDelBien)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Cuota de ingreso
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.CuotaDeIngreso)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            I.V.A. cuota de ingreso
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.IvaCuotaIngreso)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Total cuota de ingreso
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.TotalCuotaIngreso)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Primera cuota neta
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.PrimeraCuotaNeta)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Administración
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.Administracion)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            I.V.A. sobre la administración
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.IvaAdministracion)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Total cuota bruta
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.TotalCuotaBruta)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Valor cuota primer pago
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("$ {0:0,0.00}", Model.ValorTotalPrimerPago)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="row mt-4">
+        <div class="col-12  text-center">
+            <div class="btn-group" role="group" aria-label="Acciones">
+                <a class="btn btn-azul" href="@Url.Action("Index", "Prospectos")"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                <a class="btn btn-azul" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
+                <a class="btn btn-azul" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar contrato PDF</a>
             </div>
         </div>
+    </div>
+</section>
 
-        <div class="row mt-4">
-            <div class="col-12 col-md-6">                
-                <label><span class="badge badge-azul">1</span> Cuota de ingreso (4.5% sobre el valor del bien) </label>
-                <h5 id="CuotaDeIngreso">$@String.Format("{0:0,0.00}",Model.CuotaDeIngreso)</h5>
-                <label class="mt-4"><span class="badge badge-azul">2</span> I.V.A Sobre la cuota de ingreso (N%)</label>
-                <h5 id="IvaCuotaIngreso">$@String.Format("{0:0,0.00}", Model.IvaCuotaIngreso)</h5>
-                <label class="mt-4"><span class="badge badge-azul">3</span> Total cuota de ingreso (N%) (<span class="badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
-                <h5 id="TotalCuotaIngreso">$@String.Format("{0:0,0.00}", Model.TotalCuotaIngreso)</h5>
-                <label class="mt-4"><span class="badge badge-azul">4</span> Primera cuota neta: (valor del bien / plazo)</label>
-                <h5 id="PrimeraCuotaNeta">$@String.Format("{0:0,0.00}", Model.PrimeraCuotaNeta)</h5>
-                
-            </div>
-            <div class="col-12 col-md-6">
-                <label><span class="badge badge-azul">5</span> Administración (N% sobre cuota neta)</label>
-                <h5 id="Administracion">$@String.Format("{0:0,0.00}", Model.Administracion)</h5>
-                <label class="mt-4"><span class="badge badge-azul">6</span> I.V.A. Sobre la administración (N%)</label>
-                <h5 id="IvaAdministracion">$@String.Format("{0:0,0.00}", Model.IvaAdministracion)</h5>
-                <label class="mt-4"><span class="badge badge-azul">7</span> Total cuota bruta (N%) ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
-                <h5 id="TotalCuotaBruta">$@String.Format("{0:0,0.00}", Model.TotalCuotaBruta)</h5>
-                <label class="mt-4"><span class="badge badge-azul">8</span> Valor total primer pago ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
-                <h5 id="ValorTotalPrimerPago">$@String.Format("{0:0,0.00}", Model.ValorTotalPrimerPago)</h5>
-
-            </div>
-        </div>
+<section>
+    <div class="container mt-4">
+                   
+                        
         <div class="row mt-4">
             <div class="col-12">
                 <h3>Contratos</h3>
             </div>
             <div class="col-12">
-                <table class="table">
-                    <thead>
+                <table class="table table-striped">
+                    <thead class="thead-dark">
                         <tr>
                             <th>Acciones</th>
                             <th>Número contrato</th>
                             <th>Fecha del contrato</th>
+                            <th>Bien</th>
+                            <th>Valor del bien</th>
+                            <th>Pagado</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(Contrato item in Model.Contratos)
-                        {
+                        @foreach (Contrato item in Model.Contratos)
+                                    {
                             <tr>
                                 <td>
-                                    <div class="btn-group" role="group" aria-label="Acciones">                                        
+                                    <div class="btn-group" role="group" aria-label="Acciones">
                                         <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato })"><i class="far fa-edit"></i> Editar</a>
                                         <a class="btn btn-azul" href="@Url.Action("Details", "ContratoDigital", new { id = item.IdContrato })"><i class="far fa-file-pdf"></i> Detalles</a>
                                     </div>
                                 </td>
                                 <td>@item.numero_de_contrato</td>
-                                <td>@item.fecha_suscripcion_contrato</td>
+                                <td>@String.Format("{0:dd-MM-yyyy}", item.fecha_suscripcion_contrato)</td>
+                                <td>@item.detalles_bien</td>
+                                <td>@String.Format("$ {0:0,0.00}", item.valor_bien)</td>
+                                <td>No</td>
                             </tr>
                         }
                     </tbody>
@@ -102,15 +266,7 @@
         </div>
 
 
-        <div class="row mt-4">
-            <div class="col-12  text-center">
-                <div class="btn-group" role="group" aria-label="Acciones">
-                    <a class="btn btn-azul" href="@Url.Action("Index", "Prospectos")" ><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
-                    <a class="btn btn-azul" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
-                    <a class="btn btn-azul" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar contrato PDF</a>
-                </div>
-            </div>
-        </div>
+        
 
     </div>
 </section>
