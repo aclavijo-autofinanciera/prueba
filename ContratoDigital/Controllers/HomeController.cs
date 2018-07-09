@@ -14,21 +14,32 @@ using iText.Forms;
 using iText.Forms.Fields;
 using iText.Kernel.Pdf;
 using ContratoDigital.Data;
+using Microsoft.AspNetCore.Authorization;
+using ContratoDigital.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace ContratoDigital.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         /// <summary>
         ///  Constructor de la clase, que coloca los recursos web estáticos en el alcance de la aplicación .net.
         ///  e inicializa la base de datos
         /// </summary>
-        private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly ContratoDigitalContext _context;
-        public HomeController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context)
+        private readonly IHostingEnvironment _hostingEnvironment;        
+        
+        private readonly ContratoDigitalContext _context;        
+        private readonly RoleManager<IdentityRole> _roleManager;        
+        private readonly UserManager<ContratoDigitalUser> _userManager;
+        
+
+        public HomeController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, RoleManager<IdentityRole> roleManager, UserManager<ContratoDigitalUser> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
-            _context = context;
+            _context = context;            
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -36,10 +47,11 @@ namespace ContratoDigital.Controllers
             return View();
         }
 
+        //[Authorize]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
+            //await CreateRolesAndUsers();
             return View();
         }
 
@@ -56,5 +68,45 @@ namespace ContratoDigital.Controllers
         }
 
         
+        /*private async Task CreateRolesAndUsers()
+        {
+
+            
+
+            // Create admin Super User
+            try
+            {
+                
+                /*bool x = await _roleManager.RoleExistsAsync("Administrador");
+                if (!x)
+                {
+                    //Create Admin Role
+                    var role = new IdentityRole();
+                    role.Name = "Administrador";
+                    await _roleManager.CreateAsync(role);
+                    
+
+                    var user = new ContratoDigitalUser();
+                    user.UserName = "Normandie";
+                    user.Email = "lrobles@autofinanciera.com.co";
+                    string userPwd = "NissanGTR2018$";
+                    IdentityResult chkUser = await  _userManager.CreateAsync(user, userPwd);
+                    if (chkUser.Succeeded)
+                    {
+                        var result1 = await _userManager.AddToRoleAsync(user, "Administrador");
+                    }                   
+                }*
+
+            }
+            catch (Exception ex)
+            {
+                var perol = ex.Message;
+            }
+
+
+
+
+
+        }*/
     }
 }
