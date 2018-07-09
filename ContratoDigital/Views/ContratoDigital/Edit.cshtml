@@ -1,0 +1,900 @@
+﻿@model ContratoDigital.Models.Contrato
+@{
+
+    ViewData["Title"] = "Contrato Digital";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-12">
+            <form method="post" class="ContratoValidation bootstrapValidation">
+                <input type="hidden" name="IdContrato" id="IdContrato" value="@Model.IdContrato" />
+                <div class="form-row text-center">
+                    <div class="col-12 col-sm-12 col-md-4 ">
+
+
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 ">
+                        <h1>Contrato Digital</h1>
+                        <h5>Hoja de datos del contrato de adhesión</h5>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4">
+                        <label for="numero_de_contrato">Número de contrato</label>
+                        <input type="text" id="numero_de_contrato" name="numero_de_contrato" readonly class="text-center form-control-plaintext form-control-lg azul font-weight-bold t-3" value="@Model.numero_de_contrato" required />
+                    </div>
+                </div>
+                <!--#region suscriptor-->
+                <section>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                                <h5 class="mb-0">Datos del suscriptor</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col-6 col-md-3">
+                            <label for="primer_nombre">Primer nombre</label>
+                            <input type="text" id="primer_nombre" name="primer_nombre" class="form-control form-control-lg text-uppercase" placeholder="Primer nombre" required value="@Model.primer_nombre">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label for="segundo_nombre">Segundo nombre</label>
+                            <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control form-control-lg text-uppercase" placeholder="Segundo nombre" value="@Model.segundo_nombre">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label for="primer_apellido">Primer apellido</label>
+                            <input type="text" id="primer_apellido" name="primer_apellido" class="form-control form-control-lg text-uppercase" placeholder="Primer apellido" required value="@Model.primer_apellido">
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label for="segundo_apellido">Segundo apellido</label>
+                            <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control form-control-lg text-uppercase" placeholder="Nombre (nombre completo o razón social)" value="@Model.segundo_apellido">
+                        </div>
+
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="tipo_identificacion_suscriptor">Tipo de documento de identidad</label>
+                            <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor" required>
+                                <option value="">Seleccione una opción</option>
+                                @(Model.tipo_documento_identidad_suscriptor == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
+                                @(Model.tipo_documento_identidad_suscriptor == "2" ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
+                                @(Model.tipo_documento_identidad_suscriptor == "3" ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"3\">NIT</option>"))
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="documento_identidad_suscriptor">Número de documento de identidad</label>
+                            <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" required value="@Model.documento_identidad_suscriptor" />
+                        </div>
+                        <div class="col">
+                            <label for="procedencia_documento_identidad_suscriptor">De:</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" value="@Model.procedencia_documento_identidad_suscriptor" required />
+                        </div>
+                    </div>
+                </section>
+                <!--#endregion-->
+                <!--#region representate legal suscriptor-->
+                <section class="d-none" id="RepreentanteLegalSection">
+                    <div class="card mt-4 border-azul ">
+                        <div class="card-header text-white bg-azul">
+                            Representante legal suscriptor
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row mt-1">
+                                <div class="col-12">
+                                    <label for="nombre_razon_social_representante_legal">Nombre representante legal (solo personas jurídicas)</label>
+                                    <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_razon_social_representante_legal" name="nombre_razon_social_representante_legal" placeholder="Nombre representante legal (solo personas jurídicas)" value="@Model.nombre_razon_social_representante_legal" />
+                                </div>
+                            </div>
+                            <div class="form-row mt-4">
+                                <div class="col">
+                                    <label for="tipo_documento_representante_legal">Tipo de documento representante legal</label>
+                                    <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal">
+                                        <option value="">Seleccione una opción</option>
+                                        @(Model.tipo_documento_representante_legal == "CC" ? Html.Raw("<option value=\"CC\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"CC\">CC</option>"))
+                                        @(Model.tipo_documento_representante_legal == "CC" ? Html.Raw("<option value=\"CE\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"CE\">CE</option>"))
+                                        @(Model.tipo_documento_representante_legal == "NIT" ? Html.Raw("<option value=\"NIT\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"NIT\">NIT</option>"))
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="documento_identidad_representante_legal">Número de documento representate legal</label>
+                                    <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" name="documento_identidad_representante_legal" value="@Model.documento_identidad_representante_legal" />
+                                </div>
+                                <div class="col">
+                                    <label for="procedencia_documento_identidad_representante_legal">De:</label>
+                                    <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" value="@Model.procedencia_documento_identidad_representante_legal" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--#endregion-->
+                <!--#region datos del sucriptor-->
+
+                <section>
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="fecha_nacimiento_suscriptor">Fecha de nacimiento</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="fecha_nacimiento_suscriptor_addon"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("yyyy-MM-dd")" aria-label="fecha_nacimiento_suscriptor" aria-describedby="fecha_nacimiento_suscriptor" required  value="@String.Format("{0:dd-MM-yyyy}", Model.fecha_nacimiento_suscriptor)"/>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <label for="lugar_nacimiento_suscriptor">Lugar de nacimiento</label>
+                            <input type="text" id="lugar_nacimiento_suscriptor" name="lugar_nacimiento_suscriptor" class="form-control form-control-lg text-uppercase" required value="@Model.lugar_nacimiento_suscriptor" />
+                        </div>
+                        <div class="col">
+                            <label for="sexo_suscriptor">Sexo</label>
+                            <select class="form-control form-control-lg" id="sexo_suscriptor" name="sexo_suscriptor" required>
+                                <option value="">Seleccione una opción</option>
+                                @(Model.sexo_suscriptor == "femenino" ? Html.Raw("<option value=\"femenino\"  selected=\"selected\">Femenino</option>") : Html.Raw("<option value=\"femenino\">Femenino</option>"))
+                                @(Model.sexo_suscriptor == "masculino" ? Html.Raw("<option value=\"masculino\"  selected=\"selected\">Masculino</option>") : Html.Raw("<option value=\"masculino\">Masculino</option>"))                                
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="estado_civil_suscriptor">Estado civil</label>
+                            <select class="form-control form-control-lg" id="estado_civil_suscriptor" name="estado_civil_suscriptor" required>
+                                <option value="">Seleccione una opción</option>
+                                @(Model.estado_civil_suscriptor == "soltero" ? Html.Raw("<option value=\"soltero\"  selected=\"selected\">Soltero</option>") : Html.Raw("<option value=\"soltero\">Soltero</option>"))
+                                @(Model.estado_civil_suscriptor == "casado" ? Html.Raw("<option value=\"casado\"  selected=\"selected\">Casado</option>") : Html.Raw("<option value=\"casado\">Casado</option>"))
+                                @(Model.estado_civil_suscriptor == "unionmarital" ? Html.Raw("<option value=\"unionmarital\"  selected=\"selected\">Unión Marital</option>") : Html.Raw("<option value=\"unionmarital\">Unión Marital</option>"))
+                                @(Model.estado_civil_suscriptor == "divorciado" ? Html.Raw("<option value=\"divorciado\"  selected=\"selected\">Divorciado</option>") : Html.Raw("<option value=\"divorciado\">Divorciado/option>"))
+                                @(Model.estado_civil_suscriptor == "viudo" ? Html.Raw("<option value=\"viudo\"  selected=\"selected\">Viudo</option>") : Html.Raw("<option value=\"viudo\">Viudo</option>"))                                
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="direccion_domicilio_suscriptor">Dirección domicilio</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_domicilio_suscriptor" name="direccion_domicilio_suscriptor" required value="@Model.direccion_domicilio_suscriptor" />
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="pais_suscriptor">País</label>
+                            <input type="text" class="form-control-lg form-control-plaintext text-uppercase" readonly value="Colombia" id="pais_suscriptor" name="pais_suscriptor" />
+                        </div>
+                        <div class="col">
+                            <label for="departamento_suscriptor">Departamento</label>
+                            <select class="form-control form-control-lg" id="departamento_suscriptor" name="departamento_suscriptor" required>
+                                <option value="">Seleccione un departamento</option>
+                                @(Model.departamento_suscriptor == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
+                                @(Model.departamento_suscriptor == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
+                                @(Model.departamento_suscriptor == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
+                                @(Model.departamento_suscriptor == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
+                                @(Model.departamento_suscriptor == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
+                                @(Model.departamento_suscriptor == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
+                                @(Model.departamento_suscriptor == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
+                                @(Model.departamento_suscriptor == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
+                                @(Model.departamento_suscriptor == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
+                                @(Model.departamento_suscriptor == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))                                
+                                @(Model.departamento_suscriptor == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))                                
+                                @(Model.departamento_suscriptor == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))                                
+                                @(Model.departamento_suscriptor == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))                                
+                                @(Model.departamento_suscriptor == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))                                
+                                @(Model.departamento_suscriptor == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))                                
+                                @(Model.departamento_suscriptor == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))                                
+                                @(Model.departamento_suscriptor == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))                                
+                                @(Model.departamento_suscriptor == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))                                
+                                @(Model.departamento_suscriptor == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))                                
+                                @(Model.departamento_suscriptor == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))                                
+                                @(Model.departamento_suscriptor == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))                                
+                                @(Model.departamento_suscriptor == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))                                
+                                @(Model.departamento_suscriptor == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))                                
+                                @(Model.departamento_suscriptor == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))                                
+                                @(Model.departamento_suscriptor == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))                                
+                                @(Model.departamento_suscriptor == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))                                
+                                @(Model.departamento_suscriptor == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))                                
+                                @(Model.departamento_suscriptor == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))                                
+                                @(Model.departamento_suscriptor == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))                                
+                                @(Model.departamento_suscriptor == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))                                
+                                @(Model.departamento_suscriptor == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))                                
+                                @(Model.departamento_suscriptor == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))                                
+                                @(Model.departamento_suscriptor == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))                                                                                                
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="ciudad_suscriptor">Ciudad</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor" name="ciudad_suscriptor" required value="@Model.ciudad_suscriptor"/>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="telefono_suscriptor">Teléfono</label>                            
+                            <input type="tel" class="form-control form-control-lg text-uppercase" id="telefono_suscriptor" name="telefono_suscriptor" required value="@Model.telefono_suscriptor" />
+                        </div>
+                        <div class="col">
+                            <label for="celular_suscriptor">Celular/Móvil</label>
+                            <input type="tel" class="form-control form-control-lg text-uppercase" id="celular_suscriptor" name="celular_suscriptor" required value="@Model.celular_suscriptor" />
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4 mb-2">
+                        <div class="col">
+                            <div class="bg-azul p-1 mb-2 text-white text-center">
+                                <h5 class="mb-0 t-1">Datos laborales del suscriptor</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="empresa_empleadora_suscriptor">Empresa donde labora</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor" name="empresa_empleadora_suscriptor" required value="@Model.empresa_empleadora_suscriptor" />
+                        </div>
+                        <div class="col">
+                            <label for="cargo_suscriptor">Cargo</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" name="cargo_suscriptor" id="cargo_suscriptor" required value="@Model.cargo_suscriptor" />
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="ingresos_mensuales_suscriptor">Ingresos mensuales</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="ingresos_en_pesos_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor" aria-describedby="ingresos_en_pesos_addon" id="ingresos_mensuales_suscriptor" name="ingresos_mensuales_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.ingresos_mensuales_suscriptor)" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="egresos_mensuales_suscriptor">Egresos mensuales</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="egresos_en_pesos_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor" aria-describedby="egresos_en_pesos_addon" id="egresos_mensuales_suscriptor" name="egresos_mensuales_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.egresos_mensuales_suscriptor)" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="otros_ingresos_suscriptor">Otros ingresos</label>
+                            <div class="input-group">
+                                <span class="input-group-prepend">
+                                    <span class="input-group-text" id="otros_ingresos_en_pesos_addon">$</span>
+                                </span>
+                                <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor" aria-describedby="otros_ingresos_en_pesos_addon" id="otros_ingresos_suscriptor" name="otros_ingresos_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.otros_ingresos_suscriptor)"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="direccion_empleo_suscriptor">Dirección oficina (laboral)</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor" name="direccion_empleo_suscriptor" required value="@Model.direccion_empleo_suscriptor" />
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="pais_laboral_suscriptor">País</label>
+                            <input type="text" class="form-control-lg form-control-plaintext text-uppercase" id="pais_laboral_suscriptor" name="pais_laboral_suscriptor" readonly value="Colombia" />
+                        </div>
+                        <div class="col">
+                            <label for="departamento_empleo_suscriptor">Departamento</label>
+                            <select class="form-control form-control-lg" id="departamento_empleo_suscriptor" name="departamento_empleo_suscriptor" required>
+                                <option value="">Seleccione un departamento</option>
+                                @(Model.departamento_empleo_suscriptor == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
+                                @(Model.departamento_empleo_suscriptor == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
+                                @(Model.departamento_empleo_suscriptor == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
+                                @(Model.departamento_empleo_suscriptor == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
+                                @(Model.departamento_empleo_suscriptor == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
+                                @(Model.departamento_empleo_suscriptor == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
+                                @(Model.departamento_empleo_suscriptor == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
+                                @(Model.departamento_empleo_suscriptor == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
+                                @(Model.departamento_empleo_suscriptor == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
+                                @(Model.departamento_empleo_suscriptor == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))
+                                @(Model.departamento_empleo_suscriptor == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))
+                                @(Model.departamento_empleo_suscriptor == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))
+                                @(Model.departamento_empleo_suscriptor == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))
+                                @(Model.departamento_empleo_suscriptor == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))
+                                @(Model.departamento_empleo_suscriptor == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))
+                                @(Model.departamento_empleo_suscriptor == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))
+                                @(Model.departamento_empleo_suscriptor == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))
+                                @(Model.departamento_empleo_suscriptor == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))
+                                @(Model.departamento_empleo_suscriptor == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))
+                                @(Model.departamento_empleo_suscriptor == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))
+                                @(Model.departamento_empleo_suscriptor == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))
+                                @(Model.departamento_empleo_suscriptor == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))
+                                @(Model.departamento_empleo_suscriptor == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))
+                                @(Model.departamento_empleo_suscriptor == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))
+                                @(Model.departamento_empleo_suscriptor == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))
+                                @(Model.departamento_empleo_suscriptor == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))
+                                @(Model.departamento_empleo_suscriptor == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))
+                                @(Model.departamento_empleo_suscriptor == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))
+                                @(Model.departamento_empleo_suscriptor == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))
+                                @(Model.departamento_empleo_suscriptor == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))
+                                @(Model.departamento_empleo_suscriptor == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))
+                                @(Model.departamento_empleo_suscriptor == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))
+                                @(Model.departamento_empleo_suscriptor == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="ciudad_empleo_suscriptor">Ciudad</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required value="@Model.ciudad_empleo_suscriptor"/>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="telefono_empleo_suscriptor">Teléfono</label>
+                            <input type="tel" class="form-control form-control-lg" id="telefono_empleo_suscriptor" name="telefono_empleo_suscriptor" value="@Model.telefono_empleo_suscriptor" />
+                        </div>
+                        <div class="col">
+                            <label for="celular_empleo_suscriptor">Celular/Móvil</label>
+                            <input type="tel" class="form-control form-control-lg" id="celular_empleo_suscriptor" name="celular_empleo_suscriptor" value="@Model.celular_empleo_suscriptor" />
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="profesion_suscriptor">Profesión o actividad económica</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor" name="profesion_suscriptor" required value="@Model.profesion_suscriptor" />
+                        </div>
+                        <div class="col">
+                            <label for="envio_correspondencia_suscriptor">Envío de correspondencia</label>
+                            <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor" name="envio_correspondencia_suscriptor" required>
+                                <option value="">Seleccione una opción</option>
+                                @(Model.envio_correspondencia_suscriptor == "domicilio" ? Html.Raw("<option value=\"domicilio\"  selected=\"selected\">Domicilio</option>") : Html.Raw("<option value=\"domicilio\">Domicilio</option>"))
+                                @(Model.envio_correspondencia_suscriptor == "oficina" ? Html.Raw("<option value=\"oficina\"  selected=\"selected\">Oficina</option>") : Html.Raw("<option value=\"vichada\">oficina</option>"))
+                                @(Model.envio_correspondencia_suscriptor == "correoelectronico" ? Html.Raw("<option value=\"correoelectronico\"  selected=\"selected\">Oficina</option>") : Html.Raw("<option value=\"correoelectronico\">Correo electrónico</option>"))
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="email_suscriptor">Correo electrónico</label>
+                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required value="@Model.email_suscriptor" />
+                        </div>
+                    </div>
+                </section>
+                <!--#endregion-->
+
+                <div class="form-row mt-2">
+                    <div class="col">
+                        <a class="btn btn-azul text-white" id="isSuscriptorConjunto"><i class="fas fa-plus"></i> Agregar suscriptor conjunto</a>
+                    </div>
+                </div>
+
+                <section class="d-none" id="SuscriptorConjuntoSection">
+
+                    <!--#region suscriptor conjunto-->
+                    <section>
+                        <div class="form-row mt-4 mb-2">
+                            <div class="col">
+                                <div class="bg-azul p-3 mb-2 text-white text-center">
+                                    <h5 class="mb-0">Datos del suscriptor conjunto</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="nombre_suscriptor_conjunto">Nombre (apellidos y nombres o razón social si aplica)</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_suscriptor_conjunto" name="nombre_suscriptor_conjunto" value="@Model.nombre_suscriptor_conjunto"/>
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="tipo_identidad_suscriptor_conjunto">Tipo de documento de identidad</label>
+                                <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto" name="tipo_identidad_suscriptor_conjunto">
+                                    <option value="">Seleccione una opción</option>
+                                    @(Model.tipo_identidad_suscriptor_conjunto == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
+                                    @(Model.tipo_identidad_suscriptor_conjunto == "2" ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
+                                    @(Model.tipo_identidad_suscriptor_conjunto == "3" ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"3\">NIT</option>"))
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="documento_identidad_suscriptor_conjunto">Número documento identidad</label>
+                                <input type="text" class="form-control form-control-lg" id="documento_identidad_suscriptor_conjunto" name="documento_identidad_suscriptor_conjunto" value="@Model.documento_identidad_suscriptor_conjunto"/>
+                            </div>
+                            <div class="col">
+                                <label for="procedencia_documento_identidad_suscriptor_conjunto">De: </label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" value="@Model.procedencia_documento_identidad_suscriptor_conjunto" />
+                            </div>
+                        </div>
+                    </section>
+                    <!--#endregion-->
+                    <!--#region representante legal suscriptor conjunto-->
+                    <section class="d-none" id="RepresentanteLegalConjuntoSection">
+                        <div class="card mt-4 border-azul ">
+                            <div class="card-header text-white bg-azul">
+                                Representante legal suscriptor conjunto
+                            </div>
+                            <div class="card-body">
+
+                                <div class="form-row mt-4">
+                                    <div class="col">
+                                        <label for="representante_legal_suscriptor_conjunto">Nombre representante legal (solo personas jurídicas)</label>
+                                        <input type="text" class="form-control form-control-lg text-uppercase" id="representante_legal_suscriptor_conjunto" name="representante_legal_suscriptor_conjunto"  value="@Model.representante_legal_suscriptor_conjunto"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-row mt-4">
+                                    <div class="col">
+                                        <label for="tipo_identidad_representante_legal_suscriptor_conjunto">Tipo de documento de identidad</label>
+                                        <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg">
+                                            <option value="">Seleccione una opción</option>
+                                            @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"CC\">CC</option>"))
+                                            @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "2" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"CE\">CE</option>"))
+                                            @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "3" ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"NIT\">NIT</option>"))
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="documento_identidad_representante_legal_suscriptor_conjunto">Número de documento identidad</label>
+                                        <input type="text" id="documento_identidad_representante_legal_suscriptor_conjunto" name="documento_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.documento_identidad_representante_legal_suscriptor_conjunto" />
+                                    </div>
+                                    <div class="col">
+                                        <label for="procedencia_identificacion_representante_legal_suscriptor_conjunto">De:</label>
+                                        <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.procedencia_identificacion_representante_legal_suscriptor_conjunto" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--#endregion-->
+                    <!--#region Datos del suscriptor conjunto-->
+                    <section>
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="fecha_nacimiento_suscriptor_conjunto">Fecha de nacimiento</label>
+                                <input class="form-control form-control-lg" id="fecha_nacimiento_suscriptor_conjunto" name="fecha_nacimiento_suscriptor_conjunto" value="@Model.fecha_nacimiento_suscriptor_conjunto" />
+                            </div>
+                            <div class="col">
+                                <label for="lugar_nacimiento_suscriptor_conjunto">Lugar</label>
+                                <input type="text" id="lugar_nacimiento_suscriptor_conjunto" name="lugar_nacimiento_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.lugar_nacimiento_suscriptor_conjunto" />
+                            </div>
+                            <div class="col">
+                                <label for="sexo_suscriptor_conjunto">Sexo</label>
+                                <select class="form-control form-control-lg" id="sexo_suscriptor_conjunto" name="sexo_suscriptor_conjunto">
+                                    <option value="">Seleccione una opción</option>
+                                    @(Model.sexo_suscriptor_conjunto == "femenino" ? Html.Raw("<option value=\"femenino\"  selected=\"selected\">Femenino</option>") : Html.Raw("<option value=\"femenino\">Femenino</option>"))
+                                    @(Model.sexo_suscriptor_conjunto == "masculino" ? Html.Raw("<option value=\"masculino\"  selected=\"selected\">Masculino</option>") : Html.Raw("<option value=\"masculino\">Masculino</option>"))                                    
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="estado_civil_suscriptor_conjunto">Estado civil</label>
+                                <select class="form-control form-control-lg" id="estado_civil_suscriptor_conjunto" name="estado_civil_suscriptor_conjunto">
+                                    <option value="">Seleccione una opción</option>
+                                    @(Model.estado_civil_suscriptor_conjunto == "soltero" ? Html.Raw("<option value=\"soltero\"  selected=\"selected\">Soltero</option>") : Html.Raw("<option value=\"soltero\">Soltero</option>"))
+                                    @(Model.estado_civil_suscriptor_conjunto == "casado" ? Html.Raw("<option value=\"casado\"  selected=\"selected\">Casado</option>") : Html.Raw("<option value=\"casado\">Casado</option>"))
+                                    @(Model.estado_civil_suscriptor_conjunto == "unionmarital" ? Html.Raw("<option value=\"unionmarital\"  selected=\"selected\">Unión Marital</option>") : Html.Raw("<option value=\"unionmarital\">Unión Marital</option>"))
+                                    @(Model.estado_civil_suscriptor_conjunto == "divorciado" ? Html.Raw("<option value=\"divorciado\"  selected=\"selected\">Divorciado</option>") : Html.Raw("<option value=\"divorciado\">Divorciado/option>"))
+                                    @(Model.estado_civil_suscriptor_conjunto == "viudo" ? Html.Raw("<option value=\"viudo\"  selected=\"selected\">Viudo</option>") : Html.Raw("<option value=\"viudo\">Viudo</option>"))
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="dirección_suscriptor_conjunto">Dirección Domicilio</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="dirección_suscriptor_conjunto" name="dirección_suscriptor_conjunto" value="@Model.direccion_suscriptor_conjunto" />
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="departamento_suscriptor_conjunto">Departamento</label>
+                                <select class="form-control form-control-lg" id="departamento_suscriptor_conjunto" name="departamento_suscriptor_conjunto">
+                                    @(Model.departamento_suscriptor_conjunto == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))
+                                    @(Model.departamento_suscriptor_conjunto == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="ciudad_suscriptor_conjunto">Ciudad</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" value="@Model.ciudad_suscriptor_conjunto"  />
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="telefono_suscriptor_conjunto">Teléfono</label>
+                                <input type="text" class="form-control form-control-lg" id="telefono_suscriptor_conjunto" name="telefono_suscriptor_conjunto" value="@Model.telefono_suscriptor_conjunto" />
+                            </div>
+                            <div class="col">
+                                <label for="celular_suscriptor_conjunto">Celular</label>
+                                <input type="text" class="form-control form-control-lg" id="celular_suscriptor_conjunto" name="celular_suscriptor_conjunto" value="@Model.celular_suscriptor_conjunto" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="empresa_empleadora_suscriptor_conjunto">Empresa donde labora</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor_conjunto" name="empresa_empleadora_suscriptor_conjunto" value="@Model.empresa_empleadora_suscriptor_conjunto"/>
+                            </div>
+                            <div class="col">
+                                <label for="cargo_suscriptor_conjunto">Cargo</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="cargo_suscriptor_conjunto" name="cargo_suscriptor_conjunto" value="@Model.cargo_suscriptor_conjunto" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="ingresos_mensuales_suscriptor_conjunto">Ingresos mensuales</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="ingresos_en_pesos_conjunto_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor_conjunto" aria-describedby="ingresos_en_pesos_conjunto_addon" id="ingresos_mensuales_suscriptor_conjunto" name="ingresos_mensuales_suscriptor_conjunto" placeholder="0.00" value="@String.Format("0:0,0.00", Model.ingresos_mensuales_suscriptor_conjunto)" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="egresos_mensuales_suscriptor_conjunto">Egresos mensuales</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="egresos_en_pesos_conjunto_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor_conjunto" aria-describedby="egresos_en_pesos_conjunto_addon" id="egresos_mensuales_suscriptor_conjunto" name="egresos_mensuales_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}",Model.egresos_mensuales_suscriptor_conjunto)" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="otros_ingresos_suscriptor_conjunto">Otros ingresos</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="otros_ingresos_suscriptor_conjunto_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor_conjunto" aria-describedby="otros_ingresos_suscriptor_conjunto_addon" id="otros_ingresos_suscriptor_conjunto" name="otros_ingresos_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}",Model.otros_ingresos_suscriptor_conjunto)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="direccion_empleo_suscriptor_conjunto">Dirección oficina (laboral)</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor_conjunto" name="direccion_empleo_suscriptor_conjunto" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="departamento_empleo_suscriptor_conjunto">Departamento</label>
+                                <select class="form-control form-control-lg" id="departamento_empleo_suscriptor_conjunto" name="departamento_empleo_suscriptor_conjunto">
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))
+                                    @(Model.departamento_empleo_suscriptor_conjunto == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="ciudad_empleo_suscriptor_conjunto">Ciudad</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" value="@Model.ciudad_empleo_suscriptor_conjunto" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="telefono_empleo_suscriptor_conjunto">Teléfono</label>
+                                <input type="text" class="form-control form-control-lg" name="telefono_empleo_suscriptor_conjunto" id="telefono_empleo_suscriptor_conjunto" value="@Model.telefono_empleo_suscriptor_conjunto" />
+                            </div>
+                            <div class="col">
+                                <label for="celular_empleo_suscriptor_conjunto">Celular</label>
+                                <input type="text" class="form-control form-control-lg" id="celular_empleo_suscriptor_conjunto" name="celular_empleo_suscriptor_conjunto" value="@Model.celular_suscriptor_conjunto" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="profesion_suscriptor_conjunto">Profesión o actividad económica</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor_conjunto" name="profesion_suscriptor_conjunto" value="@Model.profesion_suscriptor_conjunto" />
+                            </div>
+                            <div class="col">
+                                <label for="correspondencia_suscriptor_conjunto">Envío de correspondencia</label>
+                                <select class="form-control form-control-lg" id="correspondencia_suscriptor_conjunto" name="correspondencia_suscriptor_conjunto">
+                                    <option value="">Seleccione una opción</option>
+                                    @(Model.correspondencia_suscriptor_conjunto == "domicilio" ? Html.Raw("<option value=\"domicilio\"  selected=\"selected\">Domicilio</option>") : Html.Raw("<option value=\"domicilio\">Domicilio</option>"))
+                                    @(Model.correspondencia_suscriptor_conjunto == "oficina" ? Html.Raw("<option value=\"oficina\"  selected=\"selected\">Oficina</option>") : Html.Raw("<option value=\"oficina\">Oficina</option>"))
+                                    @(Model.correspondencia_suscriptor_conjunto == "correoelectronico" ? Html.Raw("<option value=\"correoelectronico\"  selected=\"selected\">Oficina</option>") : Html.Raw("<option value=\"correoelectronico\">Correo electrónico</option>"))
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="email_suscriptor_conjunto">Correo electrónico</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="email_suscriptor_conjunto" name="email_suscriptor_conjunto" value="@Model.email_suscriptor_conjunto" />
+                            </div>
+                        </div>
+                    </section>
+                    <!--#endregion-->
+
+                </section>
+
+
+                <!--#region Datos del bien-->
+                <section>
+                    <div class="form-row mt-4 mb-2">
+                        <div class="col">
+                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                                <h5 class="mb-0">Características del bien</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col-12 col-md-6">
+                            <label for="tipo_de_bien">Tipo de bien</label>
+                            <select class="form-control form-control-lg" id="tipo_de_bien" name="tipo_de_bien" required>
+                                <option value="">Seleccione un tipo de bien</option>
+                                @(Model.tipo_de_bien == "motocicleta" ? Html.Raw("<option value=\"motocicleta\"  selected=\"selected\">Motocicleta</option>") : Html.Raw("<option value=\"motocicleta\">Motocicleta</option>"))
+                                @(Model.tipo_de_bien == "automovil" ? Html.Raw("<option value=\"automovil\"  selected=\"selected\">Automóvil</option>") : Html.Raw("<option value=\"automovil\">Automóvil</option>"))
+                                @(Model.tipo_de_bien == "camion" ? Html.Raw("<option value=\"camion\"  selected=\"selected\">Camión</option>") : Html.Raw("<option value=\"camion\">Camión</option>"))
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="referencia">Referencia</label>
+                            <select id="referencia" name="referencia" class="form-control form-control-lg" required>
+                                <option value="">Seleccione una referencia</option>
+                                @(Html.Raw("<option value=\"" + Model.valor_bien + "\"  selected=\"selected\" id=\"" + Model.detalles_bien + "\" >" + Model.detalles_bien + "</option>"))
+                                <option value="7650000" id="BWS X">BWS X</option>
+                                <option value="8450000" id="BWS X BONO PAPELES">BWS X BONO PAPELES</option>
+                                <option value="8200000" id="BWS X FI">BWS X FI</option>
+                                <option value="9000000" id="BWS X FI BONO PAPELES">BWS X FI BONO PAPELES</option>
+                                <option value="6900000" id="BWS125">BWS125</option>
+                                <option value="7700000" id="BWS125 BONO PAPELES ">BWS125 BONO PAPELES </option>
+                                <option value="5840000" id="CRYPTON 115 BONO PAPELES">CRYPTON 115 BONO PAPELES</option>
+                                <option value="5040000" id="CRYPTON FI">CRYPTON FI</option>
+                                <option value="5840000" id="CRYPTON FI BONO PAPELES">CRYPTON FI BONO PAPELES</option>
+                                <option value="6790000" id="FAZER FI 2.0">FAZER FI 2.0</option>
+                                <option value="7590000" id="FAZER FI 2.0 BONO PAPELES">FAZER FI 2.0 BONO PAPELES</option>
+                                <option value="5700000" id="FINO">FINO</option>
+                                <option value="6500000" id="FINO BONO PAPELES">FINO BONO PAPELES</option>
+                                <option value="6290000" id="FZ-S FI 2.0">FZ-S FI 2.0</option>
+                                <option value="7090000" id="FZ-S FI 2.0 BONO PAPELES">FZ-S FI 2.0 BONO PAPELES</option>
+                                <option value="9250000" id="FZ25">FZ25</option>
+                                <option value="10050000" id="FZ25 BONO PAPELES">FZ25 BONO PAPELES</option>
+                                <option value="5250000" id="LIBERO 125 BONO PAPELES">LIBERO 125 BONO PAPELES</option>
+                                <option value="17500000" id="MT 03">MT 03</option>
+                                <option value="18300000" id="MT 03 BONO PAPELES">MT 03 BONO PAPELES</option>
+                                <option value="9900000" id="N-MAX">N-MAX</option>
+                                <option value="10700000" id="N-MAX BONO PAPELES">N-MAX BONO PAPELES</option>
+                                <option value="8600000" id="N-MAX S">N-MAX S</option>
+                                <option value="9400000" id="N-MAX S BONO PAPELES">N-MAX S BONO PAPELES</option>
+                                <option value="5140000" id="SZ-RR 2.0">SZ-RR 2.0</option>
+                                <option value="5940000" id="SZ-RR 2.0 BONO PAPELES">SZ-RR 2.0 BONO PAPELES</option>
+                                <option value="12890000" id="TRICITY">TRICITY</option>
+                                <option value="13690000" id="TRICITY BONO PAPELES">TRICITY BONO PAPELES</option>
+                                <option value="6650000" id="XTZ 125">XTZ 125</option>
+                                <option value="7450000" id="XTZ 125 BONO PAPELES">XTZ 125 BONO PAPELES</option>
+                                <option value="15900000" id="XTZ 250">XTZ 250</option>
+                                <option value="16700000" id="XTZ 250 BONO PAPELES">XTZ 250 BONO PAPELES</option>
+                                <option value="5750000" id="YBR 125 BONO PAPELES">YBR 125 BONO PAPELES</option>
+                                <option value="17250000" id="YZF R 3">YZF R 3</option>
+                                <option value="18050000" id="YZF R 3 BONO PAPELES">YZF R 3 BONO PAPELES</option>
+                                <option value="8990000" id="YZF R15">YZF R15</option>
+                                <option value="9790000" id="YZF R15 BONO PAPELES">YZF R15 BONO PAPELES</option>
+                                <option value="85990000" id="MR1">MR1</option>
+                                <option value="87000000" id="MR1">MR1 BONO PAPELES</option>
+
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="marca_exclusiva_bien">Marca exclusiva</label>
+                            <input type="text" class="form-control-plaintext form-control-lg text-uppercase" id="marca_exclusiva_bien" name="marca_exclusiva_bien" value="@Model.marca_exclusiva_bien" required />
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="detalles_bien">Detalles del bien</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="detalles_bien" name="detalles_bien" value="@Model.detalles_bien" />
+                        </div>
+                        <div class="col">
+                            <label for="valor_bien">Valor del bien</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="valor_bien_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg text-uppercase" aria-label="valor_bien" aria-describedby="valor_bien_addon" id="valor_bien" name="valor_bien" value="@String.Format("{0:0,0.00}",Model.valor_bien)" readonly />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="codigo_bien">Código del bien</label>
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="codigo_bien" name="codigo_bien" value="@Model.codigo_bien" />
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <label for="cuota_bien">Cuota</label>
+                            <select class="form-control form-control-lg " id="cuota_bien" name="cuota_bien">
+                                <option value="">Seleccione un tipo de cuota</option>
+                                @(Model.cuota_bien == "fija" ? Html.Raw("<option value=\"fija\"  selected=\"selected\">Fija</option>") : Html.Raw("<option value=\"fija\">Fija</option>"))
+                                @(Model.cuota_bien == "variable" ? Html.Raw("<option value=\"variable\"  selected=\"selected\">Variable</option>") : Html.Raw("<option value=\"variable\">Variable</option>"))                                
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="plazo_bien">Plazo y número de participantes</label>
+                            <select class="form-control form-control-lg" id="plazo_bien" name="plazo_bien">
+                                <option value="">Seleccione un tipo de plazo</option>
+                                @(Model.plazo_bien == "40-120" ? Html.Raw("<option value=\"40-120\"  selected=\"selected\">40-120</option>") : Html.Raw("<option value=\"40-120\">40-120</option>"))
+                                @(Model.plazo_bien == "60-180" ? Html.Raw("<option value=\"60-180\"  selected=\"selected\">60-180</option>") : Html.Raw("<option value=\"60-180\">60-180</option>"))
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                </section>
+                <!--#endregion-->
+                <!--#region Pago Inicial-->
+                <section>
+                    <div class="form-row mt-4 mb-2">
+                        <div class="col">
+                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                                <h5 class="mb-0">Pago inicial</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <span class="badge badge-azul">1</span>
+                            <label for="cuota_ingreso">Cuota de ingreso (N% sobre el valor del bien)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="cuota_ingreso_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="cuota_ingreso" aria-describedby="cuota_ingreso_addon" id="cuota_ingreso" name="cuota_ingreso" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.cuota_ingreso)" />
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <span class="badge badge-azul">5</span>
+                            <label for="administracion">Administración (N% sobre cuota neta)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="administracion_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="administracion" aria-describedby="administracion_addon" id="administracion" name="administracion" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.administracion)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <span class="badge badge-azul">2</span>
+                            <label for="iva_cuota_ingreso">I.V.A sobre la cuota de ingreso (N%)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" id="iva_cuota_ingreso" name="iva_cuota_ingreso" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.iva_cuota_ingreso)" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <span class="badge badge-azul">6</span>
+                            <label for="iva_administracion">I.V.A sobre la administración (N%)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="iva_administracion_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="iva_administracion" aria-describedby="iva_administracion_addon" id="iva_administracion" name="iva_administracion" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}", Model.iva_administracion)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <span class="badge badge-azul">3</span>
+                            <label for="total_cuota_ingreso">Total cuota de ingreso (N%) ( <span class="badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-describedby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.total_cuota_ingreso)" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <span class="badge badge-azul">7</span>
+                            <label for="total_cuota_bruta">Total cuota bruta (N%) ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_bruta" aria-describedby="total_cuota_bruta_addon" id="total_cuota_bruta" name="total_cuota_bruta" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.total_cuota_bruta)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col">
+                            <span class="badge badge-azul">4</span>
+                            <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="primera_cuota_neta_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.primera_cuota_neta)" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <span class="badge badge-azul">8</span>
+                            <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="valor_primer_pago_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="valor_primer_pago" aria-describedby="valor_primer_pago_addon" id="valor_primer_pago" name="valor_primer_pago" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.valor_primer_pago)" />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--#endregion-->
+                
+
+
+                <div class="form-row mt-4">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-lg btn-azul"><i class="far fa-save"></i>  Actualizar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
