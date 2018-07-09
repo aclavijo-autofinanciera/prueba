@@ -13,31 +13,31 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <form method="post" class="ProspectoValidation">
+                <form method="post" class="ProspectoValidation bootstrapValidation">
 
                     <div class="form-row mt-4">
                         <div class="col-6 col-md-3">
                             <label for="PrimerNombre">Primer nombre</label>
-                            <input type="text" id="PrimerNombre" name="PrimerNombre" class="form-control form-control-lg" />
+                            <input type="text" id="PrimerNombre" name="PrimerNombre" class="form-control form-control-lg text-uppercase" required />
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="SegundoNombre">Segundo nombre</label>
-                            <input type="text" id="SegundoNombre" name="SegundoNombre" class="form-control form-control-lg" />
+                            <input type="text" id="SegundoNombre" name="SegundoNombre" class="form-control form-control-lg text-uppercase" />
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="PrimerApellido">Primer apellido</label>
-                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg" />
+                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg text-uppercase"  required />
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="SegundoApellido">Segundo apellido</label>
-                            <input type="text" id="SegundoApellido" name="SegundoApellido" class="form-control form-control-lg" />
+                            <input type="text" id="SegundoApellido" name="SegundoApellido" class="form-control form-control-lg text-uppercase" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
                             <label for="TipoDocumentoIdentidad">Tipo de documento</label>
-                            <select id="TipoDocumentoIdentidad" name="TipoDocumentoIdentidad" class="form-control form-control-lg">
+                            <select id="TipoDocumentoIdentidad" name="TipoDocumentoIdentidad" class="form-control form-control-lg" required>
                                 <option value="">Seleccione una opción</option>
                                 <option value="1">CC</option>
                                 <option value="2">CE</option>
@@ -46,25 +46,25 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="NumeroDocumento">Número documento identidad</label>
-                            <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg" />
+                            <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" required />
                         </div>
                     </div>
                                         
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
                             <label for="Telefono">Teléfono</label>
-                            <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg" />
+                            <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" required/>
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="Celular">Celular</label>
-                            <input type="text" id="Celular" name="Celular" class="form-control form-control-lg" />
+                            <input type="text" id="Celular" name="Celular" class="form-control form-control-lg text-uppercase" required />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="Email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control form-control-lg" />
+                            <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" required />
                         </div>
                     </div>
 
@@ -79,7 +79,7 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="referencia">Referencia</label>
-                            <select id="referencia" name="referencia" class="form-control form-control-lg">
+                            <select id="referencia" name="referencia" class="form-control form-control-lg" required>
                                 <option selected="selected" value="">Seleccione una referencia</option>
                                 <option value="7650000" id="BWS X">BWS X</option>
                                 <option value="8450000" id="BWS X BONO PAPELES">BWS X BONO PAPELES</option>
@@ -118,12 +118,18 @@
                                 <option value="18050000" id="YZF R 3 BONO PAPELES">YZF R 3 BONO PAPELES</option>
                                 <option value="8990000" id="YZF R15">YZF R15</option>
                                 <option value="9790000" id="YZF R15 BONO PAPELES">YZF R15 BONO PAPELES</option>
+                                <option value="85990000" id="MR1">MR1</option>
+                                <option value="87000000" id="MR1">MR1 BONO PAPELES</option>
 
                             </select>
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-4">
+                            <label for="DescripcionDelBien">Descripción</label>
+                            <input type="text" id="DescripcionDelBien" name="DescripcionDelBien" class="form-control form-control-lg text-uppercase"  required readonly/>
+                        </div>
+                        <div class="col-12 col-md-4">
                             <label for="costo_del_bien">Costo del bien</label>
-                            <input type="text" class="form-control-plaintext form-control-lg" id="costo_del_bien" name="costo_del_bien" readonly /> 
+                            <input type="text" class="form-control form-control-lg" id="costo_del_bien" name="costo_del_bien" readonly required /> 
                         </div>
                     </div>
 
@@ -135,7 +141,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="cuota_ingreso_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="cuota_ingreso" aria-describedby="cuota_ingreso_addon" id="cuota_ingreso" name="cuota_ingreso" placeholder="0.00" readonly />
+                                <input type="text" class="form-control form-control-lg" aria-label="cuota_ingreso" aria-describedby="cuota_ingreso_addon" id="cuota_ingreso" name="cuota_ingreso" placeholder="0.00" readonly required />
                             </div>
                         </div>
                         <div class="col">
@@ -145,7 +151,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="administracion_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="administracion" aria-describedby="administracion_addon" id="administracion" name="administracion" placeholder="0.00" readonly />
+                                <input type="text" class="form-control form-control-lg" aria-label="administracion" aria-describedby="administracion_addon" id="administracion" name="administracion" placeholder="0.00" readonly required />
                             </div>
                         </div>
                     </div>
@@ -158,7 +164,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg " aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" name="iva_cuota_ingreso" id="iva_cuota_ingreso" placeholder="0.00" readonly />                            
+                                <input type="text" class="form-control form-control-lg " aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" name="iva_cuota_ingreso" id="iva_cuota_ingreso" placeholder="0.00" readonly required />                            
                             </div>
                         </div>
                         <div class="col">
@@ -168,7 +174,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="iva_administracion_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg " aria-label="iva_administracion" aria-describedby="iva_administracion_addon" id="iva_administracion" name="iva_administracion" placeholder="0.00" readonly />
+                                <input type="text" class="form-control form-control-lg " aria-label="iva_administracion" aria-describedby="iva_administracion_addon" id="iva_administracion" name="iva_administracion" placeholder="0.00" readonly required />
                             </div>
                         </div>
                     </div>
@@ -182,7 +188,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-labelledby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00"  readonly />
+                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-labelledby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00"  readonly required />
                             </div>
                         </div>
                         <div class="col">
@@ -192,7 +198,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_bruta" aria-describedby="total_cuota_bruta_addon" id="total_cuota_bruta" name="total_cuota_bruta" placeholder="0.00" readonly />
+                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_bruta" aria-describedby="total_cuota_bruta_addon" id="total_cuota_bruta" name="total_cuota_bruta" placeholder="0.00" readonly required />
                             </div>
                         </div>
                     </div>
@@ -205,7 +211,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="primera_cuota_neta_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta" placeholder="0.00" readonly />
+                                <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta" placeholder="0.00" readonly required />
                             </div>
                         </div>
                         <div class="col">
@@ -215,7 +221,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="valor_primer_pago_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="valor_primer_pago" aria-describedby="valor_primer_pago_addon" id="valor_primer_pago" name="valor_primer_pago" placeholder="0.00" readonly />
+                                <input type="text" class="form-control form-control-lg" aria-label="valor_primer_pago" aria-describedby="valor_primer_pago_addon" id="valor_primer_pago" name="valor_primer_pago" placeholder="0.00" readonly required />
                             </div>
                         </div>
                     </div>
