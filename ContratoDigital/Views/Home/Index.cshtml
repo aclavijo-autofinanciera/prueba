@@ -1,11 +1,17 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+
+
+@{
     ViewData["Title"] = "Inicio";
 }
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
-            <h4>Bienvenido &lt;!YourNameHere&gt; </h4>
+            <h4>Bienvenido @UserManager.GetUserName(User) </h4>
         </div>
     </div>
     <div class="row">
