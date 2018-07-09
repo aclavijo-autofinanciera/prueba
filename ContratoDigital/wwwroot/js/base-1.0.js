@@ -32,7 +32,7 @@
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
             dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
             dayStatus: 'Utilizar DD como el primer día de la semana', dateStatus: 'Elegir el DD, MM, d',
-            dateFormat: 'yy-mm-dd', firstDay: 0,
+            dateFormat: 'dd-mm-yy', firstDay: 0,
             initStatus: 'Elija una fecha', isRTL: false
         };
         $.datepicker.setDefaults($.datepicker.regional['es-es']);
@@ -44,7 +44,7 @@
             //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i); 
         }, "Especifique un número de teléfono");
         jQuery.validator.addMethod("alphabetical", function (value, element) {
-            return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ- ]+$/i.test(value);
+            return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\- ]+$/i.test(value);
         }, "Este campo debe ser alfabético");
         // <!-- Métodos de validación --> 
 
@@ -52,13 +52,13 @@
         $("#fecha_nacimiento_suscriptor,#fecha_nacimiento_suscriptor_conjunto,#FechaNacimiento").datepicker({
             changeMonth: true,
             changeYear: true,
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'dd-mm-yy',
             yearRange: "c-60:c-18"
         });
 
         $("#tipo_identificacion_suscriptor").on('change', function () {
 
-            if ($("#tipo_identificacion_suscriptor").find(":selected").val() === "NIT") {
+            if ($("#tipo_identificacion_suscriptor").find(":selected").val() === "NIT" || $("#tipo_identificacion_suscriptor").find(":selected").val() === "3") {
                 $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
             }
             else {
@@ -68,7 +68,7 @@
 
         $("#tipo_identidad_suscriptor_conjunto").on('change', function () {
 
-            if ($("#tipo_identidad_suscriptor_conjunto").find(":selected").val() === "NIT") {
+            if ($("#tipo_identidad_suscriptor_conjunto").find(":selected").val() === "NIT" || $("#tipo_identidad_suscriptor_conjunto").find(":selected").val() === "3") {
                 $("#RepresentanteLegalConjuntoSection").fadeIn("slow").removeClass("d-none");
             }
             else {
@@ -81,6 +81,7 @@
             $("#nombre_suscriptor_conjunto").prop("required", true);
         });
 
+        // Validación de prospecto.
         $(".ProspectoValidation").validate({
             rules: {
                 // Prospecto 
@@ -99,16 +100,21 @@
                     alphabetical: true
                 },
                 TipoDocumentoIdentidad: {
+                    required: true                    
+                },
+                NumeroDocumento: {
                     required: true,
                     digits: true
                 },
                 Telefono: {
                     required: true,
-                    phoneColombia: true
+                    minlength: 7,
+                    digits:true
                 },
                 Celular: {
                     required: true,
-                    phoneColombia: true
+                    minlength: 7,
+                    digits:true
                 },
                 Email: {
                     required: true,
@@ -132,16 +138,21 @@
                     alphabetical: "Este campo debe ser alfabético"
                 },
                 TipoDocumentoIdentidad: {
+                    required: "Este campo es requerido",                    
+                },
+                NumeroDocumento: {
                     required: "Este campo es requerido",
                     digits: "Este campo debe ser numérico"
                 },
                 Telefono: {
-                    required: "Este campo es requerido",
-                    phoneColombia: "Este campo debe ser un teléfono válido"
+                    required: "Este campo es requerido",      
+                    minlength: "Debe ingresar un teléfono válido",
+                    digits: "Debe ingresar un teléfono válido"
                 },
                 Celular: {
-                    required: "Este campo es requerido",
-                    phoneColombia: "Este campo debe ser unt teléfono válido"
+                    required: "Este campo es requerido",                    
+                    minlength: "Debe ingresar un teléfono válido",
+                    digits: "Debe ingresar un teléfono válido"
                 },
                 Email: {
                     required: "Este campo es requerido",
@@ -150,11 +161,22 @@
             }
         });
 
-        $(".needs-validation").validate({
+        // Validación de Contrato digital PDF:
+        $(".ContratoValidation").validate({
             rules: {
                 // Suscriptor 
-                nombre_suscriptor: {
+                primer_nombre: {
                     required: true,
+                    alphabetical: true
+                },
+                segundo_nombre: {                    
+                    alphabetical: true
+                },
+                primer_apellido: {
+                    required: true,
+                    alphabetical: true
+                },
+                segundo_apellido: {                    
                     alphabetical: true
                 },
                 tipo_identificacion_suscriptor: {
@@ -169,7 +191,7 @@
                 },
                 fecha_nacimiento_suscriptor: {
                     required: true,
-                    dateISO: true
+                    //dateISO: true
                 },
                 lugar_nacimiento_suscriptor: {
                     required: true
@@ -192,11 +214,13 @@
                 },
                 telefono_suscriptor: {
                     required: true,
-                    phoneColombia: true
+                    digits: true,
+                    minlength:7
                 },
                 celular_suscriptor: {
                     required: true,
-                    phoneColombia: true
+                    digits: true,
+                    minlength: 7
                 },
                 empresa_empleadora_suscriptor: {
                     required: true
@@ -227,10 +251,14 @@
                     required: true
                 },
                 telefono_empleo_suscriptor: {
-                    phoneColombia: true
+                    required: true,
+                    digits: true,
+                    minlength: 7
                 },
                 celular_empleo_suscriptor: {
-                    phoneColombia: true
+                    required: true,
+                    digits: true,
+                    minlength: 7
                 },
                 profesion_suscriptor: {
                     required: true
@@ -289,13 +317,71 @@
                 valor_primer_pago: {
                     required: true,
                     number: true
+                },
+                nombre_suscriptor_conjunto: {
+                    alphabetical: true
+                },
+                documento_identidad_suscriptor_conjunto: {
+                    digits:true
+                },
+                procedencia_documento_identidad_suscriptor_conjunto: {
+                    alphabetical:true
+                },
+                fecha_nacimiento_suscriptor_conjunto: {
+                    //dateISO:true
+                },
+                dirección_suscriptor_conjunto: {
+                    maxlength:200
+                },
+                telefono_suscriptor_conjunto: {
+                    digits: true,
+                    minlength: 7
+                },
+                celular_suscriptor_conjunto: {
+                    digits: true,
+                    minlength: 7
+                },
+                ingresos_mensuales_suscriptor_conjunto: {
+                    number:true
+                },
+                egresos_mensuales_suscriptor_conjunto: {
+                    number:true
+                },
+                otros_ingresos_suscriptor_conjunto: {
+                    number:true
+                },
+                direccion_empleo_suscriptor_conjunto: {
+                    maxlength:200
+                },
+                telefono_empleo_suscriptor_conjunto: {
+                    required: true,
+                    digits: true,
+                    minlength: 7
+                },
+                celular_empleo_suscriptor_conjunto: {
+                    required: true,
+                    digits: true,
+                    minlength: 7
+                },
+                email_suscriptor_conjunto: {
+                    email:true
                 }
             },
             messages: {
                 // Suscriptor 
-                nombre_suscriptor: {
-                    required: "Requerido",
-                    alphabetical: "El nombre debe ser alfanumérico"
+                primer_nombre: {
+                    required: "Este campo es requerido",
+                    alphabetical: "Este campo debe ser alfabético"
+                },
+                segundo_nombre: {
+                    alphabetical: "Este campo debe ser alfabético"
+                },
+                primer_apellido: {
+                    required: "Este campo es requerido",
+                    alphabetical: "Este campo debe ser alfabético"
+                },
+                segundo_apellido: {
+                    alphabetical: "Este campo debe ser alfabético"
                 },
                 tipo_identificacion_suscriptor: {
                     required: "Requerido"
@@ -331,12 +417,14 @@
                     required: "Requerido"
                 },
                 telefono_suscriptor: {
-                    required: "Requerido",
-                    phoneColombia: "Debe ingresar un número de teléfono válido"
+                    required: "Requerido",                    
+                    digits: "Debe ingresar un número de teléfono válido",
+                    minlength: "Debe ingresar un número de teléfono válido"
                 },
                 celular_suscriptor: {
-                    required: "Requerido",
-                    phoneColombia: "Debe ingresar un número de teléfono válido"
+                    required: "Requerido",                    
+                    digits: "Debe ingresar un número de teléfono válido",
+                    minlength: "Debe ingresar un número de teléfono válido"
                 },
                 empresa_empleadora_suscriptor: {
                     required: "Requerido"
@@ -367,10 +455,14 @@
                     required: "Requerido"
                 },
                 telefono_empleo_suscriptor: {
-                    phoneColombia: "Debe ingresar un númerdo de teléfono válido"
+                    required: "Requerido",
+                    digits: "Debe ingresar un número de teléfono válido",
+                    minlength: "Debe ingresar un número de teléfono válido"
                 },
                 celular_empleo_suscriptor: {
-                    phoneColombia: "Debe ingresar un númerdo de teléfono válido"
+                    required: "Requerido",
+                    digits: "Debe ingresar un número de teléfono válido",
+                    minlength: "Debe ingresar un número de teléfono válido"
                 },
                 profesion_suscriptor: {
                     required: "Requerido"
@@ -429,8 +521,53 @@
                 valor_primer_pago: {
                     required: "Requerido",
                     number: "Debe ingresar una cifra válida"
+                },
+                nombre_suscriptor_conjunto: {
+                    alphabetical: "El nombre debe ser alfabético"
+                },
+                documento_identidad_suscriptor_conjunto: {
+                    digits: "El campo debe ser numérico"
+                },
+                procedencia_documento_identidad_suscriptor_conjunto: {
+                    alphabetical: "El campo debe ser alfabético"
+                },
+                fecha_nacimiento_suscriptor_conjunto: {
+                    dateISO: "Debe ingresar una fecha válida"
+                },
+                dirección_suscriptor_conjunto: {
+                    maxlength: "La dirección no debe ser superior a 200 caracteres"
+                },
+                telefono_suscriptor_conjunto: {
+                    digits: "Debe ingresar un número de teléfono válido",
+                    minlength: "Debe ingresar un teléfono válido"
+                },
+                celular_suscriptor_conjunto: {
+                    digits: "Debe ingresar un número de teléfono válido",
+                    minlength: "Debe ingresar un teléfono válido"
+                },
+                ingresos_mensuales_suscriptor_conjunto: {
+                    number: "Debe ingresar un valor numérico"
+                },
+                egresos_mensuales_suscriptor_conjunto: {
+                    number: "Debe ingresar un valor numérico"
+                },
+                otros_ingresos_suscriptor_conjunto: {
+                    number: "Debe ingresar un valor numérico"
+                },
+                direccion_empleo_suscriptor_conjunto: {
+                    maxlength: "La dirección no debe ser superior a 200 caracteres"
+                },
+                telefono_empleo_suscriptor_conjunto: {                    
+                    digits: "Debe ingresar un teléfono válido",
+                    minlength: "Debe ingresar un teléfono válido"
+                },
+                celular_empleo_suscriptor_conjunto: {
+                    digits: "Debe ingresar un teléfono válido",
+                    minlength: "Debe ingresar un teléfono válido"
+                },
+                email_suscriptor_conjunto: {
+                    email: "Debe ingresar una dirección de correo válida"
                 }
-
             },
             submitHandler: function (form) {
                 form.submit();
@@ -467,6 +604,8 @@
                 valbien = 0;
                 $("#costo_del_bien, #cuota_ingreso, #administracion, #iva_cuota_ingreso, #iva_administracion, #total_cuota_ingreso, #total_cuota_bruta, #primera_cuota_neta, #valor_primer_pago").val(0.00);
             }
+
+            $("#DescripcionDelBien, #detalles_bien").finish().fadeTo('normal', 0).val($("#referencia").find(":selected").text() ).finish().fadeTo('normal', 1);
 
             // Valor del costo del bien 
             $("#costo_del_bien").finish().fadeTo('normal', 0).val(parseFormat(costodelbien)).finish().fadeTo('normal', 1);
@@ -508,11 +647,30 @@
     });
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields 
-(function () {
+/*(function () {
     'use strict';
     window.addEventListener('load', function () {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to 
         var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission 
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();*/
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields 
+(function () {
+    'use strict';
+    window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to 
+        var forms = document.getElementsByClassName('bootstrapValidation');
         // Loop over them and prevent submission 
         var validation = Array.prototype.filter.call(forms, function (form) {
             form.addEventListener('submit', function (event) {
