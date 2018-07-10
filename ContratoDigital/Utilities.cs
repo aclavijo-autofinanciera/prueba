@@ -375,7 +375,7 @@ namespace ContratoDigital
 
             // Datos del suscriptor
             DateTime fecha_nacimiento_suscriptor = DateTime.Today;
-            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor"], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor);
+            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor"], "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor);
             contrato.fecha_nacimiento_suscriptor = fecha_nacimiento_suscriptor;
 
 
@@ -431,7 +431,7 @@ namespace ContratoDigital
             // Datos del suscriptor conjunto
 
             DateTime fecha_nacimiento_suscriptor_conjunto = DateTime.Now;
-            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor_conjunto"], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor_conjunto);
+            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor_conjunto"], "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor_conjunto);
             contrato.fecha_nacimiento_suscriptor_conjunto = fecha_nacimiento_suscriptor_conjunto;
 
             contrato.lugar_nacimiento_suscriptor_conjunto = form["fecha_nacimiento_suscriptor_conjunto"];
@@ -535,7 +535,7 @@ namespace ContratoDigital
 
             // Datos del suscriptor
             DateTime fecha_nacimiento_suscriptor = DateTime.Today;
-            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor"], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor);
+            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor"], "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor);
             contrato.fecha_nacimiento_suscriptor = fecha_nacimiento_suscriptor;
 
 
@@ -591,7 +591,7 @@ namespace ContratoDigital
             // Datos del suscriptor conjunto
 
             DateTime fecha_nacimiento_suscriptor_conjunto = DateTime.Now;
-            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor_conjunto"], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor_conjunto);
+            DateTime.TryParseExact(form["fecha_nacimiento_suscriptor_conjunto"], "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor_conjunto);
             contrato.fecha_nacimiento_suscriptor_conjunto = fecha_nacimiento_suscriptor_conjunto;
 
             contrato.lugar_nacimiento_suscriptor_conjunto = form["fecha_nacimiento_suscriptor_conjunto"];
