@@ -34,6 +34,7 @@ namespace ContratoDigital
         /// Servicio de envíos de correos electrónicos.
         /// </summary>
         /// <param name="emailMessage"></param>
+        /// <param name="stream">Stream del Attachment PDF</param>
         public void Send(EmailMessage emailMessage, MemoryStream stream)
         {
             var message = new MimeMessage();
@@ -53,6 +54,29 @@ namespace ContratoDigital
                 emailClient.Send(message);
                 emailClient.Disconnect(true);
 
+            }
+        }
+
+        /// <summary>
+        /// Servicio de envío de correos electrónicos
+        /// </summary>
+        /// <param name="emailMessage">Correo sencillo</param>
+        public void Send(EmailMessage emailMessage)
+        {
+            var message = new MimeMessage();
+            message.To.AddRange(emailMessage.ToAddresses.Select(x => new MailboxAddress(x.Address)));
+            message.From.AddRange(emailMessage.FromAddresses.Select(x=> new MailboxAddress(x.Name, x.Address)));
+            message.Subject = emailMessage.Subject;
+            var builder = new BodyBuilder();
+            builder.TextBody = emailMessage.Content;
+            message.Body = builder.ToMessageBody();
+            using (var emailClient = new SmtpClient())
+            {
+                emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, MailKit.Security.SecureSocketOptions.None);
+                emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
+                emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
+                emailClient.Send(message);
+                emailClient.Disconnect(true);
             }
         }
     }
