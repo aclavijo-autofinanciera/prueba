@@ -51,10 +51,12 @@ namespace ContratoDigital.Controllers
             Prospecto prospecto = Utilities.FillProspecto(form);
             _context.Prospectos.Add(prospecto);
             await _context.SaveChangesAsync();
-            ConfirmacionProspecto confirmacionProspecto = new ConfirmacionProspecto();
-            confirmacionProspecto.IdProspecto = prospecto.IdProspecto;
-            confirmacionProspecto.Guuid = Guid.NewGuid().ToString();
-            confirmacionProspecto.IsConfirmed = false;
+            ConfirmacionProspecto confirmacionProspecto = new ConfirmacionProspecto()
+            {
+                IdProspecto = prospecto.IdProspecto,
+                Guuid = Guid.NewGuid().ToString(),
+                IsConfirmed = false
+            };            
             _context.ConfirmacionProspectos.Add(confirmacionProspecto);
             try
             {
@@ -76,7 +78,13 @@ namespace ContratoDigital.Controllers
                 new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
             };
             emailMessage.Subject = "[AutoFinanciera] Confirmación de Email";
+#if DEBUG
+            emailMessage.Content = "con este link podrás confirmar http://localhost:53036/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id;
+#endif
+#if RELEASE
             emailMessage.Content = "con este link podrás confirmar http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid="+confirmacionProspecto.Guuid+"&id="+confirmacionProspecto.Id;
+#endif
+
             try
             {
                 emailService.Send(emailMessage);
@@ -97,6 +105,7 @@ namespace ContratoDigital.Controllers
             if(confirmacionProspecto.Guuid == guuid)
             {
                 confirmacionProspecto.IsConfirmed = true;
+                confirmacionProspecto.FechaConfirmacion = DateTime.Now;
                 await _context.SaveChangesAsync();
                 ViewData["IsConfirmed"] = true;
             }
