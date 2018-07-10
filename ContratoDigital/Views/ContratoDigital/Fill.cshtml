@@ -77,6 +77,11 @@
                         </div>
                     </div>
                 </section>
+                <div class="form-row mt-2">
+                    <div class="col">
+                        <a class="btn btn-azul text-white" id="isRepreentanteLegal"><i class="fas fa-plus"></i> Agregar representante legal</a>
+                    </div>
+                </div>
                 <!--#endregion-->
                 <!--#region representate legal suscriptor-->
                 <section class="d-none" id="RepreentanteLegalSection">
@@ -120,12 +125,8 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="fecha_nacimiento_suscriptor">Fecha de nacimiento</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="fecha_nacimiento_suscriptor_addon"><i class="far fa-calendar-alt"></i></span>
-                                </div>
-                                <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("dd-MM-yyyy")" aria-label="fecha_nacimiento_suscriptor" aria-describedby="fecha_nacimiento_suscriptor" required />
-                            </div>
+                            <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("dd-MM-yyyy")" required />
+                            
 
                         </div>
                         <div class="col">
@@ -354,7 +355,7 @@
                         </div>
                         <div class="col">
                             <label for="email_suscriptor">Correo electrónico</label>
-                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required value="@Model.Email"/>
+                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required value="@Model.Email" />
                         </div>
                     </div>
                 </section>
@@ -404,6 +405,11 @@
                         </div>
                     </section>
                     <!--#endregion-->
+                    <div class="form-row mt-2">
+                        <div class="col">
+                            <a class="btn btn-azul text-white" id="isRepreentanteLegalConjunto"><i class="fas fa-plus"></i> Agregar representante legal</a>
+                        </div>
+                    </div>
                     <!--#region representante legal suscriptor conjunto-->
                     <section class="d-none" id="RepresentanteLegalConjuntoSection">
                         <div class="card mt-4 border-azul ">
@@ -902,21 +908,6 @@
                     </div>
                 </section>
                 <!--#endregion-->
-
-                <div class="form-row form-check mt-4">
-                    <div class="col-12">
-                        <input type="checkbox" class="form-check-input" id="aceptacion_contrato" name="aceptacion_contrato" required />
-                        <label class="form-check-label" for="aceptacion_contrato">He leído y acepto los terminos y condiciones del contrato de adhesión</label>
-                    </div>
-                    <div class="col-12">
-                        <input type="checkbox" class="form-check-input" id="aceptacion_datos" name="aceptacion_datos" required />
-                        <label class="form-check-label" for="aceptacion_datos">He leído y acepto los terminos y condiciones del tratado de datos</label>
-                    </div>
-                    <div class="col-12">
-                        <input type="checkbox" class="form-check-input" id="aspectos_relevantes" name="aspectos_relevantes" required />
-                        <label class="form-check-label" for="aspectos_relevantes">He leído y acepto los aspectos relevantes</label>
-                    </div>
-                </div>
 
                 <div class="form-row mt-4">
                     <div class="col text-center">
