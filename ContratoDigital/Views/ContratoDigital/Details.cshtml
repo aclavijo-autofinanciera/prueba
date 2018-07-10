@@ -67,6 +67,53 @@
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
+                            Estado del contrato
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @if (Model.ConfirmacionContratos.LastOrDefault().IsAccepted)
+                            {
+                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> Condiciones del contrato Aceptadas</span></h5>
+                            }
+                            else
+                            {
+                                <h5><span class="badge badge-warning p-2"><i class="far fa-clock"></i> En proceso: por aceptar condiciones del contrato</span>
+                                    <a href="#" class="btn btn-azul">Envíar correo de confirmación</a>
+                                </h5>
+                            }
+                            @if (Model.ConfirmacionContratos.LastOrDefault().IsPaid)
+                            {
+                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> El contrato ha sido pagado</span></h5>
+                            }
+                            else
+                            {
+                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por pagar</span></h5>
+                            }
+                            @if (Model.ConfirmacionContratos.LastOrDefault().IsIdUploaded)
+                            {
+                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> La identificación ha sido adjuntada</span></h5>
+                            }
+                            else
+                            {
+                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por adjuntar identificación</span></h5>
+                            }
+                            @if (Model.ConfirmacionContratos.LastOrDefault().IsVerified)
+                            {
+                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> La identificación ha sido verificada</span></h5>
+                            }
+                            else
+                            {
+                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por verificados</span></h5>
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Nombre
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
@@ -863,7 +910,7 @@
                             I.V.A. sobre la administración
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @String.Format("$ {0:0,0.00}",Model.iva_administracion)
+                            @String.Format("$ {0:0,0.00}", Model.iva_administracion)
                         </div>
                     </div>
                 </div>
