@@ -1,21 +1,11 @@
 ﻿// Write your JavaScript code.
     jQuery(function ($) {
-
-        // Formato de los montos 
-        /*$("#valorDelBien").text('$ ' + parseFormat($("#valorDelBien").html())); 
-        $("#CuotaDeIngreso").text('$ ' + parseFormat($("#CuotaDeIngreso").html())); 
-        $("#IvaCuotaIngreso").text('$ ' + parseFormat($("#IvaCuotaIngreso").html())); 
-        $("#TotalCuotaIngreso").text('$ ' + parseFormat($("#TotalCuotaIngreso").html())); 
-        $("#PrimeraCuotaNeta").text('$ ' + parseFormat($("#PrimeraCuotaNeta").html())); 
-        $("#Administracion").text('$ ' + parseFormat($("#Administracion").html())); 
-        $("#IvaAdministracion").text('$ ' + parseFormat($("#IvaAdministracion").html())); 
-        $("#TotalCuotaBruta").text('$ ' + parseFormat($("#TotalCuotaBruta").html())); 
-        $("#ValorTotalPrimerPago").text('$ ' + parseFormat($("#ValorTotalPrimerPago").html()));*/
         $('[data-toggle="tooltip"]').tooltip()
 
 
 
         // <!-- Métodos de validación --> 
+        // <!-- Jquery UI DateTime Picker -->
         $.datepicker.regional['es-es'] = {
             clearText: 'Borrar', clearStatus: '',
             closeText: 'Cerrar', closeStatus: 'Cerrar sin modificar',
@@ -36,6 +26,7 @@
             initStatus: 'Elija una fecha', isRTL: false
         };
         $.datepicker.setDefaults($.datepicker.regional['es-es']);
+        // <!-- Jquery UI DateTime Picker -->
         $.validator.addMethod("phoneColombia", function (phone_number, element) {
             phone_number = phone_number.replace(/\s+/g, "");
             return this.optional(element) || phone_number.length > 10 &&
@@ -48,15 +39,18 @@
         }, "Este campo debe ser alfabético");
         // <!-- Métodos de validación --> 
 
-
-        $("#fecha_nacimiento_suscriptor,#fecha_nacimiento_suscriptor_conjunto,#FechaNacimiento").datepicker({
+        
+        $("#fecha_nacimiento_suscriptor,#fecha_nacimiento_suscriptor_conjunto").datepicker({
             changeMonth: true,
             changeYear: true,
             dateFormat: 'dd-mm-yy',
-            yearRange: "c-60:c-18"
+            yearRange: "-60:-18",
+            minDate: "-60Y",
+            maxDate: "-18Y"
         });
+        
 
-        $("#tipo_identificacion_suscriptor").on('change', function () {
+        /*$("#tipo_identificacion_suscriptor").on('change', function () {
 
             if ($("#tipo_identificacion_suscriptor").find(":selected").val() === "NIT" || $("#tipo_identificacion_suscriptor").find(":selected").val() === "3") {
                 $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
@@ -74,6 +68,16 @@
             else {
                 $("#RepresentanteLegalConjuntoSection").fadeOut("slow").Finish().addClass("d-none");
             }
+        });*/
+
+        $("#isRepreentanteLegal").on("click", function () {
+            $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
+            $("#nombre_razon_social_representante_legal").prop("required", true);
+        });
+
+        $("#isRepreentanteLegalConjunto").on("click", function () {
+            $("#RepresentanteLegalConjuntoSection").fadeIn("slow").removeClass("d-none");
+            $("#representante_legal_suscriptor_conjunto").prop("required", true);
         });
 
         $("#isSuscriptorConjunto").on("click", function () {
