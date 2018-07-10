@@ -13,6 +13,7 @@ namespace ContratoDigital.Models
         public int IdProspecto { get; set; }
         public string Guuid { get; set; }
         public bool IsConfirmed { get; set; }
+        public DateTime FechaConfirmacion { get; set; }
 
         public virtual Prospecto Prospecto { get; set; }
         
