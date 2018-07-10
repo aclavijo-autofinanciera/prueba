@@ -353,25 +353,25 @@ namespace ContratoDigital
             // Suscriptor
             contrato.IdProspecto = int.Parse(form["IdProspecto"]);
             contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
-            contrato.primer_nombre = form["primer_nombre"];
-            contrato.segundo_nombre = form["segundo_nombre"];
-            contrato.primer_apellido = form["primer_apellido"];
-            contrato.segundo_apellido = form["segundo_apellido"];
+            contrato.primer_nombre = form["primer_nombre"].ToString().ToUpper();
+            contrato.segundo_nombre = form["segundo_nombre"].ToString().ToUpper();
+            contrato.primer_apellido = form["primer_apellido"].ToString().ToUpper();
+            contrato.segundo_apellido = form["segundo_apellido"].ToString().ToUpper();
             contrato.tipo_documento_identidad_suscriptor = form["tipo_identificacion_suscriptor"];
 
             int.TryParse(s: form["documento_identidad_suscriptor"], result: out int documento_identidad_suscriptor);
             contrato.documento_identidad_suscriptor = documento_identidad_suscriptor;
 
-            contrato.procedencia_documento_identidad_suscriptor = form["procedencia_documento_identidad_suscriptor"];
+            contrato.procedencia_documento_identidad_suscriptor = form["procedencia_documento_identidad_suscriptor"].ToString().ToUpper();
 
             // Representante legal del suscriptor
-            contrato.nombre_razon_social_representante_legal = form["nombre_razon_social_representante_legal"];
+            contrato.nombre_razon_social_representante_legal = form["nombre_razon_social_representante_legal"].ToString().ToUpper();
             contrato.tipo_documento_representante_legal = form["tipo_documento_representante_legal"];
 
             int.TryParse(s: form["documento_identidad_representante_legal"], result: out int documento_identidad_representante_legal);
             contrato.documento_identidad_representante_legal = documento_identidad_representante_legal;
 
-            contrato.procedencia_documento_identidad_representante_legal = form["procedencia_documento_identidad_representante_legal"];
+            contrato.procedencia_documento_identidad_representante_legal = form["procedencia_documento_identidad_representante_legal"].ToString().ToUpper();
 
             // Datos del suscriptor
             DateTime fecha_nacimiento_suscriptor = DateTime.Today;
@@ -379,17 +379,17 @@ namespace ContratoDigital
             contrato.fecha_nacimiento_suscriptor = fecha_nacimiento_suscriptor;
 
 
-            contrato.lugar_nacimiento_suscriptor = form["lugar_nacimiento_suscriptor"];
+            contrato.lugar_nacimiento_suscriptor = form["lugar_nacimiento_suscriptor"].ToString().ToUpper();
             contrato.sexo_suscriptor = form["sexo_suscriptor"];
             contrato.estado_civil_suscriptor = form["estado_civil_suscriptor"];
-            contrato.direccion_domicilio_suscriptor = form["direccion_domicilio_suscriptor"];
-            contrato.pais_suscriptor = form["pais_suscriptor"];
+            contrato.direccion_domicilio_suscriptor = form["direccion_domicilio_suscriptor"].ToString().ToUpper();
+            contrato.pais_suscriptor = form["pais_suscriptor"].ToString().ToUpper();
             contrato.departamento_suscriptor = form["departamento_suscriptor"];
-            contrato.ciudad_suscriptor = form["ciudad_suscriptor"];
+            contrato.ciudad_suscriptor = form["ciudad_suscriptor"].ToString().ToUpper();
             contrato.telefono_suscriptor = form["telefono_suscriptor"];
             contrato.celular_suscriptor = form["celular_suscriptor"];
-            contrato.empresa_empleadora_suscriptor = form["empresa_empleadora_suscriptor"];
-            contrato.cargo_suscriptor = form["cargo_suscriptor"];
+            contrato.empresa_empleadora_suscriptor = form["empresa_empleadora_suscriptor"].ToString().ToUpper();
+            contrato.cargo_suscriptor = form["cargo_suscriptor"].ToString().ToUpper();
 
             Double.TryParse(s: form["ingresos_mensuales_suscriptor"], result: out double ingresos_mensuales_suscriptor);
             contrato.ingresos_mensuales_suscriptor = ingresos_mensuales_suscriptor;
@@ -400,32 +400,32 @@ namespace ContratoDigital
             Double.TryParse(s: form["otros_ingresos_suscriptor"], result: out Double otros_ingresos_suscriptor);
             contrato.otros_ingresos_suscriptor = otros_ingresos_suscriptor;
 
-            contrato.direccion_empleo_suscriptor = form["direccion_empleo_suscriptor"];
+            contrato.direccion_empleo_suscriptor = form["direccion_empleo_suscriptor"].ToString().ToUpper();
             contrato.departamento_empleo_suscriptor = form["departamento_empleo_suscriptor"];
-            contrato.ciudad_empleo_suscriptor = form["ciudad_empleo_suscriptor"];
+            contrato.ciudad_empleo_suscriptor = form["ciudad_empleo_suscriptor"].ToString().ToUpper();
             contrato.telefono_empleo_suscriptor = form["telefono_empleo_suscriptor"];
             contrato.celular_empleo_suscriptor = form["celular_empleo_suscriptor"];
-            contrato.profesion_suscriptor = form["profesion_suscriptor"];
+            contrato.profesion_suscriptor = form["profesion_suscriptor"].ToString().ToUpper();
             contrato.envio_correspondencia_suscriptor = form["envio_correspondencia_suscriptor"];
-            contrato.email_suscriptor = form["email_suscriptor"];
+            contrato.email_suscriptor = form["email_suscriptor"].ToString().ToUpper();
 
             // Suscriptor conjunto
-            contrato.nombre_suscriptor_conjunto = form["nombre_suscriptor_conjunto"];
+            contrato.nombre_suscriptor_conjunto = form["nombre_suscriptor_conjunto"].ToString().ToUpper();
             contrato.tipo_identidad_suscriptor_conjunto = form["tipo_identidad_suscriptor_conjunto"];
 
             int.TryParse(s: form["documento_identidad_suscriptor_conjunto"], result: out int documento_identidad_suscriptor_conjunto);
             contrato.documento_identidad_suscriptor_conjunto = documento_identidad_suscriptor_conjunto;
 
-            contrato.procedencia_documento_identidad_suscriptor_conjunto = form["procedencia_documento_identidad_suscriptor_conjunto"];
+            contrato.procedencia_documento_identidad_suscriptor_conjunto = form["procedencia_documento_identidad_suscriptor_conjunto"].ToString().ToUpper();
 
             // Representante legal Suscriptor conjunto
-            contrato.representante_legal_suscriptor_conjunto = form["representante_legal_suscriptor_conjunto"];
+            contrato.representante_legal_suscriptor_conjunto = form["representante_legal_suscriptor_conjunto"].ToString().ToUpper();
             contrato.tipo_identidad_representante_legal_suscriptor_conjunto = form["tipo_identidad_representante_legal_suscriptor_conjunto"];
 
             int.TryParse(s: form["documento_identidad_representante_legal_suscriptor_conjunto"], result: out int documento_identidad_representante_legal_suscriptor_conjunto);
             contrato.documento_identidad_representante_legal_suscriptor_conjunto = documento_identidad_representante_legal_suscriptor_conjunto;
 
-            contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto = form["procedencia_identificacion_representante_legal_suscriptor_conjunto"];
+            contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto = form["procedencia_identificacion_representante_legal_suscriptor_conjunto"].ToString().ToUpper();
 
 
             // Datos del suscriptor conjunto
@@ -434,16 +434,16 @@ namespace ContratoDigital
             DateTime.TryParseExact(form["fecha_nacimiento_suscriptor_conjunto"], "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor_conjunto);
             contrato.fecha_nacimiento_suscriptor_conjunto = fecha_nacimiento_suscriptor_conjunto;
 
-            contrato.lugar_nacimiento_suscriptor_conjunto = form["fecha_nacimiento_suscriptor_conjunto"];
+            contrato.lugar_nacimiento_suscriptor_conjunto = form["lugar_nacimiento_suscriptor_conjunto"].ToString().ToUpper();
             contrato.sexo_suscriptor_conjunto = form["sexo_suscriptor_conjunto"];
             contrato.estado_civil_suscriptor_conjunto = form["estado_civil_suscriptor_conjunto"];
-            contrato.direccion_suscriptor_conjunto = form["dirección_suscriptor_conjunto"];
+            contrato.direccion_suscriptor_conjunto = form["dirección_suscriptor_conjunto"].ToString().ToUpper();
             contrato.departamento_suscriptor_conjunto = form["departamento_suscriptor_conjunto"];
-            contrato.ciudad_suscriptor_conjunto = form["ciudad_suscriptor_conjunto"];
+            contrato.ciudad_suscriptor_conjunto = form["ciudad_suscriptor_conjunto"].ToString().ToUpper();
             contrato.telefono_suscriptor_conjunto = form["telefono_suscriptor_conjunto"];
             contrato.celular_suscriptor_conjunto = form["celular_suscriptor_conjunto"];
-            contrato.empresa_empleadora_suscriptor_conjunto = form["empresa_empleadora_suscriptor_conjunto"];
-            contrato.cargo_suscriptor_conjunto = form["cargo_suscriptor_conjunto"];
+            contrato.empresa_empleadora_suscriptor_conjunto = form["empresa_empleadora_suscriptor_conjunto"].ToString().ToUpper();
+            contrato.cargo_suscriptor_conjunto = form["cargo_suscriptor_conjunto"].ToString().ToUpper();
 
             Double.TryParse(s: form["ingresos_mensuales_suscriptor_conjunto"], result: out double ingresos_mensuales_suscriptor_conjunto);
             contrato.ingresos_mensuales_suscriptor_conjunto = ingresos_mensuales_suscriptor_conjunto;
@@ -454,20 +454,20 @@ namespace ContratoDigital
             Double.TryParse(s: form["otros_ingresos_suscriptor_conjunto"], result: out double otros_ingresos_suscriptor_conjunto);
             contrato.otros_ingresos_suscriptor_conjunto = otros_ingresos_suscriptor_conjunto;
 
-            contrato.direccion_empleo_suscriptor_conjunto = form["direccion_empleo_suscriptor_conjunto"];
+            contrato.direccion_empleo_suscriptor_conjunto = form["direccion_empleo_suscriptor_conjunto"].ToString().ToUpper();
             contrato.departamento_empleo_suscriptor_conjunto = form["departamento_empleo_suscriptor_conjunto"];
-            contrato.ciudad_empleo_suscriptor_conjunto = form["ciudad_empleo_suscriptor_conjunto"];
+            contrato.ciudad_empleo_suscriptor_conjunto = form["ciudad_empleo_suscriptor_conjunto"].ToString().ToUpper();
             contrato.telefono_empleo_suscriptor_conjunto = form["telefono_empleo_suscriptor_conjunto"];
             contrato.celular_empleo_suscriptor_conjunto = form["celular_empleo_suscriptor_conjunto"];
-            contrato.profesion_suscriptor_conjunto = form["profesion_suscriptor_conjunto"];
-            contrato.correspondencia_suscriptor_conjunto = form["correspondencia_suscriptor_conjunto"];
-            contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"];
+            contrato.profesion_suscriptor_conjunto = form["profesion_suscriptor_conjunto"].ToString().ToUpper();
+            contrato.correspondencia_suscriptor_conjunto = form["correspondencia_suscriptor_conjunto"].ToString().ToUpper();
+            contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"].ToString().ToUpper();
 
             //Datos del bien
             contrato.tipo_de_bien = form["tipo_de_bien"];
-            contrato.marca_exclusiva_bien = form["marca_exclusiva_bien"];
-            contrato.detalles_bien = form["detalles_bien"];
-            contrato.codigo_bien = form["codigo_bien"];
+            contrato.marca_exclusiva_bien = form["marca_exclusiva_bien"].ToString().ToUpper();
+            contrato.detalles_bien = form["detalles_bien"].ToString().ToUpper();
+            contrato.codigo_bien = form["codigo_bien"].ToString().ToUpper();
 
             Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
             contrato.valor_bien = valor_bien;
@@ -513,25 +513,25 @@ namespace ContratoDigital
         {            
             // Suscriptor
             contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
-            contrato.primer_nombre = form["primer_nombre"];
-            contrato.segundo_nombre = form["segundo_nombre"];
-            contrato.primer_apellido = form["primer_apellido"];
-            contrato.segundo_apellido = form["segundo_apellido"];
+            contrato.primer_nombre = form["primer_nombre"].ToString().ToUpper();
+            contrato.segundo_nombre = form["segundo_nombre"].ToString().ToUpper();
+            contrato.primer_apellido = form["primer_apellido"].ToString().ToUpper();
+            contrato.segundo_apellido = form["segundo_apellido"].ToString().ToUpper();
             contrato.tipo_documento_identidad_suscriptor = form["tipo_identificacion_suscriptor"];
 
             int.TryParse(s: form["documento_identidad_suscriptor"], result: out int documento_identidad_suscriptor);
             contrato.documento_identidad_suscriptor = documento_identidad_suscriptor;
 
-            contrato.procedencia_documento_identidad_suscriptor = form["procedencia_documento_identidad_suscriptor"];
+            contrato.procedencia_documento_identidad_suscriptor = form["procedencia_documento_identidad_suscriptor"].ToString().ToUpper();
 
             // Representante legal del suscriptor
-            contrato.nombre_razon_social_representante_legal = form["nombre_razon_social_representante_legal"];
+            contrato.nombre_razon_social_representante_legal = form["nombre_razon_social_representante_legal"].ToString().ToUpper();
             contrato.tipo_documento_representante_legal = form["tipo_documento_representante_legal"];
 
             int.TryParse(s: form["documento_identidad_representante_legal"], result: out int documento_identidad_representante_legal);
             contrato.documento_identidad_representante_legal = documento_identidad_representante_legal;
 
-            contrato.procedencia_documento_identidad_representante_legal = form["procedencia_documento_identidad_representante_legal"];
+            contrato.procedencia_documento_identidad_representante_legal = form["procedencia_documento_identidad_representante_legal"].ToString().ToUpper();
 
             // Datos del suscriptor
             DateTime fecha_nacimiento_suscriptor = DateTime.Today;
@@ -539,17 +539,17 @@ namespace ContratoDigital
             contrato.fecha_nacimiento_suscriptor = fecha_nacimiento_suscriptor;
 
 
-            contrato.lugar_nacimiento_suscriptor = form["lugar_nacimiento_suscriptor"];
+            contrato.lugar_nacimiento_suscriptor = form["lugar_nacimiento_suscriptor"].ToString().ToUpper();
             contrato.sexo_suscriptor = form["sexo_suscriptor"];
             contrato.estado_civil_suscriptor = form["estado_civil_suscriptor"];
-            contrato.direccion_domicilio_suscriptor = form["direccion_domicilio_suscriptor"];
-            contrato.pais_suscriptor = form["pais_suscriptor"];
+            contrato.direccion_domicilio_suscriptor = form["direccion_domicilio_suscriptor"].ToString().ToUpper();
+            contrato.pais_suscriptor = form["pais_suscriptor"].ToString().ToUpper();
             contrato.departamento_suscriptor = form["departamento_suscriptor"];
-            contrato.ciudad_suscriptor = form["ciudad_suscriptor"];
+            contrato.ciudad_suscriptor = form["ciudad_suscriptor"].ToString().ToUpper();
             contrato.telefono_suscriptor = form["telefono_suscriptor"];
             contrato.celular_suscriptor = form["celular_suscriptor"];
-            contrato.empresa_empleadora_suscriptor = form["empresa_empleadora_suscriptor"];
-            contrato.cargo_suscriptor = form["cargo_suscriptor"];
+            contrato.empresa_empleadora_suscriptor = form["empresa_empleadora_suscriptor"].ToString().ToUpper();
+            contrato.cargo_suscriptor = form["cargo_suscriptor"].ToString().ToUpper();
 
             Double.TryParse(s: form["ingresos_mensuales_suscriptor"], result: out double ingresos_mensuales_suscriptor);
             contrato.ingresos_mensuales_suscriptor = ingresos_mensuales_suscriptor;
@@ -560,32 +560,32 @@ namespace ContratoDigital
             Double.TryParse(s: form["otros_ingresos_suscriptor"], result: out Double otros_ingresos_suscriptor);
             contrato.otros_ingresos_suscriptor = otros_ingresos_suscriptor;
 
-            contrato.direccion_empleo_suscriptor = form["direccion_empleo_suscriptor"];
+            contrato.direccion_empleo_suscriptor = form["direccion_empleo_suscriptor"].ToString().ToUpper();
             contrato.departamento_empleo_suscriptor = form["departamento_empleo_suscriptor"];
-            contrato.ciudad_empleo_suscriptor = form["ciudad_empleo_suscriptor"];
+            contrato.ciudad_empleo_suscriptor = form["ciudad_empleo_suscriptor"].ToString().ToUpper();
             contrato.telefono_empleo_suscriptor = form["telefono_empleo_suscriptor"];
             contrato.celular_empleo_suscriptor = form["celular_empleo_suscriptor"];
-            contrato.profesion_suscriptor = form["profesion_suscriptor"];
+            contrato.profesion_suscriptor = form["profesion_suscriptor"].ToString().ToUpper();
             contrato.envio_correspondencia_suscriptor = form["envio_correspondencia_suscriptor"];
-            contrato.email_suscriptor = form["email_suscriptor"];
+            contrato.email_suscriptor = form["email_suscriptor"].ToString().ToUpper();
 
             // Suscriptor conjunto
-            contrato.nombre_suscriptor_conjunto = form["nombre_suscriptor_conjunto"];
+            contrato.nombre_suscriptor_conjunto = form["nombre_suscriptor_conjunto"].ToString().ToUpper();
             contrato.tipo_identidad_suscriptor_conjunto = form["tipo_identidad_suscriptor_conjunto"];
 
             int.TryParse(s: form["documento_identidad_suscriptor_conjunto"], result: out int documento_identidad_suscriptor_conjunto);
             contrato.documento_identidad_suscriptor_conjunto = documento_identidad_suscriptor_conjunto;
 
-            contrato.procedencia_documento_identidad_suscriptor_conjunto = form["procedencia_documento_identidad_suscriptor_conjunto"];
+            contrato.procedencia_documento_identidad_suscriptor_conjunto = form["procedencia_documento_identidad_suscriptor_conjunto"].ToString().ToUpper();
 
             // Representante legal Suscriptor conjunto
-            contrato.representante_legal_suscriptor_conjunto = form["representante_legal_suscriptor_conjunto"];
+            contrato.representante_legal_suscriptor_conjunto = form["representante_legal_suscriptor_conjunto"].ToString().ToUpper();
             contrato.tipo_identidad_representante_legal_suscriptor_conjunto = form["tipo_identidad_representante_legal_suscriptor_conjunto"];
 
             int.TryParse(s: form["documento_identidad_representante_legal_suscriptor_conjunto"], result: out int documento_identidad_representante_legal_suscriptor_conjunto);
             contrato.documento_identidad_representante_legal_suscriptor_conjunto = documento_identidad_representante_legal_suscriptor_conjunto;
 
-            contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto = form["procedencia_identificacion_representante_legal_suscriptor_conjunto"];
+            contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto = form["procedencia_identificacion_representante_legal_suscriptor_conjunto"].ToString().ToUpper();
 
 
             // Datos del suscriptor conjunto
@@ -594,16 +594,16 @@ namespace ContratoDigital
             DateTime.TryParseExact(form["fecha_nacimiento_suscriptor_conjunto"], "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fecha_nacimiento_suscriptor_conjunto);
             contrato.fecha_nacimiento_suscriptor_conjunto = fecha_nacimiento_suscriptor_conjunto;
 
-            contrato.lugar_nacimiento_suscriptor_conjunto = form["fecha_nacimiento_suscriptor_conjunto"];
+            contrato.lugar_nacimiento_suscriptor_conjunto = form["lugar_nacimiento_suscriptor_conjunto"].ToString().ToUpper();
             contrato.sexo_suscriptor_conjunto = form["sexo_suscriptor_conjunto"];
             contrato.estado_civil_suscriptor_conjunto = form["estado_civil_suscriptor_conjunto"];
-            contrato.direccion_suscriptor_conjunto = form["dirección_suscriptor_conjunto"];
+            contrato.direccion_suscriptor_conjunto = form["dirección_suscriptor_conjunto"].ToString().ToUpper();
             contrato.departamento_suscriptor_conjunto = form["departamento_suscriptor_conjunto"];
-            contrato.ciudad_suscriptor_conjunto = form["ciudad_suscriptor_conjunto"];
+            contrato.ciudad_suscriptor_conjunto = form["ciudad_suscriptor_conjunto"].ToString().ToUpper();
             contrato.telefono_suscriptor_conjunto = form["telefono_suscriptor_conjunto"];
             contrato.celular_suscriptor_conjunto = form["celular_suscriptor_conjunto"];
-            contrato.empresa_empleadora_suscriptor_conjunto = form["empresa_empleadora_suscriptor_conjunto"];
-            contrato.cargo_suscriptor_conjunto = form["cargo_suscriptor_conjunto"];
+            contrato.empresa_empleadora_suscriptor_conjunto = form["empresa_empleadora_suscriptor_conjunto"].ToString().ToUpper();
+            contrato.cargo_suscriptor_conjunto = form["cargo_suscriptor_conjunto"].ToString().ToUpper();
 
             Double.TryParse(s: form["ingresos_mensuales_suscriptor_conjunto"], result: out double ingresos_mensuales_suscriptor_conjunto);
             contrato.ingresos_mensuales_suscriptor_conjunto = ingresos_mensuales_suscriptor_conjunto;
@@ -614,20 +614,20 @@ namespace ContratoDigital
             Double.TryParse(s: form["otros_ingresos_suscriptor_conjunto"], result: out double otros_ingresos_suscriptor_conjunto);
             contrato.otros_ingresos_suscriptor_conjunto = otros_ingresos_suscriptor_conjunto;
 
-            contrato.direccion_empleo_suscriptor_conjunto = form["direccion_empleo_suscriptor_conjunto"];
+            contrato.direccion_empleo_suscriptor_conjunto = form["direccion_empleo_suscriptor_conjunto"].ToString().ToUpper();
             contrato.departamento_empleo_suscriptor_conjunto = form["departamento_empleo_suscriptor_conjunto"];
-            contrato.ciudad_empleo_suscriptor_conjunto = form["ciudad_empleo_suscriptor_conjunto"];
+            contrato.ciudad_empleo_suscriptor_conjunto = form["ciudad_empleo_suscriptor_conjunto"].ToString().ToUpper();
             contrato.telefono_empleo_suscriptor_conjunto = form["telefono_empleo_suscriptor_conjunto"];
             contrato.celular_empleo_suscriptor_conjunto = form["celular_empleo_suscriptor_conjunto"];
-            contrato.profesion_suscriptor_conjunto = form["profesion_suscriptor_conjunto"];
+            contrato.profesion_suscriptor_conjunto = form["profesion_suscriptor_conjunto"].ToString().ToUpper();
             contrato.correspondencia_suscriptor_conjunto = form["correspondencia_suscriptor_conjunto"];
-            contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"];
+            contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"].ToString().ToUpper();
 
             //Datos del bien
             contrato.tipo_de_bien = form["tipo_de_bien"];
-            contrato.marca_exclusiva_bien = form["marca_exclusiva_bien"];
-            contrato.detalles_bien = form["detalles_bien"];
-            contrato.codigo_bien = form["codigo_bien"];
+            contrato.marca_exclusiva_bien = form["marca_exclusiva_bien"].ToString().ToUpper();
+            contrato.detalles_bien = form["detalles_bien"].ToString().ToUpper();
+            contrato.codigo_bien = form["codigo_bien"].ToString().ToUpper();
 
             Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
             contrato.valor_bien = valor_bien;
@@ -672,10 +672,10 @@ namespace ContratoDigital
         static public Prospecto FillProspecto(IFormCollection form)
         {
             Prospecto prospecto = new Prospecto();
-            prospecto.PrimerNombre = form["PrimerNombre"];
-            prospecto.SegundoNombre = form["SegundoNombre"];
-            prospecto.PrimerApellido = form["PrimerApellido"];
-            prospecto.SegundoApellido = form["SegundoApellido"];
+            prospecto.PrimerNombre = form["PrimerNombre"].ToString().ToUpper();
+            prospecto.SegundoNombre = form["SegundoNombre"].ToString().ToUpper();
+            prospecto.PrimerApellido = form["PrimerApellido"].ToString().ToUpper();
+            prospecto.SegundoApellido = form["SegundoApellido"].ToString().ToUpper();
 
             int.TryParse(s: form["TipoDocumentoIdentidad"], result: out int tipoDocumentoIdentidad);
             prospecto.TipoDocumentoIdentidad = tipoDocumentoIdentidad;
@@ -685,10 +685,10 @@ namespace ContratoDigital
 
             prospecto.Telefono = form["Telefono"];
             prospecto.Celular = form["Celular"];
-            prospecto.Email = form["Email"];
+            prospecto.Email = form["Email"].ToString().ToUpper();
             // TODO: Change this for its actual value.
             prospecto.Referencia = 1030;
-            prospecto.DescripcionDelBien = form["DescripcionDelBien"];
+            prospecto.DescripcionDelBien = form["DescripcionDelBien"].ToString().ToUpper();
 
             double.TryParse(s: form["costo_del_bien"], result: out double costodelbien);
             prospecto.ValorDelBien = costodelbien;
@@ -727,10 +727,10 @@ namespace ContratoDigital
         /// <returns>Un entidad de persnoas cona todos los datos del contrato PDF</returns>
         static public Prospecto UpdateProspecto(IFormCollection form, Prospecto prospecto)
         {            
-            prospecto.PrimerNombre = form["PrimerNombre"];
-            prospecto.SegundoNombre = form["SegundoNombre"];
-            prospecto.PrimerApellido = form["PrimerApellido"];
-            prospecto.SegundoApellido = form["SegundoApellido"];
+            prospecto.PrimerNombre = form["PrimerNombre"].ToString().ToUpper();
+            prospecto.SegundoNombre = form["SegundoNombre"].ToString().ToUpper();
+            prospecto.PrimerApellido = form["PrimerApellido"].ToString().ToUpper();
+            prospecto.SegundoApellido = form["SegundoApellido"].ToString().ToUpper();
 
             int.TryParse(s: form["TipoDocumentoIdentidad"], result: out int tipoDocumentoIdentidad);
             prospecto.TipoDocumentoIdentidad = tipoDocumentoIdentidad;
@@ -740,10 +740,10 @@ namespace ContratoDigital
 
             prospecto.Telefono = form["Telefono"];
             prospecto.Celular = form["Celular"];
-            prospecto.Email = form["Email"];
+            prospecto.Email = form["Email"].ToString().ToUpper();
             // TODO: Change this for its actual value.
             prospecto.Referencia = 1030;
-            prospecto.DescripcionDelBien = form["DescripcionDelBien"];
+            prospecto.DescripcionDelBien = form["DescripcionDelBien"].ToString().ToUpper();
 
             double.TryParse(s: form["costo_del_bien"], result: out double costodelbien);
             prospecto.ValorDelBien = costodelbien;
