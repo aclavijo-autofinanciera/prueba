@@ -62,6 +62,52 @@ namespace ContratoDigital.Controllers
             Contrato contrato = Utilities.FillContrato(form);
             _context.Add(contrato);
             await _context.SaveChangesAsync();
+            ConfirmacionContrato confirmacionContrato = new ConfirmacionContrato()
+            {
+                IdContrato = contrato.IdContrato,
+                Guuid = Guid.NewGuid().ToString(),
+                IsAccepted = false,
+                IsIdUploaded = false,
+                IsPaid = false
+            };
+            try
+            {
+                _context.ConfirmacionContratos.Add(confirmacionContrato);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                string value = ex.Message;
+            }
+            EmailService emailService = new EmailService(_emailConfiguration);
+            EmailMessage emailMessage = new EmailMessage();
+            emailMessage.FromAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = "Test Adminsitrative", Address="tienda@autofinanciera.com.co"}
+            };
+            emailMessage.ToAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+            };
+            emailMessage.Subject = "[Autofinanciera] Confirmación de aceptación de cláusulas";
+#if DEBUG
+            emailMessage.Content = "Acepto las cláusulas del contrato de adhesión de suscriptores<br>" +
+                "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id;
+#endif
+#if RELEASE
+            emailMessage.Content = "Acepto las cláusulas del contrato de adhesión de suscriptores<br>" +
+                "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id;
+#endif
+            try
+            {
+                emailService.Send(emailMessage);
+                TempData["EmailResult"] = "Success";
+            }
+            catch(Exception ex)
+            {
+                TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
+            }
+            TempData.Keep("EmailResult");
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
 
@@ -280,6 +326,24 @@ namespace ContratoDigital.Controllers
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
 
 
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmarCorreo(string guuid, int id)
+        {
+            ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
+            if(confirmacionContrato.Guuid == guuid)
+            {
+                confirmacionContrato.IsAccepted = true;
+                confirmacionContrato.FechaAceptacion = DateTime.Now;
+                await _context.SaveChangesAsync();
+                ViewData["IsConfirmed"] = true;
+            }
+            else
+            {
+                ViewData["IsConfirmed"] = false;
+            }
+            return View();
         }
 
         public async Task<IActionResult> Pay(int id)
