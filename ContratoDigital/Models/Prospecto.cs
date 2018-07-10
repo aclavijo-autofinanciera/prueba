@@ -15,7 +15,7 @@ namespace ContratoDigital.Models
         public string PrimerApellido { get; set; }
         public string SegundoApellido { get; set; }
         public int TipoDocumentoIdentidad { get; set; }
-        public int NumeroDocumento { get; set; }        
+        public int NumeroDocumento { get; set; }
         public string Telefono { get; set; }
         public string Celular { get; set; }
         public string Email { get; set; }
@@ -29,8 +29,9 @@ namespace ContratoDigital.Models
         public double Administracion { get; set; }
         public double IvaAdministracion { get; set; }
         public double TotalCuotaBruta { get; set; }
-        public double ValorTotalPrimerPago { get; set; }     
-        
+        public double ValorTotalPrimerPago { get; set; }
+
         public virtual ICollection<Contrato> Contratos { get; set; }
+        public virtual ICollection<ConfirmacionProspecto> ConfirmacionProspecto {get; set;}
     }
 }

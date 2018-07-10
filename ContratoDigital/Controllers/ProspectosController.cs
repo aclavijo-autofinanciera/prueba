@@ -25,10 +25,12 @@ namespace ContratoDigital.Controllers
         /// </summary>
         private readonly ContratoDigitalContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public ProspectosController(ContratoDigitalContext context, IHostingEnvironment hostingEnvironment)
+        private readonly IEmailConfiguration _emailConfiguration;
+        public ProspectosController(ContratoDigitalContext context, IHostingEnvironment hostingEnvironment, IEmailConfiguration emailConfiguration)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+            _emailConfiguration = emailConfiguration;
         }
 
         public async Task<IActionResult> Index()
@@ -39,14 +41,7 @@ namespace ContratoDigital.Controllers
         }
 
         public IActionResult Create()
-        {
-            //WebService service = new WebService();
-            //service.FindMarcas();
-            /*string valor = service.SelecccionarAgenciasAsync().Result;
-            /*ViewData["Result"] = valor;
-            ViewData["Result2"] = service.SelecccionarMarcasAsync().Result;
-            ViewData["Result3"] = service.SelecccionarCompañiasAsync().Result;
-            ViewData["Result4"] = service.SelecccionarTiposBienesCompañiaAsync("6831062e-c994-4686-a989-1964b1200cbc").Result;*/
+        {            
             return View();
         }
 
@@ -56,7 +51,60 @@ namespace ContratoDigital.Controllers
             Prospecto prospecto = Utilities.FillProspecto(form);
             _context.Prospectos.Add(prospecto);
             await _context.SaveChangesAsync();
-            return RedirectToAction( "Details","Prospectos", new { id = prospecto.IdProspecto });
+            ConfirmacionProspecto confirmacionProspecto = new ConfirmacionProspecto();
+            confirmacionProspecto.IdProspecto = prospecto.IdProspecto;
+            confirmacionProspecto.Guuid = Guid.NewGuid().ToString();
+            confirmacionProspecto.IsConfirmed = false;
+            _context.ConfirmacionProspectos.Add(confirmacionProspecto);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                string value = ex.Message;
+            }
+            
+            EmailService emailService = new EmailService(_emailConfiguration);
+            EmailMessage emailMessage = new EmailMessage();
+            emailMessage.FromAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = "Test Administrative", Address = "tienda@autofinanciera.com.co"}
+            };
+            emailMessage.ToAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+            };
+            emailMessage.Subject = "[AutoFinanciera] Confirmación de Email";
+            emailMessage.Content = "con este link podrás confirmar http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid="+confirmacionProspecto.Guuid+"&id="+confirmacionProspecto.Id;
+            try
+            {
+                emailService.Send(emailMessage);
+                TempData["EmailResult"] = "Success";
+            }
+            catch(Exception ex)
+            {
+                TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
+            }
+            TempData.Keep("EmailREsult");
+            return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });            
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmarCorreo(string guuid, int id)
+        {
+            ConfirmacionProspecto confirmacionProspecto = await _context.ConfirmacionProspectos.SingleOrDefaultAsync(x => x.Id == id);
+            if(confirmacionProspecto.Guuid == guuid)
+            {
+                confirmacionProspecto.IsConfirmed = true;
+                await _context.SaveChangesAsync();
+                ViewData["IsConfirmed"] = true;
+            }
+            else
+            {
+                ViewData["IsConfirmed"] = false;
+            }
+            return View();
         }
 
         public async Task<IActionResult> Details(int id)

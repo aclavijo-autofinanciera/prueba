@@ -17,6 +17,9 @@ namespace ContratoDigital.Data
 
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Prospecto> Prospectos { get; set; }
+        public DbSet<ConfirmacionContrato> ConfirmacionContratos { get; set; }
+        public DbSet<ConfirmacionProspecto> ConfirmacionProspectos { get; set; }
+        
 
       
         

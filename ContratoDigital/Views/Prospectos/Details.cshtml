@@ -70,6 +70,16 @@
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.Email
+                            @if (Model.ConfirmacionProspecto.LastOrDefault().IsConfirmed == true)
+                            {
+                                <span class="badge badge-success"><i class="fas fa-check"></i> confirmado</span>
+
+                            }
+                            else
+                            {
+                                <span class="badge badge-warning">Por confirmar</span>
+
+                            }
                         </div>
                     </div>
                 </div>
