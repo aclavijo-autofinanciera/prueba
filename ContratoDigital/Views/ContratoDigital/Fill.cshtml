@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="segundo_apellido">Segundo apellido</label>
-                            <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control form-control-lg" placeholder="Nombre (nombre completo o razón social)" value="@Model.SegundoApellido">
+                            <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control form-control-lg text-uppercase" placeholder="Nombre (nombre completo o razón social)" value="@Model.SegundoApellido">
                         </div>
 
                     </div>
@@ -354,7 +354,7 @@
                         </div>
                         <div class="col">
                             <label for="email_suscriptor">Correo electrónico</label>
-                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required />
+                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required value="@Model.Email"/>
                         </div>
                     </div>
                 </section>
