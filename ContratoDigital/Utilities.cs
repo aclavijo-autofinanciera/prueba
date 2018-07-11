@@ -41,7 +41,19 @@ namespace ContratoDigital
 
             // Tipo de documento de identidad
             fields.TryGetValue("tipo_documento_identidad_suscriptor", out toSet);
-            toSet.SetValue(contrato.tipo_documento_identidad_suscriptor.ToUpper());
+            switch(contrato.tipo_documento_identidad_suscriptor)
+            {
+                case "1":
+                    toSet.SetValue("CC");
+                    break;
+                case "2":
+                    toSet.SetValue("CE");
+                    break;
+                case "3":
+                    toSet.SetValue("NIT");
+                    break;
+            }
+            
 
             // Número de documento de identidad
             fields.TryGetValue("documento_identidad_suscriptor", out toSet);
@@ -81,11 +93,11 @@ namespace ContratoDigital
 
             // Sexo suscriptor
             fields.TryGetValue("sexo_suscriptor", out toSet);
-            toSet.SetValue(contrato.sexo_suscriptor.ToUpper());
+            toSet.SetValue(contrato.sexo_suscriptor);
 
             // Estado Civil Suscriptor
             fields.TryGetValue("estado_civil_suscriptor", out toSet);
-            toSet.SetValue(contrato.estado_civil_suscriptor.ToUpper());
+            toSet.SetValue(contrato.estado_civil_suscriptor);
 
             // Dirección de domicilio suscriptor
             fields.TryGetValue("direccion_domicilio_suscriptor", out toSet);
@@ -117,15 +129,15 @@ namespace ContratoDigital
 
             // Ingresos mensuales suscriptor
             fields.TryGetValue("ingresos_mensuales_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.ingresos_mensuales_suscriptor).ToUpper());
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.ingresos_mensuales_suscriptor).ToUpper());
 
             // Egresos mensuales suscriptor
             fields.TryGetValue("egresos_mensuales_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.egresos_mensuales_suscriptor).ToUpper());
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.egresos_mensuales_suscriptor).ToUpper());
 
             // Otros ingresos mensuales suscriptor
             fields.TryGetValue("otros_ingresos_suscriptor", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.otros_ingresos_suscriptor).ToUpper());
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.otros_ingresos_suscriptor).ToUpper());
 
 
             // Dirección oficina laboral suscriptor
@@ -154,7 +166,8 @@ namespace ContratoDigital
 
             // Envío correspondencia
             fields.TryGetValue("envio_correspondencia_suscriptor", out toSet);
-            toSet.SetValue(contrato.envio_correspondencia_suscriptor.ToUpper());
+            //contrato.envio_correspondencia_suscriptor == "email" ?  :;
+            toSet.SetValue(contrato.envio_correspondencia_suscriptor == "email" ? "email" :contrato.envio_correspondencia_suscriptor);
 
             // Email
             fields.TryGetValue("email_suscriptor", out toSet);
@@ -167,7 +180,19 @@ namespace ContratoDigital
 
             // Tipo de documento de identidad
             fields.TryGetValue("tipo_identidad_suscriptor_conjunto", out toSet);
-            toSet.SetValue(contrato.tipo_identidad_suscriptor_conjunto.ToUpper());
+            /*switch (contrato.tipo_identidad_suscriptor_conjunto)
+            {
+                case "1":
+                    toSet.SetValue("CC");
+                    break;
+                case "2":
+                    toSet.SetValue("CE");
+                    break;
+                case "3":
+                    toSet.SetValue("NIT");
+                    break;
+            }*/
+            toSet.SetValue(contrato.tipo_identidad_suscriptor_conjunto);
 
             // Número de documento identidad
             fields.TryGetValue("documento_identidad_suscriptor_conjunto", out toSet);
@@ -183,7 +208,7 @@ namespace ContratoDigital
 
             // Tipo de documento representante legal suscritpr conjunto 
             fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);
-            toSet.SetValue(contrato.tipo_identidad_representante_legal_suscriptor_conjunto.ToUpper());
+            toSet.SetValue(contrato.tipo_identidad_representante_legal_suscriptor_conjunto);
 
             // documento de identidad representante legal
             fields.TryGetValue("documento_identidad_representante_legal_suscriptor_conjunto", out toSet);
@@ -207,11 +232,11 @@ namespace ContratoDigital
 
             // Sexo Suscriptor conjunto
             fields.TryGetValue("sexo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(contrato.sexo_suscriptor_conjunto.ToUpper());
+            toSet.SetValue(contrato.sexo_suscriptor_conjunto);
 
             // Estado civil
             fields.TryGetValue("estado_civil_suscriptor_conjunto", out toSet);
-            toSet.SetValue(contrato.estado_civil_suscriptor_conjunto.ToUpper());
+            toSet.SetValue(contrato.estado_civil_suscriptor_conjunto);
 
             // Dirección domicilio suscriptor conjunto
             fields.TryGetValue("dirección_suscriptor_conjunto", out toSet);
@@ -243,19 +268,19 @@ namespace ContratoDigital
 
             // ingresos Mensuales
             fields.TryGetValue("ingresos_mensuales_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.ingresos_mensuales_suscriptor_conjunto).ToUpper());
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.ingresos_mensuales_suscriptor_conjunto).ToUpper());
 
             // Egresos Mensuales
             fields.TryGetValue("egresos_mensuales_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.egresos_mensuales_suscriptor_conjunto).ToUpper());
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.egresos_mensuales_suscriptor_conjunto).ToUpper());
 
             // Otros ingresos
             fields.TryGetValue("otros_ingresos_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.otros_ingresos_suscriptor_conjunto).ToUpper());
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.otros_ingresos_suscriptor_conjunto).ToUpper());
 
             // Dirección oficina laboral suscriptor conjunto
             fields.TryGetValue("direccion_empleo_suscriptor_conjunto", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.direccion_empleo_suscriptor_conjunto).ToUpper());
+            toSet.SetValue(contrato.direccion_empleo_suscriptor_conjunto.ToUpper());
 
             //Departamento suscriptor conjunto
             fields.TryGetValue("departamento_empleo_suscriptor_conjunto", out toSet);
@@ -279,7 +304,8 @@ namespace ContratoDigital
 
             // Envio Correspondencia suscriptor conjunto 
             fields.TryGetValue("correspondencia_suscriptor_conjunto", out toSet);
-            toSet.SetValue(contrato.envio_correspondencia_suscriptor.ToUpper());
+            toSet.SetValue(contrato.correspondencia_suscriptor_conjunto == "email" ? "email" : contrato.envio_correspondencia_suscriptor);
+            //toSet.SetValue(contrato.envio_correspondencia_suscriptor.ToUpper());
 
             // Email Suscriptor Conjunto
             fields.TryGetValue("email_suscriptor_conjunto", out toSet);
@@ -287,7 +313,7 @@ namespace ContratoDigital
 
             // Tipo de bien
             fields.TryGetValue("tipo_de_bien", out toSet);
-            toSet.SetValue(contrato.tipo_de_bien.ToUpper());
+            toSet.SetValue(contrato.tipo_de_bien);
 
             // marca exclusiva bien
             fields.TryGetValue("marca_exclusiva_bien", out toSet);
@@ -297,9 +323,13 @@ namespace ContratoDigital
             fields.TryGetValue("detalles_bien", out toSet);
             toSet.SetValue(contrato.detalles_bien.ToUpper());
 
-            // Detalles bien
+            // Valor del bien
             fields.TryGetValue("valor_bien", out toSet);
             toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
+
+            // Cuota del bien
+            fields.TryGetValue("cuota_bien", out toSet);
+            toSet.SetValue(contrato.cuota_bien);
 
             // codigo bien
             fields.TryGetValue("codigo_bien", out toSet);
@@ -307,39 +337,36 @@ namespace ContratoDigital
 
             // cuota ingreso
             fields.TryGetValue("cuota_ingreso", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.cuota_ingreso));
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.cuota_ingreso));
 
             // Administración
             fields.TryGetValue("administracion", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.administracion));
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.administracion));
 
             // IVA Cuota Ingreso
             fields.TryGetValue("iva_cuota_ingreso", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.iva_cuota_ingreso));
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_cuota_ingreso));
 
             // IVA Administración
             fields.TryGetValue("iva_administracion", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.iva_administracion));
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_administracion));
 
             // Total Cuota ingreso
             fields.TryGetValue("total_cuota_ingreso", out toSet);
-            toSet.SetValue(String.Format("{0:00}", contrato.total_cuota_ingreso));
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_ingreso));
 
             // Total Cuota Bruta
             fields.TryGetValue("total_cuota_bruta", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.total_cuota_bruta));
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_bruta));
 
             // Primera cuota neta
             fields.TryGetValue("primera_cuota_neta", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.primera_cuota_neta));
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.primera_cuota_neta));
 
             // Valor primer pago
             fields.TryGetValue("valor_primer_pago", out toSet);
-            toSet.SetValue(String.Format("{0:0.00}", contrato.valor_primer_pago));
-
-            //
-
-
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_primer_pago));
+            
         }
 
         /// <summary>

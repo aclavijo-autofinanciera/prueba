@@ -15,8 +15,8 @@
     <Description>Sistema integrado de contratos digitales.</Description>
     <Copyright>1977-2018</Copyright>
     <Authors>Autofinanciera</Authors>
-    <StartupObject>ContratoDigital.Program</StartupObject>
-    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+    <StartupObject></StartupObject>
+    <ApplicationIcon></ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
