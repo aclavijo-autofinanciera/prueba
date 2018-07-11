@@ -163,16 +163,15 @@
                 </div>
             </div>
 
-            @if (Model.tipo_documento_identidad_suscriptor == "NIT" || Model.tipo_documento_identidad_suscriptor == "3")
+            @if (!String.IsNullOrEmpty(Model.nombre_razon_social_representante_legal))
             {
+            
                 <div class="col-12 col-md-8 mt-3">
                     <div class="polymer-box">
                         <h5>Representante legal</h5>
                     </div>
-                </div>
+                    <section class="polymer-box">
 
-                <div class="col-12 col-md-8">
-                    <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
                                 Nombre representante legal
@@ -181,11 +180,6 @@
                                 @Model.nombre_razon_social_representante_legal
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-8">
-                    <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
                                 Documento identidad
@@ -194,11 +188,6 @@
                                 @(Model.tipo_documento_representante_legal + " - " + Model.documento_identidad_representante_legal)
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-8 mb-3">
-                    <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
                                 Procedencia
@@ -207,9 +196,9 @@
                                 @Model.procedencia_documento_identidad_representante_legal
                             </div>
                         </div>
-                    </div>
-                </div>
 
+                    </section>
+                </div>
 
             }
 
@@ -476,7 +465,7 @@
                     </div>
                 </div>
 
-                @if (Model.tipo_identidad_suscriptor_conjunto == "NIT" || Model.tipo_identidad_suscriptor_conjunto == "3")
+                @if (!String.IsNullOrEmpty(Model.representante_legal_suscriptor_conjunto))
                 {
                     <div class="col-12 col-md-8 mt-4">
                         <div class="polymer-box">
@@ -488,11 +477,6 @@
                                     @Model.representante_legal_suscriptor_conjunto
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-8">
-                        <div class="polymer-box">
                             <div class="row">
                                 <div class="col-12 col-md-4 font-weight-bold">
                                     Documento de identidad
@@ -501,11 +485,6 @@
                                     @(Model.tipo_identidad_representante_legal_suscriptor_conjunto + " - " + Model.documento_identidad_representante_legal_suscriptor_conjunto)
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-8 mb-4">
-                        <div class="polymer-box">
                             <div class="row">
                                 <div class="col-12 col-md-4 font-weight-bold">
                                     De
@@ -516,7 +495,6 @@
                             </div>
                         </div>
                     </div>
-
                 }
 
                 <div class="col-12 col-md-8">
