@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-
+using ContratoDigital.Areas.Identity.Data;
 using ContratoDigital.Models;
 using iText.Barcodes;
 using iText.Forms;
@@ -12,6 +14,7 @@ using iText.Kernel.Pdf;
 using iText.Layout.Element;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using MimeKit;
 using MimeKit.Text;
 
@@ -21,7 +24,8 @@ namespace ContratoDigital
     /// Métodos utilitarios iterativos. 
     /// </summary>
     static public class Utilities
-    {
+    {       
+        
         /// <summary>
         /// Asigna todos los valores de la clase contrato a un PDF.
         /// </summary>
@@ -487,7 +491,7 @@ namespace ContratoDigital
             contrato.telefono_empleo_suscriptor_conjunto = form["telefono_empleo_suscriptor_conjunto"];
             contrato.celular_empleo_suscriptor_conjunto = form["celular_empleo_suscriptor_conjunto"];
             contrato.profesion_suscriptor_conjunto = form["profesion_suscriptor_conjunto"].ToString().ToUpper();
-            contrato.correspondencia_suscriptor_conjunto = form["correspondencia_suscriptor_conjunto"].ToString().ToUpper();
+            contrato.correspondencia_suscriptor_conjunto = form["correspondencia_suscriptor_conjunto"];
             contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"].ToString().ToUpper();
 
             //Datos del bien
@@ -527,6 +531,8 @@ namespace ContratoDigital
 
             Double.TryParse(s: form["valor_primer_pago"], result: out double valor_primer_pago);
             contrato.valor_primer_pago = valor_primer_pago;
+
+            contrato.fecha_suscripcion_contrato = DateTime.Now;
 
             return contrato;
         }
