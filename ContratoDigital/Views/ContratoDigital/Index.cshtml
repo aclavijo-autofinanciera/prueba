@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Contrato>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1  class="text-white text-center text-shadow" data-aos="fade-in"  data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Mis Contratos
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Acciones</th>
+                                <th>Suscriptor</th>
+                                <th>Número documento</th>
+                                <th>Contrato</th>
+                                <th>Detalle del bien</th>
+                                <th>Valor</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Acciones
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
+                                                <a class="dropdown-item" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
+                                                <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
+                                            </div>
+                                        </div>                                        
+                                    </td>
+                                    <td>@item.primer_nombre @item.segundo_nombre @item.primer_apellido @item.segundo_apellido</td>
+                                    <td>@item.documento_identidad_suscriptor</td>
+                                    <td>@item.numero_de_contrato</td>
+                                    <td>@item.detalles_bien</td>
+                                    <td>@item.valor_bien</td>
+                                    <td>
+                                        @(item.ConfirmacionContratos.LastOrDefault().IsAccepted? Html.Raw("<h5><span class=\"badge badge-success p-2\"><i class=\"fas fa-check\"></i> Condiciones aceptadas</span></h5>"):Html.Raw("<h5><span class=\"badge badge-warning p-2\"><i class=\"far fa-clock\"></i> En proceso: por aceptar condiciones</span></h5>"))
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
