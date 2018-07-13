@@ -43,7 +43,7 @@ namespace ContratoDigital
 
             message.Subject = emailMessage.Subject;
             var builder = new BodyBuilder();
-            builder.TextBody = emailMessage.Content;
+            builder.HtmlBody = emailMessage.Content;
             builder.Attachments.Add("ContratoAutofinanciera.pdf", stream.ToArray(), new ContentType("application", "pdf"));
             message.Body = builder.ToMessageBody();
             using (var emailClient = new SmtpClient())
@@ -66,9 +66,9 @@ namespace ContratoDigital
             var message = new MimeMessage();
             message.To.AddRange(emailMessage.ToAddresses.Select(x => new MailboxAddress(x.Address)));
             message.From.AddRange(emailMessage.FromAddresses.Select(x=> new MailboxAddress(x.Name, x.Address)));
-            message.Subject = emailMessage.Subject;
+            message.Subject = emailMessage.Subject;            
             var builder = new BodyBuilder();
-            builder.TextBody = emailMessage.Content;
+            builder.HtmlBody = emailMessage.Content;
             message.Body = builder.ToMessageBody();
             using (var emailClient = new SmtpClient())
             {
