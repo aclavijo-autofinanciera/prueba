@@ -8,13 +8,17 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h4 class="text-center">Editar Prospecto</h4>
+                <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Editar prospecto
+                    </h1>
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-12">
-                <form method="post" class="ProspectoValidation bootstrapValidation">
+                <form method="post" class="ProspectoValidation bootstrapValidation" autocomplete="off">
                     <input type="hidden" id="IdProspecto" name="IdProspecto" value="@Model.IdProspecto" />
                     <div class="form-row">
                         <div class="col-12 col-md-3 mt-4">

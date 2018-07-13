@@ -7,9 +7,15 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col">
-                <h3 class="mt-4">Buscar contrato</h3>
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Buscar contrato
+                    </h1>
+                </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-12">
                 @if (ViewData["NoEncontrado"] != null)
                 {
@@ -25,21 +31,21 @@
         </div>
         <div class="row">
             <div class="col">
-                <form method="post">
+                <form method="post"  autocomplete="off">
                     <div class="form-row">
                         <div class="col-12 col-md-6 mt-3">
                             <label for="NumeroContrato">Número de contrato</label>
                             <input type="text" name="NumeroContrato" id="NumeroContrato" class="form-control-lg form-control" placeholder="Ej: 8000001" />
                         </div>
                         <div class="col-12 col-md-6 mt-3">
-                            <label for="NumeroIdentificacion">Número documento</label>
-                            <input type="text" name="NumeroIdentificacion" id="NumeroIdentificacion" class="form-control col-form-label-lg" placeholder="Ej: 80123456" />
+                            <label for="NumeroDocumento">Número documento</label>
+                            <input type="text" name="NumeroDocumento" id="NumeroDocumento" class="form-control col-form-label-lg" placeholder="Ej: 80123456" />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-12 col-md-6 mt-3">
                             <label for="Nombre">Nombre</label>
-                            <input type="text" name="PrimerNombre" id="PrimerNombre" class="form-control form-control-lg" placeholder="Antonio Amador José Nariño" /> 
+                            <input type="text" name="Nombre" id="Nombre" class="form-control form-control-lg" placeholder="Antonio Amador José Nariño" /> 
                         </div>
                         <div class="col-12 col-md-6 mt-3">
                             <label for="Apellido">Apellido</label>
@@ -83,8 +89,8 @@
                                 <tr>
                                     <th>Acciones</th>
                                     <th>Nombre</th>
-                                    <th>Número de contrato</th>
-                                    <th>Fecha de Contrato</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo</th>                                                                       
                                     <th>Bien</th>
                                     <th>Status</th>
                                 </tr>
@@ -94,26 +100,31 @@
                                 {
                                     <tr>
                                         <td>
-                                            <div class="btn-group" role="group" aria-label="Acciones">
-                                                <a class="btn btn-azul" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
-                                                <a class="btn btn-azul" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
-                                                <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
-                                            </div>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Acciones
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
+                                                    <a class="dropdown-item" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
+                                                    <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>                                                    
+                                                </div>
+                                            </div>                                            
                                         </td>
                                         <td>
                                             @(item.primer_nombre + " " + item.segundo_nombre + " " + item.primer_apellido + " " + item.segundo_apellido)
                                         </td>
                                         <td>
-                                            @item.numero_de_contrato
+                                            @item.telefono_suscriptor <br />@item.celular_suscriptor
                                         </td>
                                         <td>
-                                            @item.fecha_suscripcion_contrato.ToString("dd-MM-yyyy")
+                                            @item.email_suscriptor
                                         </td>
                                         <td>
-                                            @item.detalles_bien
+                                            @item.detalles_bien<br />@item.valor_bien
                                         </td>
                                         <td>
-                                            <span class="badge badge-success"><i class="fas fa-check"></i></span>
+                                            @(item.ConfirmacionContratos.LastOrDefault().IsAccepted ? Html.Raw("<h5><span class=\"badge badge-success p-2\"><i class=\"fas fa-check\"></i> Condiciones aceptadas</span></h5>") : Html.Raw("<h5><span class=\"badge badge-warning p-2\"><i class=\"far fa-clock\"></i> En proceso: por aceptar condiciones</span></h5>"))
                                         </td>
                                     </tr>
 

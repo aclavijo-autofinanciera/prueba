@@ -4,14 +4,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="mt-5">
+<section class="">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>Búsqueda de prospectos</h2>
+                <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Buscar prospectos
+                    </h1>
+                </div>
             </div>
+        </div>
+        <div class="row">
+
             <div class="col-12">
-                @if(ViewData["NoEncontrado"] != null)
+                @if (ViewData["NoEncontrado"] != null)
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>@ViewData["NoEncontrado"]</strong>
@@ -25,7 +32,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <form class="" method="post">
+                <form class="" method="post"  autocomplete="off">
                     <div class="form-row">
                         <div class="col">
                             <label for="NumeroDocumento">Número de documento</label>
@@ -83,9 +90,14 @@
                                 {
                                     <tr>
                                         <td>
-                                            <div class="btn-group" role="group" aria-label="Acciones">
-                                                <a class="btn btn-azul" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-list-alt"></i> Detalles</a>
-                                                <a class="btn btn-azul" href="@Url.Action("Edit", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-edit"></i> Editar</a>                                                
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Acciones
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-list-alt"></i> Detalles</a>
+                                                    <a class="dropdown-item" href="@Url.Action("Edit", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-edit"></i> Editar</a>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>@(item.PrimerNombre + " "+ item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>

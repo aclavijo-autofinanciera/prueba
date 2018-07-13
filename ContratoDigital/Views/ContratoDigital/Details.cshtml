@@ -6,7 +6,16 @@
 }
 
 <section>
-    <div class="container mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Detalle de contrato
+                    </h1>
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-center">
             <!-- Begin -->
             <div class="col-12 col-md-8">
@@ -76,8 +85,9 @@
                             }
                             else
                             {
-                                <h5><span class="badge badge-warning p-2"><i class="far fa-clock"></i> En proceso: por aceptar condiciones del contrato</span>
-                                    <a href="#" class="btn btn-azul">Envíar correo de confirmación</a>
+                                <h5>
+                                    <span class="badge badge-warning p-2"><i class="far fa-clock"></i> En proceso: por aceptar condiciones del contrato</span>
+                                    <a href="#" class="btn btn-azul">Reenvíar correo de confirmación</a>
                                 </h5>
                             }
                             @if (Model.ConfirmacionContratos.LastOrDefault().IsPaid)
@@ -104,7 +114,7 @@
                             {
                                 <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por verificados</span></h5>
                             }
-                            
+
                         </div>
                     </div>
                 </div>
@@ -165,7 +175,7 @@
 
             @if (!String.IsNullOrEmpty(Model.nombre_razon_social_representante_legal))
             {
-            
+
                 <div class="col-12 col-md-8 mt-3">
                     <div class="polymer-box">
                         <h5>Representante legal</h5>
@@ -924,8 +934,8 @@
 
 
             <!-- End -->
-        </div>  
-        
+        </div>
+
 
         <div class="row mt-4">
             <div class="col text-center">

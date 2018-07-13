@@ -5,15 +5,20 @@
 }
 
 <section>
-    <div class="container mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Detalles de prospecto
+                    </h1>
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-center">
             <!-- Begin -->
 
-            <div class="col-12 col-md-8">
-                <div class="polymer-box">
-                    <h4 class="text-center">Datos prospecto</h4>
-                </div>
-            </div>
+            
 
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
@@ -33,8 +38,8 @@
                         <div class="col-12 col-md-4 font-weight-bold">
                             Documento identidad
                         </div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">                            
-                            @switch(Model.TipoDocumentoIdentidad)
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @switch (Model.TipoDocumentoIdentidad)
                             {
                                 case 1:
                                     Write("CC - " + Model.NumeroDocumento);
@@ -45,7 +50,7 @@
                                 case 3:
                                     Write("NIT -" + Model.NumeroDocumento);
                                     break;
-                            }                            
+                            }
                         </div>
                     </div>
                 </div>

@@ -4,16 +4,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="mt-5">
+<section class="">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>Registrar prospecto</h2>
+                <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Registrar prospecto
+                    </h1>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <form method="post" class="ProspectoValidation bootstrapValidation">
+                <form method="post" class="ProspectoValidation bootstrapValidation" autocomplete="off">
 
                     <div class="form-row mt-4">
                         <div class="col-6 col-md-3">
@@ -26,7 +30,7 @@
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="PrimerApellido">Primer apellido</label>
-                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg text-uppercase"  required />
+                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg text-uppercase" required />
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="SegundoApellido">Segundo apellido</label>
@@ -49,11 +53,11 @@
                             <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" required />
                         </div>
                     </div>
-                                        
+
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
                             <label for="Telefono">Teléfono</label>
-                            <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" required/>
+                            <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" required />
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="Celular">Celular</label>
@@ -125,11 +129,11 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="DescripcionDelBien">Descripción</label>
-                            <input type="text" id="DescripcionDelBien" name="DescripcionDelBien" class="form-control form-control-lg text-uppercase"  required readonly/>
+                            <input type="text" id="DescripcionDelBien" name="DescripcionDelBien" class="form-control form-control-lg text-uppercase" required readonly />
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="costo_del_bien">Costo del bien</label>
-                            <input type="text" class="form-control form-control-lg" id="costo_del_bien" name="costo_del_bien" readonly required /> 
+                            <input type="text" class="form-control form-control-lg" id="costo_del_bien" name="costo_del_bien" readonly required />
                         </div>
                     </div>
 
@@ -164,7 +168,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg " aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" name="iva_cuota_ingreso" id="iva_cuota_ingreso" placeholder="0.00" readonly required />                            
+                                <input type="text" class="form-control form-control-lg " aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" name="iva_cuota_ingreso" id="iva_cuota_ingreso" placeholder="0.00" readonly required />
                             </div>
                         </div>
                         <div class="col">
@@ -188,7 +192,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-labelledby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00"  readonly required />
+                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-labelledby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00" readonly required />
                             </div>
                         </div>
                         <div class="col">
@@ -229,7 +233,7 @@
                     <div class="form-row mt-4">
                         <div class="col-12">
                             @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonales.cshtml")
-                            
+
                         </div>
                     </div>
 

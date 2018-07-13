@@ -7,10 +7,19 @@
 
 }
 
-<div class="container mt-3 mb-3">
+<div class="container">
     <div class="row">
         <div class="col-12">
-            <form method="post" class="ContratoValidation bootstrapValidation">
+            <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                    Registrar nuevo contrato
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form method="post" class="ContratoValidation bootstrapValidation" autocomplete="off">
                 <input type="hidden" name="IdProspecto" id="IdProspecto" value="@Model.IdProspecto" />
                 <div class="form-row text-center">
                     <div class="col-12 col-sm-12 col-md-4 ">
@@ -126,7 +135,7 @@
                         <div class="col">
                             <label for="fecha_nacimiento_suscriptor">Fecha de nacimiento</label>
                             <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("dd-MM-yyyy")" required />
-                            
+
 
                         </div>
                         <div class="col">
