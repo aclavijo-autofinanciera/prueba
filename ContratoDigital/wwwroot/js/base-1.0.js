@@ -1,5 +1,10 @@
 ﻿// Write your JavaScript code.
-    jQuery(function ($) {
+jQuery(function ($) {
+    AOS.init({
+        'duration': 600,
+        'easing': 'ease-in-sine'
+    });
+
         $('[data-toggle="tooltip"]').tooltip()
 
 
