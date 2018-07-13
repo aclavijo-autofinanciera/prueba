@@ -78,11 +78,19 @@ namespace ContratoDigital.Controllers
                 new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
             };
             emailMessage.Subject = "[AutoFinanciera] Confirmación de Email";
+                        
 #if DEBUG
-            emailMessage.Content = "con este link podrás confirmar http://localhost:53036/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id;
+            emailMessage.Content = String.Format(
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailProspecto.html"),
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
+                "http://localhost:53036/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id);
 #endif
 #if RELEASE
-            emailMessage.Content = "con este link podrás confirmar http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid="+confirmacionProspecto.Guuid+"&id="+confirmacionProspecto.Id;
+            emailMessage.Content = String.Format(
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailProspecto.html"),
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
+                "http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid==" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id); 
+           
 #endif
 
             try
@@ -160,8 +168,8 @@ namespace ContratoDigital.Controllers
                 return View(await _context.Prospectos.Where(
                     x =>
                     x.NumeroDocumento == numeroDocumento ||
-                    x.PrimerNombre.Contains(form["Nombre"]) ||
-                    x.PrimerApellido.Contains(form["Nombre"]))
+                    x.PrimerNombre.Contains(nombre.ToUpper()) ||
+                    x.PrimerApellido.Contains(nombre.ToUpper()))
                     .ToListAsync()
                 );
             }
@@ -177,8 +185,8 @@ namespace ContratoDigital.Controllers
             {
                 return View(await _context.Prospectos.Where(
                     x =>
-                    x.PrimerNombre.Contains(form["Nombre"]) ||
-                    x.PrimerApellido.Contains(form["Nombre"]))
+                    x.PrimerNombre.Contains(nombre.ToUpper()) ||
+                    x.PrimerApellido.Contains(nombre.ToUpper()))
                     .ToListAsync()
                 );
             }
