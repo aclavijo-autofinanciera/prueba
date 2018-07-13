@@ -936,7 +936,20 @@ namespace ContratoDigital
                 }
             }
             return;
-        }        
+        }
+
+        /// <summary>
+        /// Plantilla para armar y envíar el email. 
+        /// </summary>
+        /// <param name="templateName">Nombre de la plantilla</param>
+        /// <returns></returns>
+        static public string GetTemplate (string templateName)
+        {
+            using (var stream = new FileStream(templateName, FileMode.Open)) //Assembly.GetExecutingAssembly().GetManifestResourceStream(templateName))
+            {
+                return new StreamReader(stream).ReadToEnd();
+            }
+        }
     }
 
     static public class Constants
