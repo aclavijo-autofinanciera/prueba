@@ -20,6 +20,8 @@ using SiiconWebService;
 using iText.Kernel.Colors;
 using iText.Layout;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using ContratoDigital.Areas.Identity.Data;
 
 namespace ContratoDigital.Controllers
 {
@@ -31,18 +33,20 @@ namespace ContratoDigital.Controllers
         ///  e inicializa la base de datos
         /// </summary>
         private readonly ContratoDigitalContext _context;
+        private readonly UserManager<ContratoDigitalUser> _userManager;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IEmailConfiguration _emailConfiguration;
-        public ContratoDigitalController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration)
+        public ContratoDigitalController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, UserManager<ContratoDigitalUser> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _emailConfiguration = emailConfiguration;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async  Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.Contratos.OrderByDescending(x=>x.IdContrato).Take(10).ToListAsync());
         }
 
         public IActionResult Fill(int id)
@@ -60,6 +64,7 @@ namespace ContratoDigital.Controllers
         {
 
             Contrato contrato = Utilities.FillContrato(form);
+            contrato.asesor_comercial = _userManager.GetUserId(User);
             _context.Add(contrato);
             await _context.SaveChangesAsync();
             ConfirmacionContrato confirmacionContrato = new ConfirmacionContrato()
@@ -91,12 +96,17 @@ namespace ContratoDigital.Controllers
             };
             emailMessage.Subject = "[Autofinanciera] Confirmación de aceptación de cláusulas";
 #if DEBUG
-            emailMessage.Content = "Acepto las cláusulas del contrato de adhesión de suscriptores<br>" +
-                "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id;
+            
+            emailMessage.Content = String.Format(
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailAceptacionCondiciones.html"),
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
+                "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
 #endif
 #if RELEASE
-            emailMessage.Content = "Acepto las cláusulas del contrato de adhesión de suscriptores<br>" +
-                "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id;
+            emailMessage.Content = String.Format(
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailAceptacionCondiciones.html"),
+                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
+                "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);            
 #endif
             try
             {
@@ -488,15 +498,22 @@ namespace ContratoDigital.Controllers
             {
                 return View(await _context.Contratos.Where(x => x.numero_de_contrato == numeroContrato).ToListAsync());
             }
-            else if (numeroDocumento > 0 && numeroContrato > 0 && string.IsNullOrEmpty(nombre) && string.IsNullOrEmpty(apellido))
+            else if (numeroDocumento > 0 && numeroContrato > 0 && !string.IsNullOrEmpty(nombre) && !string.IsNullOrEmpty(apellido))
             {
                 return View(await _context.Contratos.Where(
                     x => x.documento_identidad_suscriptor == numeroDocumento ||
                     x.documento_identidad_representante_legal == numeroDocumento ||
                     x.documento_identidad_suscriptor_conjunto == numeroDocumento ||
                     x.documento_identidad_representante_legal_suscriptor_conjunto == numeroDocumento ||
-                    x.primer_nombre.Contains(nombre) ||
-                    x.primer_apellido.Contains(apellido)
+                    x.primer_nombre.Contains(nombre.ToUpper()) ||
+                    x.primer_apellido.Contains(apellido.ToUpper())
+                    ).ToListAsync());
+            }
+            else if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(apellido))
+            {
+                return View(await _context.Contratos.Where(x=>                    
+                    x.primer_nombre.Contains(nombre.ToUpper()) ||
+                    x.primer_apellido.Contains(apellido.ToUpper())
                     ).ToListAsync());
             }
             return View();

@@ -62,7 +62,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\emailtemplates\EmailProspecto.html" />
+    <None Include="wwwroot\lib\AOS\aos.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\ContratoDigital\ConfirmarCorreo.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_LayoutLogin.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
