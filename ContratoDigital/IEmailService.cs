@@ -44,7 +44,7 @@ namespace ContratoDigital
             message.Subject = emailMessage.Subject;
             var builder = new BodyBuilder();
             builder.HtmlBody = emailMessage.Content;
-            builder.Attachments.Add("ContratoAutofinanciera.pdf", stream.ToArray(), new ContentType("application", "pdf"));
+            builder.Attachments.Add(DateTime.Now.ToString("yyyy-MM-dd-") + "-ReciboPago.pdf", stream.ToArray(), new ContentType("application", "pdf"));
             message.Body = builder.ToMessageBody();
             using (var emailClient = new SmtpClient())
             {                
