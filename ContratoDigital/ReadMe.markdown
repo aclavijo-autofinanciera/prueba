@@ -25,6 +25,11 @@ Incluir los pasos de instalaciones y despligue en el servidor de linux
 
 #### Versiones
 
+##### 0.1.5 (2018-07-13~)
++ Creación webservice local hacia Siicon
++ Conexión de jQuery contra el servicio de Siicon
++ Conexión y rellenado de los métodos con Siicon.
+
 ##### 0.1.4 (2018-07-10)
 + Confirmación del corrreo y aceptación del contrato.
 + Conformación de los contratos PDFs
