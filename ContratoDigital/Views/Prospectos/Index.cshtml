@@ -33,7 +33,8 @@
                             <th></th>
                             <th>Nombre</th>
                             <th>Cedula</th>
-                            <th>Fecha De nacimiento</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +49,8 @@
                                 </td>
                                 <td>@(item.PrimerNombre + " " + item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>
                                 <td>@Html.DisplayFor(modelItem => item.NumeroDocumento)</td>
-                                <td></td>
+                                <td>@item.Email</td>
+                                <td>@item.Telefono<br />@item.Celular</td>
 
                             </tr>
 
