@@ -85,21 +85,24 @@ namespace ContratoDigital.Models
         
         // Datos del bien
         public string tipo_de_bien { get; set; }
+        public int id_tipo_de_bien { get; set; }
         public string marca_exclusiva_bien { get; set; }
+        public int id_marca { get; set; }
         public string detalles_bien { get; set; }
+        public string descripcion_bien { get; set; }
         public double valor_bien { get; set; }
         public string cuota_bien { get; set; }
         public string codigo_bien { get; set; }
         public string plazo_bien { get; set; }
         public double porcentaje_cuota_ingreso { get; set; }
-        public double cuota_ingreso { get; set; }
-        public double porcentaje_iva_cuota_ingreso { get; set; }
+        public double porcentaje_administracion { get; set; }
+        public double porcentaje_iva { get; set; }
+
+        public double cuota_ingreso { get; set; }        
         public double iva_cuota_ingreso { get; set; }
         public double total_cuota_ingreso { get; set; }
-        public double primera_cuota_neta { get; set; }
-        public double porcentaje_administracion { get; set; }
-        public double administracion { get; set; }
-        public double porcentaje_iva_administracion { get; set; }
+        public double primera_cuota_neta { get; set; }        
+        public double administracion { get; set; }        
         public double iva_administracion { get; set; }
         public double total_cuota_bruta { get; set; }
         public double valor_primer_pago { get; set; }

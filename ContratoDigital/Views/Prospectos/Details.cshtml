@@ -101,6 +101,7 @@
                             Detalle del bien
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            <strong>@Model.Detalles_bien</strong><br />
                             @Model.DescripcionDelBien
                         </div>
                     </div>
@@ -114,6 +115,43 @@
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @String.Format("$ {0:0,0.00}", Model.ValorDelBien)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            IVA
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.PorcentajeIva %
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Porcentaje inscripción
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.PorcentajeInscripcion %
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Porcentaje administración
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.PorcentajeAdministracion %
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Plazo
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.Plazo
+
                         </div>
                     </div>
                 </div>

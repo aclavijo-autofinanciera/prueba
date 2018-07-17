@@ -762,7 +762,7 @@
                             Detalles del bien
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @Model.detalles_bien
+                            @Model.descripcion_bien
                         </div>
                     </div>
                 </div>
@@ -791,6 +791,35 @@
                             @String.Format("$ {0:0,0.00}", Model.valor_bien)
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            IVA
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.porcentaje_iva %
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Porcentaje inscripción
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.porcentaje_cuota_ingreso %
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Porcentaje administración
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.porcentaje_administracion %
+                        </div>
+                    </div>                    
                 </div>
             </div>
 

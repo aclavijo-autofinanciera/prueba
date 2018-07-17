@@ -63,7 +63,7 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Fill(IFormCollection form)
         {
 
-            Contrato contrato = Utilities.FillContrato(form);
+            Contrato contrato = Utilities.FillContrato(form);            
             contrato.asesor_comercial = _userManager.GetUserId(User);
             _context.Add(contrato);
             await _context.SaveChangesAsync();
@@ -147,7 +147,7 @@ namespace ContratoDigital.Controllers
             MemoryStream stream = new MemoryStream();
 
             //string src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_yamaha_motomas_contrato_v1.1_20180601.pdf";
-            string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.0_20180705.pdf";
+            string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);
@@ -158,8 +158,9 @@ namespace ContratoDigital.Controllers
             //Contrato contrato = Utilities.FillContrato(form);
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             Utilities.FillPdf(fields, contrato);
-
             
+
+
 
             pdfForm.FlattenFields();
             pdf.Close();
@@ -171,9 +172,8 @@ namespace ContratoDigital.Controllers
         public IActionResult EmailContract(int id)
         {
             MemoryStream stream = new MemoryStream();
-
-            //string src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_yamaha_motomas_contrato_v1.1_20180601.pdf";
-            string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.0_20180705.pdf";
+                        
+            string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);

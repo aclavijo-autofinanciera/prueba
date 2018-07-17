@@ -82,51 +82,88 @@
                                     <div class="col-12 col-md-4 font-weight-bold">
                                         Referencia
                                     </div>
-                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                        <select id="referencia" name="referencia" class="form-control form-control-lg">
-                                            <option value="">Seleccione una referencia</option>
-                                            @(Html.Raw("<option value=\"" + Model.ValorDelBien + "\"  selected=\"selected\" id=\"" + Model.DescripcionDelBien + "\" >" + Model.DescripcionDelBien + "</option>"))
-                                            <option value="7650000" id="BWS X">BWS X</option>
-                                            <option value="8450000" id="BWS X BONO PAPELES">BWS X BONO PAPELES</option>
-                                            <option value="8200000" id="BWS X FI">BWS X FI</option>
-                                            <option value="9000000" id="BWS X FI BONO PAPELES">BWS X FI BONO PAPELES</option>
-                                            <option value="6900000" id="BWS125">BWS125</option>
-                                            <option value="7700000" id="BWS125 BONO PAPELES ">BWS125 BONO PAPELES </option>
-                                            <option value="5840000" id="CRYPTON 115 BONO PAPELES">CRYPTON 115 BONO PAPELES</option>
-                                            <option value="5040000" id="CRYPTON FI">CRYPTON FI</option>
-                                            <option value="5840000" id="CRYPTON FI BONO PAPELES">CRYPTON FI BONO PAPELES</option>
-                                            <option value="6790000" id="FAZER FI 2.0">FAZER FI 2.0</option>
-                                            <option value="7590000" id="FAZER FI 2.0 BONO PAPELES">FAZER FI 2.0 BONO PAPELES</option>
-                                            <option value="5700000" id="FINO">FINO</option>
-                                            <option value="6500000" id="FINO BONO PAPELES">FINO BONO PAPELES</option>
-                                            <option value="6290000" id="FZ-S FI 2.0">FZ-S FI 2.0</option>
-                                            <option value="7090000" id="FZ-S FI 2.0 BONO PAPELES">FZ-S FI 2.0 BONO PAPELES</option>
-                                            <option value="9250000" id="FZ25">FZ25</option>
-                                            <option value="10050000" id="FZ25 BONO PAPELES">FZ25 BONO PAPELES</option>
-                                            <option value="5250000" id="LIBERO 125 BONO PAPELES">LIBERO 125 BONO PAPELES</option>
-                                            <option value="17500000" id="MT 03">MT 03</option>
-                                            <option value="18300000" id="MT 03 BONO PAPELES">MT 03 BONO PAPELES</option>
-                                            <option value="9900000" id="N-MAX">N-MAX</option>
-                                            <option value="10700000" id="N-MAX BONO PAPELES">N-MAX BONO PAPELES</option>
-                                            <option value="8600000" id="N-MAX S">N-MAX S</option>
-                                            <option value="9400000" id="N-MAX S BONO PAPELES">N-MAX S BONO PAPELES</option>
-                                            <option value="5140000" id="SZ-RR 2.0">SZ-RR 2.0</option>
-                                            <option value="5940000" id="SZ-RR 2.0 BONO PAPELES">SZ-RR 2.0 BONO PAPELES</option>
-                                            <option value="12890000" id="TRICITY">TRICITY</option>
-                                            <option value="13690000" id="TRICITY BONO PAPELES">TRICITY BONO PAPELES</option>
-                                            <option value="6650000" id="XTZ 125">XTZ 125</option>
-                                            <option value="7450000" id="XTZ 125 BONO PAPELES">XTZ 125 BONO PAPELES</option>
-                                            <option value="15900000" id="XTZ 250">XTZ 250</option>
-                                            <option value="16700000" id="XTZ 250 BONO PAPELES">XTZ 250 BONO PAPELES</option>
-                                            <option value="5750000" id="YBR 125 BONO PAPELES">YBR 125 BONO PAPELES</option>
-                                            <option value="17250000" id="YZF R 3">YZF R 3</option>
-                                            <option value="18050000" id="YZF R 3 BONO PAPELES">YZF R 3 BONO PAPELES</option>
-                                            <option value="8990000" id="YZF R15">YZF R15</option>
-                                            <option value="9790000" id="YZF R15 BONO PAPELES">YZF R15 BONO PAPELES</option>
-                                            <option value="85990000" id="MR1">MR1</option>
-                                            <option value="87000000" id="MR1">MR1 BONO PAPELES</option>
-
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12 col-md-6">
+                                        <label for="bien">Seleccione un bien</label>
+                                        <select class="form-control form-control-lg" id="bien" name="bien">
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="auto">Autos</option>
+                                            <option value="electro">Motos</option>
                                         </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="tipodeBien">Seleccione un tipo de bien</label>
+                                        <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
+                                            <option value="@Model.Id_Tipo_Bien">@Model.Detalles_bien</option>
+                                            <option value="">Seleccione una opción</option>
+                                        </select>
+                                        <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" @Model.Detalles_bien />
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="marca">Seleccione una marca</label>
+                                        <select class="form-control form-control-lg" id="marca" name="marca" readonly>
+                                            <option value="@Model.Id_marca">@Model.Marca_exclusiva_bien</option>
+                                            <option value="">Seleccione una opción</option>
+                                        </select>
+                                        <input type="hidden" name="descripcionMarca" id="descripcionMarca" value="@Model.Marca_exclusiva_bien" />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-12 col-md-6">
+                                        <label for="planDeAhorro">Seleccione un plan de ahorro</label>
+                                        <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly>
+                                            <option value="@Model.Referencia">@Model.DescripcionDelBien</option>
+                                            <option value="">Seleccione una opción</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="tipoCalculo">Seleccione una cuota</label>
+                                        <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
+                                            <option value="">Seleccione una opción</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-8">
+                            <div class="polymer-box">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        Porcentaje Inscripción
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        <input type="text" class="form-control form-control-lg porcentajeInscripcion" id="porcentajeInscripcion" name="porcentajeInscripcion" readonly value="@Model.PorcentajeInscripcion" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        Porcentaje Administración
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        <input type="text" class="form-control form-control-lg porcentajeAdministracion" id="porcentajeAdministracion" name="porcentajeAdministracion" readonly value="@Model.PorcentajeAdministracion" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        I.V.A.
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        <input type="text" class="form-control form-control-lg porcentajeIva" id="porcentajeIva" name="porcentajeIva" readonly value="@Model.PorcentajeIva" />
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        Plazo
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        <input type="text" class="form-control form-control-lg plazo" id="plazo_bien" name="plazo_bien" readonly value="@Model.Plazo" />
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +176,20 @@
                                         Descripción del bien
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                        <input type="text" name="DescripcionDelBien" id="DescripcionDelBien" class="form-control-plaintext form-control-lg text-uppercase" value="@Model.DescripcionDelBien" required readonly />
+                                        <input type="text" name="DescripcionDelBien" id="DescripcionDelBien" class="form-control form-control-lg text-uppercase" value="@Model.DescripcionDelBien" required readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-8">
+                            <div class="polymer-box">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        Detalle
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        <input type="text" name="detalle" id="detalle" class="form-control form-control-lg text-uppercase" value="@Model.Detalles_bien" required />
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +202,7 @@
                                         Valor del bien
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                        <input type="text" name="costo_del_bien" id="costo_del_bien" class="form-control form-control-lg" value="@String.Format("$ {0:0,0.00}", Model.ValorDelBien)" readonly required />
+                                        <input type="text" name="costo_del_bien" id="costo_del_bien" class="form-control form-control-lg" value="@String.Format("{0:0,0.00}", Model.ValorDelBien)" readonly required />
                                     </div>
                                 </div>
                             </div>
