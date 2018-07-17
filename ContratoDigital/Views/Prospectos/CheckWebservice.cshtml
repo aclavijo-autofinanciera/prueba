@@ -6,91 +6,233 @@
 
 
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <label>Seleccione un bien</label>
+            <select class="form-control form-control-lg" id="bien" name="bien">
+                <option value="">Seleccione una opción</option>
+                <option value="auto">Autos</option>
+                <option value="electro">Motos</option>
+            </select>
+
+            <label>Seleccione un tipo de bien</label>
+            <select class="form-control form-control-lg mt-4" id="tipodeBien" name="tipodeBien" readonly>
+                <option value="">Seleccione una opción</option>
+            </select>
+
+            <label>Seleccione una marca</label>
+            <select class="form-control form-control-lg mt-4" id="marca" name="marca" readonly>
+                <option value="">Seleccione una opción</option>
+            </select>
+
+            <label>Seleccione un plan de ahorro</label>
+            <select class="form-control form-control-lg mt-4" id="planDeAhorro" name="planDeAhorro" readonly>
+                <option value="">Seleccione una opción</option>
+            </select>
+
+            <label>Seleccione una cuota</label>
+            <select class="form-control form-control-lg mt-4" id="tipoCalculo" name="tipoCalculo" readonly>
+                <option value="">Seleccione una opción</option>
+            </select>
+
+            <label>Seleccione un plazo</label>
+            <select class="form-control form-control-lg mt-4" id="plazo" name="plazo" readonly>
+                <option value="">Seleccione una opción</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="form-row mt-4">
+        
+        <div class="col-12 col-md-4">
+            <label for="DescripcionDelBien">Descripción</label>
+            <input type="text" id="DescripcionDelBien" name="DescripcionDelBien" class="form-control form-control-lg text-uppercase" required readonly />
+        </div>
+        <div class="col-12 col-md-4">
+            <label for="costo_del_bien">Costo del bien</label>
+            <input type="text" class="form-control form-control-lg" id="costo_del_bien" name="costo_del_bien" readonly required />
+        </div>
+    </div>
+
+    <div class="form-row mt-4">
+        <div class="col">
+            <span class="badge badge-azul">1</span>
+            <label for="cuota_ingreso">Cuota de ingreso (4.5% sobre el valor del bien)</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="cuota_ingreso_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg" aria-label="cuota_ingreso" aria-describedby="cuota_ingreso_addon" id="cuota_ingreso" name="cuota_ingreso" placeholder="0.00" readonly required />
+            </div>
+        </div>
+        <div class="col">
+            <span class="badge badge-azul">5</span>
+            <label for="administracion">Administración (N% sobre cuota neta)</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="administracion_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg" aria-label="administracion" aria-describedby="administracion_addon" id="administracion" name="administracion" placeholder="0.00" readonly required />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row mt-4">
+        <div class="col">
+            <span class="badge badge-azul">2</span>
+            <label for="iva_cuota_ingreso">I.V.A. sobre la cuota de ingreso (N%)</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg " aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" name="iva_cuota_ingreso" id="iva_cuota_ingreso" placeholder="0.00" readonly required />
+            </div>
+        </div>
+        <div class="col">
+            <span class="badge badge-azul">6</span>
+            <label for="iva_administracion">I.V.A. sobre la administración (N$)</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="iva_administracion_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg " aria-label="iva_administracion" aria-describedby="iva_administracion_addon" id="iva_administracion" name="iva_administracion" placeholder="0.00" readonly required />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-row mt-4">
+        <div class="col">
+            <span class="badge badge-azul">3</span>
+            <label for="total_cuota_ingreso">Total cuota de ingreso (N%) ( <span class=" badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-labelledby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00" readonly required />
+            </div>
+        </div>
+        <div class="col">
+            <span class="badge badge-azul">7</span>
+            <label for="total_cuota_bruta">Total cuota bruta (N%) ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_bruta" aria-describedby="total_cuota_bruta_addon" id="total_cuota_bruta" name="total_cuota_bruta" placeholder="0.00" readonly required />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row mt-4">
+        <div class="col">
+            <span class="badge badge-azul">4</span>
+            <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="primera_cuota_neta_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta" placeholder="0.00" readonly required />
+            </div>
+        </div>
+        <div class="col">
+            <span class="badge badge-azul">8</span>
+            <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="valor_primer_pago_addon">$</span>
+                </div>
+                <input type="text" class="form-control form-control-lg" aria-label="valor_primer_pago" aria-describedby="valor_primer_pago_addon" id="valor_primer_pago" name="valor_primer_pago" placeholder="0.00" readonly required />
+            </div>
+        </div>
+    </div>
+
     <div class="row">
-        <div class="col-12">
+        @*<div class="col-12">
 
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar compañías</h4>
-                    @ViewData["SeleccionarCompanias"];
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar compañías</h4>
+                        @ViewData["SeleccionarCompanias"];
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar agencias</h4>
-                    @ViewData["SeleccionarAgencias"];
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar agencias</h4>
+                        @ViewData["SeleccionarAgencias"];
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar Marcas</h4>
-                    @ViewData["SeleccionarMarcas"]
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar Marcas</h4>
+                        @ViewData["SeleccionarMarcas"]
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar Tipos de Bienes Compañía</h4>
-                    @ViewData["SeleccionarTiposBienesCompania"]
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar Tipos de Bienes Compañía</h4>
+                        @ViewData["SeleccionarTiposBienesCompania"]
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar porcentaje Administracion Compañía</h4>
-                    @ViewData["SeleccionarPorcentajeAdministracionCompania"]
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar porcentaje Administracion Compañía</h4>
+                        @ViewData["SeleccionarPorcentajeAdministracionCompania"]
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar porcentaje inscripcicón Compañía</h4>
-                    @ViewData["SeleccionarPorcentajeInscripcionCompania"]
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar porcentaje inscripcicón Compañía</h4>
+                        @ViewData["SeleccionarPorcentajeInscripcionCompania"]
+                    </div>
                 </div>
             </div>
-        </div>
 
-        
-        
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar Bienes </h4>
-                    @ViewData["SeleccionarBienesCompania"]
+
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar Bienes </h4>
+                        @ViewData["SeleccionarBienesCompania"]
+                    </div>
                 </div>
             </div>
-        </div>
 
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Seleccionar Bienes Parametros</h4>
-                    @ViewData["SeleccionarBienesParametrosCompania"]
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Seleccionar Bienes Parametros</h4>
+                        @ViewData["SeleccionarBienesParametrosCompania"]
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4>REferencia dde pago</h4>
-                    @ViewData["ReferenciaPago"]
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>REferencia dde pago</h4>
+                        @ViewData["ReferenciaPago"]
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div>*@
 
 
 
