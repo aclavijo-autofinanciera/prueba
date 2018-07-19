@@ -48,26 +48,26 @@
                     <div class="form-row mt-4">
                         <div class="col-6 col-md-3">
                             <label for="primer_nombre">Primer nombre</label>
-                            <input type="text" id="primer_nombre" name="primer_nombre" class="form-control form-control-lg text-uppercase" placeholder="Primer nombre" required value="@Model.primer_nombre">
+                            <input type="text" id="primer_nombre" name="primer_nombre" class="form-control form-control-lg text-uppercase" placeholder="Primer nombre" required value="@Model.primer_nombre"  autocomplete="off" >
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="segundo_nombre">Segundo nombre</label>
-                            <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control form-control-lg text-uppercase" placeholder="Segundo nombre" value="@Model.segundo_nombre">
+                            <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control form-control-lg text-uppercase" placeholder="Segundo nombre" value="@Model.segundo_nombre" autocomplete="off" >
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="primer_apellido">Primer apellido</label>
-                            <input type="text" id="primer_apellido" name="primer_apellido" class="form-control form-control-lg text-uppercase" placeholder="Primer apellido" required value="@Model.primer_apellido">
+                            <input type="text" id="primer_apellido" name="primer_apellido" class="form-control form-control-lg text-uppercase" placeholder="Primer apellido" required value="@Model.primer_apellido" autocomplete="off" >
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="segundo_apellido">Segundo apellido</label>
-                            <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control form-control-lg text-uppercase" placeholder="Nombre (nombre completo o razón social)" value="@Model.segundo_apellido">
+                            <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control form-control-lg text-uppercase" placeholder="Nombre (nombre completo o razón social)" value="@Model.segundo_apellido" autocomplete="off" >
                         </div>
 
                     </div>
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="tipo_identificacion_suscriptor">Tipo de documento de identidad</label>
-                            <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor" required>
+                            <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor" required autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                                 @(Model.tipo_documento_identidad_suscriptor == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
                                 @(Model.tipo_documento_identidad_suscriptor == "2" ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
@@ -76,17 +76,17 @@
                         </div>
                         <div class="col">
                             <label for="documento_identidad_suscriptor">Número de documento de identidad</label>
-                            <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" required value="@Model.documento_identidad_suscriptor" />
+                            <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" required value="@Model.documento_identidad_suscriptor"  autocomplete="off" />
                         </div>
                         <div class="col">
                             <label for="procedencia_documento_identidad_suscriptor">De:</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" value="@Model.procedencia_documento_identidad_suscriptor" required />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" value="@Model.procedencia_documento_identidad_suscriptor" required  autocomplete="off" />
                         </div>
                     </div>
                 </section>
                 <!--#endregion-->
                 <!--#region representate legal suscriptor-->
-                <section class="@(Model.documento_identidad_representante_legal > 0 ? Html.Raw("") : Html.Raw("d-none") )" id="RepreentanteLegalSection">
+                <section class="@(Model.documento_identidad_representante_legal > 0 ? Html.Raw("") : Html.Raw("d-none") )" id="RepreentanteLegalSection" autocomplete="off" >
                     <div class="card mt-4 border-azul ">
                         <div class="card-header text-white bg-azul">
                             Representante legal suscriptor
@@ -95,13 +95,13 @@
                             <div class="form-row mt-1">
                                 <div class="col-12">
                                     <label for="nombre_razon_social_representante_legal">Nombre representante legal (solo personas jurídicas)</label>
-                                    <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_razon_social_representante_legal" name="nombre_razon_social_representante_legal" placeholder="Nombre representante legal (solo personas jurídicas)" value="@Model.nombre_razon_social_representante_legal" />
+                                    <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_razon_social_representante_legal" name="nombre_razon_social_representante_legal" placeholder="Nombre representante legal (solo personas jurídicas)" value="@Model.nombre_razon_social_representante_legal" autocomplete="off"  />
                                 </div>
                             </div>
                             <div class="form-row mt-4">
                                 <div class="col">
                                     <label for="tipo_documento_representante_legal">Tipo de documento representante legal</label>
-                                    <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal">
+                                    <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal" autocomplete="off"  autocomplete="off" >
                                         <option value="">Seleccione una opción</option>
                                         @(Model.tipo_documento_representante_legal == "CC" ? Html.Raw("<option value=\"CC\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"CC\">CC</option>"))
                                         @(Model.tipo_documento_representante_legal == "CC" ? Html.Raw("<option value=\"CE\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"CE\">CE</option>"))
@@ -110,11 +110,11 @@
                                 </div>
                                 <div class="col">
                                     <label for="documento_identidad_representante_legal">Número de documento representate legal</label>
-                                    <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" name="documento_identidad_representante_legal" value="@Model.documento_identidad_representante_legal" />
+                                    <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" name="documento_identidad_representante_legal" value="@Model.documento_identidad_representante_legal"  autocomplete="off" />
                                 </div>
                                 <div class="col">
                                     <label for="procedencia_documento_identidad_representante_legal">De:</label>
-                                    <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" value="@Model.procedencia_documento_identidad_representante_legal" />
+                                    <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" value="@Model.procedencia_documento_identidad_representante_legal" autocomplete="off"  />
                                 </div>
                             </div>
                         </div>
@@ -132,17 +132,17 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="fecha_nacimiento_suscriptor_addon"><i class="far fa-calendar-alt"></i></span>
                                 </div>
-                                <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("yyyy-MM-dd")" aria-label="fecha_nacimiento_suscriptor" aria-describedby="fecha_nacimiento_suscriptor" required readonly value="@String.Format("{0:dd-MM-yyyy}", Model.fecha_nacimiento_suscriptor)" />
+                                <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("yyyy-MM-dd")" aria-label="fecha_nacimiento_suscriptor" aria-describedby="fecha_nacimiento_suscriptor" required readonly value="@String.Format("{0:dd-MM-yyyy}", Model.fecha_nacimiento_suscriptor)"  autocomplete="off" />
                             </div>
 
                         </div>
                         <div class="col">
                             <label for="lugar_nacimiento_suscriptor">Lugar de nacimiento</label>
-                            <input type="text" id="lugar_nacimiento_suscriptor" name="lugar_nacimiento_suscriptor" class="form-control form-control-lg text-uppercase" required value="@Model.lugar_nacimiento_suscriptor" />
+                            <input type="text" id="lugar_nacimiento_suscriptor" name="lugar_nacimiento_suscriptor" class="form-control form-control-lg text-uppercase" required value="@Model.lugar_nacimiento_suscriptor"  autocomplete="off" />
                         </div>
                         <div class="col">
                             <label for="sexo_suscriptor">Sexo</label>
-                            <select class="form-control form-control-lg" id="sexo_suscriptor" name="sexo_suscriptor" required>
+                            <select class="form-control form-control-lg" id="sexo_suscriptor" name="sexo_suscriptor" required autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                                 @(Model.sexo_suscriptor == "femenino" ? Html.Raw("<option value=\"femenino\"  selected=\"selected\">Femenino</option>") : Html.Raw("<option value=\"femenino\">Femenino</option>"))
                                 @(Model.sexo_suscriptor == "masculino" ? Html.Raw("<option value=\"masculino\"  selected=\"selected\">Masculino</option>") : Html.Raw("<option value=\"masculino\">Masculino</option>"))
@@ -150,7 +150,7 @@
                         </div>
                         <div class="col">
                             <label for="estado_civil_suscriptor">Estado civil</label>
-                            <select class="form-control form-control-lg" id="estado_civil_suscriptor" name="estado_civil_suscriptor" required>
+                            <select class="form-control form-control-lg" id="estado_civil_suscriptor" name="estado_civil_suscriptor" required autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                                 @(Model.estado_civil_suscriptor == "soltero" ? Html.Raw("<option value=\"soltero\"  selected=\"selected\">Soltero</option>") : Html.Raw("<option value=\"soltero\">Soltero</option>"))
                                 @(Model.estado_civil_suscriptor == "casado" ? Html.Raw("<option value=\"casado\"  selected=\"selected\">Casado</option>") : Html.Raw("<option value=\"casado\">Casado</option>"))
@@ -164,18 +164,18 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="direccion_domicilio_suscriptor">Dirección domicilio</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_domicilio_suscriptor" name="direccion_domicilio_suscriptor" required value="@Model.direccion_domicilio_suscriptor" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_domicilio_suscriptor" name="direccion_domicilio_suscriptor" required value="@Model.direccion_domicilio_suscriptor"  autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="pais_suscriptor">País</label>
-                            <input type="text" class="form-control-lg form-control-plaintext text-uppercase" readonly value="Colombia" id="pais_suscriptor" name="pais_suscriptor" />
+                            <input type="text" class="form-control-lg form-control-plaintext text-uppercase" readonly value="Colombia" id="pais_suscriptor" name="pais_suscriptor" autocomplete="off"  />
                         </div>
                         <div class="col">
                             <label for="departamento_suscriptor">Departamento</label>
-                            <select class="form-control form-control-lg" id="departamento_suscriptor" name="departamento_suscriptor" required>
+                            <select class="form-control form-control-lg" id="departamento_suscriptor" name="departamento_suscriptor" required autocomplete="off" >
                                 <option value="">Seleccione un departamento</option>
                                 @(Model.departamento_suscriptor == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
                                 @(Model.departamento_suscriptor == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
@@ -214,18 +214,18 @@
                         </div>
                         <div class="col">
                             <label for="ciudad_suscriptor">Ciudad</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor" name="ciudad_suscriptor" required value="@Model.ciudad_suscriptor" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor" name="ciudad_suscriptor" required value="@Model.ciudad_suscriptor"  autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="telefono_suscriptor">Teléfono</label>
-                            <input type="tel" class="form-control form-control-lg text-uppercase" id="telefono_suscriptor" name="telefono_suscriptor" required value="@Model.telefono_suscriptor" />
+                            <input type="tel" class="form-control form-control-lg text-uppercase" id="telefono_suscriptor" name="telefono_suscriptor" required value="@Model.telefono_suscriptor"  autocomplete="off" />
                         </div>
                         <div class="col">
                             <label for="celular_suscriptor">Celular/Móvil</label>
-                            <input type="tel" class="form-control form-control-lg text-uppercase" id="celular_suscriptor" name="celular_suscriptor" required value="@Model.celular_suscriptor" />
+                            <input type="tel" class="form-control form-control-lg text-uppercase" id="celular_suscriptor" name="celular_suscriptor" required value="@Model.celular_suscriptor"  autocomplete="off" />
                         </div>
                     </div>
 
@@ -240,11 +240,11 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="empresa_empleadora_suscriptor">Empresa donde labora</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor" name="empresa_empleadora_suscriptor" required value="@Model.empresa_empleadora_suscriptor" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor" name="empresa_empleadora_suscriptor" required value="@Model.empresa_empleadora_suscriptor"  autocomplete="off" />
                         </div>
                         <div class="col">
                             <label for="cargo_suscriptor">Cargo</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" name="cargo_suscriptor" id="cargo_suscriptor" required value="@Model.cargo_suscriptor" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" name="cargo_suscriptor" id="cargo_suscriptor" required value="@Model.cargo_suscriptor" autocomplete="off"  />
                         </div>
                     </div>
 
@@ -255,7 +255,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="ingresos_en_pesos_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor" aria-describedby="ingresos_en_pesos_addon" id="ingresos_mensuales_suscriptor" name="ingresos_mensuales_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.ingresos_mensuales_suscriptor)" />
+                                <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor" aria-describedby="ingresos_en_pesos_addon" id="ingresos_mensuales_suscriptor" name="ingresos_mensuales_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.ingresos_mensuales_suscriptor)"  autocomplete="off" />
                             </div>
                         </div>
                         <div class="col">
@@ -264,7 +264,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="egresos_en_pesos_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor" aria-describedby="egresos_en_pesos_addon" id="egresos_mensuales_suscriptor" name="egresos_mensuales_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.egresos_mensuales_suscriptor)" />
+                                <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor" aria-describedby="egresos_en_pesos_addon" id="egresos_mensuales_suscriptor" name="egresos_mensuales_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.egresos_mensuales_suscriptor)"  autocomplete="off" />
                             </div>
                         </div>
                         <div class="col">
@@ -273,7 +273,7 @@
                                 <span class="input-group-prepend">
                                     <span class="input-group-text" id="otros_ingresos_en_pesos_addon">$</span>
                                 </span>
-                                <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor" aria-describedby="otros_ingresos_en_pesos_addon" id="otros_ingresos_suscriptor" name="otros_ingresos_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.otros_ingresos_suscriptor)" />
+                                <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor" aria-describedby="otros_ingresos_en_pesos_addon" id="otros_ingresos_suscriptor" name="otros_ingresos_suscriptor" placeholder="0.00" required value="@String.Format("{0:0,0.00}", Model.otros_ingresos_suscriptor)"  autocomplete="off" />
                             </div>
                         </div>
                     </div>
@@ -281,18 +281,18 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="direccion_empleo_suscriptor">Dirección oficina (laboral)</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor" name="direccion_empleo_suscriptor" required value="@Model.direccion_empleo_suscriptor" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor" name="direccion_empleo_suscriptor" required value="@Model.direccion_empleo_suscriptor"  autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="pais_laboral_suscriptor">País</label>
-                            <input type="text" class="form-control-lg form-control-plaintext text-uppercase" id="pais_laboral_suscriptor" name="pais_laboral_suscriptor" readonly value="Colombia" />
+                            <input type="text" class="form-control-lg form-control-plaintext text-uppercase" id="pais_laboral_suscriptor" name="pais_laboral_suscriptor" readonly value="Colombia"  autocomplete="off" />
                         </div>
                         <div class="col">
                             <label for="departamento_empleo_suscriptor">Departamento</label>
-                            <select class="form-control form-control-lg" id="departamento_empleo_suscriptor" name="departamento_empleo_suscriptor" required>
+                            <select class="form-control form-control-lg" id="departamento_empleo_suscriptor" name="departamento_empleo_suscriptor" required autocomplete="off" >
                                 <option value="">Seleccione un departamento</option>
                                 @(Model.departamento_empleo_suscriptor == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
                                 @(Model.departamento_empleo_suscriptor == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
@@ -331,29 +331,29 @@
                         </div>
                         <div class="col">
                             <label for="ciudad_empleo_suscriptor">Ciudad</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required value="@Model.ciudad_empleo_suscriptor" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required value="@Model.ciudad_empleo_suscriptor"  autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="telefono_empleo_suscriptor">Teléfono</label>
-                            <input type="tel" class="form-control form-control-lg" id="telefono_empleo_suscriptor" name="telefono_empleo_suscriptor" value="@Model.telefono_empleo_suscriptor" />
+                            <input type="tel" class="form-control form-control-lg" id="telefono_empleo_suscriptor" name="telefono_empleo_suscriptor" value="@Model.telefono_empleo_suscriptor"  autocomplete="off" />
                         </div>
                         <div class="col">
                             <label for="celular_empleo_suscriptor">Celular/Móvil</label>
-                            <input type="tel" class="form-control form-control-lg" id="celular_empleo_suscriptor" name="celular_empleo_suscriptor" value="@Model.celular_empleo_suscriptor" />
+                            <input type="tel" class="form-control form-control-lg" id="celular_empleo_suscriptor" name="celular_empleo_suscriptor" value="@Model.celular_empleo_suscriptor"  autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="profesion_suscriptor">Profesión o actividad económica</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor" name="profesion_suscriptor" required value="@Model.profesion_suscriptor" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor" name="profesion_suscriptor" required value="@Model.profesion_suscriptor"  autocomplete="off" />
                         </div>
                         <div class="col">
                             <label for="envio_correspondencia_suscriptor">Envío de correspondencia</label>
-                            <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor" name="envio_correspondencia_suscriptor" required>
+                            <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor" name="envio_correspondencia_suscriptor" required autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                                 @(Model.envio_correspondencia_suscriptor == "domicilio" ? Html.Raw("<option value=\"domicilio\"  selected=\"selected\">Domicilio</option>") : Html.Raw("<option value=\"domicilio\">Domicilio</option>"))
                                 @(Model.envio_correspondencia_suscriptor == "oficina" ? Html.Raw("<option value=\"oficina\"  selected=\"selected\">Oficina</option>") : Html.Raw("<option value=\"vichada\">oficina</option>"))
@@ -362,7 +362,7 @@
                         </div>
                         <div class="col">
                             <label for="email_suscriptor">Correo electrónico</label>
-                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required value="@Model.email_suscriptor" />
+                            <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required value="@Model.email_suscriptor"  autocomplete="off" />
                         </div>
                     </div>
                 </section>
@@ -389,13 +389,13 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="nombre_suscriptor_conjunto">Nombre (apellidos y nombres o razón social si aplica)</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_suscriptor_conjunto" name="nombre_suscriptor_conjunto" value="@Model.nombre_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_suscriptor_conjunto" name="nombre_suscriptor_conjunto" value="@Model.nombre_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="tipo_identidad_suscriptor_conjunto">Tipo de documento de identidad</label>
-                                <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto" name="tipo_identidad_suscriptor_conjunto">
+                                <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto" name="tipo_identidad_suscriptor_conjunto" autocomplete="off" >
                                     <option value="">Seleccione una opción</option>
                                     @(Model.tipo_identidad_suscriptor_conjunto == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
                                     @(Model.tipo_identidad_suscriptor_conjunto == "2" ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
@@ -404,11 +404,11 @@
                             </div>
                             <div class="col">
                                 <label for="documento_identidad_suscriptor_conjunto">Número documento identidad</label>
-                                <input type="text" class="form-control form-control-lg" id="documento_identidad_suscriptor_conjunto" name="documento_identidad_suscriptor_conjunto" value="@Model.documento_identidad_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg" id="documento_identidad_suscriptor_conjunto" name="documento_identidad_suscriptor_conjunto" value="@Model.documento_identidad_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                             <div class="col">
                                 <label for="procedencia_documento_identidad_suscriptor_conjunto">De: </label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" value="@Model.procedencia_documento_identidad_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" value="@Model.procedencia_documento_identidad_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
                     </section>
@@ -424,14 +424,14 @@
                                 <div class="form-row mt-4">
                                     <div class="col">
                                         <label for="representante_legal_suscriptor_conjunto">Nombre representante legal (solo personas jurídicas)</label>
-                                        <input type="text" class="form-control form-control-lg text-uppercase" id="representante_legal_suscriptor_conjunto" name="representante_legal_suscriptor_conjunto" value="@Model.representante_legal_suscriptor_conjunto" />
+                                        <input type="text" class="form-control form-control-lg text-uppercase" id="representante_legal_suscriptor_conjunto" name="representante_legal_suscriptor_conjunto" value="@Model.representante_legal_suscriptor_conjunto"  autocomplete="off" />
                                     </div>
                                 </div>
 
                                 <div class="form-row mt-4">
                                     <div class="col">
                                         <label for="tipo_identidad_representante_legal_suscriptor_conjunto">Tipo de documento de identidad</label>
-                                        <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg">
+                                        <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" autocomplete="off" >
                                             <option value="">Seleccione una opción</option>
                                             @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"CC\">CC</option>"))
                                             @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "2" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"CE\">CE</option>"))
@@ -440,11 +440,11 @@
                                     </div>
                                     <div class="col">
                                         <label for="documento_identidad_representante_legal_suscriptor_conjunto">Número de documento identidad</label>
-                                        <input type="text" id="documento_identidad_representante_legal_suscriptor_conjunto" name="documento_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.documento_identidad_representante_legal_suscriptor_conjunto" />
+                                        <input type="text" id="documento_identidad_representante_legal_suscriptor_conjunto" name="documento_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.documento_identidad_representante_legal_suscriptor_conjunto"  autocomplete="off" />
                                     </div>
                                     <div class="col">
                                         <label for="procedencia_identificacion_representante_legal_suscriptor_conjunto">De:</label>
-                                        <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.procedencia_identificacion_representante_legal_suscriptor_conjunto" />
+                                        <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.procedencia_identificacion_representante_legal_suscriptor_conjunto" autocomplete="off"  />
                                     </div>
                                 </div>
 
@@ -458,15 +458,15 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="fecha_nacimiento_suscriptor_conjunto">Fecha de nacimiento</label>
-                                <input class="form-control form-control-lg" id="fecha_nacimiento_suscriptor_conjunto" name="fecha_nacimiento_suscriptor_conjunto" value="@String.Format("{0:dd-MM-yyyy}", Model.fecha_nacimiento_suscriptor_conjunto)" />
+                                <input class="form-control form-control-lg" id="fecha_nacimiento_suscriptor_conjunto" name="fecha_nacimiento_suscriptor_conjunto" value="@String.Format("{0:dd-MM-yyyy}", Model.fecha_nacimiento_suscriptor_conjunto)"  autocomplete="off" />
                             </div>
                             <div class="col">
                                 <label for="lugar_nacimiento_suscriptor_conjunto">Lugar</label>
-                                <input type="text" id="lugar_nacimiento_suscriptor_conjunto" name="lugar_nacimiento_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.lugar_nacimiento_suscriptor_conjunto" readonly />
+                                <input type="text" id="lugar_nacimiento_suscriptor_conjunto" name="lugar_nacimiento_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" value="@Model.lugar_nacimiento_suscriptor_conjunto" readonly  autocomplete="off" />
                             </div>
                             <div class="col">
                                 <label for="sexo_suscriptor_conjunto">Sexo</label>
-                                <select class="form-control form-control-lg" id="sexo_suscriptor_conjunto" name="sexo_suscriptor_conjunto">
+                                <select class="form-control form-control-lg" id="sexo_suscriptor_conjunto" name="sexo_suscriptor_conjunto" autocomplete="off" >
                                     <option value="">Seleccione una opción</option>
                                     @(Model.sexo_suscriptor_conjunto == "femenino" ? Html.Raw("<option value=\"femenino\"  selected=\"selected\">Femenino</option>") : Html.Raw("<option value=\"femenino\">Femenino</option>"))
                                     @(Model.sexo_suscriptor_conjunto == "masculino" ? Html.Raw("<option value=\"masculino\"  selected=\"selected\">Masculino</option>") : Html.Raw("<option value=\"masculino\">Masculino</option>"))
@@ -474,7 +474,7 @@
                             </div>
                             <div class="col">
                                 <label for="estado_civil_suscriptor_conjunto">Estado civil</label>
-                                <select class="form-control form-control-lg" id="estado_civil_suscriptor_conjunto" name="estado_civil_suscriptor_conjunto">
+                                <select class="form-control form-control-lg" id="estado_civil_suscriptor_conjunto" name="estado_civil_suscriptor_conjunto" autocomplete="off" >
                                     <option value="">Seleccione una opción</option>
                                     @(Model.estado_civil_suscriptor_conjunto == "soltero" ? Html.Raw("<option value=\"soltero\"  selected=\"selected\">Soltero</option>") : Html.Raw("<option value=\"soltero\">Soltero</option>"))
                                     @(Model.estado_civil_suscriptor_conjunto == "casado" ? Html.Raw("<option value=\"casado\"  selected=\"selected\">Casado</option>") : Html.Raw("<option value=\"casado\">Casado</option>"))
@@ -487,13 +487,13 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="dirección_suscriptor_conjunto">Dirección Domicilio</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="dirección_suscriptor_conjunto" name="dirección_suscriptor_conjunto" value="@Model.direccion_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="dirección_suscriptor_conjunto" name="dirección_suscriptor_conjunto" value="@Model.direccion_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="departamento_suscriptor_conjunto">Departamento</label>
-                                <select class="form-control form-control-lg" id="departamento_suscriptor_conjunto" name="departamento_suscriptor_conjunto">
+                                <select class="form-control form-control-lg" id="departamento_suscriptor_conjunto" name="departamento_suscriptor_conjunto" autocomplete="off" >
                                     @(Model.departamento_suscriptor_conjunto == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
                                     @(Model.departamento_suscriptor_conjunto == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
                                     @(Model.departamento_suscriptor_conjunto == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
@@ -531,28 +531,28 @@
                             </div>
                             <div class="col">
                                 <label for="ciudad_suscriptor_conjunto">Ciudad</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" value="@Model.ciudad_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" value="@Model.ciudad_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="telefono_suscriptor_conjunto">Teléfono</label>
-                                <input type="text" class="form-control form-control-lg" id="telefono_suscriptor_conjunto" name="telefono_suscriptor_conjunto" value="@Model.telefono_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg" id="telefono_suscriptor_conjunto" name="telefono_suscriptor_conjunto" value="@Model.telefono_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                             <div class="col">
                                 <label for="celular_suscriptor_conjunto">Celular</label>
-                                <input type="text" class="form-control form-control-lg" id="celular_suscriptor_conjunto" name="celular_suscriptor_conjunto" value="@Model.celular_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg" id="celular_suscriptor_conjunto" name="celular_suscriptor_conjunto" value="@Model.celular_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="empresa_empleadora_suscriptor_conjunto">Empresa donde labora</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor_conjunto" name="empresa_empleadora_suscriptor_conjunto" value="@Model.empresa_empleadora_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor_conjunto" name="empresa_empleadora_suscriptor_conjunto" value="@Model.empresa_empleadora_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                             <div class="col">
                                 <label for="cargo_suscriptor_conjunto">Cargo</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="cargo_suscriptor_conjunto" name="cargo_suscriptor_conjunto" value="@Model.cargo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="cargo_suscriptor_conjunto" name="cargo_suscriptor_conjunto" value="@Model.cargo_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
 
@@ -563,7 +563,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="ingresos_en_pesos_conjunto_addon">$</span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor_conjunto" aria-describedby="ingresos_en_pesos_conjunto_addon" id="ingresos_mensuales_suscriptor_conjunto" name="ingresos_mensuales_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}", Model.ingresos_mensuales_suscriptor_conjunto)" />
+                                    <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor_conjunto" aria-describedby="ingresos_en_pesos_conjunto_addon" id="ingresos_mensuales_suscriptor_conjunto" name="ingresos_mensuales_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}", Model.ingresos_mensuales_suscriptor_conjunto)"  autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col">
@@ -572,7 +572,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="egresos_en_pesos_conjunto_addon">$</span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor_conjunto" aria-describedby="egresos_en_pesos_conjunto_addon" id="egresos_mensuales_suscriptor_conjunto" name="egresos_mensuales_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}",Model.egresos_mensuales_suscriptor_conjunto)" />
+                                    <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor_conjunto" aria-describedby="egresos_en_pesos_conjunto_addon" id="egresos_mensuales_suscriptor_conjunto" name="egresos_mensuales_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}",Model.egresos_mensuales_suscriptor_conjunto)"  autocomplete="off" />
                                 </div>
                             </div>
                             <div class="col">
@@ -581,7 +581,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="otros_ingresos_suscriptor_conjunto_addon">$</span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor_conjunto" aria-describedby="otros_ingresos_suscriptor_conjunto_addon" id="otros_ingresos_suscriptor_conjunto" name="otros_ingresos_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}",Model.otros_ingresos_suscriptor_conjunto)" />
+                                    <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor_conjunto" aria-describedby="otros_ingresos_suscriptor_conjunto_addon" id="otros_ingresos_suscriptor_conjunto" name="otros_ingresos_suscriptor_conjunto" placeholder="0.00" value="@String.Format("{0:0,0.00}",Model.otros_ingresos_suscriptor_conjunto)"  autocomplete="off" />
                                 </div>
                             </div>
                         </div>
@@ -589,14 +589,14 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="direccion_empleo_suscriptor_conjunto">Dirección oficina (laboral)</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor_conjunto" name="direccion_empleo_suscriptor_conjunto" value="@Model.direccion_empleo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="direccion_empleo_suscriptor_conjunto" name="direccion_empleo_suscriptor_conjunto" value="@Model.direccion_empleo_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="departamento_empleo_suscriptor_conjunto">Departamento</label>
-                                <select class="form-control form-control-lg" id="departamento_empleo_suscriptor_conjunto" name="departamento_empleo_suscriptor_conjunto">
+                                <select class="form-control form-control-lg" id="departamento_empleo_suscriptor_conjunto" name="departamento_empleo_suscriptor_conjunto" autocomplete="off" >
                                     @(Model.departamento_empleo_suscriptor_conjunto == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
                                     @(Model.departamento_empleo_suscriptor_conjunto == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
                                     @(Model.departamento_empleo_suscriptor_conjunto == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
@@ -634,18 +634,18 @@
                             </div>
                             <div class="col">
                                 <label for="ciudad_empleo_suscriptor_conjunto">Ciudad</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" value="@Model.ciudad_empleo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" value="@Model.ciudad_empleo_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="telefono_empleo_suscriptor_conjunto">Teléfono</label>
-                                <input type="text" class="form-control form-control-lg" name="telefono_empleo_suscriptor_conjunto" id="telefono_empleo_suscriptor_conjunto" value="@Model.telefono_empleo_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg" name="telefono_empleo_suscriptor_conjunto" id="telefono_empleo_suscriptor_conjunto" value="@Model.telefono_empleo_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                             <div class="col">
                                 <label for="celular_empleo_suscriptor_conjunto">Celular</label>
-                                <input type="text" class="form-control form-control-lg" id="celular_empleo_suscriptor_conjunto" name="celular_empleo_suscriptor_conjunto" value="@Model.celular_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg" id="celular_empleo_suscriptor_conjunto" name="celular_empleo_suscriptor_conjunto" value="@Model.celular_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
 
@@ -653,11 +653,11 @@
                         <div class="form-row mt-4">
                             <div class="col">
                                 <label for="profesion_suscriptor_conjunto">Profesión o actividad económica</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor_conjunto" name="profesion_suscriptor_conjunto" value="@Model.profesion_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor_conjunto" name="profesion_suscriptor_conjunto" value="@Model.profesion_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                             <div class="col">
                                 <label for="correspondencia_suscriptor_conjunto">Envío de correspondencia</label>
-                                <select class="form-control form-control-lg" id="correspondencia_suscriptor_conjunto" name="correspondencia_suscriptor_conjunto">
+                                <select class="form-control form-control-lg" id="correspondencia_suscriptor_conjunto" name="correspondencia_suscriptor_conjunto" autocomplete="off" >
                                     <option value="">Seleccione una opción</option>
                                     @(Model.correspondencia_suscriptor_conjunto == "domicilio" ? Html.Raw("<option value=\"domicilio\"  selected=\"selected\">Domicilio</option>") : Html.Raw("<option value=\"domicilio\">Domicilio</option>"))
                                     @(Model.correspondencia_suscriptor_conjunto == "oficina" ? Html.Raw("<option value=\"oficina\"  selected=\"selected\">Oficina</option>") : Html.Raw("<option value=\"oficina\">Oficina</option>"))
@@ -666,7 +666,7 @@
                             </div>
                             <div class="col">
                                 <label for="email_suscriptor_conjunto">Correo electrónico</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="email_suscriptor_conjunto" name="email_suscriptor_conjunto" value="@Model.email_suscriptor_conjunto" />
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="email_suscriptor_conjunto" name="email_suscriptor_conjunto" value="@Model.email_suscriptor_conjunto"  autocomplete="off" />
                             </div>
                         </div>
                     </section>
@@ -755,7 +755,7 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <label for="detalles_bien">Detalles del bien</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="detalles_bien" name="detalles_bien" value="@Model.descripcion_bien" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="detalles_bien" name="detalles_bien" value="@Model.descripcion_bien" autocomplete="off"  />
                         </div>
                         <div class="col">
                             <label for="valor_bien">Valor del bien</label>
@@ -768,7 +768,7 @@
                         </div>
                         <div class="col">
                             <label for="codigo_bien">Código del bien</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="codigo_bien" name="codigo_bien" value="@Model.codigo_bien" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="codigo_bien" name="codigo_bien" value="@Model.codigo_bien"  autocomplete="off" />
                         </div>
                     </div>
 

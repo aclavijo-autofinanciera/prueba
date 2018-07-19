@@ -23,25 +23,25 @@
                     <div class="form-row">
                         <div class="col-12 col-md-3 mt-4">
                             <label for="PrimerNombre">Primer nombre</label>
-                            <input type="text" id="PrimerNombre" name="PrimerNombre" class="form-control form-control-lg text-uppercase" value="@Model.PrimerNombre" required />
+                            <input type="text" id="PrimerNombre" name="PrimerNombre" class="form-control form-control-lg text-uppercase" value="@Model.PrimerNombre" required  autocomplete="off" />
                         </div>
                         <div class="col-12 col-md-3 mt-4">
                             <label for="SegundoNombre">Segundo nombre</label>
-                            <input type="text" id="SegundoNombre" name="SegundoNombre" class="form-control form-control-lg text-uppercase" value="@Model.SegundoNombre" />
+                            <input type="text" id="SegundoNombre" name="SegundoNombre" class="form-control form-control-lg text-uppercase" value="@Model.SegundoNombre" autocomplete="off" />
                         </div>
                         <div class="col-12 col-md-3 mt-4">
                             <label for="PrimerApellido">Primer apellido</label>
-                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg text-uppercase" value="@Model.PrimerApellido" required />
+                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg text-uppercase" value="@Model.PrimerApellido" required  autocomplete="off" />
                         </div>
                         <div class="col-12 col-md-3 mt-4">
                             <label for="SegundoApellido">Segundo apellido</label>
-                            <input type="text" id="SegundoApellido" name="SegundoApellido" class="form-control form-control-lg text-uppercase" value="@Model.SegundoApellido" />
+                            <input type="text" id="SegundoApellido" name="SegundoApellido" class="form-control form-control-lg text-uppercase" value="@Model.SegundoApellido" autocomplete="off"  />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-12 col-md-3 mt-4">
                             <label for="TipoDocumentoIdentidad">Tipo de documento</label>
-                            <select id="TipoDocumentoIdentidad" name="TipoDocumentoIdentidad" class="form-control form-control-lg" required >
+                            <select id="TipoDocumentoIdentidad" name="TipoDocumentoIdentidad" class="form-control form-control-lg" required autocomplete="off"  >
                                 <option value="">Seleccione una opción</option>
                                 @(Model.TipoDocumentoIdentidad == 1 ?  Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
                                 @(Model.TipoDocumentoIdentidad == 2 ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
@@ -50,21 +50,21 @@
                         </div>
                         <div class="col-12 col-md-3 mt-4">
                             <label for="NumeroDocumento">Número documento identidad</label>
-                            <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" value="@Model.NumeroDocumento" required />
+                            <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" value="@Model.NumeroDocumento" required  autocomplete="off" />
                         </div>
                         <div class="col-12 col-md-3 mt-4">
                             <label for="Telefono">Teléfono</label>
-                            <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" value="@Model.Telefono" required />
+                            <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" value="@Model.Telefono" required autocomplete="off"  />
                         </div>
                         <div class="col-12 col-md-3 mt-4">
                             <label for="Celular">Celular</label>
-                            <input type="text" id="Celular" name="Celular" class="form-control form-control-lg text-uppercase" value="@Model.Celular" required />
+                            <input type="text" id="Celular" name="Celular" class="form-control form-control-lg text-uppercase" value="@Model.Celular" required  autocomplete="off" />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col mt-4">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" value="@Model.Email" required />
+                            <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" value="@Model.Email" required autocomplete="off"  />
                             <hr />
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12 col-md-6">
                                         <label for="bien">Seleccione un bien</label>
-                                        <select class="form-control form-control-lg" id="bien" name="bien">
+                                        <select class="form-control form-control-lg" id="bien" name="bien"  >
                                             <option value="">Seleccione una opción</option>
                                             <option value="auto">Autos</option>
                                             <option value="electro">Motos</option>
@@ -189,7 +189,7 @@
                                         Detalle
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                        <input type="text" name="detalle" id="detalle" class="form-control form-control-lg text-uppercase" value="@Model.Detalles_bien" required />
+                                        <input type="text" name="detalle" id="detalle" class="form-control form-control-lg text-uppercase" value="@Model.Detalles_bien" required autocomplete="off"  />
                                     </div>
                                 </div>
                             </div>
