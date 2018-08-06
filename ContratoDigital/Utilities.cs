@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -328,7 +329,15 @@ namespace ContratoDigital
 
             // Tipo de bien
             fields.TryGetValue("tipo_de_bien", out toSet);
-            toSet.SetValue(contrato.tipo_de_bien);
+            //toSet.SetValue(contrato.tipo_de_bien);
+            if(contrato.id_tipo_de_bien == 1)
+            {
+                toSet.SetValue("motocicleta");
+            }
+            else
+            {
+                toSet.SetValue("vehiculo");
+            }
 
             // marca exclusiva bien
             fields.TryGetValue("marca_exclusiva_bien", out toSet);
@@ -349,6 +358,49 @@ namespace ContratoDigital
             // codigo bien
             fields.TryGetValue("codigo_bien", out toSet);
             toSet.SetValue(contrato.codigo_bien.ToUpper());
+
+            // Plazo
+            fields.TryGetValue("plazo", out toSet);
+            if(contrato.plazo_bien.Equals("40"))
+            {
+                toSet.SetValue("40");
+            }
+            else if(contrato.plazo_bien.Equals("60"))
+            {
+                toSet.SetValue("60");
+            }
+            else if(contrato.plazo_bien.Equals("72"))
+            {
+                if(contrato.valor_bien < 25000000)
+                {
+                    toSet.SetValue("72");
+                }
+                else
+                {
+                    toSet.SetValue("53-72");
+                }
+            }
+            else if(contrato.plazo_bien.Equals("78"))
+            {
+                if(contrato.valor_bien< 33000000)
+                {
+                    toSet.SetValue("78");
+                }
+                else if(contrato.valor_bien>33000000 && contrato.valor_bien<45000000)
+                {
+                    toSet.SetValue("25-78");
+                }
+                else
+                {
+                    toSet.SetValue("34-78");
+                }
+            }
+            else
+            {
+                toSet.SetValue("25-90");
+            }
+
+            
 
             // cuota ingreso
             fields.TryGetValue("cuota_ingreso", out toSet);
@@ -566,7 +618,20 @@ namespace ContratoDigital
             Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
             contrato.valor_bien = valor_bien;
 
-            contrato.cuota_bien = contrato.detalles_bien.Contains("CUOTA FIJA") ? "FIJA" : "VARIABLE";
+            //contrato.cuota_bien = contrato.detalles_bien.Contains("CUOTA FIJA") ? "FIJA" : "VARIABLE";
+            if(contrato.marca_exclusiva_bien.Contains("BAJAJ") || 
+                contrato.marca_exclusiva_bien.Contains("KAWASAKI") ||
+                contrato.marca_exclusiva_bien.Contains("KTM") || 
+                contrato.marca_exclusiva_bien.Contains("KYMCO")  || 
+                contrato.marca_exclusiva_bien.Contains("YAMAHA"))
+            {
+                contrato.cuota_bien = "VARIABLE";
+            }
+            else
+            {
+                contrato.cuota_bien = "FIJA";
+            }
+
             contrato.plazo_bien = form["plazo_bien"].ToString().ToUpper();
 
             // pago Inicial
