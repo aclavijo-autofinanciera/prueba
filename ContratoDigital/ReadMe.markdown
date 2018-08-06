@@ -29,6 +29,10 @@ Incluir los pasos de instalaciones y despligue en el servidor de linux
 + Creación webservice local hacia Siicon
 + Conexión de jQuery contra el servicio de Siicon
 + Conexión y rellenado de los métodos con Siicon.
++ Carga del documento de identidad
++ Carga de emails individuales
++ Separación de la cédula en su propia tabla
++ Reedición de todos los PDF's
 
 ##### 0.1.4 (2018-07-10)
 + Confirmación del corrreo y aceptación del contrato.
