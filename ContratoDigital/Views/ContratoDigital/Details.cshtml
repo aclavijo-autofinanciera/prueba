@@ -124,6 +124,32 @@
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
+                            Documento Digitalizado
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65">
+                            <p>Anverso:<br />
+                            @{ if (!String.IsNullOrEmpty(Model.anverso_documento))
+                                {
+                                    <img src="data:image/png;base64, @Model.anverso_documento" alt="Anverso" class="img-fluid"/>
+                                }  
+                            }
+                            </p>
+                            <p>
+                                Reverso:<br />
+                                @{ if (!String.IsNullOrEmpty(Model.reverso_documento))
+                                    {
+                                        <img src="data:image/png;base64, @Model.reverso_documento" alt="Anverso" class="img-fluid" />
+                                    }
+                                }
+                            </p>
+                            <a class="btn btn-azul" href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })">Adjuntar o actualizar</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
                             Nombre
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
@@ -972,10 +998,11 @@
                 <div class="btn-group" role="group" aria-label="Acciones">
                     <a class="btn btn-azul" href="@Url.Action("Details", "Prospectos", new { id=Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                     <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
-                    <a class="btn btn-azul" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
-                    <a class="btn btn-azul" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
                     <a class="btn btn-azul" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Generar pago</a>
                     <a class="btn btn-azul" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar pago por correo</a>
+                    <a class="btn btn-azul" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
+                    <a class="btn btn-azul" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
+
                 </div>
             </div>
         </div>
