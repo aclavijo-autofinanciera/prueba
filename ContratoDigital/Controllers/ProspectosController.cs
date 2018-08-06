@@ -78,18 +78,59 @@ namespace ContratoDigital.Controllers
                 new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
             };
             emailMessage.Subject = "[AutoFinanciera] Confirmación de Email";
-                        
-#if DEBUG
+
+            string src = "";
+            if (prospecto.ValorDelBien <= 24999999)
+            {
+                switch (prospecto.Marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailMotoMas.html";
+                        break;
+                    case "AUTECO - BAJAJ":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailBajaj.html";
+                        break;
+                    case "AUTECO - KAWASAKI":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailKawasaki.html";
+                        break;
+                    case "AUTECO - KTM":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailKtm.html";
+                        break;
+                    
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailElectroplan.html";
+                        break;
+                }
+
+            }
+            else
+            {
+                switch (prospecto.Marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailKiaPlan.html";
+                        break;
+                    case "HYUNDAI":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailAutokoreana.html";
+                        break;
+                    case "VOLKSWAGEN":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailAutofinanciera.html";
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailAutofinanciera.html";
+                        break;
+                }
+            }
+#if DEBUG 
+
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailProspecto.html"),
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
+                Utilities.GetTemplate(src),
                 "http://localhost:53036/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id);
 #endif
 #if RELEASE
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailProspecto.html"),
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
-                "http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid==" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id); 
+                Utilities.GetTemplate(src),
+                "http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id); 
            
 #endif
 
