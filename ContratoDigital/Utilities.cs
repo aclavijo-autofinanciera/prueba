@@ -529,7 +529,7 @@ namespace ContratoDigital
             Double.TryParse(s: form["egresos_mensuales_suscriptor"], result: out double egresos_mensuales_suscriptor);
             contrato.egresos_mensuales_suscriptor = egresos_mensuales_suscriptor;
 
-            Double.TryParse(s: form["otros_ingresos_suscriptor"], result: out Double otros_ingresos_suscriptor);
+            Double.TryParse(s: form["otros_ingresos_suscriptor"], result: out double otros_ingresos_suscriptor);
             contrato.otros_ingresos_suscriptor = otros_ingresos_suscriptor;
 
             contrato.direccion_empleo_suscriptor = form["direccion_empleo_suscriptor"].ToString().ToUpper();
@@ -718,7 +718,7 @@ namespace ContratoDigital
             Double.TryParse(s: form["egresos_mensuales_suscriptor"], result: out double egresos_mensuales_suscriptor);
             contrato.egresos_mensuales_suscriptor = egresos_mensuales_suscriptor;
 
-            Double.TryParse(s: form["otros_ingresos_suscriptor"], result: out Double otros_ingresos_suscriptor);
+            Double.TryParse(s: form["otros_ingresos_suscriptor"], result: out double otros_ingresos_suscriptor);
             contrato.otros_ingresos_suscriptor = otros_ingresos_suscriptor;
 
             contrato.direccion_empleo_suscriptor = form["direccion_empleo_suscriptor"].ToString().ToUpper();
