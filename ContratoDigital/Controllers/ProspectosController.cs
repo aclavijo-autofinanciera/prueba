@@ -1,9 +1,13 @@
 ﻿ using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
+using iText.Forms;
+using iText.Forms.Fields;
+using iText.Kernel.Pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -201,38 +205,27 @@ namespace ContratoDigital.Controllers
 
             int.TryParse(form["NumeroDocumento"], out int numeroDocumento);
             string nombre = form["Nombre"];
-
-            
-
-            if ( numeroDocumento > 0 && !String.IsNullOrEmpty(nombre) )
+            if(!String.IsNullOrEmpty(nombre))
             {
-                return View(await _context.Prospectos.Where(
-                    x =>
-                    x.NumeroDocumento == numeroDocumento ||
-                    x.PrimerNombre.Contains(nombre.ToUpper()) ||
-                    x.PrimerApellido.Contains(nombre.ToUpper()))
-                    .ToListAsync()
-                );
+                var splitted = nombre.Split(' ');
+                string searchQuery = "";
+                for(int i = 0; i< splitted.Count(); i++)
+                {
+                    searchQuery += $"\"*" + splitted[i] + "*\"";
+                    if(i<splitted.Count()-1)
+                    {
+                        searchQuery += " OR ";
+                    }
+                }
+                return View(await _context.Prospectos.FromSql($"SELECT * FROM  Prospectos WHERE CONTAINS(PrimerNombre,{searchQuery} ) OR CONTAINS(SegundoNombre, {searchQuery}) OR CONTAINS(PrimerApellido, {searchQuery}) OR CONTAINS(SegundoApellido, {searchQuery}) OR NumeroDocumento =  {numeroDocumento}")
+                    .OrderByDescending(x => x.IdProspecto).ToListAsync());
             }
-            else if( numeroDocumento > 0 && String.IsNullOrEmpty(nombre) )
+            else
             {
-                return View(await _context.Prospectos.Where(
-                    x =>
-                    x.NumeroDocumento == numeroDocumento)                    
-                    .ToListAsync()
-                );
+                return View(await _context.Prospectos.Where(x =>
+                x.NumeroDocumento == numeroDocumento)
+                    .OrderByDescending(x => x.IdProspecto).ToListAsync());
             }
-            else if(numeroDocumento == 0 && !string.IsNullOrEmpty(nombre) )
-            {
-                return View(await _context.Prospectos.Where(
-                    x =>
-                    x.PrimerNombre.Contains(nombre.ToUpper()) ||
-                    x.PrimerApellido.Contains(nombre.ToUpper()))
-                    .ToListAsync()
-                );
-            }
-            return View();
-            
         }
 
         public IActionResult CargaMasiva()
