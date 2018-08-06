@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyVersion>0.1.4.0</AssemblyVersion>
-    <FileVersion>0.1.4.0</FileVersion>
-    <Version>0.1.4</Version>
+    <AssemblyVersion>0.1.4.1</AssemblyVersion>
+    <FileVersion>0.1.4.1</FileVersion>
+    <Version>0.1.4.1</Version>
     <PackageReleaseNotes>0.1.4
 - Confirmación de aceptación de condiciones contrato
 - Botones de representante legal
@@ -59,15 +59,74 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="wwwroot\emailtemplates\Cotizacion\" />
+    <Folder Include="wwwroot\emailtemplates\Contrato\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\emailtemplates\EmailProspecto.html" />
     <None Include="wwwroot\lib\AOS\aos.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\npm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\popper.min.js" />
+    <None Include="wwwroot\lib\fonts\Reforma2018\Icon_" />
+    <None Include="wwwroot\lib\fonts\Reforma2018\Reforma2018-Blanca.woff2" />
+    <None Include="wwwroot\lib\fonts\Reforma2018\Reforma2018-BlancaItalica.woff2" />
+    <None Include="wwwroot\lib\fonts\Reforma2018\Reforma2018-Gris.woff2" />
+    <None Include="wwwroot\lib\fonts\Reforma2018\Reforma2018-GrisItalica.woff2" />
+    <None Include="wwwroot\lib\fonts\Reforma2018\Reforma2018-Negra.woff2" />
+    <None Include="wwwroot\lib\fonts\Reforma2018\Reforma2018-NegraItalica.woff2" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="Views\ContratoDigital\ConfirmarCorreo.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\Error.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\LegaleseAspectosRelevantes.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\LegaleseAutofinanciera.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\LegaleseElectroplan.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\TratamientoDeDatosPersonales.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\_CookieConsentPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\_LayoutLogin.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\_LayoutYamahaMotoMas.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\_LoginPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Prospectos\Shared\_ValidationScriptsPartial.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\_LayoutLogin.cshtml">
