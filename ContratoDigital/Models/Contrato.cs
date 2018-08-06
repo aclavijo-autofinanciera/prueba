@@ -19,6 +19,8 @@ namespace ContratoDigital.Models
         public string segundo_apellido { get; set; }
         public string tipo_documento_identidad_suscriptor { get; set; }
         public int documento_identidad_suscriptor { get; set; }
+        public string anverso_documento { get; set; }
+        public string reverso_documento { get; set; }
         public string procedencia_documento_identidad_suscriptor { get; set; }
         public string nombre_razon_social_representante_legal { get; set; }
         public string tipo_documento_representante_legal { get; set; }
@@ -48,6 +50,7 @@ namespace ContratoDigital.Models
         public string profesion_suscriptor { get; set; }
         public string envio_correspondencia_suscriptor { get; set; }
         public string email_suscriptor { get; set; }
+        
 
         // Datos Suscriptor conjunto
         public string nombre_suscriptor_conjunto { get; set; }
