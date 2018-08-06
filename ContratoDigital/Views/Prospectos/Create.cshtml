@@ -79,6 +79,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row mt-2 error-area"></div>
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
@@ -163,7 +164,7 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <span class="badge badge-azul">1</span>
-                            <label for="cuota_ingreso">Cuota de ingreso (4.5% sobre el valor del bien)</label>
+                            <label for="cuota_ingreso">Cuota de ingreso (<label class="porcentajeInscripcion"></label>% sobre el valor del bien)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="cuota_ingreso_addon">$</span>
@@ -173,7 +174,7 @@
                         </div>
                         <div class="col">
                             <span class="badge badge-azul">5</span>
-                            <label for="administracion">Administración (N% sobre cuota neta)</label>
+                            <label for="administracion">Administración (<label class="porcentajeAdministracion"></label>% sobre cuota neta)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="administracion_addon">$</span>
@@ -186,7 +187,7 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <span class="badge badge-azul">2</span>
-                            <label for="iva_cuota_ingreso">I.V.A. sobre la cuota de ingreso (N%)</label>
+                            <label for="iva_cuota_ingreso">I.V.A. sobre la cuota de ingreso (<label class="porcentajeIva"></label>%)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
@@ -196,7 +197,7 @@
                         </div>
                         <div class="col">
                             <span class="badge badge-azul">6</span>
-                            <label for="iva_administracion">I.V.A. sobre la administración (N$)</label>
+                            <label for="iva_administracion">I.V.A. sobre la administración (<label class="porcentajeIva"></label>%)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="iva_administracion_addon">$</span>
@@ -210,7 +211,7 @@
                     <div class="form-row mt-4">
                         <div class="col">
                             <span class="badge badge-azul">3</span>
-                            <label for="total_cuota_ingreso">Total cuota de ingreso (N%) ( <span class=" badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+                            <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class=" badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
@@ -220,7 +221,7 @@
                         </div>
                         <div class="col">
                             <span class="badge badge-azul">7</span>
-                            <label for="total_cuota_bruta">Total cuota bruta (N%) ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+                            <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
