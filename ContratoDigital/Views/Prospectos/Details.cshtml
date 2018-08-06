@@ -270,6 +270,8 @@
             <div class="btn-group" role="group" aria-label="Acciones">
                 <a class="btn btn-azul" href="@Url.Action("Index", "Prospectos")"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                 <a class="btn btn-azul" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
+                <a class="btn btn-azul" href="@Url.Action("Generate", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-receipt"></i>  Generar cotización</a>
+                <a class="btn btn-azul" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
                 <a class="btn btn-azul" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar contrato PDF</a>
             </div>
         </div>
