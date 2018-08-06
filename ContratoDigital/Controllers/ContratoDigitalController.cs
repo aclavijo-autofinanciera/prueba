@@ -144,25 +144,50 @@ namespace ContratoDigital.Controllers
 
         public async Task<IActionResult> Generate(int id)
         {
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             MemoryStream stream = new MemoryStream();
+            string src = "";
+            if(contrato.valor_bien<=24999999)
+            {
+                switch(contrato.marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/motomas_v-1.0-20170725.pdf";
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_v-1.0-20170725.pdf";
+                        break;
+                }
+            }
+            else
+            {
+                switch(contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/kiaplan_v-1.0-20170725.pdf";
+                        break;
+                    case "HYUNDAI":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/autokoreana_v-1.0-20170725.pdf";
+                        break;
+                    case "VOLKSWAGEN":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/colwager_v-1.0-20170725.pdf";
+                        break;
 
-            //string src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_yamaha_motomas_contrato_v1.1_20180601.pdf";
-            string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
+                        break;
+                }
+            }            
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);
 
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
-
-            //Contrato contrato = Utilities.FillContrato(form);
-            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            
             Utilities.FillPdf(fields, contrato);
             
-
-
-
-            pdfForm.FlattenFields();
+            pdfForm.FlattenFields();            
             pdf.Close();
             stream.Flush();
             stream.Position = 0;
@@ -172,8 +197,41 @@ namespace ContratoDigital.Controllers
         public IActionResult EmailContract(int id)
         {
             MemoryStream stream = new MemoryStream();
-                        
-            string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
+            Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
+            string src = "";
+            if (contrato.valor_bien <= 24999999)
+            {
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/motomas_v-1.0-20170725.pdf";
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_v-1.0-20170725.pdf";
+                        break;
+                }
+
+            }
+            else
+            {
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/kiaplan_v-1.0-20170725.pdf";
+                        break;
+                    case "HYUNDAI":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/autokoreana_v-1.0-20170725.pdf";
+                        break;
+                    case "VOLKSWAGEN":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/colwager_v-1.0-20170725.pdf";
+                        break;
+
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
+                        break;
+                }
+            }
+            //string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);
@@ -202,7 +260,50 @@ namespace ContratoDigital.Controllers
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
             };
             emailMessage.Subject = "Contrato Digital PDF Autofinanciera";
-            emailMessage.Content = "Adjunto encontrará el Contrato Digital correspondiente.";
+
+
+            string srcTemplate = "";
+            if (contrato.valor_bien <= 24999999)
+            {
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoMotoMas.html";
+                        break;
+                    case "AUTECO - BAJAJ":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoBajaj.html";
+                        break;
+                    case "AUTECO - KAWASAKI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKawasaki.html";
+                        break;
+                    case "AUTECO - KTM":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKtm.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoElectroplan.html";
+                        break;
+                }
+            }
+            else
+            {
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKiaPlan.html";
+                        break;
+                    case "HYUNDAI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutokoreana.html";
+                        break;
+                    case "VOLKSWAGEN":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutofinanciera.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutofinanciera.html";
+                        break;
+                }
+            }
+
+            emailMessage.Content = srcTemplate;
             try
             {
                 emailService.Send(emailMessage, stream);
@@ -217,15 +318,21 @@ namespace ContratoDigital.Controllers
             
         }
 
-        public IActionResult EmailInvoice(int id)
+        public async Task<IActionResult> EmailInvoice(int id)
         {
             MemoryStream stream = new MemoryStream();
 
-            if (string.IsNullOrWhiteSpace(_hostingEnvironment.WebRootPath))
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            string src = "";
+            if (contrato.valor_bien <= 24999999)
             {
-                _hostingEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.0-20180803.pdf";
+
             }
-            string src = _hostingEnvironment.WebRootPath + "/pdf/recibopago.pdf";
+            else
+            {
+                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-auto-v.1.0-20180803.pdf";
+            }
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);
@@ -359,12 +466,17 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Pay(int id)
         {
             MemoryStream stream = new MemoryStream();
-
-            if (string.IsNullOrWhiteSpace(_hostingEnvironment.WebRootPath))
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            string src = "";
+            if (contrato.valor_bien <= 24999999)
             {
-                _hostingEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.0-20180803.pdf";
+
             }
-            string src = _hostingEnvironment.WebRootPath + "/pdf/recibopago.pdf";
+            else
+            {
+                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-auto-v.1.0-20180803.pdf";
+            }
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);
