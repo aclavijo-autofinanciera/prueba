@@ -560,78 +560,18 @@ jQuery(function ($) {
             form.submit();
         }
     });
+        
+    if ($("#valor_bien").val())
+    {
+        if (Math.floor($("#valor_bien").val().replace(/[^\d\.\-]/g, "")) < 24999999) {
+            $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
+        }
+        else {
+            $("#legaleseAuto").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
+        }
+    }
+    
 
-    /*
-    // Calculadora
-    $("#referencia").on('change', function () {
-            var canmes_72 = 72;
-            var canmes_60 = 60;
-            var canmes_40 = 40;
-            var adm_72 = 0.15;
-            var adm_60 = 0.25;
-            var adm_40 = 0.20;
-            var porcentajeInscripcion = 0.03;
-            var iva = 0.19;
-            canmes = 0;
-            valbien = $("#referencia").find(":selected").val(); //document.getElementById("select").value; 
-            //tipo_plan =  document.getElementById("nombre_plan").value; 
-            //tipo_plan = tipo_plan.split(':'); 
-            //tipo_plan_adm = tipo_plan[0]; 
-            //tipo_plan_inscrip = tipo_plan[1]; 
-
-
-            var por_inscripcion_72 = 0.035;
-            var tasafil = 0.035;
-            var gasadm36 = 0.15;
-            var gasadm = 0.25;
-            var gasadm144 = 0.48;
-            var cuotmens = 0;
-            var pripag = 0;
-            var costodelbien = $("#referencia").val();
-            if (valbien === "" || valbien === 0) {
-                valbien = 0;
-                $("#costo_del_bien, #cuota_ingreso, #administracion, #iva_cuota_ingreso, #iva_administracion, #total_cuota_ingreso, #total_cuota_bruta, #primera_cuota_neta, #valor_primer_pago").val(0.00);
-            }
-
-            $("#DescripcionDelBien, #detalles_bien").finish().fadeTo('normal', 0).val($("#referencia").find(":selected").text() ).finish().fadeTo('normal', 1);
-
-            // Valor del costo del bien 
-            $("#costo_del_bien").finish().fadeTo('normal', 0).val(parseFormat(costodelbien)).finish().fadeTo('normal', 1);
-
-            // Cuota de ingreso 
-            valorPorcentajeInscripcion = costodelbien * 0.045;
-            $("#cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(valorPorcentajeInscripcion)).finish().fadeTo('normal', 1);
-
-            // Iva Inscripción 
-            ivaInscripcion = 0.045 * valbien * iva;
-            $("#iva_cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(ivaInscripcion)).finish().fadeTo('normal', 1);
-
-            // Total de la inscripción 
-            totalInscripcion = valorPorcentajeInscripcion + ivaInscripcion;
-            $("#total_cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(totalInscripcion)).finish().fadeTo('normal', 1);
-
-            // Primera cuota 
-            cuotaNeta40 = valbien / canmes_40;
-            $('#primera_cuota_neta').finish().fadeTo('normal', 0).val(parseFormat(cuotaNeta40)).finish().fadeTo('normal', 1);
-
-            // Administracion 
-            administracion40 = 0.2 * cuotaNeta40;
-            $("#administracion").finish().fadeTo('normal', 0).val(parseFormat(administracion40)).finish().fadeTo('normal', 1);
-
-            // IVA Administración 
-            ivaAdministracion40 = administracion40 * iva;
-            $("#iva_administracion").finish().fadeTo('normal', 0).val(parseFormat(ivaAdministracion40)).finish().fadeTo('normal', 1);
-
-            //Total Cuota Bruta 
-            totalCuotaMensual40 = cuotaNeta40 + administracion40 + ivaAdministracion40;
-            $("#total_cuota_bruta").finish().fadeTo('normal', 0).val(parseFormat(totalCuotaMensual40)).finish().fadeTo('normal', 1);
-
-            // Valor total del primer pago 
-            valorPrimeraInversion40 = totalInscripcion + totalCuotaMensual40;
-            $("#valor_primer_pago").finish().fadeTo('normal', 0).val(parseFormat(valorPrimeraInversion40)).finish().fadeTo('normal', 1);
-            
-    });
-    */
     var targetBien = $("#bien");
     var targetTipoDeBien = $("#tipodeBien");
     var targetMarca = $("#marca");
@@ -639,10 +579,7 @@ jQuery(function ($) {
     var targetCalculo = $("#tipoCalculo");
     // Assign tipo de bien
     targetBien.on('change', function ()
-    {
-        targetTipoDeBien.empty();
-        targetTipoDeBien.removeAttr("readonly");
-        targetTipoDeBien.append("<option value=\"\">Selecciona una opción</option>")
+    {        
         if ($(this).find(":selected").val() === "auto")
         {
             $.ajax({
@@ -651,23 +588,31 @@ jQuery(function ($) {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    //alert(JSON.stringify(data));                  
-                    //$("#DIV").html('');
-                    //var DIV = '';                    
+                    targetTipoDeBien.empty();                    
+                    targetTipoDeBien.append("<option value=\"\">Selecciona una opción</option>");                    
                     $.each(data, function (i, item) {
                         var rows = 
                             "<option value=\"" + item.CodTipoBien + "\">" + item["Tipo de Bien"] + "</option>";
                         targetTipoDeBien.append(rows);
-                    }); //End of foreach Loop   
-                    console.log(data);
-                }, //End of AJAX Success function  
-
+                    }); 
+                    targetTipoDeBien.removeAttr("readonly");                    
+                },
                 failure: function (data) {
-                    //alert(data.responseText);
-                }, //End of AJAX failure function  
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >'+
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                '<span aria-hidden="true">&times;</span>'+
+                            '</button>'+
+                        '</div >');
+                }, 
                 error: function (data) {
-                    //alert(data.responseText);
-                } //End of AJAX error function  
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                } 
 
             });
         }
@@ -679,34 +624,38 @@ jQuery(function ($) {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    //alert(JSON.stringify(data));                  
-                    //$("#DIV").html('');
-                    //var DIV = '';
+                    targetTipoDeBien.empty();
+                    targetTipoDeBien.append("<option value=\"\">Selecciona una opción</option>");    
                     $.each(data, function (i, item) {
                         var rows =
                             "<option value=\"" + item.CodTipoBien + "\">" + item["Tipo de Bien"] + "</option>";
                         targetTipoDeBien.append(rows);
-                    }); //End of foreach Loop   
-                    console.log(data);
-                }, //End of AJAX Success function  
-
+                    }); 
+                    targetTipoDeBien.removeAttr("readonly");
+                },
                 failure: function (data) {
-                    //alert(data.responseText);
-                }, //End of AJAX failure function  
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                },
                 error: function (data) {
-                    //alert(data.responseText);
-                } //End of AJAX error function  
-
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                } 
             });
         }
     });
 
     // Asssign marca
     targetTipoDeBien.on("change", function ()
-    {
-        targetMarca.empty();
-        targetMarca.removeAttr("readonly");
-        targetMarca.append("<option value=\"\">Selecciona una opción</option>");
+    {        
         $('#descripcionTipoBien').val(targetTipoDeBien.find(":selected").text());
         $.ajax({
             type: "GET",
@@ -714,23 +663,31 @@ jQuery(function ($) {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                //alert(JSON.stringify(data));                  
-                //$("#DIV").html('');
-                //var DIV = '';                    
+                targetMarca.empty();                
+                targetMarca.append("<option value=\"\">Selecciona una opción</option>");
                 $.each(data, function (i, item) {
                     var rows =
                         "<option value=\"" + ((targetBien === "auto") ? item.CodMarcaAuto : item.CodMarcaElectro) + "\">" + item.Marca + "</option>";
                     targetMarca.append(rows);
-                }); //End of foreach Loop   
-                console.log(data);
-            }, //End of AJAX Success function  
-
+                }); 
+                targetMarca.removeAttr("readonly");
+            }, 
             failure: function (data) {
-                //alert(data.responseText);
-            }, //End of AJAX failure function  
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            }, 
             error: function (data) {
-                //alert(data.responseText);
-            } //End of AJAX error function  
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            } 
 
         });
         
@@ -738,8 +695,7 @@ jQuery(function ($) {
 
     // assign Plan de Ahorro
     targetMarca.on('change', function ()
-    {
-        
+    {        
         $.ajax({
             type: "GET",
             url: "/api/Freyja/getBienes/" + targetBien.find(":selected").val() + "/" + targetTipoDeBien.find(":selected").val() + "/" + targetMarca.find(":selected").val(),
@@ -753,53 +709,67 @@ jQuery(function ($) {
                     var rows =
                         "<option value=\"" + item.BienId + "\" data-valorbien=\"" + item.ValorBien + "\" data-codbiencompleto=\"" + item.CodBienCompleto + "\" >" + item.BienCompleto + "</option>";
                     targetPlanAhorro.append(rows);
-                }); //End of foreach Loop
+                });
                 targetPlanAhorro.removeAttr("readonly");                
-                $("#descripcionMarca").val(targetMarca.find(":selected").text());
-                console.log(data);
-            }, //End of AJAX Success function  
-
+                $("#descripcionMarca").val(targetMarca.find(":selected").text());                
+            },
             failure: function (data) {
-                //alert(data.responseText);
-            }, //End of AJAX failure function  
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
             error: function (data) {
-                //alert(data.responseText);
-            } //End of AJAX error function  
-
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            } 
         });
-
     });
 
     // Assign Cuota
     targetPlanAhorro.on('change', function ()
-    {
-        targetCalculo.empty();
-        targetCalculo.removeAttr("readonly");
-        targetCalculo.append("<option value=\"\">Selecciona una opción</option>");        
+    {        
         $.ajax({
             type: "GET",
             url: "/api/Freyja/GetBienesParametros/" + targetBien.find(":selected").val() + "/" + targetTipoDeBien.find(":selected").val() + "/" + targetPlanAhorro.find(":selected").data("valorbien") + "/0",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {                
+                targetCalculo.empty();                
+                targetCalculo.append("<option value=\"\">Selecciona una opción</option>");        
                 $.each(data, function (i, item) {
                     var rows =
                         "<option value=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + targetPlanAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat( targetPlanAhorro.find(":selected").data("valorbien") ) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
                     targetCalculo.append(rows);
-                }); //End of foreach Loop   
-                console.log(data);                
-            }, //End of AJAX Success function  
-
+                }); 
+                targetCalculo.removeAttr("readonly");
+            },
             failure: function (data) {
-                //alert(data.responseText);
-            }, //End of AJAX failure function  
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
             error: function (data) {
-                //alert(data.responseText);
-            } //End of AJAX error function  
-
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            } 
         });
     });
 
+    // Cálculo de todo.
     targetCalculo.on('change', function ()
     {
 
@@ -811,7 +781,17 @@ jQuery(function ($) {
         $('.porcentajeInscripcion').empty().text(inscripcion).val(inscripcion);
         $('.porcentajeAdministracion').empty().text(administracion).val(administracion);
         $('.porcentajeIva').empty().text(iva*100).val(iva*100);
-        $('.plazo').empty().text(plazo).val(plazo);       
+        $('.plazo').empty().text(plazo).val(plazo); 
+        if (valbien <= 24000000)
+        {
+            $("#legaleseAuto").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
+            $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
+        }
+        else
+        {
+            $("#legaleseAuto").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
+            $("#legaleseElectro").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
+        }
         if (valbien === "" || valbien === 0) {
             valbien = 0;
             $("#costo_del_bien, #cuota_ingreso, #administracion, #iva_cuota_ingreso, #iva_administracion, #total_cuota_ingreso, #total_cuota_bruta, #primera_cuota_neta, #valor_primer_pago").val(0.00);
@@ -820,7 +800,7 @@ jQuery(function ($) {
         $("#DescripcionDelBien, #detalles_bien, #detalle").finish().fadeTo('normal', 0).val($("#planDeAhorro").find(":selected").text()).finish().fadeTo('normal', 1);
 
         // Valor del costo del bien 
-        $("#costo_del_bien").finish().fadeTo('normal', 0).val(parseFormat(costodelbien)).finish().fadeTo('normal', 1);
+        $("#costo_del_bien, #valor_bien").finish().fadeTo('normal', 0).val(parseFormat(costodelbien)).finish().fadeTo('normal', 1);
 
         // Cuota de ingreso 
         //valorPorcentajeInscripcion = costodelbien * 0.045;
@@ -858,7 +838,7 @@ jQuery(function ($) {
     });
 });
 
-
+//Validación de colores de los forms
 (function () {
     'use strict';
     window.addEventListener('load', function () {
@@ -877,6 +857,7 @@ jQuery(function ($) {
     }, false);
 })();
 
+// Formato de los números
 function parseFormat(num) {
     var entero, decimal;
     var numero = "" + num + "";
@@ -897,6 +878,7 @@ function parseFormat(num) {
     return numero;
 }
 
+// Organización de lo que está dentro de las llamadas de SIICON
 function GetSortOrder(prop) {
     return function (a, b) {
         if (a[prop] > b[prop]) {
