@@ -576,61 +576,77 @@ namespace ContratoDigital.Controllers
         [HttpPost]
         public async Task<IActionResult> Find(IFormCollection form)
         {
-
             ViewData["NumeroDocumento"] = form["NumeroDocumento"];
-            ViewData["Nombre"] = form["Nombre"];
-            ViewData["Apellido"] = form["Apellido"];
+            ViewData["Nombre"] = form["Nombre"];           
             ViewData["NumeroContrato"] = form["NumeroContrato"];
             int.TryParse(form["NumeroContrato"], out int numeroContrato);
             int.TryParse(form["NumeroDocumento"], out int numeroDocumento);
             string nombre = form["Nombre"];
-            string apellido = form["Apellido"];
 
-            if (numeroDocumento > 0 && numeroContrato > 0 && string.IsNullOrEmpty(nombre) && string.IsNullOrEmpty(apellido))
+            
+            if(!String.IsNullOrEmpty(nombre))
             {
-                return View(await _context.Contratos.Where(
-                    x => x.numero_de_contrato == numeroContrato || 
-                    x.documento_identidad_suscriptor == numeroDocumento || 
-                    x.documento_identidad_suscriptor_conjunto == numeroDocumento ||
-                    x.documento_identidad_representante_legal == numeroDocumento ||
-                    x.documento_identidad_representante_legal_suscriptor_conjunto == numeroDocumento                
-                ).ToListAsync());
+
+                // Search Query Using FullText-Search Index
+                var splitted = nombre.Split(' ');
+                string searchQuery = "";
+                for (int i = 0; i < splitted.Count(); i++)
+                {
+                    searchQuery += $"\"*" + splitted[i] + $"*\"";
+                    if (i < splitted.Count() - 1)
+                    {
+                        searchQuery += " OR ";
+                    }
+                }                
+                return View(await _context.Contratos.FromSql($"SELECT * FROM CONTRATOS WHERE CONTAINS(primer_nombre, {searchQuery}) OR  CONTAINS(primer_apellido, {searchQuery}) OR CONTAINS(segundo_nombre, {searchQuery}) OR  CONTAINS(segundo_apellido, {searchQuery}) OR  numero_de_contrato = {numeroContrato} OR documento_identidad_suscriptor = {numeroDocumento}")
+                    .OrderByDescending(x => x.IdContrato).ToListAsync());
             }
-            else if(numeroDocumento > 0 && numeroContrato == 0)
+            else
             {
-                return View(await _context.Contratos.Where(
-                   x => x.numero_de_contrato == numeroContrato ||
-                   x.documento_identidad_suscriptor == numeroDocumento ||
-                   x.documento_identidad_suscriptor_conjunto == numeroDocumento ||
-                   x.documento_identidad_representante_legal == numeroDocumento ||
-                   x.documento_identidad_representante_legal_suscriptor_conjunto == numeroDocumento
-               ).ToListAsync());
+                return View(await _context.Contratos.Where(x =>
+                    x.numero_de_contrato == numeroContrato
+                    || x.documento_identidad_suscriptor == numeroDocumento            
+                    )
+                    .OrderByDescending(x => x.IdContrato).ToListAsync());
             }
-            else if (numeroDocumento == 0 && numeroContrato >0)
-            {
-                return View(await _context.Contratos.Where(x => x.numero_de_contrato == numeroContrato).ToListAsync());
-            }
-            else if (numeroDocumento > 0 && numeroContrato > 0 && !string.IsNullOrEmpty(nombre) && !string.IsNullOrEmpty(apellido))
-            {
-                return View(await _context.Contratos.Where(
-                    x => x.documento_identidad_suscriptor == numeroDocumento ||
-                    x.documento_identidad_representante_legal == numeroDocumento ||
-                    x.documento_identidad_suscriptor_conjunto == numeroDocumento ||
-                    x.documento_identidad_representante_legal_suscriptor_conjunto == numeroDocumento ||
-                    x.primer_nombre.Contains(nombre.ToUpper()) ||
-                    x.primer_apellido.Contains(apellido.ToUpper())
-                    ).ToListAsync());
-            }
-            else if (!string.IsNullOrEmpty(nombre) || !string.IsNullOrEmpty(apellido))
-            {
-                return View(await _context.Contratos.Where(x=>                    
-                    x.primer_nombre.Contains(nombre.ToUpper()) ||
-                    x.primer_apellido.Contains(apellido.ToUpper())
-                    ).ToListAsync());
-            }
-            return View();
         }
         
+        public async Task<IActionResult> UploadId(int id)
+        {
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            UploadId upload = new UploadId();
+            upload.IdContrato = contrato.IdContrato;
+            return View(upload);
+        }
+
+        [HttpPost]
+        //public async Task<IActionResult> UploadId(IFormCollection form, IFormFile anverso_documento, IFormFile reverso_documento)
+        public async Task<IActionResult> UploadId(UploadId upload)
+        {
+            //int.TryParse(s: form["IdContrato"], result: out int idContrato);
+
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == upload.IdContrato);
+            var anverso = upload.Anverso;
+            if(upload.Anverso != null || upload.Anverso.ContentType.ToLower().StartsWith("image/"))
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    upload.Anverso.OpenReadStream().CopyTo(stream);
+                    contrato.anverso_documento = Convert.ToBase64String(stream.ToArray());
+                }
+            }
+            if(upload.Reverso != null || upload.Reverso.ContentType.ToLower().StartsWith("image/"))
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    upload.Reverso.OpenReadStream().CopyTo(stream);
+                    contrato.reverso_documento = Convert.ToBase64String(stream.ToArray());
+                }
+            }            
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
+        }
+
         public IActionResult YamahaMotomas()
         {
             return View();
