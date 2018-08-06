@@ -730,6 +730,20 @@ namespace ContratoDigital
             contrato.descripcion_bien = form["detalles_bien"].ToString().ToUpper();
             contrato.codigo_bien = form["codigo_bien"].ToString().ToUpper();
 
+            //contrato.cuota_bien = contrato.detalles_bien.Contains("CUOTA FIJA") ? "FIJA" : "VARIABLE";
+            if (contrato.marca_exclusiva_bien.Contains("BAJAJ") ||
+                contrato.marca_exclusiva_bien.Contains("KAWASAKI") ||
+                contrato.marca_exclusiva_bien.Contains("KTM") ||
+                contrato.marca_exclusiva_bien.Contains("KYMCO") ||
+                contrato.marca_exclusiva_bien.Contains("YAMAHA"))
+            {
+                contrato.cuota_bien = "VARIABLE";
+            }
+            else
+            {
+                contrato.cuota_bien = "FIJA";
+            }
+
             Double.TryParse(s: form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
             contrato.porcentaje_administracion = porcentajeAdministracion;
 
