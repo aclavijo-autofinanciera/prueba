@@ -43,14 +43,12 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-12 col-md-6 mt-3">
+                        <div class="col-12 col-md-12 mt-3">
                             <label for="Nombre">Nombre</label>
-                            <input type="text" name="Nombre" id="Nombre" class="form-control form-control-lg text-uppercase" placeholder="Antonio Amador José Nariño" /> 
+                            <input type="text" name="Nombre" id="Nombre" class="form-control form-control-lg text-uppercase" placeholder="Nombres del suscriptor principal del contrato" data-toggle="tooltip" data-placement="top" title="El sistema distingue los acentos" /> 
                         </div>
-                        <div class="col-12 col-md-6 mt-3">
-                            <label for="Apellido">Apellido</label>
-                            <input type="text" name="Apellido" id="Apellido" class="form-control form-control-lg text-uppercase" placeholder=" Álvarez del Casal " />
-                        </div>
+                        
+
                     </div>
                    
                     <div class="form-row mt-4">
@@ -83,23 +81,16 @@
                 </div>
                 <div class="col-12">
                     @if(Model.Count()>0)
-                    {
-                        <table class="table table-striped text-center">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Acciones</th>
-                                    <th>Nombre</th>
-                                    <th>Teléfono</th>
-                                    <th>Correo</th>                                                                       
-                                    <th>Bien</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach(var item in Model)
-                                {
-                                    <tr>
-                                        <td>
+                    {                       
+                    <div class="row justify-content-center">
+
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-12 col-md-8">
+                                <div class="polymer-box">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Acciones
@@ -107,30 +98,106 @@
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
                                                     <a class="dropdown-item" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
-                                                    <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>                                                    
+                                                    <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
                                                 </div>
-                                            </div>                                            
-                                        </td>
-                                        <td>
-                                            @(item.primer_nombre + " " + item.segundo_nombre + " " + item.primer_apellido + " " + item.segundo_apellido)
-                                        </td>
-                                        <td>
-                                            @item.telefono_suscriptor <br />@item.celular_suscriptor
-                                        </td>
-                                        <td>
-                                            @item.email_suscriptor
-                                        </td>
-                                        <td>
-                                            @item.detalles_bien<br />@item.valor_bien
-                                        </td>
-                                        <td>
-                                            @(item.ConfirmacionContratos.LastOrDefault().IsAccepted ? Html.Raw("<h5><span class=\"badge badge-success p-2\"><i class=\"fas fa-check\"></i> Condiciones aceptadas</span></h5>") : Html.Raw("<h5><span class=\"badge badge-warning p-2\"><i class=\"far fa-clock\"></i> En proceso: por aceptar condiciones</span></h5>"))
-                                        </td>
-                                    </tr>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                }
-                            </tbody>
-                        </table>
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Nombre</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.primer_nombre @item.segundo_nombre @item.primer_apellido @item.segundo_apellido
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Documento identificaión</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.documento_identidad_suscriptor
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Teléfono</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.telefono_suscriptor<br />
+                                            @item.celular_suscriptor
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Correo</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.email_suscriptor
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Bien</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.descripcion_bien
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Valor</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.valor_bien
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Estado</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @if (item.ConfirmacionContratos.LastOrDefault().IsAccepted)
+                                            {
+                                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> Condiciones del contrato Aceptadas</span></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-warning p-2"><i class="far fa-clock"></i> En proceso: por aceptar condiciones del contrato</span>
+                                                    <a href="#" class="btn btn-azul">Reenvíar correo de confirmación</a>
+                                                </h5>
+                                            }
+                                            @if (item.ConfirmacionContratos.LastOrDefault().IsPaid)
+                                            {
+                                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> El contrato ha sido pagado</span></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por pagar</span></h5>
+                                            }
+                                            @if (item.ConfirmacionContratos.LastOrDefault().IsIdUploaded)
+                                            {
+                                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> La identificación ha sido adjuntada</span></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por adjuntar identificación</span></h5>
+                                            }
+                                            @if (item.ConfirmacionContratos.LastOrDefault().IsVerified)
+                                            {
+                                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> La identificación ha sido verificada</span></h5>
+                                            }
+                                            else
+                                            {
+                                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por verificados</span></h5>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            
+                        }
+                    </div>
 
                     }
                 </div>
