@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="es" >
+<head>
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta charset="utf-8" />
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="~/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="~/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="~/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="~/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="~/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="~/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="~/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="~/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="~/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="~/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="&nbsp;" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="~/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="~/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="~/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="~/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="~/mstile-310x310.png" />
+
+    <meta name="keywords" content="">
+    <title>@ViewData["Title"] - ContratoDigital</title>
+
+    <environment include="Development">
+        <link href="~/css/localfonts.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/fontawesome/css/fontawesome-all.min.css" crossorigin="anonymous" />
+        <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />        
+        <link rel="stylesheet" href="~/lib/AOS/aos.css" />        
+        <link rel="stylesheet" href="~/css/base-1.0.2.css" />
+    </environment>
+    <environment exclude="Development">
+        @*<link rel="stylesheet" href="http://www.unc.edu.ar/reforma/css/reforma-fonts.css" />
+        <link rel="stylesheet" href="https://indestructibletype-fonthosting.github.io/renner.css" type="text/css" charset="utf-8" />*@
+        <link href="~/css/localfonts.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+              crossorigin="anonymous"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/base-1.0.2.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    @{ 
+        int code = new Random().Next(0, 9);
+        string name = "";
+        switch (code)
+        {
+            case 0:
+                name = "anotherscooter";
+                break;
+            case 1:
+                name = "bags";
+                break;
+            case 2:
+                name = "bikeback";
+                break;
+            case 3:
+                name = "bogota-at-night";
+                break;
+            case 4:
+                name = "castillogrande";
+                break;
+            case 5:
+                name = "contract";
+                break;
+            case 6:
+                name = "facades";
+                break;
+            case 7:
+                name = "prospect";
+                break;
+            case 8:
+                name = "scooter";
+                break;           
+        }
+        }
+    <div style="background: url('../../../../images/background/@(Html.Raw(name)).jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 50rem;">
+
+
+        @RenderBody()
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" style="border-bottom: solid #fff 2px;">
+                    <img src="~/images/serven_white.png" class="img-fluid p-3" style="max-height:150px;" />
+                    
+                </div>
+            </div>
+            <div class="row align-items-center  mt-4">
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo-footer" alt="Autofinanciera" />                    
+                </div>
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/superintendencia_sociedades_white.png" class="img-fluid" alt="Superintendencia de Sociedades"  />
+                </div>
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/logo_electroplan_blanco.png" class="img-fluid" alt="Superintendencia de Sociedades"  />
+                </div>
+
+                <div class="col-12 col-sm-4 col-md-3 text-white">
+                    <h5>Sede principal y administrativa</h5>
+                    <p>Carrera 7 no. 24-89 Torre Colpatria Piso 17<br />
+                    PBX: (571) 444 1700<br />
+                    Bogotá - Colombia</p>
+                </div>
+                <div class="col-12 text-center text-white mt-2">
+                    <p>Vigilado por la superintendencia de sociedades<br/>
+                    <i class="far fa-copyright"></i> Autofinanciera 1971 - @DateTime.Today.Year </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery-3.3.1.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/bootstrap/dist/js/popper.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
+        <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
+        <script src="~/js/base-1.0.3.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/additional-methods.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/additional-methods.min.js"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/popper.min.js"
+                crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous">
+        </script>
+        <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script> 
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="~/js/base-1.0.3.min.js" asp-append-version="true"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
