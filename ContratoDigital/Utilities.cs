@@ -474,6 +474,74 @@ namespace ContratoDigital
             toSet.SetValue(contrato.asesor_comercial);
         }
 
+        static public void FillPdf(IDictionary<String, PdfFormField> fields, Prospecto prospecto)
+        {
+            PdfFormField toSet;
+
+            fields.TryGetValue("Nombre", out toSet);
+            toSet.SetValue((prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido).ToUpper());
+
+            fields.TryGetValue("Documento", out toSet);
+            toSet.SetValue(prospecto.NumeroDocumento.ToString());
+
+            fields.TryGetValue("Telefono", out toSet);
+            toSet.SetValue(prospecto.Telefono.ToString());
+
+            fields.TryGetValue("Celular", out toSet);
+            toSet.SetValue(prospecto.Celular.ToString());
+
+            fields.TryGetValue("Email", out toSet);
+            toSet.SetValue(prospecto.Email.ToUpper());
+
+            fields.TryGetValue("Marca", out toSet);
+            toSet.SetValue(prospecto.Marca_exclusiva_bien.ToUpper());
+
+            fields.TryGetValue("Cuota", out toSet);
+            toSet.SetValue(prospecto.CuotaDeIngreso.ToString().ToUpper());
+
+            fields.TryGetValue("Detalle", out toSet);
+            toSet.SetValue(prospecto.Detalles_bien.ToUpper());
+
+            fields.TryGetValue("PorcentajeInscripcion", out toSet);
+            toSet.SetValue(prospecto.PorcentajeInscripcion.ToString().ToUpper());
+
+            fields.TryGetValue("PorcentajeAdministracion", out toSet);
+            toSet.SetValue(prospecto.PorcentajeAdministracion.ToString().ToUpper());
+
+            fields.TryGetValue("IVA", out toSet);
+            toSet.SetValue(prospecto.PorcentajeIva.ToString().ToUpper());
+
+            fields.TryGetValue("Plazo", out toSet);
+            toSet.SetValue(prospecto.Plazo.ToString().ToUpper());
+
+            fields.TryGetValue("TipoBien", out toSet);
+            toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());
+
+            fields.TryGetValue("CuotaIngreso", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.CuotaDeIngreso));
+            
+            fields.TryGetValue("IvaIngreso", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.IvaCuotaIngreso));
+
+            fields.TryGetValue("TotalCuotaIngreso", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.TotalCuotaIngreso));
+
+            fields.TryGetValue("PrimeraCuotaNeta", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.PrimeraCuotaNeta));
+
+            fields.TryGetValue("Administracion", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.Administracion));
+
+            fields.TryGetValue("IvaAdministracion", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.IvaAdministracion));
+
+            fields.TryGetValue("TotalCuotaBruta", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.TotalCuotaBruta));
+
+            fields.TryGetValue("PrimerPago", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.ValorTotalPrimerPago));
+        }
+
         /// <summary>
         /// Transforma el formulario HTML de contrato en una clase modelo.
         /// </summary>
