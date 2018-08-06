@@ -811,13 +811,14 @@ namespace ContratoDigital
             prospecto.DescripcionDelBien = form["DescripcionDelBien"].ToString().ToUpper();
             prospecto.Detalles_bien = form["detalle"].ToString().ToUpper();
 
-            int.TryParse(s:form["porcentajeAdministracion"], result: out int porcentajeAdministracion);
+            double.TryParse(s:form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
             prospecto.PorcentajeAdministracion = porcentajeAdministracion;
 
-            int.TryParse(s: form["porcentajeInscripcion"], result: out int porcentajeInscripcion);
+            //double.TryParse(s: form["porcentajeInscripcion"], NumberStyles.Number, CultureInfo.CreateSpecificCulture("en-US"), result: out int porcentajeInscripcion);
+            double.TryParse(s: form["porcentajeInscripcion"], result: out double porcentajeInscripcion);
             prospecto.PorcentajeInscripcion = porcentajeInscripcion;
 
-            int.TryParse(s: form["porcentajeIva"], result: out int porcentajeIva);
+            double.TryParse(s: form["porcentajeIva"], result: out double porcentajeIva);
             prospecto.PorcentajeIva = porcentajeIva;
 
             prospecto.Plazo = form["plazo_bien"].ToString().ToUpper();
