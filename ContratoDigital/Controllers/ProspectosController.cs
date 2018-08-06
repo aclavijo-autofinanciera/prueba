@@ -217,8 +217,136 @@ namespace ContratoDigital.Controllers
             fecha.AddYears(2018);
             fecha.AddDays(28);
             fecha.AddMonths(6);
-            ViewData["ReferenciaPago"] = service.GenerarReferenciaPagoAsync(Constants.GuuidAuto, "1013668411",1000, 10, Constants.GuuidUsuarioSiicon).Result;
+            ViewData["ReferenciaPago"] = service.GenerarReferenciaPagoAsync(Constants.GuuidAuto, "1013668411", 1000, 10, Constants.GuuidUsuarioSiicon).Result;
             return View();
+        }
+
+        public async Task<IActionResult> Generate(int id)
+        {
+            Prospecto prospecto = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
+            MemoryStream stream = new MemoryStream();
+            string srcPdf = "";
+            if (prospecto.ValorDelBien <= 24999999)
+            {
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.0-20180803.pdf";
+            }
+            else
+            {
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.0-20180803.pdf";
+            }
+
+            PdfWriter pdfWriter = new PdfWriter(stream);
+            PdfDocument pdf = new PdfDocument(new PdfReader(srcPdf), pdfWriter);
+            pdfWriter.SetCloseStream(false);
+
+            PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
+            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
+
+            Utilities.FillPdf(fields, prospecto);
+
+            pdfForm.FlattenFields();
+            pdf.Close();
+            stream.Flush();
+            stream.Position = 0;
+            return File(stream, "application/pdf", prospecto.IdProspecto + "-" + DateTime.Now.ToString("yyyy-MM-dd-")  + "Cotizacion.pdf");
+        }
+
+        public async Task<IActionResult> EmailCotizacion(int id)
+        {
+            MemoryStream stream = new MemoryStream();
+            Prospecto prospecto = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
+            string srcPdf = "";
+            if (prospecto.ValorDelBien <= 24999999)
+            {
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.0-20180803.pdf";
+            }
+            else
+            {
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.0-20180803.pdf";
+            }
+                
+
+            PdfWriter pdfWriter = new PdfWriter(stream);
+            PdfDocument pdf = new PdfDocument(new PdfReader(srcPdf), pdfWriter);
+            pdfWriter.SetCloseStream(false);
+
+            PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
+            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
+
+            Utilities.FillPdf(fields, prospecto);
+
+            pdfForm.FlattenFields();
+            pdf.Close();
+            stream.Flush();
+            stream.Position = 0;
+            EmailService emailService = new EmailService(_emailConfiguration);
+            EmailMessage emailMessage = new EmailMessage();
+            emailMessage.FromAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = "Test Administrative", Address = "tienda@autofinanciera.com.co"}
+            };
+            emailMessage.ToAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+            };
+            emailMessage.Subject = "Cotización PDF Autofinanciera";
+
+            string src = "";
+            if (prospecto.ValorDelBien <= 24999999)
+            {
+                switch (prospecto.Marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionMotoMas.html";
+                        break;
+                    case "AUTECO - BAJAJ":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionBajaj.html";
+                        break;
+                    case "AUTECO - KAWASAKI":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionKawasaki.html";
+                        break;
+                    case "AUTECO - KTM":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionKtm.html";
+                        break;
+
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionElectroplan.html";
+                        break;
+                }
+            }
+            else
+            {
+                switch (prospecto.Marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionKiaPlan.html";
+                        break;
+                    case "HYUNDAI":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionAutokoreana.html";
+                        break;
+                    case "VOLKSWAGEN":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionAutofinanciera.html";
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/Cotizacion/CotizacionAutofinanciera.html";
+                        break;
+                }
+            }
+
+            emailMessage.Content = String.Format(Utilities.GetTemplate(src));
+            try
+            {
+                emailService.Send(emailMessage, stream);
+                TempData["EmailResult"] = "Success";
+            }
+            catch (Exception ex)
+            {
+
+                TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
+            }
+            TempData.Keep("EmailResult");
+            return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
+
         }
     }
 }
