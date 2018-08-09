@@ -39,7 +39,7 @@ namespace ContratoDigital.Controllers
         [Route("api/Freyja/GetTipoBien")]
         public async Task<ActionResult<string>> GetTipoBien(string compania)
         {
-            compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
+            //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SelecccionarTiposBienesCompañiaAsync(compania);
         }
 
@@ -47,7 +47,7 @@ namespace ContratoDigital.Controllers
         [Route("api/Freyja/GetPorcentajeInscripcion")]
         public async Task<ActionResult<string>> GetPorcentajeInscripcion(string compania)
         {
-            compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
+            //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SelecccionarPorcInscripcionCompañiaAsync(compania);
         }
 
@@ -55,7 +55,7 @@ namespace ContratoDigital.Controllers
         [Route("api/Freyja/GetPorcentajeAdministracion")]
         public async Task<ActionResult<string>> GetPorcentajeAdministracion(string compania)
         {
-            compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
+            //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SelecccionarPorcAdministracionCompañiaAsync(compania);
         }
 
@@ -63,7 +63,7 @@ namespace ContratoDigital.Controllers
         [Route("api/Freyja/GetBienes")]
         public async Task<ActionResult<string>> GetBienes(string compania, int idTipoBien, int idMarca)
         {
-            compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
+            //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SelecccionarBienesCompañiaAsync(compania,idTipoBien,idMarca);
         }
 
@@ -71,7 +71,7 @@ namespace ContratoDigital.Controllers
         [Route("api/Freyja/GetBienesParametros")]
         public async Task<ActionResult<string>> GetBienesParametros(string compania, int idTipoBien, int valorBien, int tipoBienParametroId)
         {
-            compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
+            //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SeleccionarBienParametrosAsync(compania, idTipoBien, valorBien, tipoBienParametroId);
         }
     }
