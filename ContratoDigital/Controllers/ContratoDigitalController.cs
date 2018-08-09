@@ -94,18 +94,58 @@ namespace ContratoDigital.Controllers
             {
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
             };
-            emailMessage.Subject = "[Autofinanciera] Confirmación de aceptación de cláusulas";
-#if DEBUG
             
+            string srcTemplate = "";
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
+            {
+                emailMessage.Subject = "[AUTOFINANCIERA] Confirmación de aceptación de cláusulas";
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoMotoMas.html";
+                        break;
+                    case "AUTECO - BAJAJ":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoBajaj.html";
+                        break;
+                    case "AUTECO - KAWASAKI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKawasaki.html";
+                        break;
+                    case "AUTECO - KTM":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKtm.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoElectroplan.html";
+                        break;
+                }
+            }
+            else
+            {
+                emailMessage.Subject = "[ELECTROPLAN] Confirmación de aceptación de cláusulas";
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKiaPlan.html";
+                        break;
+                    case "HYUNDAI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutokoreana.html";
+                        break;
+                    case "VOLKSWAGEN":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutofinanciera.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutofinanciera.html";
+                        break;
+                }
+            }
+#if DEBUG
+
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailAceptacionCondiciones.html"),
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
+                Utilities.GetTemplate(srcTemplate),
                 "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
 #endif
 #if RELEASE
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/emailtemplates/EmailAceptacionCondiciones.html"),
-                Utilities.GetTemplate(_hostingEnvironment.WebRootPath + "/css/foundationemail.min.css"),
+                Utilities.GetTemplate(srcTemplate),                
                 "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);            
 #endif
             try
@@ -147,7 +187,7 @@ namespace ContratoDigital.Controllers
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             MemoryStream stream = new MemoryStream();
             string src = "";
-            if(contrato.valor_bien<=24999999)
+            if(contrato.id_compania.Equals(Constants.GuuidElectro))
             {
                 switch(contrato.marca_exclusiva_bien)
                 {
@@ -174,7 +214,7 @@ namespace ContratoDigital.Controllers
                         break;
 
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_v.1.3_20180725.pdf";
                         break;
                 }
             }            
@@ -199,7 +239,7 @@ namespace ContratoDigital.Controllers
             MemoryStream stream = new MemoryStream();
             Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
             string src = "";
-            if (contrato.valor_bien <= 24999999)
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -227,7 +267,7 @@ namespace ContratoDigital.Controllers
                         break;
 
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_v.1.3_20180725.pdf";
                         break;
                 }
             }
@@ -259,12 +299,13 @@ namespace ContratoDigital.Controllers
             {
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
             };
-            emailMessage.Subject = "Contrato Digital PDF Autofinanciera";
+            
 
 
             string srcTemplate = "";
-            if (contrato.valor_bien <= 24999999)
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato Digital PDF";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -286,6 +327,7 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato Digital PDF";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -324,7 +366,7 @@ namespace ContratoDigital.Controllers
 
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             string src = "";
-            if (contrato.valor_bien <= 24999999)
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
                 src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.0-20180803.pdf";
 
@@ -431,8 +473,51 @@ namespace ContratoDigital.Controllers
             {
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
             };
-            emailMessage.Subject = "Factura Digital Autofinanciera";
-            emailMessage.Content = "Adjunto encontrará la factura con la cual podrá pagar en el banco.";
+
+            string srcTemplate = "";
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
+            {
+                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Factura Digital PDF";
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaMotoMas.html";
+                        break;
+                    case "AUTECO - BAJAJ":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaBajaj.html";
+                        break;
+                    case "AUTECO - KAWASAKI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaKawasaki.html";
+                        break;
+                    case "AUTECO - KTM":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaKtm.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaElectroplan.html";
+                        break;
+                }
+            }
+            else
+            {
+                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Factura Digital PDF";
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaKiaPlan.html";
+                        break;
+                    case "HYUNDAI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaAutokoreana.html";
+                        break;
+                    case "VOLKSWAGEN":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaAutofinanciera.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Factura/FacturaAutofinanciera.html";
+                        break;
+                }
+            }
+            emailMessage.Content = srcTemplate;
+            
             try
             {
                 emailService.Send(emailMessage, stream);
@@ -471,7 +556,7 @@ namespace ContratoDigital.Controllers
             MemoryStream stream = new MemoryStream();
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             string src = "";
-            if (contrato.valor_bien <= 24999999)
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
                 src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.0-20180803.pdf";
 
@@ -502,66 +587,49 @@ namespace ContratoDigital.Controllers
             fields.TryGetValue("CodigoBarrasPlano", out toSet);
             //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
             toSet.SetValue("(415)" + Constants.ConvenioElectro + "(8020)" + "0000018062500039" + "(3900)" + contrato.valor_primer_pago + "(96)" + "20180628"); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
-
-
+            
             fields.TryGetValue("Nombre", out toSet);
             toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
-            //toSet.SetValue("Juan Pablo Alviar");
 
-            fields.TryGetValue("DireccionSuscriptor", out toSet);
-            toSet.SetValue(contrato.direccion_domicilio_suscriptor);
+            fields.TryGetValue("Telefono", out toSet);
+            toSet.SetValue(contrato.telefono_suscriptor);
 
-            //fields.TryGetValue("TelefonoSuscriptor", out toSet);
-            //toSet.SetValue(contrato.telefono_suscriptor);
+            fields.TryGetValue("Celular", out toSet);
+            toSet.SetValue(contrato.celular_suscriptor);
 
-            //fields.TryGetValue("CelularSuscriptor", out toSet);
-            //toSet.SetValue(contrato.celular_suscriptor);
-
-            fields.TryGetValue("CiudadSuscriptor", out toSet);
-            toSet.SetValue(contrato.ciudad_suscriptor);
-
-            //fields.TryGetValue("DescripcionBien", out toSet);
             fields.TryGetValue("Detalle", out toSet);
             toSet.SetValue(contrato.detalles_bien);
-            //toSet.SetValue("Kia Stinger 2018");
 
-            //fields.TryGetValue("ValorBien", out toSet);
-            //toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
-            //toSet.SetValue("$ 120.000.000");
+            fields.TryGetValue("ValorBien", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
 
             fields.TryGetValue("CuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.cuota_ingreso));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.cuota_ingreso));
 
-            //fields.TryGetValue("IvaCuotaIngreso", out toSet);
             fields.TryGetValue("IvaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_cuota_ingreso));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_cuota_ingreso));
 
             fields.TryGetValue("TotalCuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_ingreso));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_ingreso));
 
             fields.TryGetValue("PrimeraCuotaNeta", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.primera_cuota_neta));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.primera_cuota_neta));
 
             fields.TryGetValue("Administracion", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.administracion));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.administracion));
 
             fields.TryGetValue("IvaAdministracion", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_administracion));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_administracion));
 
             fields.TryGetValue("TotalCuotaBruta", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_bruta));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_bruta));
 
-            //fields.TryGetValue("ValorTotalPrimerPago", out toSet);
-            //toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_primer_pago));
-            ////toSet.SetValue("$ 1000.00");
-
-            //fields.TryGetValue("TotalAPagar", out toSet);
             fields.TryGetValue("PrimerPago", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_primer_pago));
-            //toSet.SetValue("$ 1000.00");
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.valor_primer_pago));
 
-            //fields.TryGetValue("ReferenciaDePago", out toSet);
-            //toSet.SetValue("18062500039");
+            fields.TryGetValue("PagoOportuno", out toSet);
+            toSet.SetValue("FECHA LÍMITE: " + string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3) )));
+
 
             pdfForm.FlattenFields();
             pdf.Close();
@@ -625,8 +693,7 @@ namespace ContratoDigital.Controllers
             return View(upload);
         }
 
-        [HttpPost]
-        //public async Task<IActionResult> UploadId(IFormCollection form, IFormFile anverso_documento, IFormFile reverso_documento)
+        [HttpPost]        
         public async Task<IActionResult> UploadId(UploadId upload)
         {
             //int.TryParse(s: form["IdContrato"], result: out int idContrato);

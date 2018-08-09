@@ -81,11 +81,12 @@ namespace ContratoDigital.Controllers
             {
                 new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
             };
-            emailMessage.Subject = "[AutoFinanciera] Confirmación de Email";
+            
 
             string src = "";
-            if (prospecto.ValorDelBien <= 24999999)
+            if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.Subject = "[ELECTROPLAN] Confirmación de Email";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -105,10 +106,10 @@ namespace ContratoDigital.Controllers
                         src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailElectroplan.html";
                         break;
                 }
-
             }
             else
             {
+                emailMessage.Subject = "[AUTOFINANCIERA] Confirmación de Email";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -260,7 +261,7 @@ namespace ContratoDigital.Controllers
             Prospecto prospecto = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
             MemoryStream stream = new MemoryStream();
             string srcPdf = "";
-            if (prospecto.ValorDelBien <= 24999999)
+            if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
                 srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.0-20180803.pdf";
             }
@@ -290,7 +291,7 @@ namespace ContratoDigital.Controllers
             MemoryStream stream = new MemoryStream();
             Prospecto prospecto = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
             string srcPdf = "";
-            if (prospecto.ValorDelBien <= 24999999)
+            if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
                 srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.0-20180803.pdf";
             }
@@ -326,8 +327,9 @@ namespace ContratoDigital.Controllers
             emailMessage.Subject = "Cotización PDF Autofinanciera";
 
             string src = "";
-            if (prospecto.ValorDelBien <= 24999999)
+            if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.Subject = "[ELECTROPLAN] Cotización PDF";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -350,6 +352,7 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.Subject = "[AUTOFINANCIERA] Cotización PDF";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "KIA":
