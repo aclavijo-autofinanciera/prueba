@@ -20,6 +20,8 @@ namespace ContratoDigital.Models
         public string Celular { get; set; }
         public string Email { get; set; }
 
+        public string IdCompania { get; set; }
+        public string Compania { get; set; }
         public string Tipo_de_Bien { get; set; }
         public int Id_Tipo_Bien { get; set; }
         public string Marca_exclusiva_bien { get; set; }

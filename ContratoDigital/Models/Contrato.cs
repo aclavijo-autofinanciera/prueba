@@ -87,6 +87,8 @@ namespace ContratoDigital.Models
         public string email_suscriptor_conjunto { get; set; }
         
         // Datos del bien
+        public string id_compania { get; set; }
+        public string compania { get; set; }
         public string tipo_de_bien { get; set; }
         public int id_tipo_de_bien { get; set; }
         public string marca_exclusiva_bien { get; set; }
