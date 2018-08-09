@@ -18,7 +18,7 @@
         <div class="row justify-content-center">
             <!-- Begin -->
 
-            
+
 
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
@@ -92,6 +92,18 @@
             <div class="col-12 col-md-8 mt-4">
                 <div class="polymer-box">
                     <h4 class="text-center">Datos del bien</h4>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Compañia
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.Compania
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-md-8">
@@ -265,18 +277,23 @@
 </section>
 
 <section>
-    <div class="row mt-4">
-        <div class="col-12  text-center">
-            <div class="btn-group" role="group" aria-label="Acciones">
-                <a class="btn btn-azul" href="@Url.Action("Index", "Prospectos")"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
-                <a class="btn btn-azul" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
-                <a class="btn btn-azul" href="@Url.Action("Generate", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-receipt"></i>  Generar cotización</a>
-                <a class="btn btn-azul" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
-                <a class="btn btn-azul" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar contrato PDF</a>
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-12  text-center">
+                <div class="btn-group" role="group" aria-label="Acciones">
+                    <a class="btn btn-azul" href="@Url.Action("Index", "Prospectos")"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                    <a class="btn btn-azul" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
+                    <a class="btn btn-azul" href="@Url.Action("Generate", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-receipt"></i>  Generar cotización</a>
+                    <a class="btn btn-azul" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
+                    <a class="btn btn-azul" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar contrato PDF</a>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+
 
 <section>
     <div class="container mt-4">
@@ -325,4 +342,3 @@
 
     </div>
 </section>
-

@@ -689,11 +689,13 @@
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
                             <label for="bien">Seleccione un bien</label>
-                            <select class="form-control form-control-lg" id="bien" name="bien">
+                            <select class="form-control form-control-lg" id="idcompania" name="idcompania">
+                                <option value="@Model.id_compania">@Model.compania</option>
                                 <option value="">Seleccione una opción</option>
-                                <option value="auto">AUTOS</option>
-                                <option value="electro">MOTOS</option>
+                                <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
+                                <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
                             </select>
+                            <input type="hidden" name="compania" id="compania" value="@Model.compania" />
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="tipodeBien">Seleccione un tipo de bien</label>
