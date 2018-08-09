@@ -474,6 +474,11 @@ namespace ContratoDigital
             toSet.SetValue(contrato.asesor_comercial);
         }
 
+        /// <summary>
+        /// Asigna todos los valores de la clase prospecto a un PDF
+        /// </summary>
+        /// <param name="fields">Lista de cmapos del archivo PDF como tal</param>
+        /// <param name="prospecto">Modelo de datos del prospecto</param>
         static public void FillPdf(IDictionary<String, PdfFormField> fields, Prospecto prospecto)
         {
             PdfFormField toSet;
@@ -493,16 +498,19 @@ namespace ContratoDigital
             fields.TryGetValue("Email", out toSet);
             toSet.SetValue(prospecto.Email.ToUpper());
 
-            fields.TryGetValue("Marca", out toSet);
+            /*fields.TryGetValue("Marca", out toSet);
             toSet.SetValue(prospecto.Marca_exclusiva_bien.ToUpper());
 
             fields.TryGetValue("Cuota", out toSet);
-            toSet.SetValue(prospecto.CuotaDeIngreso.ToString().ToUpper());
+            toSet.SetValue(prospecto.CuotaDeIngreso.ToString().ToUpper());*/
 
             fields.TryGetValue("Detalle", out toSet);
             toSet.SetValue(prospecto.Detalles_bien.ToUpper());
 
-            fields.TryGetValue("PorcentajeInscripcion", out toSet);
+            fields.TryGetValue("ValorBien", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.ValorDelBien));
+
+           /* fields.TryGetValue("PorcentajeInscripcion", out toSet);
             toSet.SetValue(prospecto.PorcentajeInscripcion.ToString().ToUpper());
 
             fields.TryGetValue("PorcentajeAdministracion", out toSet);
@@ -515,31 +523,31 @@ namespace ContratoDigital
             toSet.SetValue(prospecto.Plazo.ToString().ToUpper());
 
             fields.TryGetValue("TipoBien", out toSet);
-            toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());
+            toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());*/
 
             fields.TryGetValue("CuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.CuotaDeIngreso));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.CuotaDeIngreso));
             
             fields.TryGetValue("IvaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.IvaCuotaIngreso));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.IvaCuotaIngreso));
 
             fields.TryGetValue("TotalCuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.TotalCuotaIngreso));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.TotalCuotaIngreso));
 
             fields.TryGetValue("PrimeraCuotaNeta", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.PrimeraCuotaNeta));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.PrimeraCuotaNeta));
 
             fields.TryGetValue("Administracion", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.Administracion));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.Administracion));
 
             fields.TryGetValue("IvaAdministracion", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.IvaAdministracion));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.IvaAdministracion));
 
             fields.TryGetValue("TotalCuotaBruta", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.TotalCuotaBruta));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.TotalCuotaBruta));
 
             fields.TryGetValue("PrimerPago", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", prospecto.ValorTotalPrimerPago));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.ValorTotalPrimerPago));
         }
 
         /// <summary>
@@ -664,6 +672,9 @@ namespace ContratoDigital
             contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"].ToString().ToUpper();
 
             //Datos del bien
+
+            contrato.id_compania = form["idcompania"];
+            contrato.compania = form["compania"];
             int.TryParse(s:form["tipodeBien"],result: out int id_tipo_bien);
             contrato.id_tipo_de_bien = id_tipo_bien;
             contrato.tipo_de_bien = form["descripcionTipoBien"];
@@ -853,6 +864,8 @@ namespace ContratoDigital
             contrato.email_suscriptor_conjunto = form["email_suscriptor_conjunto"].ToString().ToUpper();
 
             //Datos del bien
+            contrato.id_compania = form["idcompania"];
+            contrato.compania = form["compania"];
             int.TryParse(s: form["tipodeBien"], result: out int id_tipo_bien);
             contrato.id_tipo_de_bien = id_tipo_bien;
             contrato.tipo_de_bien = form["descripcionTipoBien"];
@@ -944,6 +957,9 @@ namespace ContratoDigital
             prospecto.Celular = form["Celular"];
             prospecto.Email = form["Email"].ToString().ToUpper();
             // TODO: Change this for its actual value.
+
+            prospecto.IdCompania = form["idcompania"];
+            prospecto.Compania = form["compania"];
             prospecto.Tipo_de_Bien = form["descripcionTipoBien"];
             int.TryParse(s: form["tipodeBien"], result: out int idTipoBien);
             prospecto.Id_Tipo_Bien = idTipoBien;
@@ -1022,6 +1038,8 @@ namespace ContratoDigital
             prospecto.Celular = form["Celular"];
             prospecto.Email = form["Email"].ToString().ToUpper();
             // TODO: Change this for its actual value.
+            prospecto.IdCompania = form["idcompania"];
+            prospecto.Compania = form["compania"];
             prospecto.Tipo_de_Bien = form["descripcionTipoBien"];
             int.TryParse(s: form["tipodeBien"], result: out int idTipoBien);
             prospecto.Id_Tipo_Bien = idTipoBien;
