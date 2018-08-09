@@ -25,7 +25,14 @@ Incluir los pasos de instalaciones y despligue en el servidor de linux
 
 #### Versiones
 
-##### 0.1.5 (2018-07-13~)
+##### 0.1.5.7 (2018-08-8)
++ Versión de los PDFs con la hoja de autorizaciones
++ Campo de compañía guardada en base de datos
++ Base de datos a versión 1.5.7
++ Actualización versión JS base 1.0.4
++ Actualización Bootstrap a V4.1.3
+
+##### 0.1.5 (2018-07-13)
 + Creación webservice local hacia Siicon
 + Conexión de jQuery contra el servicio de Siicon
 + Conexión y rellenado de los métodos con Siicon.
