@@ -572,7 +572,7 @@ jQuery(function ($) {
     }
     
 
-    var targetBien = $("#bien");
+    var targetBien = $("#idcompania");
     var targetTipoDeBien = $("#tipodeBien");
     var targetMarca = $("#marca");
     var targetPlanAhorro = $("#planDeAhorro");
@@ -580,77 +580,40 @@ jQuery(function ($) {
     // Assign tipo de bien
     targetBien.on('change', function ()
     {        
-        if ($(this).find(":selected").val() === "auto")
-        {
-            $.ajax({
-                type: "GET",
-                url: "/api/Freyja/GetTipoBien/auto",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    targetTipoDeBien.empty();                    
-                    targetTipoDeBien.append("<option value=\"\">Selecciona una opción</option>");                    
-                    $.each(data, function (i, item) {
-                        var rows = 
-                            "<option value=\"" + item.CodTipoBien + "\">" + item["Tipo de Bien"] + "</option>";
-                        targetTipoDeBien.append(rows);
-                    }); 
-                    targetTipoDeBien.removeAttr("readonly");                    
-                },
-                failure: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >'+
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                                '<span aria-hidden="true">&times;</span>'+
-                            '</button>'+
-                        '</div >');
-                }, 
-                error: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                } 
+        $("#compania").val($(this).find(":selected").text());
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetTipoBien/" + $(this).find(":selected").val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                targetTipoDeBien.empty();
+                targetTipoDeBien.append("<option value=\"\">Selecciona una opción</option>");
+                $.each(data, function (i, item) {
+                    var rows =
+                        "<option value=\"" + item.CodTipoBien + "\">" + item["Tipo de Bien"] + "</option>";
+                    targetTipoDeBien.append(rows);
+                });
+                targetTipoDeBien.removeAttr("readonly");
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            }
 
-            });
-        }
-        if ($(this).find(":selected").val() === "electro") 
-        {            
-            $.ajax({
-                type: "GET",
-                url: "/api/Freyja/GetTipoBien/electro",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    targetTipoDeBien.empty();
-                    targetTipoDeBien.append("<option value=\"\">Selecciona una opción</option>");    
-                    $.each(data, function (i, item) {
-                        var rows =
-                            "<option value=\"" + item.CodTipoBien + "\">" + item["Tipo de Bien"] + "</option>";
-                        targetTipoDeBien.append(rows);
-                    }); 
-                    targetTipoDeBien.removeAttr("readonly");
-                },
-                failure: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                },
-                error: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                } 
-            });
-        }
+        });        
     });
 
     // Asssign marca
@@ -667,7 +630,7 @@ jQuery(function ($) {
                 targetMarca.append("<option value=\"\">Selecciona una opción</option>");
                 $.each(data, function (i, item) {
                     var rows =
-                        "<option value=\"" + ((targetBien === "auto") ? item.CodMarcaAuto : item.CodMarcaElectro) + "\">" + item.Marca + "</option>";
+                        "<option value=\"" + ((targetBien.val() === "26e0e553-8bb9-41b2-869a-1fddaf06e900") ? item.CodMarcaAuto : item.CodMarcaElectro) + "\">" + item.Marca + "</option>";
                     targetMarca.append(rows);
                 }); 
                 targetMarca.removeAttr("readonly");
