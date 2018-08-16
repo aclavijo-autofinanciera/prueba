@@ -50,8 +50,8 @@ namespace ContratoDigital.Controllers
         //[Authorize]
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-            //await CreateRolesAndUsers();
+            
+            CreateRolesAndUsers();
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace ContratoDigital.Controllers
         }
 
         
-        /*private async Task CreateRolesAndUsers()
+        private async Task CreateRolesAndUsers()
         {
 
             
@@ -77,36 +77,48 @@ namespace ContratoDigital.Controllers
             try
             {
                 
-                /*bool x = await _roleManager.RoleExistsAsync("Administrador");
-                if (!x)
+                //bool x = await _roleManager.RoleExistsAsync("Administrador");
+                //var user = new ContratoDigitalUser();
+                //user.UserName = "Madrid";
+                //user.Email = "juanpabloalviar@gmail.com";
+                //user.EmailConfirmed = true;
+                //string userPwd = "SanLorenzo2018$";
+                //IdentityResult chkUser = await _userManager.CreateAsync(user, userPwd);
+                //if (chkUser.Succeeded)
+                //{
+                //    var result1 = await _userManager.AddToRoleAsync(user, "Administrador");
+                //}
+                //ViewData["Message"] = "USuario Creado.";
+                /*if (!x)
                 {
                     //Create Admin Role
-                    var role = new IdentityRole();
+                    /*var role = new IdentityRole();
                     role.Name = "Administrador";
-                    await _roleManager.CreateAsync(role);
-                    
+                    await _roleManager.CreateAsync(role);*/
 
-                    var user = new ContratoDigitalUser();
-                    user.UserName = "Normandie";
-                    user.Email = "lrobles@autofinanciera.com.co";
-                    string userPwd = "NissanGTR2018$";
-                    IdentityResult chkUser = await  _userManager.CreateAsync(user, userPwd);
-                    if (chkUser.Succeeded)
-                    {
-                        var result1 = await _userManager.AddToRoleAsync(user, "Administrador");
-                    }                   
-                }*
+
+                /*var user = new ContratoDigitalUser();
+                user.UserName = "Madrid";
+                user.Email = "juanpabloalviar@gmail.com";
+                string userPwd = "SanLorenzo2018$";
+                IdentityResult chkUser = await _userManager.CreateAsync(user, userPwd);
+                if (chkUser.Succeeded)
+                {
+                    var result1 = await _userManager.AddToRoleAsync(user, "Administrador");
+                }
+            }*/
 
             }
             catch (Exception ex)
             {
                 var perol = ex.Message;
+                ViewData["Message"] = ex.Message;
             }
 
 
 
 
 
-        }*/
+        }
     }
 }
