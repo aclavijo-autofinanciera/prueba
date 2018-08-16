@@ -1,0 +1,192 @@
+﻿@model IEnumerable<ContratoDigital.Models.Contrato>
+@{
+    ViewData["Title"] = "Contratos cerrados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Contratos cerrados
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                @if (ViewData["NoEncontrado"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>@ViewData["NoEncontrado"]</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model != null)
+{
+    <section class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    Resultados de la búsqueda<hr />
+                    <h2>
+                        <span class="badge badge-autofinanciera">@ViewData["NumeroDocumento"]</span>
+                        <span class="badge badge-autofinanciera">@ViewData["NumeroContrato"]</span>
+                        <span class="badge badge-autofinanciera">@ViewData["Nombre"]</span>
+                        <span class="badge badge-autofinanciera">@ViewData["Apellido"]</span>
+                    </h2>
+                </div>
+                <div class="col-12">
+                    @if (Model.Count() > 0)
+                    {
+                        <div class="row justify-content-center">
+
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-12 col-md-8">
+                                    <div class="polymer-box">
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Acciones
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
+                                                        <a class="dropdown-item" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
+                                                        <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Nombre</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                @item.primer_nombre @item.segundo_nombre @item.primer_apellido @item.segundo_apellido
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Documento identificaión</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                @item.documento_identidad_suscriptor
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Teléfono</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                @item.telefono_suscriptor<br />
+                                                @item.celular_suscriptor
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Correo</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                @item.email_suscriptor
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Bien</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                @item.descripcion_bien
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Valor</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                @item.valor_bien
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Estado</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsAccepted)
+                                                    {
+                                                        <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-warning">
+                                                            <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "></span>
+                                                        </label>
+                                                    }
+                                                </div>
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsIdUploaded)
+                                                    {
+                                                        <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-warning">
+                                                            <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "></span>
+                                                        </label>
+
+                                                    }
+                                                </div>
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsPaid)
+                                                    {
+
+                                                        <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-warning">
+                                                            <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "></span>
+                                                        </label>
+
+                                                    }
+                                                </div>
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsVerified)
+                                                    {
+                                                        <label class="text-success"><i class="fas fa-check"></i> ARD</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-warning">
+                                                            <i class="far fa-clock"></i> ARD
+                                                        </label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            }
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+
