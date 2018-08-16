@@ -48,26 +48,26 @@
                         </div>
                     </div>
                     <div class="form-row mt-4">
-                        <div class="col-6 col-md-3">
+                        <div class="col-12 col-md-3">
                             <label for="primer_nombre">Primer nombre</label>
                             <input type="text" id="primer_nombre" name="primer_nombre" class="form-control form-control-lg text-uppercase" placeholder="Primer nombre" required value="@Model.PrimerNombre" autocomplete="off" readonly>
                         </div>
-                        <div class="col-6 col-md-3">
+                        <div class="col-12 col-md-3">
                             <label for="segundo_nombre">Segundo nombre</label>
                             <input type="text" id="segundo_nombre" name="segundo_nombre" class="form-control form-control-lg text-uppercase" placeholder="Segundo nombre" value="@Model.SegundoNombre" autocomplete="off" readonly>
                         </div>
-                        <div class="col-6 col-md-3">
+                        <div class="col-12 col-md-3">
                             <label for="primer_apellido">Primer apellido</label>
                             <input type="text" id="primer_apellido" name="primer_apellido" class="form-control form-control-lg text-uppercase" placeholder="Primer apellido" required value="@Model.PrimerApellido" autocomplete="off" readonly>
                         </div>
-                        <div class="col-6 col-md-3">
+                        <div class="col-12 col-md-3">
                             <label for="segundo_apellido">Segundo apellido</label>
                             <input type="text" id="segundo_apellido" name="segundo_apellido" class="form-control form-control-lg text-uppercase" placeholder="Nombre (nombre completo o razón social)" value="@Model.SegundoApellido" autocomplete="off" readonly>
                         </div>
 
                     </div>
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="tipo_identificacion_suscriptor">Tipo de documento de identidad</label>
                             <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione un tipo</option>
@@ -76,11 +76,11 @@
                                 @(Model.TipoDocumentoIdentidad == 3 ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"3\">NIT</option>"))
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="documento_identidad_suscriptor">Número de documento de identidad</label>
                             <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" required readonly value="@Model.NumeroDocumento" autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="procedencia_documento_identidad_suscriptor">De:</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required autocomplete="off" />
                         </div>
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="form-row mt-4">
-                                <div class="col">
+                                <div class="col-12 col-md-4">
                                     <label for="tipo_documento_representante_legal">Tipo de documento representante legal</label>
                                     <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal" autocomplete="off">
                                         <option value="CC">CC</option>
@@ -114,11 +114,11 @@
                                         <option value="NIT">NIT</option>
                                     </select>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-md-4">
                                     <label for="documento_identidad_representante_legal">Número de documento representate legal</label>
                                     <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" name="documento_identidad_representante_legal" autocomplete="off" />
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-md-4">
                                     <label for="procedencia_documento_identidad_representante_legal">De:</label>
                                     <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" autocomplete="off" />
                                 </div>
@@ -132,17 +132,17 @@
 
                 <section>
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-3">
                             <label for="fecha_nacimiento_suscriptor">Fecha de nacimiento</label>
                             <input type="text" id="fecha_nacimiento_suscriptor" name="fecha_nacimiento_suscriptor" class="form-control form-control-lg" placeholder="ej: @DateTime.Today.ToString("dd-MM-yyyy")" required readonly autocomplete="off" />
 
 
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-3">
                             <label for="lugar_nacimiento_suscriptor">Lugar de nacimiento</label>
                             <input type="text" id="lugar_nacimiento_suscriptor" name="lugar_nacimiento_suscriptor" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-3">
                             <label for="sexo_suscriptor">Sexo</label>
                             <select class="form-control form-control-lg" id="sexo_suscriptor" name="sexo_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione una opción</option>
@@ -150,13 +150,13 @@
                                 <option value="masculina">Masculino</option>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-3">
                             <label for="estado_civil_suscriptor">Estado civil</label>
                             <select class="form-control form-control-lg" id="estado_civil_suscriptor" name="estado_civil_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione una opción</option>
                                 <option value="soltero">Soltero</option>
                                 <option value="casado">Casado</option>
-                                <option value="unionmarital">Unión Marital</option>
+                                <option value="ul">Unión Marital</option>
                                 <option value="divorciado">Divorciado</option>
                                 <option value="viudo">Viudo</option>
                             </select>
@@ -171,11 +171,11 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="pais_suscriptor">País</label>
                             <input type="text" class="form-control-lg form-control" readonly value="Colombia" id="pais_suscriptor" name="pais_suscriptor" autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="departamento_suscriptor">Departamento</label>
                             <select class="form-control form-control-lg" id="departamento_suscriptor" name="departamento_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione un departamento</option>
@@ -214,18 +214,18 @@
                                 <option value="vichada">Vichada</option>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="ciudad_suscriptor">Ciudad</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor" name="ciudad_suscriptor" required autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <label for="telefono_suscriptor">Teléfono</label>
                             <input type="tel" class="form-control form-control-lg text-uppercase" id="telefono_suscriptor" name="telefono_suscriptor" required value="@Model.Telefono" autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <label for="celular_suscriptor">Celular/Móvil</label>
                             <input type="tel" class="form-control form-control-lg text-uppercase" id="celular_suscriptor" name="celular_suscriptor" required value="@Model.Celular" autocomplete="off" />
                         </div>
@@ -240,18 +240,18 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <label for="empresa_empleadora_suscriptor">Empresa donde labora</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor" name="empresa_empleadora_suscriptor" required autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <label for="cargo_suscriptor">Cargo</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" name="cargo_suscriptor" id="cargo_suscriptor" required autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="ingresos_mensuales_suscriptor">Ingresos mensuales</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -260,7 +260,7 @@
                                 <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor" aria-describedby="inresos_en_pesos_addon" id="ingresos_mensuales_suscriptor" name="ingresos_mensuales_suscriptor" placeholder="0.00" required autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="egresos_mensuales_suscriptor">Egresos mensuales</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -269,7 +269,7 @@
                                 <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor" aria-describedby="egresos_en_pesos_addon" id="egresos_mensuales_suscriptor" name="egresos_mensuales_suscriptor" placeholder="0.00" required autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="otros_ingresos_suscriptor">Otros ingresos</label>
                             <div class="input-group">
                                 <span class="input-group-prepend">
@@ -288,11 +288,11 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="pais_laboral_suscriptor">País</label>
                             <input type="text" class="form-control-lg form-control text-uppercase" id="pais_laboral_suscriptor" name="pais_laboral_suscriptor" readonly value="Colombia" autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="departamento_empleo_suscriptor">Departamento</label>
                             <select class="form-control form-control-lg" id="departamento_empleo_suscriptor" name="departamento_empleo_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione un departamento</option>
@@ -331,29 +331,29 @@
                                 <option value="vichada">Vichada</option>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="ciudad_empleo_suscriptor">Ciudad</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <label for="telefono_empleo_suscriptor">Teléfono</label>
                             <input type="tel" class="form-control form-control-lg" id="telefono_empleo_suscriptor" name="telefono_empleo_suscriptor" autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <label for="celular_empleo_suscriptor">Celular/Móvil</label>
                             <input type="tel" class="form-control form-control-lg" id="celular_empleo_suscriptor" name="celular_empleo_suscriptor" autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="profesion_suscriptor">Profesión o actividad económica</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor" name="profesion_suscriptor" required autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="envio_correspondencia_suscriptor">Envío de correspondencia</label>
                             <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor" name="envio_correspondencia_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione una opción</option>
@@ -362,7 +362,7 @@
                                 <option value="correoelectronico">Correo electrónico</option>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="email_suscriptor">Correo electrónico</label>
                             <input type="email" class="form-control form-control-lg text-uppercase" id="email_suscriptor" name="email_suscriptor" required value="@Model.Email" autocomplete="off" />
                         </div>
@@ -389,13 +389,13 @@
                         </div>
 
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-3">
                                 <label for="nombre_suscriptor_conjunto">Nombre (apellidos y nombres o razón social si aplica)</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="nombre_suscriptor_conjunto" name="nombre_suscriptor_conjunto" autocomplete="off" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="tipo_identidad_suscriptor_conjunto">Tipo de documento de identidad</label>
                                 <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto" name="tipo_identidad_suscriptor_conjunto" autocomplete="off">
                                     <option value="1">CC</option>
@@ -403,11 +403,11 @@
                                     <option value="3">NIT</option>
                                 </select>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="documento_identidad_suscriptor_conjunto">Número documento identidad</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="documento_identidad_suscriptor_conjunto" name="documento_identidad_suscriptor_conjunto" autocomplete="off" />
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="procedencia_documento_identidad_suscriptor_conjunto">De: </label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" autocomplete="off" />
                             </div>
@@ -435,7 +435,7 @@
                                 </div>
 
                                 <div class="form-row mt-4">
-                                    <div class="col">
+                                    <div class="col-12 col-md-4">
                                         <label for="tipo_identidad_representante_legal_suscriptor_conjunto">Tipo de documento de identidad</label>
                                         <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" autocomplete="off">
                                             <option value="1">CC</option>
@@ -443,11 +443,11 @@
                                             <option value="3">NIT</option>
                                         </select>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-12 col-md-4">
                                         <label for="documento_identidad_representante_legal_suscriptor_conjunto">Número de documento identidad</label>
                                         <input type="text" id="documento_identidad_representante_legal_suscriptor_conjunto" name="documento_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" autocomplete="off" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-12 col-md-4">
                                         <label for="procedencia_identificacion_representante_legal_suscriptor_conjunto">De:</label>
                                         <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" autocomplete="off" />
                                     </div>
@@ -461,27 +461,27 @@
                     <!--#region Datos del suscriptor conjunto-->
                     <section>
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-3">
                                 <label for="fecha_nacimiento_suscriptor_conjunto">Fecha de nacimiento</label>
                                 <input class="form-control form-control-lg" id="fecha_nacimiento_suscriptor_conjunto" name="fecha_nacimiento_suscriptor_conjunto" readonly autocomplete="off" />
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-3">
                                 <label for="lugar_nacimiento_suscriptor_conjunto">Lugar</label>
                                 <input type="text" id="lugar_nacimiento_suscriptor_conjunto" name="lugar_nacimiento_suscriptor_conjunto" class=" text-uppercase form-control form-control-lg" autocomplete="off" />
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-3">
                                 <label for="sexo_suscriptor_conjunto">Sexo</label>
                                 <select class="form-control form-control-lg" id="sexo_suscriptor_conjunto" name="sexo_suscriptor_conjunto" autocomplete="off">
                                     <option value="femenino">Femenino</option>
                                     <option value="masculino">Masculino</option>
                                 </select>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-3">
                                 <label for="estado_civil_suscriptor_conjunto">Estado civil</label>
                                 <select class="form-control form-control-lg" id="estado_civil_suscriptor_conjunto" name="estado_civil_suscriptor_conjunto" autocomplete="off">
                                     <option value="soltero">Soltero</option>
                                     <option value="casado">Casado</option>
-                                    <option value="unionmarital">Unión Marital</option>
+                                    <option value="ul">Unión Marital</option>
                                     <option value="divorciado">Divorciado</option>
                                     <option value="soltero">soltero</option>
                                 </select>
@@ -494,7 +494,7 @@
                             </div>
                         </div>
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="departamento_suscriptor_conjunto">Departamento</label>
                                 <select class="form-control form-control-lg" id="departamento_suscriptor_conjunto" name="departamento_suscriptor_conjunto" autocomplete="off">
                                     <option value="amazonas">Amazonas</option>
@@ -532,35 +532,35 @@
                                     <option value="vichada">Vichada</option>
                                 </select>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="ciudad_suscriptor_conjunto">Ciudad</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" autocomplete="off" />
                             </div>
                         </div>
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="telefono_suscriptor_conjunto">Teléfono</label>
                                 <input type="text" class="form-control form-control-lg" id="telefono_suscriptor_conjunto" name="telefono_suscriptor_conjunto" autocomplete="off" />
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="celular_suscriptor_conjunto">Celular</label>
                                 <input type="text" class="form-control form-control-lg" id="celular_suscriptor_conjunto" name="celular_suscriptor_conjunto" autocomplete="off" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="empresa_empleadora_suscriptor_conjunto">Empresa donde labora</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="empresa_empleadora_suscriptor_conjunto" name="empresa_empleadora_suscriptor_conjunto" autocomplete="off" />
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="cargo_suscriptor_conjunto">Cargo</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="cargo_suscriptor_conjunto" name="cargo_suscriptor_conjunto" autocomplete="off" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="ingresos_mensuales_suscriptor_conjunto">Ingresos mensuales</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -569,7 +569,7 @@
                                     <input type="text" class="form-control form-control-lg" aria-label="ingresos_mensuales_suscriptor_conjunto" aria-describedby="ingresos_en_pesos_conjunto_addon" id="ingresos_mensuales_suscriptor_conjunto" name="ingresos_mensuales_suscriptor_conjunto" placeholder="0.00" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="egresos_mensuales_suscriptor_conjunto">Egresos mensuales</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -578,7 +578,7 @@
                                     <input type="text" class="form-control form-control-lg" aria-label="egresos_mensuales_suscriptor_conjunto" aria-describedby="egresos_en_pesos_conjunto_addon" id="egresos_mensuales_suscriptor_conjunto" name="egresos_mensuales_suscriptor_conjunto" placeholder="0.00" autocomplete="off" />
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="otros_ingresos_suscriptor_conjunto">Otros ingresos</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -597,7 +597,7 @@
                         </div>
 
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="departamento_empleo_suscriptor_conjunto">Departamento</label>
                                 <select class="form-control form-control-lg" id="departamento_empleo_suscriptor_conjunto" name="departamento_empleo_suscriptor_conjunto" autocomplete="off">
                                     <option value="amazonas">Amazonas</option>
@@ -635,18 +635,18 @@
                                     <option value="vichada">Vichada</option>
                                 </select>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="ciudad_empleo_suscriptor_conjunto">Ciudad</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" autocomplete="off" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="telefono_empleo_suscriptor_conjunto">Teléfono</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" name="telefono_empleo_suscriptor_conjunto" id="telefono_empleo_suscriptor_conjunto" autocomplete="off" />
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-6">
                                 <label for="celular_empleo_suscriptor_conjunto">Celular</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="celular_empleo_suscriptor_conjunto" name="celular_empleo_suscriptor_conjunto" autocomplete="off" />
                             </div>
@@ -654,11 +654,11 @@
 
 
                         <div class="form-row mt-4">
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="profesion_suscriptor_conjunto">Profesión o actividad económica</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="profesion_suscriptor_conjunto" name="profesion_suscriptor_conjunto" autocomplete="off" />
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="correspondencia_suscriptor_conjunto">Envío de correspondencia</label>
                                 <select class="form-control form-control-lg" id="correspondencia_suscriptor_conjunto" name="correspondencia_suscriptor_conjunto" autocomplete="off">
                                     <option value="domicilio">Domicilio</option>
@@ -666,7 +666,7 @@
                                     <option value="correoelectronico">Correo electrónico</option>
                                 </select>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-4">
                                 <label for="email_suscriptor_conjunto">Correo electrónico</label>
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="email_suscriptor_conjunto" name="email_suscriptor_conjunto" autocomplete="off" />
                             </div>
@@ -690,7 +690,7 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
-                            <label for="bien">Seleccione un bien</label>
+                            <label for="bien">Seleccione compañía</label>
                             <select class="form-control form-control-lg" id="idcompania" name="idcompania">
                                 <option value="@Model.IdCompania">@Model.Compania</option>
                                 <option value="">Seleccione una opción</option>
@@ -728,6 +728,7 @@
                         <div class="col-12 col-md-4">
                             <label for="tipoCalculo">Seleccione una cuota</label>
                             <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
+                                <option value="">@Model.Plazo</option>
                                 <option value="">Seleccione una opción</option>
                             </select>
                         </div>
@@ -754,11 +755,11 @@
 
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="detalles_bien">Detalle del bien</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" id="detalles_bien" name="detalles_bien" value="@Model.DescripcionDelBien" autocomplete="off" />
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="valor_bien">Valor del bien</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -767,7 +768,7 @@
                                 <input type="text" class="form-control form-control-lg" aria-label="valor_bien" aria-describedby="valor_bien_addon" id="valor_bien" name="valor_bien" value="@String.Format("{0:0,0.00}",Model.ValorDelBien)" readonly autocomplete="off" />
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-4">
                             <label for="codigo_bien">Código del bien</label>
                             <input type="text" class="form-control form-control-lg text-uppercase" id="codigo_bien" name="codigo_bien" value="@Model.Referencia" />
                         </div>
@@ -786,7 +787,7 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">1</span>
                             <label for="cuota_ingreso">Cuota de ingreso (<label class="porcentajeInscripcion"></label>% sobre el valor del bien)</label>
                             <div class="input-group">
@@ -797,7 +798,7 @@
                             </div>
                         </div>
 
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">5</span>
                             <label for="administracion">Administración (<label class="porcentajeAdministracion"></label>% sobre cuota neta)</label>
                             <div class="input-group">
@@ -810,7 +811,7 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">2</span>
                             <label for="iva_cuota_ingreso">I.V.A sobre la cuota de ingreso (<label class="porcentajeIva"></label>%)</label>
                             <div class="input-group">
@@ -820,7 +821,7 @@
                                 <input type="text" class="form-control form-control-lg" aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" id="iva_cuota_ingreso" name="iva_cuota_ingreso" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.IvaCuotaIngreso)" />
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">6</span>
                             <label for="iva_administracion">I.V.A sobre la administración (<label class="porcentajeIva"></label>%)</label>
                             <div class="input-group">
@@ -833,7 +834,7 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">3</span>
                             <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class="badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
                             <div class="input-group">
@@ -843,7 +844,7 @@
                                 <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-describedby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.TotalCuotaIngreso)" />
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">7</span>
                             <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
                             <div class="input-group">
@@ -856,7 +857,7 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">4</span>
                             <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
                             <div class="input-group">
@@ -866,7 +867,7 @@
                                 <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta" placeholder="0.00" readonly value="@String.Format("{0:0,0.00}",Model.PrimeraCuotaNeta)" />
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             <span class="badge badge-azul">8</span>
                             <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
                             <div class="input-group">
@@ -880,20 +881,21 @@
                 </section>
                 <!--#endregion-->
                 <!--#region legal-->
-                <section>
+                
+                <section id="legaleseElectro" class="d-none">
                     <div class="form-row mt-4">
                         <div class="col">
 
                             <div class="card">
                                 <div class="card-header bg-azul text-white">
                                     <label for="texto-legalese">
-                                        ASPECTOS RELEVANTES DEL CONTRATO DE ADHESIÓN
+                                        ASPECTOS RELEVANTES DEL CONTRATO
                                     </label>
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-control-plaintext h-25" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
+                                    <div class="form-control-plaintext" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
 
-                                        @await Html.PartialAsync("~/Views/Shared/LegaleseAspectosRelevantes.cshtml")
+                                        @await Html.PartialAsync("~/Views/Shared/LegaleseAspectosRelevantesElectroplan.cshtml")
 
                                     </div>
                                 </div>
@@ -901,8 +903,6 @@
 
                         </div>
                     </div>
-                </section>
-                <section id="legaleseElectro" class="d-none">
                     <div class="form-row mt-4">
                         <div class="col">
 
@@ -913,9 +913,29 @@
                                     </label>
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-control-plaintext h-25" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
+                                    <div class="form-control-plaintext" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
 
                                         @await Html.PartialAsync("~/Views/Shared/LegaleseElectroplan.cshtml")
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col">
+
+                            <div class="card">
+                                <div class="card-header bg-azul text-white">
+                                    <label for="texto-legalese">
+                                        AUTORIZACIONES
+                                    </label>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-control-plaintext" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
+
+                                        @await Html.PartialAsync("~/Views/Shared/LegaleseAutorizacionesElectroplan.cshtml")
 
                                     </div>
                                 </div>
@@ -932,13 +952,53 @@
                             <div class="card">
                                 <div class="card-header bg-azul text-white">
                                     <label for="texto-legalese">
+                                        ASPECTOS RELEVANTES DEL CONTRATO
+                                    </label>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-control-plaintext" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
+
+                                        @await Html.PartialAsync("~/Views/Shared/LegaleseAspectosRelevantesAutofinanciera.cshtml")
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col">
+
+                            <div class="card">
+                                <div class="card-header bg-azul text-white">
+                                    <label for="texto-legalese">
                                         CONTRATO DE ADHESION PARA INGRESAR AL SISTEMA DE AUTOFINANCIAMIENTO COMERCIAL, CON EL FIN DE ADQUIRIR UN BIEN O SERVICIO POR SORTEO U OFERTA.
                                     </label>
                                 </div>
                                 <div class="card-body">
-                                    <div class="form-control-plaintext h-25" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
+                                    <div class="form-control-plaintext" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
 
                                         @await Html.PartialAsync("~/Views/Shared/LegaleseAutofinanciera.cshtml")
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col">
+
+                            <div class="card">
+                                <div class="card-header bg-azul text-white">
+                                    <label for="texto-legalese">
+                                        AUTORIZACIONES
+                                    </label>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-control-plaintext" id="texto-legalese" style="max-height:25rem; overflow-y:scroll">
+
+                                        @await Html.PartialAsync("~/Views/Shared/LegaleseAutorizacionesAutofinanciera.cshtml")
 
                                     </div>
                                 </div>
