@@ -11,17 +11,17 @@
             <div class="col-12">
                 <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
                     <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
-                        Detalle de contrato
+                        Detalle de contrato De ahora
                     </h1>
                 </div>
             </div>
         </div>
         <div class="row justify-content-center">
             <!-- Begin -->
-            <div class="col-12 col-md-8">
-                @if (!String.IsNullOrEmpty((string)ViewData["EmailResult"]))
+            <div class="col-12 col-md-8 error-area">
+                @if (ViewData["Status"]!=null)
                 {
-                    if ((string)ViewData["EmailResult"] == "Success")
+                    @*if ((string)ViewData["EmailResult"] == "Success")
                     {
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>¡El correo ha sido envíado exitosamente!</strong>
@@ -38,32 +38,12 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    }
+                    }*@
 
 
                 }
 
-                @if (!String.IsNullOrEmpty((string)TempData["EmailResult"]))
-                {
-                    if ((string)TempData["EmailResult"] == "Success")
-                    {
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>¡El correo ha sido envíado exitosamente! Temp</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>¡Ha Ocurrido un error! temp : @TempData["EmailResult"]</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-                }
+                
             </div>
 
             <div class="col-12 col-md-8">
@@ -78,74 +58,60 @@
                         <div class="col-12 col-md-4 font-weight-bold">
                             Estado del contrato
                         </div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @if (Model.ConfirmacionContratos.LastOrDefault().IsAccepted)
-                            {
-                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> Condiciones del contrato Aceptadas</span></h5>
-                            }
-                            else
-                            {
-                                <h5>
-                                    <span class="badge badge-warning p-2"><i class="far fa-clock"></i> En proceso: por aceptar condiciones del contrato</span>
-                                    <a href="#" class="btn btn-azul">Reenvíar correo de confirmación</a>
-                                </h5>
-                            }
-                            @if (Model.ConfirmacionContratos.LastOrDefault().IsPaid)
-                            {
-                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> El contrato ha sido pagado</span></h5>
-                            }
-                            else
-                            {
-                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por pagar</span></h5>
-                            }
-                            @if (Model.ConfirmacionContratos.LastOrDefault().IsIdUploaded)
-                            {
-                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> La identificación ha sido adjuntada</span></h5>
-                            }
-                            else
-                            {
-                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por adjuntar identificación</span></h5>
-                            }
-                            @if (Model.ConfirmacionContratos.LastOrDefault().IsVerified)
-                            {
-                                <h5><span class="badge badge-success p-2"><i class="fas fa-check"></i> La identificación ha sido verificada</span></h5>
-                            }
-                            else
-                            {
-                                <h5><span class="badge badge-warning p-2 text-white"><i class="far fa-clock"></i> En proceso: por verificados</span></h5>
-                            }
+                        <div class="col-12 col-md-8 text-black-65">
+                            <div class="isAccepted">
+                                @if (Model.ConfirmacionContratos.IsAccepted)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                }
+                            </div>
+                            <div class="isUploaded">
+                                @if (Model.ConfirmacionContratos.IsIdUploaded)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+
+                                }
+                            </div>
+                            <div class="isPaid">
+                                @if (Model.ConfirmacionContratos.IsPaid)
+                                {
+
+                                    <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+
+                                }
+                            </div>
+                            <div class="isVerified">
+                                @if (Model.ConfirmacionContratos.IsVerified)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> ARD</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> ARD</label>
+                                }
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" data-contrato="@Model.IdContrato" id="RefreshStatusContrato"><i class="fas fa-sync"></i> Actualizar</button>
+                            </div>
 
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
-                <div class="polymer-box">
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">
-                            Documento Digitalizado
-                        </div>
-                        <div class="col-12 col-md-8 text-black-65">
-                            <p>Anverso:<br />
-                            @{ if (!String.IsNullOrEmpty(Model.anverso_documento))
-                                {
-                                    <img src="data:image/png;base64, @Model.anverso_documento" alt="Anverso" class="img-fluid"/>
-                                }  
-                            }
-                            </p>
-                            <p>
-                                Reverso:<br />
-                                @{ if (!String.IsNullOrEmpty(Model.reverso_documento))
-                                    {
-                                        <img src="data:image/png;base64, @Model.reverso_documento" alt="Anverso" class="img-fluid" />
-                                    }
-                                }
-                            </p>
-                            <a class="btn btn-azul" href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })">Adjuntar o actualizar</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-12 col-md-8">               
                 
                 <div class="polymer-box">
                     <div class="row">
@@ -184,6 +150,58 @@
                         </div>
                     </div>
                 </div>
+                @if (Model.DocumentoIdentidad != null)
+                {
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Anverso del documento de identidad
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @if (!String.IsNullOrEmpty(Model.DocumentoIdentidad.Anverso))
+                                {
+                                    <img src="data:image/png;base64, @Model.DocumentoIdentidad.Anverso" alt="Anverso del documento de identidad" class="img-fluid" />
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Reverso del documento de identidad
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @if (!String.IsNullOrEmpty(Model.DocumentoIdentidad.Reverso))
+                                {
+                                <img src="data:image/png;base64, @Model.DocumentoIdentidad.Reverso" alt="Reverso del documento de identidad" class="img-fluid" />
+                                }
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <a href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Actualizar documento</a>                                
+                                <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar actualización de documento</a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <a href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdProspecto })" class="btn btn-azul">Adjuntar cédula</a>
+                                <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar adjunto de documento</a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
             </div>
 
             <div class="col-12 col-md-8">
@@ -1006,17 +1024,39 @@
 
 
         <div class="row mt-4">
-            <div class="col text-center">
+            <div class="col">
                 <hr />
-                <div class="btn-group" role="group" aria-label="Acciones">
-                    <a class="btn btn-azul" href="@Url.Action("Details", "Prospectos", new { id=Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
-                    <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
-                    <a class="btn btn-azul" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Generar pago</a>
-                    <a class="btn btn-azul" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar pago por correo</a>
-                    <a class="btn btn-azul" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
-                    <a class="btn btn-azul" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
 
-                </div>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-azul">
+                    <a class="navbar-brand" href="@Url.Action("Details", "Prospectos", new { id=Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Edit", "ContratoDigital", new {id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Generar pago</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar pago por correo</a>
+                            </li>
+
+
+                        </ul>
+                            
+                    </div>
+                </nav>
+               
             </div>
         </div>
     </div>
