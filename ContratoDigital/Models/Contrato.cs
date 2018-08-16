@@ -120,7 +120,8 @@ namespace ContratoDigital.Models
         public string distribuido_por_marca { get; set; }
 
         public virtual Prospecto Prospecto { get; set; }
-        public virtual ICollection<ConfirmacionContrato> ConfirmacionContratos { get; set; }
+        public virtual ConfirmacionContrato ConfirmacionContratos { get; set; }
+        public virtual DocumentoIdentidad DocumentoIdentidad { get; set; }
     }
 }
 

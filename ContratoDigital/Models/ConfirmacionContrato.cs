@@ -12,6 +12,7 @@ namespace ContratoDigital.Models
         public int Id { get; set; }
         public int IdContrato { get; set; }
         public string Guuid { get; set; }
+        public string ReferenciaPago { get; set; }
         public bool IsIdUploaded { get; set; }
         public bool IsAccepted { get; set; }
         public bool IsPaid { get; set; }
@@ -19,6 +20,7 @@ namespace ContratoDigital.Models
         public DateTime FechaVerificacion { get; set; }
         public DateTime FechaAceptacion { get; set; }
         public DateTime FechaPago { get; set; }
+        public DateTime FechaReferenciaPago { get; set; }
 
         public virtual Contrato Contrato { get; set; }
     }

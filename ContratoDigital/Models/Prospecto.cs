@@ -46,5 +46,6 @@ namespace ContratoDigital.Models
 
         public virtual ICollection<Contrato> Contratos { get; set; }
         public virtual ICollection<ConfirmacionProspecto> ConfirmacionProspecto {get; set;}
+        
     }
 }
