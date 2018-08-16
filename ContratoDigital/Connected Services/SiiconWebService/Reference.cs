@@ -31,6 +31,12 @@ namespace SiiconWebService
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarMarcas", ReplyAction="http://tempuri.org/IService/SelecccionarMarcasResponse")]
         System.Threading.Tasks.Task<string> SelecccionarMarcasAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarMarcasTipoBien", ReplyAction="http://tempuri.org/IService/SelecccionarMarcasTipoBienResponse")]
+        System.Threading.Tasks.Task<string> SelecccionarMarcasTipoBienAsync(string CompañiaId, int TipoBienId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarAsesor", ReplyAction="http://tempuri.org/IService/SelecccionarAsesorResponse")]
+        System.Threading.Tasks.Task<string> SelecccionarAsesorAsync(long Cedula);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTiposBienesCompañia", ReplyAction="http://tempuri.org/IService/SelecccionarTiposBienesCompañiaResponse")]
         System.Threading.Tasks.Task<string> SelecccionarTiposBienesCompañiaAsync(string CompañiaId);
         
@@ -123,6 +129,16 @@ namespace SiiconWebService
         public System.Threading.Tasks.Task<string> SelecccionarMarcasAsync()
         {
             return base.Channel.SelecccionarMarcasAsync();
+        }
+        
+        public System.Threading.Tasks.Task<string> SelecccionarMarcasTipoBienAsync(string CompañiaId, int TipoBienId)
+        {
+            return base.Channel.SelecccionarMarcasTipoBienAsync(CompañiaId, TipoBienId);
+        }
+        
+        public System.Threading.Tasks.Task<string> SelecccionarAsesorAsync(long Cedula)
+        {
+            return base.Channel.SelecccionarAsesorAsync(Cedula);
         }
         
         public System.Threading.Tasks.Task<string> SelecccionarTiposBienesCompañiaAsync(string CompañiaId)
