@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ContratoDigital.Data;
+using ContratoDigital.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SiiconWebService;
@@ -13,6 +15,12 @@ namespace ContratoDigital.Controllers
     public class WebserviceController : ControllerBase
     {
         ServiceClient service = new ServiceClient();
+        private readonly ContratoDigitalContext _context;
+        public WebserviceController(ContratoDigitalContext context)
+        {
+            _context = context;
+        }
+
 
         [HttpGet("GetCompanias")]
         [Route("api/Freyja/GetCompanias")]
@@ -64,7 +72,7 @@ namespace ContratoDigital.Controllers
         public async Task<ActionResult<string>> GetBienes(string compania, int idTipoBien, int idMarca)
         {
             //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
-            return await service.SelecccionarBienesCompañiaAsync(compania,idTipoBien,idMarca);
+            return await service.SelecccionarBienesCompañiaAsync(compania, idTipoBien, idMarca);
         }
 
         [HttpGet("GetBienesParametros/{compania}/{idTipoBien}/{valorBien}/{tipoBienParametroId}")]
@@ -74,5 +82,54 @@ namespace ContratoDigital.Controllers
             //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SeleccionarBienParametrosAsync(compania, idTipoBien, valorBien, tipoBienParametroId);
         }
+
+        [HttpGet("GenerarReferenciaPago/{compania}/{documento}/{valorPagar}/{contratoTiendaID}")]
+        public async Task<ActionResult<string>> GenerarReferenciaPago(string compania, string documento, double valorPagar, int contratoTiendaID)
+        {            
+            try
+            {
+                return await service.GenerarReferenciaPagoAsync(compania, documento, (long)valorPagar, contratoTiendaID, Constants.GuuidUsuarioSiicon);
+            }
+            catch (Exception ex)
+            {
+                var perol = ex.Message;
+                throw;
+            }
+            
+        }
+
+        /// <summary>
+        /// Devuelve una clase con los 4 estados posibles de un contrato.
+        /// </summary>
+        /// <param name="idcontrato">el identificativo único correlativo del contrato</param>
+        /// <returns>Una clase serializada con los valores de ConfirmarContrato</returns>
+        [HttpGet("GetStatusContrato/{idContrato}")]
+        [Route("api/Freyja/GetStatusContrato")]
+        public ActionResult<ConfirmacionContrato> GetStatusContrato(int idcontrato)
+        {
+            try
+            {
+                ConfirmacionContrato contrato = new ConfirmacionContrato();
+                ConfirmacionContrato contratoDummy = _context.ConfirmacionContratos.SingleOrDefault(x => x.IdContrato == idcontrato);
+                contrato.Id = contratoDummy.Id;
+                contrato.IdContrato = contratoDummy.IdContrato;
+                contrato.IsAccepted = contratoDummy.IsAccepted;
+                contrato.IsIdUploaded = contratoDummy.IsIdUploaded;
+                contrato.IsPaid = contratoDummy.IsPaid;
+                contrato.IsVerified = contratoDummy.IsVerified;
+                contrato.FechaAceptacion = contratoDummy.FechaAceptacion;
+                contrato.FechaPago = contratoDummy.FechaPago;
+                contrato.FechaVerificacion = contratoDummy.FechaVerificacion;
+                return contrato;
+            }
+            catch (Exception ex)
+            {
+                var value = ex.Message;
+                throw;
+            }
+            
+        }
+
+
     }
 }
