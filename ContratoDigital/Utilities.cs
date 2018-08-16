@@ -179,7 +179,15 @@ namespace ContratoDigital
 
             // Email
             fields.TryGetValue("email_suscriptor", out toSet);
-            toSet.SetValue(contrato.email_suscriptor.ToUpper());
+            if(contrato.envio_correspondencia_suscriptor == "email")
+            {
+                toSet.SetValue(contrato.email_suscriptor.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
+            }
+            else
+            {
+                toSet.SetValue(contrato.email_suscriptor.ToUpper());
+            }
+            
 
             if(contrato.documento_identidad_suscriptor_conjunto>0)
             {
@@ -190,7 +198,7 @@ namespace ContratoDigital
 
                 // Tipo de documento de identidad
                 fields.TryGetValue("tipo_identidad_suscriptor_conjunto", out toSet);
-                /*switch (contrato.tipo_identidad_suscriptor_conjunto)
+                switch (contrato.tipo_identidad_suscriptor_conjunto)
                 {
                     case "1":
                         toSet.SetValue("CC");
@@ -201,8 +209,8 @@ namespace ContratoDigital
                     case "3":
                         toSet.SetValue("NIT");
                         break;
-                }*/
-                toSet.SetValue(contrato.tipo_identidad_suscriptor_conjunto);
+                }
+                //toSet.SetValue(contrato.tipo_identidad_suscriptor_conjunto);
 
                 // Número de documento identidad
                 fields.TryGetValue("documento_identidad_suscriptor_conjunto", out toSet);
@@ -219,8 +227,19 @@ namespace ContratoDigital
                     toSet.SetValue(contrato.representante_legal_suscriptor_conjunto.ToUpper());
 
                     // Tipo de documento representante legal suscritpr conjunto 
-                    fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);
-                    toSet.SetValue(contrato.tipo_identidad_representante_legal_suscriptor_conjunto);
+                    fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);                    
+                    switch (contrato.tipo_identidad_representante_legal_suscriptor_conjunto)
+                    {
+                        case "1":
+                            toSet.SetValue("CC");
+                            break;
+                        case "2":
+                            toSet.SetValue("CE");
+                            break;
+                        case "3":
+                            toSet.SetValue("NIT");
+                            break;
+                    }
 
                     // documento de identidad representante legal
                     fields.TryGetValue("documento_identidad_representante_legal_suscriptor_conjunto", out toSet);
@@ -322,8 +341,16 @@ namespace ContratoDigital
                 //toSet.SetValue(contrato.envio_correspondencia_suscriptor.ToUpper());
 
                 // Email Suscriptor Conjunto
-                fields.TryGetValue("email_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.email_suscriptor_conjunto.ToUpper());
+                fields.TryGetValue("email_suscriptor_conjunto", out toSet);                
+                if (contrato.correspondencia_suscriptor_conjunto == "email")
+                {
+                    toSet.SetValue(contrato.email_suscriptor_conjunto.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
+                }
+                else
+                {
+                    toSet.SetValue(contrato.email_suscriptor_conjunto.ToUpper());
+                }
+
 
             }
 
@@ -486,8 +513,8 @@ namespace ContratoDigital
             fields.TryGetValue("Nombre", out toSet);
             toSet.SetValue((prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido).ToUpper());
 
-            fields.TryGetValue("Documento", out toSet);
-            toSet.SetValue(prospecto.NumeroDocumento.ToString());
+            //fields.TryGetValue("Documento", out toSet);
+            //toSet.SetValue(prospecto.NumeroDocumento.ToString());
 
             fields.TryGetValue("Telefono", out toSet);
             toSet.SetValue(prospecto.Telefono.ToString());
@@ -1267,6 +1294,11 @@ namespace ContratoDigital
         /// Identificador único de Usuario en el Siicon
         /// </summary>
         public const string GuuidUsuarioSiicon = "85250b4a-e393-4b0a-b787-51edb8172118";
+
+        public const string ContratoPDF = "ContratoDigital";
+        public const string ReciboPagoPDF = "ReciboDePago";
+        public const string CotizacionPDF = "Cotizacion";
+
     }
 
 }
