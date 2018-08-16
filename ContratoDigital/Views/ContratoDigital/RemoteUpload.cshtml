@@ -1,0 +1,75 @@
+﻿@model ContratoDigital.Models.UploadId
+@{
+    ViewData["Title"] = "Adjuntar identificación";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    bool isRemoteUploadAllowed = (bool)ViewData["IsRemoteUploadAllowed"];
+}
+
+
+@if (isRemoteUploadAllowed)
+{
+    <section>
+        <div class="container" style="background-color:#fff;">
+            <div class="row">
+                <div class="col-12">
+                    <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                        <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                            Adjuntar Documento de identificación
+                        </h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <form asp-action="RemoteUpload" enctype="multipart/form-data">
+                        <input asp-for="IdContrato" type="hidden" class="form-control" />
+                        <div class="form-row mt-4">
+                            <div class="col-12">
+                                <div class="polymer-box">
+                                    <label asp-for="Anverso" class="control-label">Anverso del documento de identificación</label>
+                                    <input asp-for="Anverso" class="form-control form-control-lg" />
+                                    <span asp-validation-for="Anverso" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col-12">
+                                <div class="polymer-box">
+                                    <label asp-for="Reverso" class="control-label">Reverso del documento de identificación</label>
+                                    <input asp-for="Reverso" class="form-control form-control-lg" />
+                                    <span asp-validation-for="Reverso" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-4">
+                            <div class="col-12 text-center">
+                                <div class="polymer-box">
+                                    <input type="submit" class="btn btn-azul" value="Envíar" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section>
+        <div class="container h-75">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>El link al que está intentando ingresar es invalido</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
