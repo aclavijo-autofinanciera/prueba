@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace ContratoDigital
 {
@@ -29,9 +30,9 @@ namespace ContratoDigital
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => true;                
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            });            
             services.AddDbContext<ContratoDigitalContext>(options => options
             .UseLazyLoadingProxies()
             .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -46,7 +47,11 @@ namespace ContratoDigital
             services.AddSession();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddSessionStateTempDataProvider();
+                .AddSessionStateTempDataProvider()
+                .AddJsonOptions(options => {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+                });
 
 
 
