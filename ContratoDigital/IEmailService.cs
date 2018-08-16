@@ -12,7 +12,7 @@ namespace ContratoDigital
 {
     public interface IEmailService
     {
-        void Send(EmailMessage emailMessage, MemoryStream stream);
+        void Send(EmailMessage emailMessage, MemoryStream stream, string tituloPDF);
         List<EmailMessage> ReceiveEmail(int maxcount = 10);
     }
 
@@ -35,7 +35,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="emailMessage"></param>
         /// <param name="stream">Stream del Attachment PDF</param>
-        public void Send(EmailMessage emailMessage, MemoryStream stream)
+        public void Send(EmailMessage emailMessage, MemoryStream stream, string tituloPdf)
         {
             var message = new MimeMessage();
             message.To.AddRange(emailMessage.ToAddresses.Select(x => new MailboxAddress(x.Name, x.Address)));
@@ -44,7 +44,7 @@ namespace ContratoDigital
             message.Subject = emailMessage.Subject;
             var builder = new BodyBuilder();
             builder.HtmlBody = emailMessage.Content;
-            builder.Attachments.Add(DateTime.Now.ToString("yyyy-MM-dd-") + "-ReciboPago.pdf", stream.ToArray(), new ContentType("application", "pdf"));
+            builder.Attachments.Add("[MiContrato] " + DateTime.Now.ToString("yyyy-MM-dd-") + tituloPdf + ".pdf", stream.ToArray(), new ContentType("application", "pdf"));
             message.Body = builder.ToMessageBody();
             using (var emailClient = new SmtpClient())
             {                
