@@ -19,10 +19,7 @@ namespace ContratoDigital.Data
         public DbSet<Prospecto> Prospectos { get; set; }
         public DbSet<ConfirmacionContrato> ConfirmacionContratos { get; set; }
         public DbSet<ConfirmacionProspecto> ConfirmacionProspectos { get; set; }
-        public DbSet<ContratoDigital.Models.UploadId> UploadId { get; set; }
-        
-
-      
-        
+        public DbSet<UploadId> UploadId { get; set; }
+        public DbSet<DocumentoIdentidad> DocumentoIdentidad { get; set; }
     }
 }
