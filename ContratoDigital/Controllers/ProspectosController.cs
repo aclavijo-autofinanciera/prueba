@@ -41,7 +41,7 @@ namespace ContratoDigital.Controllers
         {            
             return View(await _context.Prospectos
                 .OrderByDescending(x => x.IdProspecto)
-                .Take(10).ToListAsync());
+                .ToListAsync());
         }
 
         public IActionResult Create()
@@ -75,7 +75,7 @@ namespace ContratoDigital.Controllers
             EmailMessage emailMessage = new EmailMessage();
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
-                new EmailAddress{Name = "Test Administrative", Address = "tienda@autofinanciera.com.co"}
+                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
             };
             emailMessage.ToAddresses = new List<EmailAddress>()
             {
@@ -86,7 +86,7 @@ namespace ContratoDigital.Controllers
             string src = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
-                emailMessage.Subject = "[ELECTROPLAN] Confirmación de Email";
+                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -109,7 +109,7 @@ namespace ContratoDigital.Controllers
             }
             else
             {
-                emailMessage.Subject = "[AUTOFINANCIERA] Confirmación de Email";
+                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -208,7 +208,7 @@ namespace ContratoDigital.Controllers
             string nombre = form["Nombre"];
             if(!String.IsNullOrEmpty(nombre))
             {
-                var splitted = nombre.Split(' ');
+                var splitted = nombre.ToUpper().Split(' ');
                 string searchQuery = "";
                 for(int i = 0; i< splitted.Count(); i++)
                 {
@@ -318,18 +318,17 @@ namespace ContratoDigital.Controllers
             EmailMessage emailMessage = new EmailMessage();
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
-                new EmailAddress{Name = "Test Administrative", Address = "tienda@autofinanciera.com.co"}
+                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
             };
             emailMessage.ToAddresses = new List<EmailAddress>()
             {
                 new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
-            };
-            emailMessage.Subject = "Cotización PDF Autofinanciera";
+            };            
 
             string src = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
-                emailMessage.Subject = "[ELECTROPLAN] Cotización PDF";
+                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Cotización plan de ahorro programado";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -352,7 +351,7 @@ namespace ContratoDigital.Controllers
             }
             else
             {
-                emailMessage.Subject = "[AUTOFINANCIERA] Cotización PDF";
+                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Cotización plan de ahorro programado";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -373,7 +372,7 @@ namespace ContratoDigital.Controllers
             emailMessage.Content = String.Format(Utilities.GetTemplate(src));
             try
             {
-                emailService.Send(emailMessage, stream);
+                emailService.Send(emailMessage, stream, Constants.CotizacionPDF);
                 TempData["EmailResult"] = "Success";
             }
             catch (Exception ex)
@@ -385,5 +384,7 @@ namespace ContratoDigital.Controllers
             return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
 
         }
+
+        
     }
 }
