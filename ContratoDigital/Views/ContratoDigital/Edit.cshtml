@@ -3,6 +3,10 @@
 
     ViewData["Title"] = "Contrato Digital";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var tipoidentidad = (IQueryable<Estado>)ViewData["TipoIdentidad"];
+    var sexo = (IQueryable<Estado>)ViewData["Sexo"];
+    var estadoCivil = (IQueryable<Estado>)ViewData["EstadoCivil"];
+    var departamento = (IQueryable<Estado>)ViewData["Departamento"];
 
 }
 
@@ -67,11 +71,19 @@
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
                             <label for="tipo_identificacion_suscriptor">Tipo de documento de identidad</label>
-                            <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor" required autocomplete="off" >
+                            <select class="form-control form-control-lg" id="tipo_identificacion_suscriptor" name="tipo_identificacion_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione una opción</option>
-                                @(Model.tipo_documento_identidad_suscriptor == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
-                                @(Model.tipo_documento_identidad_suscriptor == "2" ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
-                                @(Model.tipo_documento_identidad_suscriptor == "3" ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"3\">NIT</option>"))
+                                @foreach (var item in tipoidentidad)
+                                {
+                                    @if (Model.tipo_documento_identidad_suscriptor == item.IdEstado.ToString())
+                                    {
+                                        <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                }
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
@@ -101,11 +113,19 @@
                             <div class="form-row mt-4">
                                 <div class="col-12 col-md-4">
                                     <label for="tipo_documento_representante_legal">Tipo de documento representante legal</label>
-                                    <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal" autocomplete="off"  autocomplete="off" >
+                                    <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal" autocomplete="off" autocomplete="off">
                                         <option value="">Seleccione una opción</option>
-                                        @(Model.tipo_documento_representante_legal == "CC" ? Html.Raw("<option value=\"CC\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"CC\">CC</option>"))
-                                        @(Model.tipo_documento_representante_legal == "CC" ? Html.Raw("<option value=\"CE\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"CE\">CE</option>"))
-                                        @(Model.tipo_documento_representante_legal == "NIT" ? Html.Raw("<option value=\"NIT\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"NIT\">NIT</option>"))
+                                        @foreach (var item in tipoidentidad)
+                                        {
+                                            @if (Model.tipo_documento_representante_legal == item.IdEstado.ToString())
+                                            {
+                                                <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.IdEstado">@item.Descripcion</option>
+                                            }
+                                        }
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-4">
@@ -142,21 +162,36 @@
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="sexo_suscriptor">Sexo</label>
-                            <select class="form-control form-control-lg" id="sexo_suscriptor" name="sexo_suscriptor" required autocomplete="off" >
+                            <select class="form-control form-control-lg" id="sexo_suscriptor" name="sexo_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione una opción</option>
-                                @(Model.sexo_suscriptor == "femenino" ? Html.Raw("<option value=\"femenino\"  selected=\"selected\">Femenino</option>") : Html.Raw("<option value=\"femenino\">Femenino</option>"))
-                                @(Model.sexo_suscriptor == "masculino" ? Html.Raw("<option value=\"masculino\"  selected=\"selected\">Masculino</option>") : Html.Raw("<option value=\"masculino\">Masculino</option>"))
+                                @foreach (var item in sexo)
+                                {
+                                    @if (Model.sexo_suscriptor == item.IdEstado.ToString())
+                                    {
+                                        <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                }
                             </select>
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="estado_civil_suscriptor">Estado civil</label>
-                            <select class="form-control form-control-lg" id="estado_civil_suscriptor" name="estado_civil_suscriptor" required autocomplete="off" >
+                            <select class="form-control form-control-lg" id="estado_civil_suscriptor" name="estado_civil_suscriptor" required autocomplete="off">
                                 <option value="">Seleccione una opción</option>
-                                @(Model.estado_civil_suscriptor == "soltero" ? Html.Raw("<option value=\"soltero\"  selected=\"selected\">Soltero</option>") : Html.Raw("<option value=\"soltero\">Soltero</option>"))
-                                @(Model.estado_civil_suscriptor == "casado" ? Html.Raw("<option value=\"casado\"  selected=\"selected\">Casado</option>") : Html.Raw("<option value=\"casado\">Casado</option>"))
-                                @(Model.estado_civil_suscriptor == "ul" ? Html.Raw("<option value=\"ul\"  selected=\"selected\">Unión Marital</option>") : Html.Raw("<option value=\"ul\">Unión Marital</option>"))
-                                @(Model.estado_civil_suscriptor == "divorciado" ? Html.Raw("<option value=\"divorciado\"  selected=\"selected\">Divorciado</option>") : Html.Raw("<option value=\"divorciado\">Divorciado/option>"))
-                                @(Model.estado_civil_suscriptor == "viudo" ? Html.Raw("<option value=\"viudo\"  selected=\"selected\">Viudo</option>") : Html.Raw("<option value=\"viudo\">Viudo</option>"))
+                                @foreach (var item in estadoCivil)
+                                {
+                                    @if (Model.estado_civil_suscriptor == item.IdEstado.ToString())
+                                    {
+                                        <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                }
                             </select>
                         </div>
                     </div>
@@ -175,41 +210,19 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="departamento_suscriptor">Departamento</label>
-                            <select class="form-control form-control-lg" id="departamento_suscriptor" name="departamento_suscriptor" required autocomplete="off" >
-                                <option value="">Seleccione un departamento</option>
-                                @(Model.departamento_suscriptor == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
-                                @(Model.departamento_suscriptor == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
-                                @(Model.departamento_suscriptor == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
-                                @(Model.departamento_suscriptor == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
-                                @(Model.departamento_suscriptor == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
-                                @(Model.departamento_suscriptor == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
-                                @(Model.departamento_suscriptor == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
-                                @(Model.departamento_suscriptor == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
-                                @(Model.departamento_suscriptor == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
-                                @(Model.departamento_suscriptor == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))
-                                @(Model.departamento_suscriptor == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))
-                                @(Model.departamento_suscriptor == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))
-                                @(Model.departamento_suscriptor == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))
-                                @(Model.departamento_suscriptor == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))
-                                @(Model.departamento_suscriptor == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))
-                                @(Model.departamento_suscriptor == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))
-                                @(Model.departamento_suscriptor == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))
-                                @(Model.departamento_suscriptor == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))
-                                @(Model.departamento_suscriptor == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))
-                                @(Model.departamento_suscriptor == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))
-                                @(Model.departamento_suscriptor == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))
-                                @(Model.departamento_suscriptor == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))
-                                @(Model.departamento_suscriptor == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))
-                                @(Model.departamento_suscriptor == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))
-                                @(Model.departamento_suscriptor == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))
-                                @(Model.departamento_suscriptor == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))
-                                @(Model.departamento_suscriptor == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))
-                                @(Model.departamento_suscriptor == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))
-                                @(Model.departamento_suscriptor == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))
-                                @(Model.departamento_suscriptor == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))
-                                @(Model.departamento_suscriptor == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))
-                                @(Model.departamento_suscriptor == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))
-                                @(Model.departamento_suscriptor == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))
+                            <select class="form-control form-control-lg" id="departamento_suscriptor" name="departamento_suscriptor" required autocomplete="off">
+                                <option value="">Seleccione una opción</option>
+                                @foreach (var item in departamento)
+                                {
+                                    @if (Model.departamento_suscriptor == item.IdEstado.ToString())
+                                    {
+                                        <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                }
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
@@ -292,41 +305,19 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="departamento_empleo_suscriptor">Departamento</label>
-                            <select class="form-control form-control-lg" id="departamento_empleo_suscriptor" name="departamento_empleo_suscriptor" required autocomplete="off" >
-                                <option value="">Seleccione un departamento</option>
-                                @(Model.departamento_empleo_suscriptor == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
-                                @(Model.departamento_empleo_suscriptor == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
-                                @(Model.departamento_empleo_suscriptor == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
-                                @(Model.departamento_empleo_suscriptor == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
-                                @(Model.departamento_empleo_suscriptor == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
-                                @(Model.departamento_empleo_suscriptor == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
-                                @(Model.departamento_empleo_suscriptor == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
-                                @(Model.departamento_empleo_suscriptor == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
-                                @(Model.departamento_empleo_suscriptor == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
-                                @(Model.departamento_empleo_suscriptor == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))
-                                @(Model.departamento_empleo_suscriptor == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))
-                                @(Model.departamento_empleo_suscriptor == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))
-                                @(Model.departamento_empleo_suscriptor == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))
-                                @(Model.departamento_empleo_suscriptor == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))
-                                @(Model.departamento_empleo_suscriptor == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))
-                                @(Model.departamento_empleo_suscriptor == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))
-                                @(Model.departamento_empleo_suscriptor == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))
-                                @(Model.departamento_empleo_suscriptor == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))
-                                @(Model.departamento_empleo_suscriptor == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))
-                                @(Model.departamento_empleo_suscriptor == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))
-                                @(Model.departamento_empleo_suscriptor == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))
-                                @(Model.departamento_empleo_suscriptor == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))
-                                @(Model.departamento_empleo_suscriptor == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))
-                                @(Model.departamento_empleo_suscriptor == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))
-                                @(Model.departamento_empleo_suscriptor == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))
-                                @(Model.departamento_empleo_suscriptor == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))
-                                @(Model.departamento_empleo_suscriptor == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))
-                                @(Model.departamento_empleo_suscriptor == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))
-                                @(Model.departamento_empleo_suscriptor == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))
-                                @(Model.departamento_empleo_suscriptor == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))
-                                @(Model.departamento_empleo_suscriptor == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))
-                                @(Model.departamento_empleo_suscriptor == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))
-                                @(Model.departamento_empleo_suscriptor == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))
+                            <select class="form-control form-control-lg" id="departamento_empleo_suscriptor" name="departamento_empleo_suscriptor" required autocomplete="off">
+                                <option value="">Seleccione una opción</option>
+                                @foreach (var item in departamento)
+                                {
+                                    @if (Model.departamento_empleo_suscriptor == item.IdEstado.ToString())
+                                    {
+                                        <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                }
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
@@ -395,11 +386,19 @@
                         <div class="form-row mt-4">
                             <div class="col-12 col-md-4">
                                 <label for="tipo_identidad_suscriptor_conjunto">Tipo de documento de identidad</label>
-                                <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto" name="tipo_identidad_suscriptor_conjunto" autocomplete="off" >
+                                <select class="form-control form-control-lg" id="tipo_identidad_suscriptor_conjunto" name="tipo_identidad_suscriptor_conjunto" autocomplete="off">
                                     <option value="">Seleccione una opción</option>
-                                    @(Model.tipo_identidad_suscriptor_conjunto == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"1\">CC</option>"))
-                                    @(Model.tipo_identidad_suscriptor_conjunto == "2" ? Html.Raw("<option value=\"2\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"2\">CE</option>"))
-                                    @(Model.tipo_identidad_suscriptor_conjunto == "3" ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"3\">NIT</option>"))
+                                    @foreach (var item in tipoidentidad)
+                                    {
+                                        @if (Model.tipo_identidad_suscriptor_conjunto == item.IdEstado.ToString())
+                                        {
+                                            <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                    }                                    
                                 </select>
                             </div>
                             <div class="col-12 col-md-4">
@@ -431,11 +430,19 @@
                                 <div class="form-row mt-4">
                                     <div class="col-12 col-md-4">
                                         <label for="tipo_identidad_representante_legal_suscriptor_conjunto">Tipo de documento de identidad</label>
-                                        <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" autocomplete="off" >
+                                        <select id="tipo_identidad_representante_legal_suscriptor_conjunto" name="tipo_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" autocomplete="off">
                                             <option value="">Seleccione una opción</option>
-                                            @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "1" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CC</option>") : Html.Raw("<option value=\"CC\">CC</option>"))
-                                            @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "2" ? Html.Raw("<option value=\"1\"  selected=\"selected\">CE</option>") : Html.Raw("<option value=\"CE\">CE</option>"))
-                                            @(Model.tipo_identidad_representante_legal_suscriptor_conjunto == "3" ? Html.Raw("<option value=\"3\"  selected=\"selected\">NIT</option>") : Html.Raw("<option value=\"NIT\">NIT</option>"))
+                                            @foreach (var item in tipoidentidad)
+                                            {
+                                                @if (Model.tipo_identidad_representante_legal_suscriptor_conjunto == item.IdEstado.ToString())
+                                                {
+                                                    <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.IdEstado">@item.Descripcion</option>
+                                                }
+                                            }                                            
                                         </select>
                                     </div>
                                     <div class="col-12 col-md-4">
@@ -466,21 +473,36 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="sexo_suscriptor_conjunto">Sexo</label>
-                                <select class="form-control form-control-lg" id="sexo_suscriptor_conjunto" name="sexo_suscriptor_conjunto" autocomplete="off" >
+                                <select class="form-control form-control-lg" id="sexo_suscriptor_conjunto" name="sexo_suscriptor_conjunto" autocomplete="off">
                                     <option value="">Seleccione una opción</option>
-                                    @(Model.sexo_suscriptor_conjunto == "femenino" ? Html.Raw("<option value=\"femenino\"  selected=\"selected\">Femenino</option>") : Html.Raw("<option value=\"femenino\">Femenino</option>"))
-                                    @(Model.sexo_suscriptor_conjunto == "masculino" ? Html.Raw("<option value=\"masculino\"  selected=\"selected\">Masculino</option>") : Html.Raw("<option value=\"masculino\">Masculino</option>"))
+                                    @foreach (var item in sexo)
+                                    {
+                                        @if (Model.sexo_suscriptor_conjunto == item.IdEstado.ToString())
+                                        {
+                                            <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="estado_civil_suscriptor_conjunto">Estado civil</label>
-                                <select class="form-control form-control-lg" id="estado_civil_suscriptor_conjunto" name="estado_civil_suscriptor_conjunto" autocomplete="off" >
+                                <select class="form-control form-control-lg" id="estado_civil_suscriptor_conjunto" name="estado_civil_suscriptor_conjunto" autocomplete="off">
                                     <option value="">Seleccione una opción</option>
-                                    @(Model.estado_civil_suscriptor_conjunto == "soltero" ? Html.Raw("<option value=\"soltero\"  selected=\"selected\">Soltero</option>") : Html.Raw("<option value=\"soltero\">Soltero</option>"))
-                                    @(Model.estado_civil_suscriptor_conjunto == "casado" ? Html.Raw("<option value=\"casado\"  selected=\"selected\">Casado</option>") : Html.Raw("<option value=\"casado\">Casado</option>"))
-                                    @(Model.estado_civil_suscriptor_conjunto == "ul" ? Html.Raw("<option value=\"ul\"  selected=\"selected\">Unión Marital</option>") : Html.Raw("<option value=\"ul\">Unión Marital</option>"))
-                                    @(Model.estado_civil_suscriptor_conjunto == "divorciado" ? Html.Raw("<option value=\"divorciado\"  selected=\"selected\">Divorciado</option>") : Html.Raw("<option value=\"divorciado\">Divorciado/option>"))
-                                    @(Model.estado_civil_suscriptor_conjunto == "viudo" ? Html.Raw("<option value=\"viudo\"  selected=\"selected\">Viudo</option>") : Html.Raw("<option value=\"viudo\">Viudo</option>"))
+                                    @foreach (var item in estadoCivil)
+                                    {
+                                        @if (Model.estado_civil_suscriptor_conjunto == item.IdEstado.ToString())
+                                        {
+                                            <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                    }                                    
                                 </select>
                             </div>
                         </div>
@@ -493,40 +515,19 @@
                         <div class="form-row mt-4">
                             <div class="col-12 col-md-4">
                                 <label for="departamento_suscriptor_conjunto">Departamento</label>
-                                <select class="form-control form-control-lg" id="departamento_suscriptor_conjunto" name="departamento_suscriptor_conjunto" autocomplete="off" >
-                                    @(Model.departamento_suscriptor_conjunto == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))
-                                    @(Model.departamento_suscriptor_conjunto == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))
+                                <select class="form-control form-control-lg" id="departamento_suscriptor_conjunto" name="departamento_suscriptor_conjunto" autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                    @foreach (var item in departamento)
+                                    {
+                                        @if (Model.departamento_suscriptor_conjunto == item.IdEstado.ToString())
+                                        {
+                                            <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                             <div class="col-12 col-md-4">
@@ -596,40 +597,19 @@
                         <div class="form-row mt-4">
                             <div class="col-12 col-md-6">
                                 <label for="departamento_empleo_suscriptor_conjunto">Departamento</label>
-                                <select class="form-control form-control-lg" id="departamento_empleo_suscriptor_conjunto" name="departamento_empleo_suscriptor_conjunto" autocomplete="off" >
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "amazonas" ? Html.Raw("<option value=\"amazonas\"  selected=\"selected\">Amazonas</option>") : Html.Raw("<option value=\"amazonas\">Amazonas</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "antioquia" ? Html.Raw("<option value=\"antioquia\"  selected=\"selected\">Antioquia</option>") : Html.Raw("<option value=\"antioquia\">Antioquia</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "arauca" ? Html.Raw("<option value=\"arauca\"  selected=\"selected\">Arauca</option>") : Html.Raw("<option value=\"arauca\">Arauca</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "atlantico" ? Html.Raw("<option value=\"atlantico\"  selected=\"selected\">Atlántico</option>") : Html.Raw("<option value=\"atlantico\">Atlántico</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "bogota" ? Html.Raw("<option value=\"bogota\"  selected=\"selected\">Bogotá</option>") : Html.Raw("<option value=\"bogota\">Bogotá</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "bolivar" ? Html.Raw("<option value=\"bolivar\"  selected=\"selected\">Bolívar</option>") : Html.Raw("<option value=\"bolivar\">Bolívar</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "boyaca" ? Html.Raw("<option value=\"boyaca\"  selected=\"selected\">Boyacá</option>") : Html.Raw("<option value=\"boyaca\">Boyacá</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "caldas" ? Html.Raw("<option value=\"caldas\"  selected=\"selected\">Caldas</option>") : Html.Raw("<option value=\"caldas\">Caldas</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "caqueta" ? Html.Raw("<option value=\"caqueta\"  selected=\"selected\">Caquetá</option>") : Html.Raw("<option value=\"caqueta\">Caquetá</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "casanare" ? Html.Raw("<option value=\"casanare\"  selected=\"selected\">Casanare</option>") : Html.Raw("<option value=\"$\">Casanare</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "cauca" ? Html.Raw("<option value=\"cauca\"  selected=\"selected\">Cauca</option>") : Html.Raw("<option value=\"$\">Cauca</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "cesar" ? Html.Raw("<option value=\"cesar\"  selected=\"selected\">Cesar</option>") : Html.Raw("<option value=\"$\">Cesar</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "choco" ? Html.Raw("<option value=\"choco\"  selected=\"selected\">Chocó</option>") : Html.Raw("<option value=\"$\">Chocó</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "cordoba" ? Html.Raw("<option value=\"cordoba\"  selected=\"selected\">Córdoba</option>") : Html.Raw("<option value=\"$\">Córdoba</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "cundinamarca" ? Html.Raw("<option value=\"cundinamarca\"  selected=\"selected\">Cundinamarca</option>") : Html.Raw("<option value=\"$\">Cundinamarca</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "guainia" ? Html.Raw("<option value=\"guainia\"  selected=\"selected\">Guainía</option>") : Html.Raw("<option value=\"$\">Guainía</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "guaviare" ? Html.Raw("<option value=\"guaviare\"  selected=\"selected\">Guaviare</option>") : Html.Raw("<option value=\"$\">Guaviare</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "huila" ? Html.Raw("<option value=\"huila\"  selected=\"selected\">Huila</option>") : Html.Raw("<option value=\"$\">Huila</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "la_guajira" ? Html.Raw("<option value=\"la_guajira\"  selected=\"selected\">la Guajira</option>") : Html.Raw("<option value=\"$\">La Guajira</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "magdalena" ? Html.Raw("<option value=\"magdalena\"  selected=\"selected\">Magdalena</option>") : Html.Raw("<option value=\"$\">Magdalena</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "meta" ? Html.Raw("<option value=\"meta\"  selected=\"selected\">Meta</option>") : Html.Raw("<option value=\"$\">Meta/option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "narino" ? Html.Raw("<option value=\"narino\"  selected=\"selected\">Nariño</option>") : Html.Raw("<option value=\"$\">Nariño</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "norte_de_satander" ? Html.Raw("<option value=\"norte_de_santander\"  selected=\"selected\">Norte de Santander</option>") : Html.Raw("<option value=\"$\">Norte de Santander</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "putumayo" ? Html.Raw("<option value=\"putumayo\"  selected=\"selected\">Putumayo</option>") : Html.Raw("<option value=\"$\">Putumayo</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "quindio" ? Html.Raw("<option value=\"quindio\"  selected=\"selected\">Quindío</option>") : Html.Raw("<option value=\"$\">Quindío</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "risaralda" ? Html.Raw("<option value=\"risaralda\"  selected=\"selected\">Risaralda</option>") : Html.Raw("<option value=\"$\">Risaralda</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "san_andres_y_providencia" ? Html.Raw("<option value=\"san_andres_y_providencia\"  selected=\"selected\">San Andrés y Providencia</option>") : Html.Raw("<option value=\"san_andres_y_providencia\">San Andrés y Providencia</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "santander" ? Html.Raw("<option value=\"santander\"  selected=\"selected\">Santander</option>") : Html.Raw("<option value=\"santander\">Santander</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "sucre" ? Html.Raw("<option value=\"sucre\"  selected=\"selected\">Sucre</option>") : Html.Raw("<option value=\"sucre\">Sucre</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "tolima" ? Html.Raw("<option value=\"tolima\"  selected=\"selected\">Tolima</option>") : Html.Raw("<option value=\"tolima\">Tolima</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "valle_del_cauca" ? Html.Raw("<option value=\"valle_del_Cauca\"  selected=\"selected\">Valle del Cauca</option>") : Html.Raw("<option value=\"valle_del_cauca\">Valle del Cauca</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "vaupes" ? Html.Raw("<option value=\"vaupes\"  selected=\"selected\">Vaupés</option>") : Html.Raw("<option value=\"vaupes\">Vaupés</option>"))
-                                    @(Model.departamento_empleo_suscriptor_conjunto == "vichada" ? Html.Raw("<option value=\"vichada\"  selected=\"selected\">vichada</option>") : Html.Raw("<option value=\"vichada\">Vichada</option>"))
+                                <select class="form-control form-control-lg" id="departamento_empleo_suscriptor_conjunto" name="departamento_empleo_suscriptor_conjunto" autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                    @foreach (var item in departamento)
+                                    {
+                                        @if (Model.departamento_empleo_suscriptor_conjunto == item.IdEstado.ToString())
+                                        {
+                                            <option selected="selected" value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.IdEstado">@item.Descripcion</option>
+                                        }
+                                    }                                    
                                 </select>
                             </div>
                             <div class="col-12 col-md-6">
@@ -752,6 +732,43 @@
                             <input type="text" class="form-control form-control-lg plazo" id="plazo_bien" name="plazo_bien" readonly value="@Model.plazo_bien" />
                         </div>
 
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col-12 col-md-4">
+                            <label for="">Agencia</label>
+                            <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
+                                <option value="@Model.ConfirmacionContratos.Agencia">@Model.ConfirmacionContratos.DescripcionAgencia </option>
+                            </select>
+                            <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionContratos.DescripcionAgencia" />
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="">Tipo de medio</label>
+                            <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly>
+                                <option value="@Model.ConfirmacionContratos.TipoMedio">@Model.ConfirmacionContratos.DescripcionTipoMedio</option>
+                            </select>
+                            <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" value="@Model.ConfirmacionContratos.DescripcionTipoMedio" />
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="">Agencia Medio</label>
+                            <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly>
+                                <option value="@Model.ConfirmacionContratos.Medio">@Model.ConfirmacionContratos.DescripcionMedio</option>
+                            </select>
+                            <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" value="@Model.ConfirmacionContratos.DescripcionMedio" />
+                        </div>
+                        <div class="col-12 col-md-4">
+
+                            <label>Tipo de cliente</label>
+                            <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente">
+                                <option value="@Model.ConfirmacionContratos.TipoCliente">@Model.ConfirmacionContratos.DescripcionTipoCliente</option>
+                                <option>Seleccione una opcíon</option>
+                                <option value="0">Nuevo cliente</option>
+                                <option value="1">Cliente antiguo</option>
+                                <option value="2">Persona jurídicia</option>
+                            </select>
+                            <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionContratos.DescripcionTipoCliente" />
+
+                        </div>
                     </div>
 
 
