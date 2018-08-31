@@ -11,7 +11,7 @@
             <div class="col-12">
                 <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
                     <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
-                        Detalle de contrato De ahora
+                        Detalle de contrato @Model.numero_de_contrato
                     </h1>
                 </div>
             </div>
@@ -19,31 +19,31 @@
         <div class="row justify-content-center">
             <!-- Begin -->
             <div class="col-12 col-md-8 error-area">
-                @if (ViewData["Status"]!=null)
+                @if (ViewData["Status"] != null)
                 {
                     @*if ((string)ViewData["EmailResult"] == "Success")
-                    {
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>¡El correo ha sido envíado exitosamente!</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>¡Ha Ocurrido un error! : @ViewData["EmailResult"]</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }*@
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>¡El correo ha sido envíado exitosamente!</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>¡Ha Ocurrido un error! : @ViewData["EmailResult"]</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }*@
 
 
                 }
 
-                
+
             </div>
 
             <div class="col-12 col-md-8">
@@ -111,8 +111,8 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">               
-                
+            <div class="col-12 col-md-8">
+
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -132,21 +132,7 @@
                             Documento Identidad
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @switch (Model.tipo_documento_identidad_suscriptor)
-                            {
-                                case "1":
-                                    Write("CC - " + Model.documento_identidad_suscriptor);
-                                    break;
-                                case "2":
-                                    Write("CE -" + Model.documento_identidad_suscriptor);
-                                    break;
-                                case "3":
-                                    Write("NIT -" + Model.documento_identidad_suscriptor);
-                                    break;
-                                default:
-                                    Write("CC -" + Model.documento_identidad_suscriptor);
-                                    break;
-                            }
+                            @ViewData["TipoIdentificacionSuscriptor"] - @Model.documento_identidad_suscriptor
                         </div>
                     </div>
                 </div>
@@ -154,37 +140,12 @@
                 {
                     <div class="polymer-box">
                         <div class="row">
-                            <div class="col-12 col-md-4 font-weight-bold">
-                                Anverso del documento de identidad
-                            </div>
-                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @if (!String.IsNullOrEmpty(Model.DocumentoIdentidad.Anverso))
-                                {
-                                    <img src="data:image/png;base64, @Model.DocumentoIdentidad.Anverso" alt="Anverso del documento de identidad" class="img-fluid" />
-                                }
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="polymer-box">
-                        <div class="row">
-                            <div class="col-12 col-md-4 font-weight-bold">
-                                Reverso del documento de identidad
-                            </div>
-                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @if (!String.IsNullOrEmpty(Model.DocumentoIdentidad.Reverso))
-                                {
-                                <img src="data:image/png;base64, @Model.DocumentoIdentidad.Reverso" alt="Reverso del documento de identidad" class="img-fluid" />
-                                }
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="polymer-box">
-                        <div class="row">
                             <div class="col-12 text-center">
-                                <a href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Actualizar documento</a>                                
+                                <a href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Actualizar documento</a>
                                 <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar actualización de documento</a>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentoModal" data-fetched="false" data-idcontrato="@Model.IdContrato" id="showDocs">
+                                    Ver documentos
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -202,6 +163,34 @@
                     </div>
 
                 }
+                <section>
+                    <!-- Modal -->
+                    <div class="modal fade" id="documentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Documento identidad - @Model.documento_identidad_suscriptor </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <section class="DocumentoModal">
+                                        <div class="polymer-box">
+                                            <h5>Anverso</h5>
+                                            <div class="AnversoDocumento"></div>
+                                        </div>
+                                        <div class="polymer-box">
+                                            <h5>Reverso</h5>
+                                            <div class="ReversoDocumento"></div>
+                                        </div>
+                                    </section>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <div class="col-12 col-md-8">
@@ -291,7 +280,7 @@
                             Sexo
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @Model.sexo_suscriptor
+                            @ViewData["SexoSuscriptor"]
                         </div>
                     </div>
                 </div>
@@ -304,7 +293,7 @@
                             Estado civil
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @Model.estado_civil_suscriptor
+                            @ViewData["EstadoCivilSuscriptor"]
                         </div>
                     </div>
                 </div>
@@ -330,7 +319,7 @@
                             Ciudad, Departamento, País
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @(Model.ciudad_suscriptor + ", " + Model.departamento_suscriptor + ", " + Model.pais_suscriptor)
+                            @(Model.ciudad_suscriptor + ", " + ViewData["DepartamentoSuscriptor"] + ", " + Model.pais_suscriptor)
                         </div>
                     </div>
                 </div>
@@ -500,7 +489,7 @@
                                 Documento identidad
                             </div>
                             <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @(Model.tipo_identidad_suscriptor_conjunto + " - " + Model.documento_identidad_suscriptor_conjunto)
+                                @(ViewData["TipoIdentificacionSuscriptorConjunto"] + " - " + Model.documento_identidad_suscriptor_conjunto)
                             </div>
                         </div>
                     </div>
@@ -536,7 +525,7 @@
                                     Documento de identidad
                                 </div>
                                 <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                    @(Model.tipo_identidad_representante_legal_suscriptor_conjunto + " - " + Model.documento_identidad_representante_legal_suscriptor_conjunto)
+                                    @(ViewData["TipoIdentificacionLegalConjunto"] + " - " + Model.documento_identidad_representante_legal_suscriptor_conjunto)
                                 </div>
                             </div>
                             <div class="row">
@@ -584,7 +573,7 @@
                                 Sexo
                             </div>
                             <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @Model.sexo_suscriptor_conjunto
+                                @ViewData["SexoSuscriptorConjunto"]
                             </div>
                         </div>
                     </div>
@@ -597,7 +586,7 @@
                                 Estado civil
                             </div>
                             <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @Model.estado_civil_suscriptor_conjunto
+                                @ViewData["EstadoCivilSuscriptorConjunto"]
                             </div>
                         </div>
                     </div>
@@ -623,7 +612,7 @@
                                 Ciudad, Departamento, País
                             </div>
                             <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @(Model.ciudad_suscriptor_conjunto + ", " + Model.departamento_suscriptor_conjunto + ", " + Model.pais_suscriptor_conjunto)
+                                @(Model.ciudad_suscriptor_conjunto + ", " + ViewData["DepartamentoSuscriptorConjunto"] + ", " + Model.pais_suscriptor_conjunto)
                             </div>
                         </div>
                     </div>
@@ -767,6 +756,59 @@
 
             }
 
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Agencia
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.ConfirmacionContratos.DescripcionAgencia
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Tipo Medio
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.ConfirmacionContratos.DescripcionTipoMedio
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Tipo medio agencia
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.ConfirmacionContratos.DescripcionMedio
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">
+                            Tipo de cliente
+                        </div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @Model.ConfirmacionContratos.DescripcionTipoCliente
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-12 col-md-8 mt-4">
                 <div class="polymer-box">
                     <h3 class="text-center">Características del bien</h3>
@@ -785,7 +827,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
                     <div class="row">
@@ -876,7 +918,7 @@
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @Model.porcentaje_administracion %
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
@@ -1050,6 +1092,9 @@
                             <li class="nav-item ">
                                 <a class="nav-link" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar pago por correo</a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="@Url.Action("RegisterSiicon", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-sync-alt"></i> Registrar en SIICON</a>
+                            </li>
 
 
                         </ul>
@@ -1057,6 +1102,15 @@
                     </div>
                 </nav>
                
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @ViewData["ResultWS"]
+                    </div>
+                </div>
             </div>
         </div>
     </div>
