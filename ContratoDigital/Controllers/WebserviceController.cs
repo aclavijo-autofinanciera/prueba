@@ -84,6 +84,7 @@ namespace ContratoDigital.Controllers
         }
 
         [HttpGet("GenerarReferenciaPago/{compania}/{documento}/{valorPagar}/{contratoTiendaID}")]
+        [Route("/api/Freyja/GenerarReferenciaPago")]
         public async Task<ActionResult<string>> GenerarReferenciaPago(string compania, string documento, double valorPagar, int contratoTiendaID)
         {            
             try
@@ -96,6 +97,47 @@ namespace ContratoDigital.Controllers
                 throw;
             }
             
+        }
+
+        [HttpGet("GetAsesorId/{cedula}")]
+        [Route("api/Freyja/GetAsesorId")]
+        public async Task<ActionResult<string>> GetAsesorId(string cedula)
+        {
+            long.TryParse(s: cedula, result: out long documento);
+            return await service.SelecccionarAsesorAsync(documento);
+        }
+
+        [HttpGet("GetSiiconUserId/{cedula}")]
+        [Route("api/Freyja/GetSiiconUserId")]
+        public async Task<ActionResult<string>> GetSiiconUserId(string cedula)
+        {
+            return await service.SelecccionarTerceroAsync(cedula);
+        }
+
+        [HttpGet("GetTipoMedio")]
+        [Route("api/Freyja/GetTipoMedio")]
+        public async Task<ActionResult<string>> GetTipoMedio()
+        {
+            return await service.SelecccionarTiposMediosAsync();
+        }
+
+        [HttpGet("GetMedioAgencia/{compania}/{tipoMedioId}/{codAgencia}")]
+        [Route("api/Freyja/GetMedioAgencia")]
+        public async Task<ActionResult<string>> GetMedioAgencia(string compania, int tipoMedioId, int codAgencia)
+        {
+            return await service.SelecccionarMediosAgenciaAsync(compania, tipoMedioId, codAgencia);
+        }
+        
+        public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
+        {
+
+            return await service.CrearPersonaAsync(persona.TipoPersonaId, persona.TipoIdentificacionRepreLegalId,persona.NumeroIdentificacionRepreLegal,
+                persona.CiudadConstitucionId, persona.FechaConstitucion, persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido, persona.SegundoApellido,
+                persona.RazonSocial, persona.TipoDocumentoIdentidadId, persona.NumeroDocumento, persona.DigitoVerificacion, persona.CiudadExpedicionId, persona.FechaNacimiento,
+                persona.CiudadNacimientoId, persona.SexoId, persona.EstadoCivilId, persona.Email, persona.DireccionNotifiacion, persona.BarrioNotifiacion, persona.TelefonoNotifiacion,
+                persona.CelularNotificacion, persona.DepartamentoNotificacionId, persona.CiudadNotificacionId, persona.EmpresaLabora, persona.CargoLabora,
+                persona.DireccionLabora,persona.BarrioLabora, persona.TelefonoLabora, persona.CelularOficina, persona.DepartamentoLaboraId, persona.CiudadLaboraId,
+                persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId);
         }
 
         /// <summary>
@@ -130,6 +172,31 @@ namespace ContratoDigital.Controllers
             
         }
 
+        /// <summary>
+        /// Devuelve los base 64 con el reverso y el anverso de la cédula.
+        /// </summary>
+        /// <param name="idContrato">El Id del contrato</param>
+        /// <returns>Un modelo de clase documentode identidad.</returns>
+        [HttpGet("GetDocumentoIdentidad/{idContrato}")]
+        [Route("api/Freyja/GetDocumentoIdentidad")]
+        public ActionResult<DocumentoIdentidad> GetDocumentoIdentidad(int idContrato)
+        {
+            try
+            {
+                DocumentoIdentidad documento = new DocumentoIdentidad();
+                DocumentoIdentidad documentoDummy = _context.DocumentoIdentidad.SingleOrDefault(x => x.IdContrato == idContrato);
+                documento.Anverso = documentoDummy.Anverso;
+                documento.Reverso = documentoDummy.Reverso;
+                documento.FechaAdjunto = documentoDummy.FechaAdjunto;
+                return documento;
+            }
+            catch (Exception)
+            {                
+                throw;
+            }
+        }
+
+        
 
     }
 }
