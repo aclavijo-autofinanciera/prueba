@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
+using ContratoDigital.Data;
 using ContratoDigital.Models;
 using iText.Barcodes;
 using iText.Forms;
@@ -25,8 +26,8 @@ namespace ContratoDigital
     /// Métodos utilitarios iterativos. 
     /// </summary>
     static public class Utilities
-    {       
-        
+    {
+
         /// <summary>
         /// Asigna todos los valores de la clase contrato a un PDF.
         /// </summary>
@@ -46,7 +47,7 @@ namespace ContratoDigital
 
             // Tipo de documento de identidad
             fields.TryGetValue("tipo_documento_identidad_suscriptor", out toSet);
-            switch(contrato.tipo_documento_identidad_suscriptor)
+            switch (contrato.tipo_documento_identidad_suscriptor)
             {
                 case "1":
                     toSet.SetValue("CC");
@@ -58,7 +59,7 @@ namespace ContratoDigital
                     toSet.SetValue("NIT");
                     break;
             }
-            
+
 
             // Número de documento de identidad
             fields.TryGetValue("documento_identidad_suscriptor", out toSet);
@@ -68,8 +69,8 @@ namespace ContratoDigital
             fields.TryGetValue("procedencia_documento_identidad_suscriptor", out toSet);
             toSet.SetValue(contrato.procedencia_documento_identidad_suscriptor.ToUpper());
 
-            if(contrato.documento_identidad_representante_legal>0)
-            {            
+            if (contrato.documento_identidad_representante_legal > 0)
+            {
                 // Nombre representante Legal
                 fields.TryGetValue("nombre_razon_social_representante_legal", out toSet);
                 toSet.SetValue(contrato.nombre_razon_social_representante_legal.ToUpper());
@@ -175,11 +176,11 @@ namespace ContratoDigital
             // Envío correspondencia
             fields.TryGetValue("envio_correspondencia_suscriptor", out toSet);
             //contrato.envio_correspondencia_suscriptor == "email" ?  :;
-            toSet.SetValue(contrato.envio_correspondencia_suscriptor == "email" ? "email" :contrato.envio_correspondencia_suscriptor);
+            toSet.SetValue(contrato.envio_correspondencia_suscriptor == "email" ? "email" : contrato.envio_correspondencia_suscriptor);
 
             // Email
             fields.TryGetValue("email_suscriptor", out toSet);
-            if(contrato.envio_correspondencia_suscriptor == "email")
+            if (contrato.envio_correspondencia_suscriptor == "email")
             {
                 toSet.SetValue(contrato.email_suscriptor.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
             }
@@ -187,9 +188,9 @@ namespace ContratoDigital
             {
                 toSet.SetValue(contrato.email_suscriptor.ToUpper());
             }
-            
 
-            if(contrato.documento_identidad_suscriptor_conjunto>0)
+
+            if (contrato.documento_identidad_suscriptor_conjunto > 0)
             {
                 // Suscriptor Conjunto
                 // Nombre suscriptor conjunto
@@ -220,14 +221,14 @@ namespace ContratoDigital
                 fields.TryGetValue("procedencia_documento_identidad_suscriptor_conjunto", out toSet);
                 toSet.SetValue(contrato.procedencia_documento_identidad_suscriptor.ToUpper());
 
-                if(contrato.documento_identidad_representante_legal_suscriptor_conjunto>0)
+                if (contrato.documento_identidad_representante_legal_suscriptor_conjunto > 0)
                 {
                     // Nombre representante legal de suscriptor conjunto
                     fields.TryGetValue("representante_legal_suscriptor_conjunto", out toSet);
                     toSet.SetValue(contrato.representante_legal_suscriptor_conjunto.ToUpper());
 
                     // Tipo de documento representante legal suscritpr conjunto 
-                    fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);                    
+                    fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);
                     switch (contrato.tipo_identidad_representante_legal_suscriptor_conjunto)
                     {
                         case "1":
@@ -341,7 +342,7 @@ namespace ContratoDigital
                 //toSet.SetValue(contrato.envio_correspondencia_suscriptor.ToUpper());
 
                 // Email Suscriptor Conjunto
-                fields.TryGetValue("email_suscriptor_conjunto", out toSet);                
+                fields.TryGetValue("email_suscriptor_conjunto", out toSet);
                 if (contrato.correspondencia_suscriptor_conjunto == "email")
                 {
                     toSet.SetValue(contrato.email_suscriptor_conjunto.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
@@ -357,7 +358,7 @@ namespace ContratoDigital
             // Tipo de bien
             fields.TryGetValue("tipo_de_bien", out toSet);
             //toSet.SetValue(contrato.tipo_de_bien);
-            if(contrato.id_tipo_de_bien == 1)
+            if (contrato.id_tipo_de_bien == 1)
             {
                 toSet.SetValue("motocicleta");
             }
@@ -388,17 +389,17 @@ namespace ContratoDigital
 
             // Plazo
             fields.TryGetValue("plazo", out toSet);
-            if(contrato.plazo_bien.Equals("40"))
+            if (contrato.plazo_bien.Equals("40"))
             {
                 toSet.SetValue("40");
             }
-            else if(contrato.plazo_bien.Equals("60"))
+            else if (contrato.plazo_bien.Equals("60"))
             {
                 toSet.SetValue("60");
             }
-            else if(contrato.plazo_bien.Equals("72"))
+            else if (contrato.plazo_bien.Equals("72"))
             {
-                if(contrato.valor_bien < 25000000)
+                if (contrato.valor_bien < 25000000)
                 {
                     toSet.SetValue("72");
                 }
@@ -407,13 +408,13 @@ namespace ContratoDigital
                     toSet.SetValue("53-72");
                 }
             }
-            else if(contrato.plazo_bien.Equals("78"))
+            else if (contrato.plazo_bien.Equals("78"))
             {
-                if(contrato.valor_bien< 33000000)
+                if (contrato.valor_bien < 33000000)
                 {
                     toSet.SetValue("78");
                 }
-                else if(contrato.valor_bien>33000000 && contrato.valor_bien<45000000)
+                else if (contrato.valor_bien > 33000000 && contrato.valor_bien < 45000000)
                 {
                     toSet.SetValue("25-78");
                 }
@@ -427,7 +428,7 @@ namespace ContratoDigital
                 toSet.SetValue("25-90");
             }
 
-            
+
 
             // cuota ingreso
             fields.TryGetValue("cuota_ingreso", out toSet);
@@ -464,15 +465,15 @@ namespace ContratoDigital
             // Porcentaje inscripcion
             fields.TryGetValue("porcentaje_cuota_ingreso", out toSet);
             toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_cuota_ingreso));
-            
+
             // Porcentaje IVA Cuota ingreso
             fields.TryGetValue("porcentaje_iva_cuota_ingreso", out toSet);
             toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_iva));
-            
+
             // Porcentaje administracion
             fields.TryGetValue("porcentaje_administracion", out toSet);
             toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_administracion));
-            
+
             // Porcentaje IVA administracion
             fields.TryGetValue("porcentaje_iva_administracion", out toSet);
             toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_iva));
@@ -537,24 +538,24 @@ namespace ContratoDigital
             fields.TryGetValue("ValorBien", out toSet);
             toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.ValorDelBien));
 
-           /* fields.TryGetValue("PorcentajeInscripcion", out toSet);
-            toSet.SetValue(prospecto.PorcentajeInscripcion.ToString().ToUpper());
+            /* fields.TryGetValue("PorcentajeInscripcion", out toSet);
+             toSet.SetValue(prospecto.PorcentajeInscripcion.ToString().ToUpper());
 
-            fields.TryGetValue("PorcentajeAdministracion", out toSet);
-            toSet.SetValue(prospecto.PorcentajeAdministracion.ToString().ToUpper());
+             fields.TryGetValue("PorcentajeAdministracion", out toSet);
+             toSet.SetValue(prospecto.PorcentajeAdministracion.ToString().ToUpper());
 
-            fields.TryGetValue("IVA", out toSet);
-            toSet.SetValue(prospecto.PorcentajeIva.ToString().ToUpper());
+             fields.TryGetValue("IVA", out toSet);
+             toSet.SetValue(prospecto.PorcentajeIva.ToString().ToUpper());
 
-            fields.TryGetValue("Plazo", out toSet);
-            toSet.SetValue(prospecto.Plazo.ToString().ToUpper());
+             fields.TryGetValue("Plazo", out toSet);
+             toSet.SetValue(prospecto.Plazo.ToString().ToUpper());
 
-            fields.TryGetValue("TipoBien", out toSet);
-            toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());*/
+             fields.TryGetValue("TipoBien", out toSet);
+             toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());*/
 
             fields.TryGetValue("CuotaIngreso", out toSet);
             toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.CuotaDeIngreso));
-            
+
             fields.TryGetValue("IvaIngreso", out toSet);
             toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.IvaCuotaIngreso));
 
@@ -702,7 +703,7 @@ namespace ContratoDigital
 
             contrato.id_compania = form["idcompania"];
             contrato.compania = form["compania"];
-            int.TryParse(s:form["tipodeBien"],result: out int id_tipo_bien);
+            int.TryParse(s: form["tipodeBien"], result: out int id_tipo_bien);
             contrato.id_tipo_de_bien = id_tipo_bien;
             contrato.tipo_de_bien = form["descripcionTipoBien"];
             int.TryParse(s: form["marca"], result: out int id_marca);
@@ -712,23 +713,23 @@ namespace ContratoDigital
             contrato.descripcion_bien = form["detalles_bien"].ToString().ToUpper();
             contrato.codigo_bien = form["codigo_bien"].ToString().ToUpper();
 
-            Double.TryParse(s:form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
+            Double.TryParse(s: form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
             contrato.porcentaje_administracion = porcentajeAdministracion;
 
-            Double.TryParse(s:form["porcentajeInscripcion"], result: out double porcentajeInscripcion);
+            Double.TryParse(s: form["porcentajeInscripcion"], result: out double porcentajeInscripcion);
             contrato.porcentaje_cuota_ingreso = porcentajeInscripcion;
 
-            Double.TryParse(s:form["porcentajeIva"], result: out double porcentajeIva);
+            Double.TryParse(s: form["porcentajeIva"], result: out double porcentajeIva);
             contrato.porcentaje_iva = porcentajeIva;
 
             Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
             contrato.valor_bien = valor_bien;
 
             //contrato.cuota_bien = contrato.detalles_bien.Contains("CUOTA FIJA") ? "FIJA" : "VARIABLE";
-            if(contrato.marca_exclusiva_bien.Contains("BAJAJ") || 
+            if (contrato.marca_exclusiva_bien.Contains("BAJAJ") ||
                 contrato.marca_exclusiva_bien.Contains("KAWASAKI") ||
-                contrato.marca_exclusiva_bien.Contains("KTM") || 
-                contrato.marca_exclusiva_bien.Contains("KYMCO")  || 
+                contrato.marca_exclusiva_bien.Contains("KTM") ||
+                contrato.marca_exclusiva_bien.Contains("KYMCO") ||
                 contrato.marca_exclusiva_bien.Contains("YAMAHA"))
             {
                 contrato.cuota_bien = "VARIABLE";
@@ -777,7 +778,7 @@ namespace ContratoDigital
         /// <param name="form">Los datos del formulario HTML capturados</param>
         /// <returns>una entidad de personas con todos los datos del contrato PDF</returns>
         static public Contrato UpdateContrato(IFormCollection form, Contrato contrato)
-        {            
+        {
             // Suscriptor
             contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
             contrato.primer_nombre = form["primer_nombre"].ToString().ToUpper();
@@ -995,13 +996,13 @@ namespace ContratoDigital
             int.TryParse(s: form["marca"], result: out int marcaExclusiva);
             prospecto.Id_marca = marcaExclusiva;
 
-            int.TryParse(s: form["planDeAhorro"], result:out int referencia);
+            int.TryParse(s: form["planDeAhorro"], result: out int referencia);
             prospecto.Referencia = referencia;
 
             prospecto.DescripcionDelBien = form["DescripcionDelBien"].ToString().ToUpper();
             prospecto.Detalles_bien = form["detalle"].ToString().ToUpper();
 
-            double.TryParse(s:form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
+            double.TryParse(s: form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
             prospecto.PorcentajeAdministracion = porcentajeAdministracion;
 
             //double.TryParse(s: form["porcentajeInscripcion"], NumberStyles.Number, CultureInfo.CreateSpecificCulture("en-US"), result: out int porcentajeInscripcion);
@@ -1049,7 +1050,7 @@ namespace ContratoDigital
         /// <param name="form">Los datos del formulario HTML capturados</param>
         /// <returns>Un entidad de persnoas cona todos los datos del contrato PDF</returns>
         static public Prospecto UpdateProspecto(IFormCollection form, Prospecto prospecto)
-        {            
+        {
             prospecto.PrimerNombre = form["PrimerNombre"].ToString().ToUpper();
             prospecto.SegundoNombre = form["SegundoNombre"].ToString().ToUpper();
             prospecto.PrimerApellido = form["PrimerApellido"].ToString().ToUpper();
@@ -1263,13 +1264,36 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="templateName">Nombre de la plantilla</param>
         /// <returns></returns>
-        static public string GetTemplate (string templateName)
+        static public string GetTemplate(string templateName)
         {
             using (var stream = new FileStream(templateName, FileMode.Open)) //Assembly.GetExecutingAssembly().GetManifestResourceStream(templateName))
             {
                 return new StreamReader(stream).ReadToEnd();
             }
         }
+
+        /// <summary>
+        /// Agrega ceros a la izquierda para llevar la cifra a tantos caracteres caracteres
+        /// </summary>
+        /// <param name="value">El valor incial a rellenar</param>
+        /// <param name="max">El máximo número de caracteres a rellenar</param>
+        /// <returns>El valor inicial con padding de ceros</returns>
+        static public string PadWithZeroes(string value, int max)
+        {
+            var eval = value.Split('.');
+            int j = eval[0].Length;
+            for (int i = j; i < max; i++)
+            {
+                eval[0] = "0" + eval[0];
+            }
+            return eval[0];
+        }
+
+        //static public string GetStatusName(int id)
+        //{
+        //    ContratoDigitalContext _context = new ContratoDigitalContext();
+
+        //}
     }
 
     static public class Constants
@@ -1299,6 +1323,29 @@ namespace ContratoDigital
         public const string ReciboPagoPDF = "ReciboDePago";
         public const string CotizacionPDF = "Cotizacion";
 
+        public enum Estados
+        {
+            TipoPersona = 1,
+            TipoIdentificacion = 2,
+            Departamento = 3,
+            Ciudad = 4,
+            Sexo = 5,
+            EstadoCivil = 6
+        }
+    }
+
+    public class Status
+    {
+        private readonly ContratoDigitalContext _context;
+        public Status(ContratoDigitalContext context)
+        {
+            _context = context;
+        }
+
+        public string GetStatusName(int id)
+        {
+            return  _context.Estados.SingleOrDefault(x => x.IdEstado == id).Descripcion;
+        }        
     }
 
 }
