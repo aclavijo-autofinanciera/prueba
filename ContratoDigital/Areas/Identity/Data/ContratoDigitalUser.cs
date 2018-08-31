@@ -24,5 +24,9 @@ namespace ContratoDigital.Areas.Identity.Data
         [PersonalData]
         public int Asesor { get; set; }
 
+        [PersonalData]
+        public string Cedula { get; set; }
+
+
     }
 }

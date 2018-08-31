@@ -18,19 +18,25 @@ namespace ContratoDigital.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<UsuariosContext>(options =>
                 options.UseSqlServer(context.Configuration.GetConnectionString("UsuariosContextConnection")));
-                    //options.UseSqlServer("Data Source=localhost;Initial Catalog=Usuarios;Integrated Security=True"));
-                        //context.Configuration.GetConnectionString("UsuariosContextConnection")));
+                //options.UseSqlServer("Data Source=localhost;Initial Catalog=Usuarios;Integrated Security=True"));
+                //context.Configuration.GetConnectionString("UsuariosContextConnection")));
 
-                services.AddDefaultIdentity<ContratoDigitalUser>(options=> {
+                services.AddDefaultIdentity<ContratoDigitalUser>(options =>
+                {
                     options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredUniqueChars = 0;
+                    options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                     options.SignIn.RequireConfirmedEmail = false;
                     options.SignIn.RequireConfirmedPhoneNumber = false;
+
                 })
                     .AddRoles<IdentityRole>()
                     .AddRoleManager<RoleManager<IdentityRole>>()
                     .AddEntityFrameworkStores<UsuariosContext>();
+                    
             });
         }
     }
