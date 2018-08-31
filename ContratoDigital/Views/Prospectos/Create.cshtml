@@ -1,6 +1,6 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Registrar prospecto";
+    List<Estado> estados = ViewData["TipoIdentidadList"] as List<Estado>;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -41,11 +41,13 @@
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
                             <label for="TipoDocumentoIdentidad">Tipo de documento</label>
+                            
                             <select id="TipoDocumentoIdentidad" name="TipoDocumentoIdentidad" class="form-control form-control-lg" required autocomplete="off"  autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
-                                <option value="1">CC</option>
-                                <option value="2">CE</option>
-                                <option value="3">NIT</option>
+                                @foreach (var item in estados)
+                                {
+                                    <option value="@item.IdEstado">@item.Descripcion</option>
+                                }                                
                             </select>
                         </div>
                         <div class="col-12 col-md-6">
@@ -121,6 +123,35 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
+
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col-12 col-md-4">
+                            <label for="">Agencia</label>
+                            <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly></select>
+                            <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" />
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="">Tipo de medio</label>
+                            <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly></select>
+                            <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" />
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="">Agencia Medio</label>
+                            <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly></select>
+                            <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" />
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label>Tipo de cliente</label>
+                            <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente">
+                                <option>Seleccione una opcíon</option>
+                                <option value="0">Nuevo cliente</option>
+                                <option value="1">Cliente antiguo</option>
+                                <option value="2">Persona jurídicia</option>
+                            </select>
+                            <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" />
 
                         </div>
                     </div>
