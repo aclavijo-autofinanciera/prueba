@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace ContratoDigital
 {
@@ -43,8 +44,9 @@ namespace ContratoDigital
             
             services.AddMemoryCache();
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
-            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IEmailService, EmailService>();            
             services.AddSession();
+            services.AddLogging();                       
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddSessionStateTempDataProvider()
@@ -52,8 +54,7 @@ namespace ContratoDigital
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
                 });
-
-
+            services.AddSingleton<Status>();
 
         }
 
@@ -71,9 +72,10 @@ namespace ContratoDigital
                 app.UseHsts();
             }
 
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
+            app.UseAuthentication();    
             app.UseCookiePolicy();
             app.UseSession();
 
