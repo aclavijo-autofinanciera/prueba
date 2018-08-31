@@ -53,6 +53,7 @@ namespace ContratoDigital.Controllers
         public IActionResult Fill(int id)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == id);
+            GetStatusList();
             if (prospecto == null)
             {
                 return RedirectToAction("Find", "Prospectos", new { errorid = 1 });
@@ -122,7 +123,15 @@ namespace ContratoDigital.Controllers
                 Guuid = Guid.NewGuid().ToString(),
                 IsAccepted = false,
                 IsIdUploaded = false,
-                IsPaid = false
+                IsPaid = false,
+                Agencia = int.Parse(form["Agencia"]),
+                DescripcionAgencia = form["AgenciaDescripcion"],
+                TipoMedio = int.Parse(form["TipoMedio"]),
+                DescripcionTipoMedio = form["TipoMedioDescripcion"],
+                Medio = int.Parse(form["TipoMedioAgencia"]),
+                DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
+                TipoCliente = int.Parse(form["TipoCliente"]),
+                DescripcionTipoCliente = form["TipoClienteDescripcion"]
             };
             try
             {
@@ -210,19 +219,43 @@ namespace ContratoDigital.Controllers
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
 
-        public async Task<IActionResult> Details(int id, int status)
+        public async Task<IActionResult> Details(int id)
         {
-            ViewData["EmailResult"] = TempData.Peek("EmailResult");
-            if (status > 0)
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            Status status = new Status(_context);
+            ViewData["TipoIdentificacionSuscriptor"] = status.GetStatusName(int.Parse(contrato.tipo_documento_identidad_suscriptor));
+            ViewData["SexoSuscriptor"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor));
+            ViewData["EstadoCivilSuscriptor"] = status.GetStatusName(int.Parse(contrato.estado_civil_suscriptor));
+            ViewData["DepartamentoSuscriptor"] = status.GetStatusName(int.Parse(contrato.departamento_suscriptor));
+            if(!string.IsNullOrEmpty( contrato.tipo_documento_representante_legal))
             {
-                ViewData["Status"] = status;
+                ViewData["TipoIdentificacionLegal"] = status.GetStatusName(int.Parse(contrato.tipo_documento_representante_legal));
             }
-            Request.HttpContext.Response.Headers.Add("secret-header", "1");
-            return View(await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id));
+            
+            if(contrato.documento_identidad_suscriptor_conjunto> 0)
+            {
+                ViewData["TipoIdentificacionSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.tipo_identidad_suscriptor_conjunto));
+                ViewData["SexoSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor_conjunto));
+                ViewData["EstadoCivilSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.estado_civil_suscriptor_conjunto));
+                ViewData["DepartamentoSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.departamento_suscriptor_conjunto));
+                if(!string.IsNullOrEmpty(contrato.tipo_identidad_representante_legal_suscriptor_conjunto))
+                {
+                    ViewData["TipoIdentificacionLegalConjunto"] = status.GetStatusName(int.Parse(contrato.tipo_identidad_representante_legal_suscriptor_conjunto));
+                }
+
+            }
+            
+            
+
+
+
+
+            return View(contrato);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
+            GetStatusList();
             return View(await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id));
         }
 
@@ -230,6 +263,14 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Edit(IFormCollection form)
         {
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == int.Parse(form["IdContrato"]));
+            contrato.ConfirmacionContratos.Agencia = int.Parse(form["Agencia"]);
+            contrato.ConfirmacionContratos.DescripcionAgencia = form["AgenciaDescripcion"];
+            contrato.ConfirmacionContratos.TipoMedio = int.Parse(form["TipoMedio"]);
+            contrato.ConfirmacionContratos.DescripcionTipoMedio = form["TipoMedioDescripcion"];
+            contrato.ConfirmacionContratos.Medio = int.Parse(form["TipoMedioAgencia"]);
+            contrato.ConfirmacionContratos.DescripcionMedio = form["TipoMedioAgenciaDescripcion"];
+            contrato.ConfirmacionContratos.TipoCliente = int.Parse(form["TipoCliente"]);
+            contrato.ConfirmacionContratos.DescripcionTipoCliente = form["TipoClienteDescripcion"];
             contrato = Utilities.UpdateContrato(form, contrato);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
@@ -469,11 +510,11 @@ namespace ContratoDigital.Controllers
             fields.TryGetValue("CodigoBarras", out toSet);
             //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
             //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));            
-            toSet.SetValue(Utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + contrato.valor_primer_pago + "96" + contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(3)));
+            toSet.SetValue(Utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
 
             fields.TryGetValue("CodigoBarrasPlano", out toSet);
             //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
-            toSet.SetValue("(415)" + convenio + "(8020)00000" + contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + contrato.valor_primer_pago + "(96)" + contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(3)); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
+            toSet.SetValue("(415)" + convenio + "(8020)00000" + contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
 
 
             fields.TryGetValue("Nombre", out toSet);
@@ -819,11 +860,11 @@ namespace ContratoDigital.Controllers
             fields.TryGetValue("CodigoBarras", out toSet);
             //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
             //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));
-            toSet.SetValue(Utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + contrato.valor_primer_pago + "96" + String.Format("{0:dd-MM-yyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(3))));
+            toSet.SetValue(Utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
 
             fields.TryGetValue("CodigoBarrasPlano", out toSet);
             //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
-            toSet.SetValue("(415)" + convenio + "(8020)00000" +contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + contrato.valor_primer_pago + "(96)" + String.Format("{0:dd-MM-yyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(3))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
+            toSet.SetValue("(415)" + convenio + "(8020)00000" +contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
 
             fields.TryGetValue("Nombre", out toSet);
             toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
@@ -941,6 +982,7 @@ namespace ContratoDigital.Controllers
             //Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == upload.IdContrato);
             //var anverso = upload.Anverso;
             DocumentoIdentidad documentoIdentidad = _context.DocumentoIdentidad.SingleOrDefault(x => x.IdContrato == upload.IdContrato);
+            ConfirmacionContrato confirmarContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.IdContrato == upload.IdContrato);
             if(documentoIdentidad != null)
             {                
                 documentoIdentidad.FechaAdjunto = DateTime.Now;
@@ -976,6 +1018,10 @@ namespace ContratoDigital.Controllers
             if(documentoIdentidad.IdDocumentoIdentidad <= 0 )
             {
                 await _context.DocumentoIdentidad.AddAsync(documentoIdentidad);
+            }
+            if( !string.IsNullOrEmpty(documentoIdentidad.Anverso) && !string.IsNullOrEmpty(documentoIdentidad.Reverso))
+            {
+                confirmarContrato.IsIdUploaded = true;
             }
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "ContratoDigital", new { id = documentoIdentidad.IdContrato, status = 10 });
@@ -1106,7 +1152,7 @@ namespace ContratoDigital.Controllers
         {
 
             DocumentoIdentidad documentoIdentidad = await _context.DocumentoIdentidad.SingleOrDefaultAsync(x => x.IdContrato == upload.IdContrato);
-            
+            ConfirmacionContrato confirmarContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.IdContrato == upload.IdContrato);
             /*DocumentoIdentidad documentoIdentidad = new DocumentoIdentidad
             {
                 IdContrato = upload.IdContrato,
@@ -1132,6 +1178,10 @@ namespace ContratoDigital.Controllers
             //await _context.DocumentoIdentidad.AddAsync(documentoIdentidad);
             documentoIdentidad.FechaAdjunto = DateTime.Now;
             documentoIdentidad.IsRemoteUploadEnabled = false;
+            if (!string.IsNullOrEmpty(documentoIdentidad.Anverso) && !string.IsNullOrEmpty(documentoIdentidad.Reverso))
+            {
+                confirmarContrato.IsIdUploaded = true;
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction("ConfirmRemoteUpload", "ContratoDigital", new { status = 100 });
             
@@ -1192,5 +1242,63 @@ namespace ContratoDigital.Controllers
             stream.Position = 0;
             return File(stream, "application/pdf", "AlgunaCosa.pdf");
         }
+
+        public async Task<IActionResult> RegisterSiicon(int id)
+        {
+            var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            PersonaSiicon personaSiicon = new PersonaSiicon();
+            personaSiicon.TipoPersonaId = 2;
+            personaSiicon.CiudadConstitucionId = 99;
+            personaSiicon.FechaConstitucion = String.Format("{0:MM/dd/yyyy}",contrato.fecha_suscripcion_contrato);
+            personaSiicon.PrimerNombre = contrato.primer_nombre;
+            personaSiicon.SegundoNombre = contrato.segundo_nombre;
+            personaSiicon.PrimerApellido = contrato.primer_apellido;
+            personaSiicon.SegundoApellido = contrato.segundo_apellido;
+            personaSiicon.RazonSocial = contrato.nombre_razon_social_representante_legal;
+            personaSiicon.TipoDocumentoIdentidadId = int.Parse(contrato.tipo_documento_identidad_suscriptor);
+            personaSiicon.NumeroDocumento = contrato.documento_identidad_suscriptor.ToString();
+            personaSiicon.CiudadExpedicionId = 99;
+            personaSiicon.FechaNacimiento = String.Format("{0:MM/dd/yyyy}",contrato.fecha_nacimiento_suscriptor);
+            personaSiicon.CiudadNacimientoId = 99;
+            personaSiicon.SexoId = int.Parse(contrato.sexo_suscriptor);
+            personaSiicon.EstadoCivilId = int.Parse(contrato.estado_civil_suscriptor);
+            personaSiicon.Email = contrato.email_suscriptor;
+            personaSiicon.DireccionNotifiacion = contrato.direccion_domicilio_suscriptor;
+            personaSiicon.BarrioNotifiacion = contrato.direccion_domicilio_suscriptor;
+            personaSiicon.TelefonoNotifiacion = contrato.telefono_suscriptor;
+            personaSiicon.CelularNotificacion = contrato.celular_suscriptor;
+            personaSiicon.DepartamentoNotificacionId = int.Parse(contrato.departamento_suscriptor);
+            personaSiicon.CiudadNotificacionId = 99;
+            personaSiicon.EmpresaLabora = contrato.empresa_empleadora_suscriptor;
+            personaSiicon.CargoLabora = contrato.cargo_suscriptor;
+            personaSiicon.DireccionLabora = contrato.direccion_empleo_suscriptor;
+            personaSiicon.BarrioLabora = contrato.direccion_empleo_suscriptor;
+            personaSiicon.TelefonoLabora = contrato.telefono_empleo_suscriptor;
+            personaSiicon.CelularOficina = contrato.celular_empleo_suscriptor;
+            personaSiicon.DepartamentoLaboraId = int.Parse(contrato.departamento_empleo_suscriptor);
+            personaSiicon.CiudadLaboraId = 99;
+            personaSiicon.IngresoMensual = (int)contrato.ingresos_mensuales_suscriptor;
+            personaSiicon.EgresoMensual = (int)contrato.egresos_mensuales_suscriptor;
+            personaSiicon.Profesion = contrato.profesion_suscriptor;
+            personaSiicon.TerceroId = Constants.GuuidUsuarioSiicon;
+            WebserviceController service = new WebserviceController(_context);
+            string result = service.CreatePersonaSiicon(personaSiicon).Result.Value;
+            ViewData["ResultWS"] = result;
+
+            //return RedirectToAction("Details", "ContratoDigital", new { id });
+            return View();
+        }
+
+
+        #region
+        // Utilities Local Methods
+        void GetStatusList()
+        {
+            ViewData["TipoIdentidad"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.TipoIdentificacion);
+            ViewData["Sexo"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.Sexo);
+            ViewData["EstadoCivil"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.EstadoCivil);
+            ViewData["Departamento"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.Departamento);
+        }
+        #endregion
     }
 }
