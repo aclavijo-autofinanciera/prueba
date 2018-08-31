@@ -45,7 +45,9 @@ namespace ContratoDigital.Controllers
         }
 
         public IActionResult Create()
-        {            
+        {
+            List<Estado> estadosList = _context.Estados.Where(x=>x.TipoEstado.IdTipoEstado == (int)Constants.Estados.TipoIdentificacion).ToList();
+            ViewData["TipoIdentidadList"] = estadosList;
             return View();
         }
 
@@ -59,7 +61,17 @@ namespace ContratoDigital.Controllers
             {
                 IdProspecto = prospecto.IdProspecto,
                 Guuid = Guid.NewGuid().ToString(),
-                IsConfirmed = false
+                IsConfirmed = false,
+                Agencia = int.Parse(form["Agencia"]),
+                DescripcionAgencia = form["AgenciaDescripcion"],
+                TipoMedio = int.Parse(form["TipoMedio"]),
+                DescripcionTipoMedio = form["TipoMedioDescripcion"],
+                Medio = int.Parse(form["TipoMedioAgencia"]),
+                DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
+                TipoCliente = int.Parse(form["TipoCliente"]),
+                DescripcionTipoCliente = form["TipoClienteDescripcion"]
+
+                
             };            
             _context.ConfirmacionProspectos.Add(confirmacionProspecto);
             try
@@ -171,12 +183,17 @@ namespace ContratoDigital.Controllers
         }
 
         public async Task<IActionResult> Details(int id)
-        {               
-            return View(await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id));
+        {
+            var prospectos = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
+            Status status = new Status(_context);
+            ViewData["TipoIdDescripcion"] = status.GetStatusName(prospectos.TipoDocumentoIdentidad);
+            return View(prospectos);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
+            List<Estado> estadosList = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.TipoIdentificacion).ToList();
+            ViewData["TipoIdentidadList"] = estadosList;
             return View(await _context.Prospectos.SingleOrDefaultAsync(x=>x.IdProspecto == id));
         }
 
@@ -184,6 +201,14 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Edit(IFormCollection form)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == int.Parse(form["IdProspecto"]));
+            prospecto.ConfirmacionProspecto.Agencia = int.Parse(form["Agencia"]);
+            prospecto.ConfirmacionProspecto.DescripcionAgencia = form["AgenciaDescripcion"];
+            prospecto.ConfirmacionProspecto.TipoMedio = int.Parse(form["TipoMedio"]);
+            prospecto.ConfirmacionProspecto.DescripcionTipoMedio = form["TipoMedioDescripcion"];
+            prospecto.ConfirmacionProspecto.Medio = int.Parse(form["TipoMedioAgencia"]);
+            prospecto.ConfirmacionProspecto.DescripcionMedio = form["TipoMedioAgenciaDescripcion"];
+            prospecto.ConfirmacionProspecto.TipoCliente = int.Parse(form["TipoCliente"]);
+            prospecto.ConfirmacionProspecto.DescripcionTipoCliente = form["TipoClienteDescripcion"];
             prospecto = Utilities.UpdateProspecto(form, prospecto);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details","Prospectos", new {id = prospecto.IdProspecto });
