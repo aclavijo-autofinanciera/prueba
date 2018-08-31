@@ -11,7 +11,7 @@ namespace SiiconWebService
 {
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SiiconWebService.IService")]
     public interface IService
     {
@@ -37,6 +37,12 @@ namespace SiiconWebService
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarAsesor", ReplyAction="http://tempuri.org/IService/SelecccionarAsesorResponse")]
         System.Threading.Tasks.Task<string> SelecccionarAsesorAsync(long Cedula);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTercero", ReplyAction="http://tempuri.org/IService/SelecccionarTerceroResponse")]
+        System.Threading.Tasks.Task<string> SelecccionarTerceroAsync(string Cedula);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTerceroAgencias", ReplyAction="http://tempuri.org/IService/SelecccionarTerceroAgenciasResponse")]
+        System.Threading.Tasks.Task<string> SelecccionarTerceroAgenciasAsync(string TerceroId, string CompañiaId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTiposBienesCompañia", ReplyAction="http://tempuri.org/IService/SelecccionarTiposBienesCompañiaResponse")]
         System.Threading.Tasks.Task<string> SelecccionarTiposBienesCompañiaAsync(string CompañiaId);
         
@@ -54,15 +60,61 @@ namespace SiiconWebService
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/GenerarReferenciaPago", ReplyAction="http://tempuri.org/IService/GenerarReferenciaPagoResponse")]
         System.Threading.Tasks.Task<string> GenerarReferenciaPagoAsync(string CompañiaId, string NumeroDocumento, long ValorPagar, int ContratoTiendaId, string TerceroId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTiposMedios", ReplyAction="http://tempuri.org/IService/SelecccionarTiposMediosResponse")]
+        System.Threading.Tasks.Task<string> SelecccionarTiposMediosAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarMediosAgencia", ReplyAction="http://tempuri.org/IService/SelecccionarMediosAgenciaResponse")]
+        System.Threading.Tasks.Task<string> SelecccionarMediosAgenciaAsync(string CompañiaId, int TipoMedioId, int CodAgencia);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CrearPersona", ReplyAction="http://tempuri.org/IService/CrearPersonaResponse")]
+        System.Threading.Tasks.Task<string> CrearPersonaAsync(
+                    int TipoPersonaId, 
+                    int TipoIdentificacionRepreLegalId, 
+                    string NumeroIdentificacionRepreLegal, 
+                    int CiudadConstitucionId, 
+                    string FechaConstitucion, 
+                    string PrimerNombre, 
+                    string SegundoNombre, 
+                    string PrimerApellido, 
+                    string SegundoApellido, 
+                    string RazonSocial, 
+                    int TipoDocumentoIdentidadId, 
+                    string NumeroDocumento, 
+                    string DigitoVerificacion, 
+                    int CiudadExpedicionId, 
+                    string FechaNacimiento, 
+                    int CiudadNacimientoId, 
+                    int SexoId, 
+                    int EstadoCivilId, 
+                    string Email, 
+                    string DireccionNotifiacion, 
+                    string BarrioNotifiacion, 
+                    string TelefonoNotifiacion, 
+                    string CelularNotificacion, 
+                    int DepartamentoNotificacionId, 
+                    int CiudadNotificacionId, 
+                    string EmpresaLabora, 
+                    string CargoLabora, 
+                    string DireccionLabora, 
+                    string BarrioLabora, 
+                    string TelefonoLabora, 
+                    string CelularOficina, 
+                    int DepartamentoLaboraId, 
+                    int CiudadLaboraId, 
+                    int IngresoMensual, 
+                    int EgresoMensual, 
+                    string Profesion, 
+                    string TerceroId);
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     public interface IServiceChannel : SiiconWebService.IService, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
     public partial class ServiceClient : System.ServiceModel.ClientBase<SiiconWebService.IService>, SiiconWebService.IService
     {
         
@@ -141,6 +193,16 @@ namespace SiiconWebService
             return base.Channel.SelecccionarAsesorAsync(Cedula);
         }
         
+        public System.Threading.Tasks.Task<string> SelecccionarTerceroAsync(string Cedula)
+        {
+            return base.Channel.SelecccionarTerceroAsync(Cedula);
+        }
+        
+        public System.Threading.Tasks.Task<string> SelecccionarTerceroAgenciasAsync(string TerceroId, string CompañiaId)
+        {
+            return base.Channel.SelecccionarTerceroAgenciasAsync(TerceroId, CompañiaId);
+        }
+        
         public System.Threading.Tasks.Task<string> SelecccionarTiposBienesCompañiaAsync(string CompañiaId)
         {
             return base.Channel.SelecccionarTiposBienesCompañiaAsync(CompañiaId);
@@ -169,6 +231,58 @@ namespace SiiconWebService
         public System.Threading.Tasks.Task<string> GenerarReferenciaPagoAsync(string CompañiaId, string NumeroDocumento, long ValorPagar, int ContratoTiendaId, string TerceroId)
         {
             return base.Channel.GenerarReferenciaPagoAsync(CompañiaId, NumeroDocumento, ValorPagar, ContratoTiendaId, TerceroId);
+        }
+        
+        public System.Threading.Tasks.Task<string> SelecccionarTiposMediosAsync()
+        {
+            return base.Channel.SelecccionarTiposMediosAsync();
+        }
+        
+        public System.Threading.Tasks.Task<string> SelecccionarMediosAgenciaAsync(string CompañiaId, int TipoMedioId, int CodAgencia)
+        {
+            return base.Channel.SelecccionarMediosAgenciaAsync(CompañiaId, TipoMedioId, CodAgencia);
+        }
+        
+        public System.Threading.Tasks.Task<string> CrearPersonaAsync(
+                    int TipoPersonaId, 
+                    int TipoIdentificacionRepreLegalId, 
+                    string NumeroIdentificacionRepreLegal, 
+                    int CiudadConstitucionId, 
+                    string FechaConstitucion, 
+                    string PrimerNombre, 
+                    string SegundoNombre, 
+                    string PrimerApellido, 
+                    string SegundoApellido, 
+                    string RazonSocial, 
+                    int TipoDocumentoIdentidadId, 
+                    string NumeroDocumento, 
+                    string DigitoVerificacion, 
+                    int CiudadExpedicionId, 
+                    string FechaNacimiento, 
+                    int CiudadNacimientoId, 
+                    int SexoId, 
+                    int EstadoCivilId, 
+                    string Email, 
+                    string DireccionNotifiacion, 
+                    string BarrioNotifiacion, 
+                    string TelefonoNotifiacion, 
+                    string CelularNotificacion, 
+                    int DepartamentoNotificacionId, 
+                    int CiudadNotificacionId, 
+                    string EmpresaLabora, 
+                    string CargoLabora, 
+                    string DireccionLabora, 
+                    string BarrioLabora, 
+                    string TelefonoLabora, 
+                    string CelularOficina, 
+                    int DepartamentoLaboraId, 
+                    int CiudadLaboraId, 
+                    int IngresoMensual, 
+                    int EgresoMensual, 
+                    string Profesion, 
+                    string TerceroId)
+        {
+            return base.Channel.CrearPersonaAsync(TipoPersonaId, TipoIdentificacionRepreLegalId, NumeroIdentificacionRepreLegal, CiudadConstitucionId, FechaConstitucion, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, RazonSocial, TipoDocumentoIdentidadId, NumeroDocumento, DigitoVerificacion, CiudadExpedicionId, FechaNacimiento, CiudadNacimientoId, SexoId, EstadoCivilId, Email, DireccionNotifiacion, BarrioNotifiacion, TelefonoNotifiacion, CelularNotificacion, DepartamentoNotificacionId, CiudadNotificacionId, EmpresaLabora, CargoLabora, DireccionLabora, BarrioLabora, TelefonoLabora, CelularOficina, DepartamentoLaboraId, CiudadLaboraId, IngresoMensual, EgresoMensual, Profesion, TerceroId);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
