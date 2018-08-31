@@ -43,9 +43,10 @@ namespace ContratoDigital.Models
         public double IvaAdministracion { get; set; }
         public double TotalCuotaBruta { get; set; }
         public double ValorTotalPrimerPago { get; set; }
+                
 
         public virtual ICollection<Contrato> Contratos { get; set; }
-        public virtual ICollection<ConfirmacionProspecto> ConfirmacionProspecto {get; set;}
+        public virtual ConfirmacionProspecto ConfirmacionProspecto {get; set;}
         
     }
 }
