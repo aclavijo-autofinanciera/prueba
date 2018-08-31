@@ -25,7 +25,16 @@ Incluir los pasos de instalaciones y despligue en el servidor de linux
 
 #### Versiones
 
-##### 0.1.5.7 (2018-08-8)
+##### 0.1.6 (2018-08-29)
++ Conexión con SIICON, envío de personas.
+
+##### 0.1.5.8 (2018-08-27)
++ Creación del Dashboard.
++ Creación de la interfaz de usuarios.
++ Creación de la conexión de método generador.
++ Conexión con SIICON, envío de personas.
+
+##### 0.1.5.7 (2018-08-08)
 + Versión de los PDFs con la hoja de autorizaciones
 + Campo de compañía guardada en base de datos
 + Base de datos a versión 1.5.7
