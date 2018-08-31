@@ -47,11 +47,22 @@ namespace ContratoDigital.Controllers
             return View();
         }
 
-        //[Authorize]
-        public IActionResult About()
+        [Authorize]
+        public async Task<IActionResult> About()
         {
-            
-            CreateRolesAndUsers();
+
+            /*IdentityRole role = new IdentityRole();
+            role.Name = "Asesor";
+            await _roleManager.CreateAsync(role);
+
+            IdentityRole role2 = new IdentityRole();
+            role2.Name = "Gerente";
+            await _roleManager.CreateAsync(role2);
+
+            IdentityRole role3 = new IdentityRole();
+            role3.Name = "Gerente Regional";
+            await _roleManager.CreateAsync(role3);*/
+
             return View();
         }
 
@@ -70,13 +81,26 @@ namespace ContratoDigital.Controllers
         
         private async Task CreateRolesAndUsers()
         {
-
-            
-
             // Create admin Super User
+            //Create Admin Role
+            var role = new IdentityRole();
+            role.Name = "Asesor";
+            await _roleManager.CreateAsync(role);
+
+            var role2 = new IdentityRole();
+            role2.Name = "Gerente";
+            await _roleManager.CreateAsync(role2);
+
+            var role3 = new IdentityRole();
+            role3.Name = "Gerente Regional";
+            await _roleManager.CreateAsync(role3);
+
+
             try
             {
                 
+
+
                 //bool x = await _roleManager.RoleExistsAsync("Administrador");
                 //var user = new ContratoDigitalUser();
                 //user.UserName = "Madrid";
