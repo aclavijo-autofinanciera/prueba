@@ -39,11 +39,17 @@ jQuery(function ($) {
         //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/])?$/i); 
         //phone_number.match(/^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/i); 
     }, "Especifique un número de teléfono");
-    jQuery.validator.addMethod("alphabetical", function (value, element) {
+    $.validator.addMethod("alphabetical", function (value, element) {
         return this.optional(element) || /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\- ]+$/i.test(value);
     }, "Este campo debe ser alfabético");
+    $.validator.addMethod("atLeastOneUppercaseLetter", function (value, element) {
+        return this.optional(element) || /[A-Z]+/.test(value);
+    }, "Este campo debe tener al menos una mayúscula");
+    $.validator.addMethod("atLeastOneSymbol", function (value, element) {
+        return this.optional(element) || /[!@#$%^&*()]+/.test(value);
+    }, "Este campo debe tener al menos uno de estos simbolos: [ ! @ # $ % ^ & * ( ) ]");
     // <!-- Métodos de validación --> 
-
+        
     $("#fecha_nacimiento_suscriptor,#fecha_nacimiento_suscriptor_conjunto").datepicker({
         changeMonth: true,
         changeYear: true,
@@ -52,7 +58,7 @@ jQuery(function ($) {
         minDate: "-60Y",
         maxDate: "-18Y"
     });
-
+      
     $("#isRepreentanteLegal").on("click", function () {
         $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
         $("#nombre_razon_social_representante_legal").prop("required", true);
@@ -87,7 +93,7 @@ jQuery(function ($) {
                 alphabetical: true
             },
             TipoDocumentoIdentidad: {
-                required: true
+                required: true                    
             },
             NumeroDocumento: {
                 required: true,
@@ -96,12 +102,12 @@ jQuery(function ($) {
             Telefono: {
                 required: true,
                 minlength: 7,
-                digits: true
+                digits:true
             },
             Celular: {
                 required: true,
                 minlength: 7,
-                digits: true
+                digits:true
             },
             Email: {
                 required: true,
@@ -125,19 +131,19 @@ jQuery(function ($) {
                 alphabetical: "Este campo debe ser alfabético"
             },
             TipoDocumentoIdentidad: {
-                required: "Este campo es requerido",
+                required: "Este campo es requerido"
             },
             NumeroDocumento: {
                 required: "Este campo es requerido",
                 digits: "Este campo debe ser numérico"
             },
             Telefono: {
-                required: "Este campo es requerido",
+                required: "Este campo es requerido",      
                 minlength: "Debe ingresar un teléfono válido",
                 digits: "Debe ingresar un teléfono válido"
             },
             Celular: {
-                required: "Este campo es requerido",
+                required: "Este campo es requerido",                    
                 minlength: "Debe ingresar un teléfono válido",
                 digits: "Debe ingresar un teléfono válido"
             },
@@ -156,14 +162,14 @@ jQuery(function ($) {
                 required: true,
                 alphabetical: true
             },
-            segundo_nombre: {
+            segundo_nombre: {                    
                 alphabetical: true
             },
             primer_apellido: {
                 required: true,
                 alphabetical: true
             },
-            segundo_apellido: {
+            segundo_apellido: {                    
                 alphabetical: true
             },
             tipo_identificacion_suscriptor: {
@@ -177,7 +183,7 @@ jQuery(function ($) {
                 required: true
             },
             fecha_nacimiento_suscriptor: {
-                required: true,
+                required: true
                 //dateISO: true
             },
             lugar_nacimiento_suscriptor: {
@@ -202,7 +208,7 @@ jQuery(function ($) {
             telefono_suscriptor: {
                 required: true,
                 digits: true,
-                minlength: 7
+                minlength:7
             },
             celular_suscriptor: {
                 required: true,
@@ -309,16 +315,16 @@ jQuery(function ($) {
                 alphabetical: true
             },
             documento_identidad_suscriptor_conjunto: {
-                digits: true
+                digits:true
             },
             procedencia_documento_identidad_suscriptor_conjunto: {
-                alphabetical: true
+                alphabetical:true
             },
             fecha_nacimiento_suscriptor_conjunto: {
                 //dateISO:true
             },
             dirección_suscriptor_conjunto: {
-                maxlength: 200
+                maxlength:200
             },
             telefono_suscriptor_conjunto: {
                 digits: true,
@@ -329,16 +335,16 @@ jQuery(function ($) {
                 minlength: 7
             },
             ingresos_mensuales_suscriptor_conjunto: {
-                number: true
+                number:true
             },
             egresos_mensuales_suscriptor_conjunto: {
-                number: true
+                number:true
             },
             otros_ingresos_suscriptor_conjunto: {
-                number: true
+                number:true
             },
             direccion_empleo_suscriptor_conjunto: {
-                maxlength: 200
+                maxlength:200
             },
             telefono_empleo_suscriptor_conjunto: {
                 required: true,
@@ -351,7 +357,7 @@ jQuery(function ($) {
                 minlength: 7
             },
             email_suscriptor_conjunto: {
-                email: true
+                email:true
             }
         },
         messages: {
@@ -404,12 +410,12 @@ jQuery(function ($) {
                 required: "Requerido"
             },
             telefono_suscriptor: {
-                required: "Requerido",
+                required: "Requerido",                    
                 digits: "Debe ingresar un número de teléfono válido",
                 minlength: "Debe ingresar un número de teléfono válido"
             },
             celular_suscriptor: {
-                required: "Requerido",
+                required: "Requerido",                    
                 digits: "Debe ingresar un número de teléfono válido",
                 minlength: "Debe ingresar un número de teléfono válido"
             },
@@ -544,7 +550,7 @@ jQuery(function ($) {
             direccion_empleo_suscriptor_conjunto: {
                 maxlength: "La dirección no debe ser superior a 200 caracteres"
             },
-            telefono_empleo_suscriptor_conjunto: {
+            telefono_empleo_suscriptor_conjunto: {                    
                 digits: "Debe ingresar un teléfono válido",
                 minlength: "Debe ingresar un teléfono válido"
             },
@@ -561,7 +567,84 @@ jQuery(function ($) {
         }
     });
 
-    if ($("#idcompania").val()) {
+
+    // User Validation
+    $(".UserValidation").validate({
+        rules: {
+            UserName: {
+                required:true
+            },
+            Nombre: {
+                required: true
+            },
+            Apellido: {
+                required: true
+            },
+            Cedula: {
+                required: true,
+                digits:true
+            },
+            Email: {
+                required: true,
+                email: true
+
+            },
+            Agencia: {
+                required:true
+            },
+            Rol: {
+                required:true
+            },            
+            Password: {
+                required: true,
+                minlength: 6,
+                atLeastOneUppercaseLetter: true,
+                atLeastOneSymbol: true
+
+                
+            },
+            PasswordBis: {
+                equalTo: "#Password"
+            }
+        },
+        messages: {            
+            UserName: {
+                required: "El usuario es requerido"
+            },
+            Nombre: {
+                required: "El nombre es requerido"
+            },
+            Apellido: {
+                required: "El apellido es requerido"
+            },
+            Cedula: {
+                required: "La cédula es requerida",
+                digit: "La cédula debe contener solo números"
+            },
+            Email: {
+                required: "El email es requerido",
+                email: "El email debe ser válido"
+
+            },
+            Agencia: {
+                required: "Debe seleccionar una opción"
+            },
+            Rol: {
+                required: "Debe seleccionar una opción"
+            },
+            Password: {
+                required: "la contraseña es requerido",
+                minlength: "El contraseña debe tener mínimo 6 caracteres"
+               
+            },
+            PasswordBis: {
+                equalTo: "Las constraseñas no son iguales"
+            }
+        }
+    });
+
+    if ($("#idcompania").val())
+    {        
         if ($("#idcompania").val() === "6831062e-c994-4686-a989-1964b1200cbc") {
             $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
         }
@@ -569,7 +652,7 @@ jQuery(function ($) {
             $("#legaleseAuto").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
         }
     }
-
+    
 
     var targetBien = $("#idcompania");
     var targetTipoDeBien = $("#tipodeBien");
@@ -577,7 +660,8 @@ jQuery(function ($) {
     var targetPlanAhorro = $("#planDeAhorro");
     var targetCalculo = $("#tipoCalculo");
     // Assign tipo de bien
-    targetBien.on('change', function () {
+    targetBien.on('change', function ()
+    {        
         $("#compania").val($(this).find(":selected").text());
         if ($("#idcompania").val() === "6831062e-c994-4686-a989-1964b1200cbc") {
             $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
@@ -601,6 +685,8 @@ jQuery(function ($) {
                     targetTipoDeBien.append(rows);
                 });
                 targetTipoDeBien.removeAttr("readonly");
+                $("#Agencia").removeAttr("readonly");
+                $("#TipoMedio").removeAttr("readonly");
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
@@ -619,11 +705,12 @@ jQuery(function ($) {
                     '</div >');
             }
 
-        });
+        });        
     });
 
     // Asssign marca
-    targetTipoDeBien.on("change", function () {
+    targetTipoDeBien.on("change", function ()
+    {        
         $('#descripcionTipoBien').val(targetTipoDeBien.find(":selected").text());
         $.ajax({
             type: "GET",
@@ -631,15 +718,15 @@ jQuery(function ($) {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                targetMarca.empty();
+                targetMarca.empty();                
                 targetMarca.append("<option value=\"\">Selecciona una opción</option>");
                 $.each(data, function (i, item) {
                     var rows =
                         "<option value=\"" + ((targetBien.val() === "26e0e553-8bb9-41b2-869a-1fddaf06e900") ? item.CodMarcaAuto : item.CodMarcaElectro) + "\">" + item.Marca + "</option>";
                     targetMarca.append(rows);
-                });
+                }); 
                 targetMarca.removeAttr("readonly");
-            },
+            }, 
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                     '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
@@ -647,7 +734,7 @@ jQuery(function ($) {
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
                     '</div >');
-            },
+            }, 
             error: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                     '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
@@ -655,21 +742,22 @@ jQuery(function ($) {
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
                     '</div >');
-            }
+            } 
 
         });
-
+        
     });
 
     // assign Plan de Ahorro
-    targetMarca.on('change', function () {
+    targetMarca.on('change', function ()
+    {        
         $.ajax({
             type: "GET",
             url: "/api/Freyja/getBienes/" + targetBien.find(":selected").val() + "/" + targetTipoDeBien.find(":selected").val() + "/" + targetMarca.find(":selected").val(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                targetPlanAhorro.empty();
+            success: function (data) {                
+                targetPlanAhorro.empty();                
                 targetPlanAhorro.append("<option value=\"\">Seleccione una opción</option> ");
                 data1 = data.sort(GetSortOrder('ValorBien'));
                 $.each(data1, function (i, item) {
@@ -677,8 +765,8 @@ jQuery(function ($) {
                         "<option value=\"" + item.BienId + "\" data-valorbien=\"" + item.ValorBien + "\" data-codbiencompleto=\"" + item.CodBienCompleto + "\" >" + item.BienCompleto + "</option>";
                     targetPlanAhorro.append(rows);
                 });
-                targetPlanAhorro.removeAttr("readonly");
-                $("#descripcionMarca").val(targetMarca.find(":selected").text());
+                targetPlanAhorro.removeAttr("readonly");                
+                $("#descripcionMarca").val(targetMarca.find(":selected").text());                
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
@@ -695,25 +783,26 @@ jQuery(function ($) {
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
                     '</div >');
-            }
+            } 
         });
     });
 
     // Assign Cuota
-    targetPlanAhorro.on('change', function () {
+    targetPlanAhorro.on('change', function ()
+    {        
         $.ajax({
             type: "GET",
             url: "/api/Freyja/GetBienesParametros/" + targetBien.find(":selected").val() + "/" + targetTipoDeBien.find(":selected").val() + "/" + targetPlanAhorro.find(":selected").data("valorbien") + "/0",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                targetCalculo.empty();
-                targetCalculo.append("<option value=\"\">Selecciona una opción</option>");
+            success: function (data) {                
+                targetCalculo.empty();                
+                targetCalculo.append("<option value=\"\">Selecciona una opción</option>");        
                 $.each(data, function (i, item) {
                     var rows =
-                        "<option value=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + targetPlanAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat(targetPlanAhorro.find(":selected").data("valorbien")) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
+                        "<option value=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + targetPlanAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat( targetPlanAhorro.find(":selected").data("valorbien") ) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
                     targetCalculo.append(rows);
-                });
+                }); 
                 targetCalculo.removeAttr("readonly");
             },
             failure: function (data) {
@@ -731,12 +820,13 @@ jQuery(function ($) {
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
                     '</div >');
-            }
+            } 
         });
     });
 
     // Cálculo de todo.
-    targetCalculo.on('change', function () {
+    targetCalculo.on('change', function ()
+    {
 
         var valbien = costodelbien = $("#planDeAhorro").find(":selected").data("valorbien");
         var inscripcion = targetCalculo.find(":selected").data("inscripcion");
@@ -745,13 +835,15 @@ jQuery(function ($) {
         var iva = 0.19;
         $('.porcentajeInscripcion').empty().text(inscripcion).val(inscripcion);
         $('.porcentajeAdministracion').empty().text(administracion).val(administracion);
-        $('.porcentajeIva').empty().text(iva * 100).val(iva * 100);
-        $('.plazo').empty().text(plazo).val(plazo);
-        if (valbien <= 24000000) {
+        $('.porcentajeIva').empty().text(iva*100).val(iva*100);
+        $('.plazo').empty().text(plazo).val(plazo); 
+        if (valbien <= 24000000)
+        {
             $("#legaleseAuto").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
             $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
         }
-        else {
+        else
+        {
             $("#legaleseAuto").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
             $("#legaleseElectro").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
         }
@@ -767,11 +859,11 @@ jQuery(function ($) {
 
         // Cuota de ingreso 
         //valorPorcentajeInscripcion = costodelbien * 0.045;
-        var valorPorcentajeInscripcion = costodelbien * (inscripcion / 100);
+        var valorPorcentajeInscripcion = costodelbien * (inscripcion/100);
         $("#cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(valorPorcentajeInscripcion)).finish().fadeTo('normal', 1);
 
         // Iva Inscripción 
-        var ivaInscripcion = (inscripcion / 100) * valbien * iva;
+        var ivaInscripcion = (inscripcion/100) * valbien * iva;
         $("#iva_cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(ivaInscripcion)).finish().fadeTo('normal', 1);
 
         // Total de la inscripción 
@@ -796,44 +888,53 @@ jQuery(function ($) {
         $("#total_cuota_bruta").finish().fadeTo('normal', 0).val(parseFormat(totalCuotaMensual)).finish().fadeTo('normal', 1);
 
         // Valor total del primer pago 
-        var valorPrimeraInversion = totalInscripcion + totalCuotaMensual;
+         var valorPrimeraInversion = totalInscripcion + totalCuotaMensual;
         $("#valor_primer_pago").finish().fadeTo('normal', 0).val(parseFormat(valorPrimeraInversion)).finish().fadeTo('normal', 1);
     });
 
     var refreshContrato = $("#RefreshStatusContrato");
     refreshContrato.on('click', function () {
         var idContrato = refreshContrato.data("contrato");
-        $.ajax({
+        $.ajax({            
             type: "GET",
             url: "/api/Freyja/GetStatusContrato/" + idContrato,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                try {
+                try
+                {
                     $(this).addClass('fa-spin');
-                    if (data.isAccepted) {
+                    if (data.isAccepted)
+                    {
                         $(".isAccepted").html('<label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>');
                     }
-                    else {
-                        $('.isAccepted').html('<label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/EmailContract/' + idContrato + '", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');
+                    else
+                    {
+                        $('.isAccepted').html('<label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/EmailContract/' + idContrato + '", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');                        
                     }
 
-                    if (data.isIdUploaded) {
+                    if (data.isIdUploaded)
+                    {
                         $(".isIdUploaded").html('<label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>');
                     }
-                    else {
-                        $(".isIdUploaded").html('<label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/RequestRemoteUpload?idContrato=' + idContrato + '" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');
+                    else
+                    {
+                        $(".isIdUploaded").html('<label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/RequestRemoteUpload?idContrato=' + idContrato + '" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');                        
                     }
-                    if (data.isPaid) {
+                    if (data.isPaid)
+                    {
                         $(".isPaid").html('<label class="text-success"><i class="fas fa-check"></i> Pagado</label>');
                     }
-                    else {
-                        $('.isPaid').html('<label class="text-muted"><i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/EmailInvoice/' + idContrato + '" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');
+                    else
+                    {
+                        $('.isPaid').html('<label class="text-muted"><i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/EmailInvoice/' + idContrato + '" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');                        
                     }
-                    if (data.isVerified) {
+                    if (data.isVerified)
+                    {
                         $('.isVerified').html('<label class="text-success"><i class="fas fa-check"></i> ARD</label>');
                     }
-                    else {
+                    else
+                    {
                         $('.isVerified').html('<label class="text-muted"><i class="far fa-clock"></i> ARD</label>');
                     }
                     $(this).removeClass('fa-spin');
@@ -865,10 +966,217 @@ jQuery(function ($) {
                     '</button>' +
                     '</div >');
                 $(this).removeClass('fa-spin');
-            }
+            } 
         });
     });
 
+    // Botón identificación
+    var showDocs = $("#showDocs");    
+    showDocs.on('click', function ()
+    {
+        var isCheckedDoc = showDocs.data("fetched");
+        var idContratoDoc = showDocs.data("idcontrato");
+        if (!isCheckedDoc)
+        {
+            $.ajax({
+                type: "GET",
+                url: "/api/Freyja/GetDocumentoIdentidad/" + idContratoDoc,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    try {
+                        $(".AnversoDocumento").html('<img src="data:image/jpg;base64, ' + data.anverso + '" alt="Anverso" class="img-fluid" />');
+                        $(".ReversoDocumento").html('<img src="data:image/jpg;base64, ' + data.reverso + '" alt="Reverso" class="img-fluid" />');
+                        showDocs.data("fetched", "true");
+                    } catch (e) {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                        
+                    }
+                },
+                failure: function (data) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    
+                },
+                error: function (data) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    
+                }
+            });
+        }
+    });
+
+    var tipodeMedio = $("#TipoMedio");
+    if (tipodeMedio.length)
+    {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetTipoMedio/",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                try {
+
+                    tipodeMedio.append("<option value=\"\">Selecciona una opción</option>");
+                    $.each(data, function (i, item) {
+                        var rows =
+                            "<option value=\"" + item.TipoMedioId + "\" >" + item.TipoMedio + " </option>";
+                        tipodeMedio.append(rows);
+                    });
+                } catch (e) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).addClass('fa-spin');
+                }
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            }
+        });
+        tipodeMedio.on("change", function () {
+            var tipoMedioAgencia = $("#TipoMedioAgencia");
+            $.ajax({
+                type: "GET",
+                url: "/api/Freyja/GetMedioAgencia/" + $("#idcompania").val() + "/" + tipodeMedio.val() + "/" + $("#Agencia").val(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    try {
+
+                        tipoMedioAgencia.append("<option value=\"\">Selecciona una opción</option>");
+                        $.each(data, function (i, item) {
+                            var rows = "<option value=\"" + item.MedioId + "\" >" + item.Medio + " </option>";
+                            tipoMedioAgencia.append(rows);
+                        });
+                        tipoMedioAgencia.removeAttr("readonly");
+                    } catch (e) {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                        $(this).addClass('fa-spin');
+                    }
+                },
+                failure: function (data) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).removeClass('fa-spin');
+                },
+                error: function (data) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).removeClass('fa-spin');
+                }
+            });
+        });
+    }
+
+    // Fill in the hidden inputs de agencia
+    $("#Agencia").on("change", function () {
+        $("#AgenciaDescripcion").val($("#Agencia").find(":selected").text());
+    });
+    $("#TipoMedio").on("change", function () {
+        $("#TipoMedioDescripcion").val($("#TipoMedio").find(":selected").text());
+    });
+    $("#TipoMedioAgencia").on("change", function () {
+        $("#TipoMedioAgenciaDescripcion").val($("#TipoMedioAgencia").find(":selected").text());
+    });
+    $("#TipoCliente").on("change", function () {
+        $("#TipoClienteDescripcion").val($("#TipoCliente").find(":selected").text());
+    });
+    
+
+    // Agencias Creación de Usuarios
+    var agenciasUser = $("#Agencia");
+    if (agenciasUser.length)
+    {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetAgencias/",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                try {
+
+                    agenciasUser.append("<option value=\"\">Selecciona una opción</option>");
+                    $.each(data, function (i, item) {
+                        var rows =
+                            "<option value=\"" + item.AgenciaId + "\" >" + item.Agencia +  " </option>";
+                        agenciasUser.append(rows);
+                    }); 
+                } catch (e) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).addClass('fa-spin');
+                }
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            }
+        });
+    }
 });
 
 //Validación de colores de los forms
@@ -893,7 +1201,7 @@ jQuery(function ($) {
 // Formato de los números
 function parseFormat(num) {
     var entero, decimal;
-    var numero = "" + num + "";
+    var numero = "" + Math.round(num) + "";
     if (numero.indexOf(".") !== -1) {
         decimal = numero.substring(numero.indexOf("."), numero.indexOf(".") + 3);
     }
@@ -920,5 +1228,5 @@ function GetSortOrder(prop) {
             return -1;
         }
         return 0;
-    }
+    };
 }  
