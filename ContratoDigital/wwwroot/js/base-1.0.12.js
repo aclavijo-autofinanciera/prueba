@@ -588,10 +588,7 @@ jQuery(function ($) {
                 required: true,
                 email: true
 
-            },
-            Agencia: {
-                required:true
-            },
+            },            
             Rol: {
                 required:true
             },            
@@ -625,10 +622,7 @@ jQuery(function ($) {
                 required: "El email es requerido",
                 email: "El email debe ser válido"
 
-            },
-            Agencia: {
-                required: "Debe seleccionar una opción"
-            },
+            },            
             Rol: {
                 required: "Debe seleccionar una opción"
             },
@@ -642,6 +636,80 @@ jQuery(function ($) {
             }
         }
     });
+    $("#Cedula").blur(function () {
+        var tipoRol = $("#Rol").find(":selected").text().toUpperCase() === "ASESOR" ? "GetAsesorId" : "GetSiiconUserId";
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/" + tipoRol + "/" + $("#Cedula").val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                try {
+                    if (data.length) {
+                        if (tipoRol === "GetAsesorId")
+                        {
+                            $("#IdAsesor").val(data[0].CodAsesor);
+                            $("#Nombre").val(data[0].Asesor);
+                            $('.error-area').html('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<strong>El usuario puede ser registrado (Code: ' + data[0].CodAsesor + ').</strong>' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div >');
+                        }
+                        else
+                        {
+                            $("#IdSiicon").val(data[0].TerceroId);
+                            $("#Nombre").val(data[0].NombreCompleto);
+                            $('.error-area').html('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                '<strong>El usuario puede ser registrado (Code: ' + data[0].TerceroId + ').</strong>' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div >');
+                        }   
+
+                        
+                    }
+                    else
+                    {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>El usuario no posee un regustro en SIICON y no puede ser creado.</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                    }
+                } catch (e) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong><br> [' + e + ']' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).addClass('fa-spin');
+                }
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            }
+        });
+    });
 
     if ($("#idcompania").val())
     {        
@@ -652,7 +720,158 @@ jQuery(function ($) {
             $("#legaleseAuto").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
         }
     }
-    
+
+    // Selección de ciudad
+    $("#departamentoDocumentoSuscriptor").on('change', function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ciudad = $("#procedencia_documento_identidad_suscriptor");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
+                $.each(data, function (i, item) {
+                    var rows =
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
+                });
+                ciudad.removeAttr("readonly");                
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            }
+
+        });        
+    });
+
+    // Delección de ciudad para representante legal
+    $("#departamentoDocumentoRepresentanteLegal").on('change', function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ciudad = $("#procedencia_documento_identidad_representante_legal");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
+                $.each(data, function (i, item) {
+                    var rows =
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
+                });
+                ciudad.removeAttr("readonly");
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            }
+
+        });
+    });
+
+    // Seleccion de Ciudad para la cédula suscriptor
+    $("#departamento_suscriptor").on('change', function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ciudad = $("#ciudad_suscriptor");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
+                $.each(data, function (i, item) {
+                    var rows =
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
+                });
+                ciudad.removeAttr("readonly");
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            }
+
+        });
+    });
+
+    // Seleccion de Ciudad para la empresa laboral suscriptor
+    $("#departamento_empleo_suscriptor").on('change', function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ciudad = $("#ciudad_empleo_suscriptor");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
+                $.each(data, function (i, item) {
+                    var rows =
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
+                });
+                ciudad.removeAttr("readonly");
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            }
+
+        });
+    });
 
     var targetBien = $("#idcompania");
     var targetTipoDeBien = $("#tipodeBien");
@@ -1133,49 +1352,53 @@ jQuery(function ($) {
     var agenciasUser = $("#Agencia");
     if (agenciasUser.length)
     {
-        $.ajax({
-            type: "GET",
-            url: "/api/Freyja/GetAgencias/",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                try {
+        targetBien.on('change', function () { 
+        
+            $.ajax({
+                type: "GET",
+                url: "/api/Freyja/GetAgencias/" + userIdSiicon + "/" + $("#idcompania").val(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    try {
 
-                    agenciasUser.append("<option value=\"\">Selecciona una opción</option>");
-                    $.each(data, function (i, item) {
-                        var rows =
-                            "<option value=\"" + item.AgenciaId + "\" >" + item.Agencia +  " </option>";
-                        agenciasUser.append(rows);
-                    }); 
-                } catch (e) {
+                        agenciasUser.append("<option value=\"\">Selecciona una opción</option>");
+                        $.each(data, function (i, item) {
+                            var rows =
+                                "<option value=\"" + item.AgenciaId + "\" >" + item.Agencia + " </option>";
+                            agenciasUser.append(rows);
+                        });
+                    } catch (e) {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                        $(this).addClass('fa-spin');
+                    }
+                },
+                failure: function (data) {
                     $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                         '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button>' +
                         '</div >');
-                    $(this).addClass('fa-spin');
+                    $(this).removeClass('fa-spin');
+                },
+                error: function (data) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).removeClass('fa-spin');
                 }
-            },
-            failure: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-                $(this).removeClass('fa-spin');
-            },
-            error: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-                $(this).removeClass('fa-spin');
-            }
+            });
         });
+        
     }
 });
 
