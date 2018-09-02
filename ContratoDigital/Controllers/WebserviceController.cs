@@ -6,6 +6,7 @@ using ContratoDigital.Data;
 using ContratoDigital.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiiconWebService;
 
 namespace ContratoDigital.Controllers
@@ -29,11 +30,12 @@ namespace ContratoDigital.Controllers
             return await service.SelecccionarCompañiasAsync();
         }
 
-        [HttpGet("GetAgencias")]
+        [HttpGet("GetAgencias/{asesor}/{compania}")]
         [Route("api/Freyja/GetAgencias")]
-        public async Task<ActionResult<string>> GetAgencias()
+        public async Task<ActionResult<string>> GetAgencias(string asesor, string compania)
         {
-            return await service.SelecccionarAgenciasAsync();
+            return await service.SelecccionarTerceroAgenciasAsync(asesor, compania);
+            //return await service.SelecccionarAgenciasAsync();
         }
 
         [HttpGet("GetMarcas")]
@@ -131,6 +133,16 @@ namespace ContratoDigital.Controllers
         public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
         {
 
+            Console.WriteLine(persona.TipoPersonaId + ", " + persona.TipoIdentificacionRepreLegalId + ", " + persona.NumeroIdentificacionRepreLegal + ", " +
+                persona.CiudadConstitucionId + ", " + persona.FechaConstitucion + ", " + persona.PrimerNombre + ", " + persona.SegundoNombre + ", " + 
+                persona.PrimerApellido + ", " + persona.SegundoApellido + ", " + persona.RazonSocial + ", " + persona.TipoDocumentoIdentidadId + ", " + 
+                persona.NumeroDocumento + ", " + persona.DigitoVerificacion + ", " + persona.CiudadExpedicionId + ", " + persona.FechaNacimiento + ", " +
+                persona.CiudadNacimientoId + ", " + persona.SexoId + ", " + persona.EstadoCivilId + ", " + persona.Email + ", " +  persona.DireccionNotifiacion + ", " + 
+                persona.BarrioNotifiacion + ", " + persona.TelefonoNotifiacion + ", " + persona.CelularNotificacion + ", " + persona.DepartamentoNotificacionId + ", " + 
+                persona.CiudadNotificacionId + ", " + persona.EmpresaLabora + ", " + persona.CargoLabora + ", " + persona.DireccionLabora + ", " + 
+                persona.BarrioLabora + ", " + persona.TelefonoLabora + ", " + persona.CelularOficina + ", " + persona.DepartamentoLaboraId + ", " + 
+                persona.CiudadLaboraId + ", " + persona.IngresoMensual + ", " + persona.EgresoMensual + ", " + persona.Profesion + ", " + persona.TerceroId);
+
             return await service.CrearPersonaAsync(persona.TipoPersonaId, persona.TipoIdentificacionRepreLegalId,persona.NumeroIdentificacionRepreLegal,
                 persona.CiudadConstitucionId, persona.FechaConstitucion, persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido, persona.SegundoApellido,
                 persona.RazonSocial, persona.TipoDocumentoIdentidadId, persona.NumeroDocumento, persona.DigitoVerificacion, persona.CiudadExpedicionId, persona.FechaNacimiento,
@@ -194,6 +206,13 @@ namespace ContratoDigital.Controllers
             {                
                 throw;
             }
+        }
+        [HttpGet("GetCiudades/{id}")]
+        [Route("api/Freyja/GetCiudades")]
+        public ActionResult<List<Ciudades>> GetCiudades(int id)
+        {
+            var ciudades = _context.Ciudades.Where(x => x.IdDepartamentoSiicon == id).ToList(); //FromSql(sql : $"SELECT * FROM CIUDADES WHERE IdDepartamentoSiicon = {id}").ToList();
+            return ciudades;
         }
 
         

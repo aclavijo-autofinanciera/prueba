@@ -15,7 +15,7 @@ namespace ContratoDigital.Models
         public int IdDepartamentoSiicon { get; set; }
         public string Descripcion { get; set; }
 
-        public virtual TipoEstado TipoEstado {get;set;}
+        //public virtual TipoEstado TipoEstado {get;set;}
 
     }
 }
