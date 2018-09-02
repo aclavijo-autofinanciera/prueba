@@ -30,11 +30,13 @@ namespace ContratoDigital.Controllers
         private readonly ContratoDigitalContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IEmailConfiguration _emailConfiguration;
+        private readonly Utilities _utilities;
         public ProspectosController(ContratoDigitalContext context, IHostingEnvironment hostingEnvironment, IEmailConfiguration emailConfiguration)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
             _emailConfiguration = emailConfiguration;
+            _utilities = new Utilities(_context);
         }
 
         public async Task<IActionResult> Index()
@@ -54,7 +56,7 @@ namespace ContratoDigital.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(IFormCollection form)
         {
-            Prospecto prospecto = Utilities.FillProspecto(form);
+            Prospecto prospecto = _utilities.FillProspecto(form);
             _context.Prospectos.Add(prospecto);
             await _context.SaveChangesAsync();
             ConfirmacionProspecto confirmacionProspecto = new ConfirmacionProspecto()
@@ -141,12 +143,12 @@ namespace ContratoDigital.Controllers
 #if DEBUG 
 
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(src),
+                _utilities.GetTemplate(src),
                 "http://localhost:53036/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id);
 #endif
 #if RELEASE
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(src),
+                _utilities.GetTemplate(src),
                 "http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id); 
            
 #endif
@@ -209,7 +211,7 @@ namespace ContratoDigital.Controllers
             prospecto.ConfirmacionProspecto.DescripcionMedio = form["TipoMedioAgenciaDescripcion"];
             prospecto.ConfirmacionProspecto.TipoCliente = int.Parse(form["TipoCliente"]);
             prospecto.ConfirmacionProspecto.DescripcionTipoCliente = form["TipoClienteDescripcion"];
-            prospecto = Utilities.UpdateProspecto(form, prospecto);
+            prospecto = _utilities.UpdateProspecto(form, prospecto);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details","Prospectos", new {id = prospecto.IdProspecto });
         }
@@ -288,11 +290,11 @@ namespace ContratoDigital.Controllers
             string srcPdf = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.0-20180803.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.1-20180902.pdf";
             }
             else
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.0-20180803.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.1-20180902.pdf";
             }
 
             PdfWriter pdfWriter = new PdfWriter(stream);
@@ -302,7 +304,7 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            Utilities.FillPdf(fields, prospecto);
+            _utilities.FillPdf(fields, prospecto);
 
             pdfForm.FlattenFields();
             pdf.Close();
@@ -318,11 +320,11 @@ namespace ContratoDigital.Controllers
             string srcPdf = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.0-20180803.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.1-20180902.pdf";
             }
             else
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.0-20180803.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.1-20180902.pdf";
             }
                 
 
@@ -333,7 +335,7 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            Utilities.FillPdf(fields, prospecto);
+            _utilities.FillPdf(fields, prospecto);
 
             pdfForm.FlattenFields();
             pdf.Close();
@@ -394,7 +396,7 @@ namespace ContratoDigital.Controllers
                 }
             }
 
-            emailMessage.Content = String.Format(Utilities.GetTemplate(src));
+            emailMessage.Content = String.Format(_utilities.GetTemplate(src));
             try
             {
                 emailService.Send(emailMessage, stream, Constants.CotizacionPDF);
