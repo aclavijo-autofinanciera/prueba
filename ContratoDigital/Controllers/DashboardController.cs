@@ -54,10 +54,10 @@ namespace ContratoDigital.Controllers
 
             user.Nombre = form["Nombre"];
             user.Apellido = form["Apellido"];
-            int.TryParse(s: form["Agencia"], result:  out int agencia);            
+            //int.TryParse(s: form["Agencia"], result:  out int agencia);            
             user.Cedula = form["Cedula"];
             string userPwd = form["Password"];
-            user.Agencia = agencia;
+            //user.Agencia = agencia;
 
             WebserviceController service = new WebserviceController(_context);
             string resultSiicon = service.GetSiiconUserId(user.Cedula).Result.Value;            

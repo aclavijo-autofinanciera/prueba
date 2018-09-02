@@ -48,6 +48,41 @@
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-2">
+                            <strong>Rol</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <select id="Rol" name="Rol" class="form-control form-control-lg text-uppercase" autocomplete="off">
+                                <option>Seleccione una opción</option>
+                                @foreach (var item in RoleManager.Roles)
+                                {
+                                    <option value="@item.Name">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Cédula</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="Cedula" name="Cedula" class="form-control form-control-lg text-uppercase" autocomplete="off" value="@Model.Cedula" />
+                            <input type="hidden" id="IdAsesor" name="IdAsesor"/>
+                            <input type="hidden" id="IdSiicon" name="IdSiicon"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-area"></div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
                             <strong>UserName</strong>
                         </div>
                         <div class="col-12 col-md-10">
@@ -83,24 +118,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
-                <div class="polymer-box">
-                    <div class="row">
-                        <div class="col-12 col-md-2">
-                            <strong>Rol</strong>
-                        </div>
-                        <div class="col-12 col-md-10">
-                            <select id="Rol" name="Rol" class="form-control form-control-lg text-uppercase" autocomplete="off">
-                                <option>Seleccione una opción</option>
-                                @foreach (var item in RoleManager.Roles)
-                                {
-                                    <option value="@item.Name">@item.Name</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
@@ -128,18 +146,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
-                <div class="polymer-box">
-                    <div class="row">
-                        <div class="col-12 col-md-2">
-                            <strong>Cédula</strong>
-                        </div>
-                        <div class="col-12 col-md-10">
-                            <input type="text" id="Cedula" name="Cedula" class="form-control form-control-lg text-uppercase" autocomplete="off" value="@Model.Cedula" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
@@ -153,10 +160,6 @@
                     </div>
                 </div>
             </div>
-
-            
-
-
 
             <div class="col-12 col-md-8">
                 <div class="polymer-box">
