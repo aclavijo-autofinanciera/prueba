@@ -37,13 +37,18 @@ namespace ContratoDigital.Controllers
         private readonly UserManager<ContratoDigitalUser> _userManager;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IEmailConfiguration _emailConfiguration;
+        private readonly Utilities _utilities;
+        
         public ContratoDigitalController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, UserManager<ContratoDigitalUser> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _emailConfiguration = emailConfiguration;
             _userManager = userManager;
+            _utilities = new Utilities(_context);
+            
         }
+        
 
         public async Task<IActionResult> Index()
         {
@@ -65,7 +70,7 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Fill(IFormCollection form)
         {
 
-            Contrato contrato = Utilities.FillContrato(form);
+            Contrato contrato = _utilities.FillContrato(form);
             contrato.asesor_comercial = _userManager.GetUserId(User);
             _context.Add(contrato);
             await _context.SaveChangesAsync();
@@ -110,7 +115,7 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            Utilities.FillPdf(fields, contrato);
+            _utilities.FillPdf(fields, contrato);
 
             pdfForm.FlattenFields();
             pdf.Close();
@@ -198,12 +203,12 @@ namespace ContratoDigital.Controllers
 #if DEBUG
 
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(srcTemplate),
+                _utilities.GetTemplate(srcTemplate),
                 "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
 #endif
 #if RELEASE
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(srcTemplate),                
+                _utilities.GetTemplate(srcTemplate),                
                 "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);            
 #endif
             try
@@ -244,24 +249,37 @@ namespace ContratoDigital.Controllers
                 }
 
             }
-            
-            
-
-
-
-
             return View(contrato);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
             GetStatusList();
-            return View(await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id));
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            Status status = new Status(_context);
+            ViewData["ProcedenciaIdentidadSuscriptor"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor));
+            if(contrato.documento_identidad_representante_legal > 0)
+            {
+                ViewData["ProcedenciaIdentidadRepresentanteLegal"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_representante_legal));
+            }            
+            ViewData["CiudadSuscriptor"] = status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor));
+            ViewData["CiudadLaboralSuscriptor"] = status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor));
+            if(contrato.documento_identidad_suscriptor_conjunto > 0)
+            {
+                ViewData["ProcedenciaIdentidadSuscriptorConjunto"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor));
+                if (contrato.documento_identidad_representante_legal_suscriptor_conjunto > 0)
+                {
+                    ViewData["ProcedenciaIdentidadRepresentanteLegalConjunto"] = status.GetCiudadName(int.Parse(contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto));
+                }
+                ViewData["CiudadSuscriptorConjunto"] = status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor_conjunto));
+                ViewData["CiudadLaboralSuscriptorConjunto"] = status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor_conjunto));
+            }
+            return View(contrato);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(IFormCollection form)
-        {
+        {            
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == int.Parse(form["IdContrato"]));
             contrato.ConfirmacionContratos.Agencia = int.Parse(form["Agencia"]);
             contrato.ConfirmacionContratos.DescripcionAgencia = form["AgenciaDescripcion"];
@@ -271,7 +289,7 @@ namespace ContratoDigital.Controllers
             contrato.ConfirmacionContratos.DescripcionMedio = form["TipoMedioAgenciaDescripcion"];
             contrato.ConfirmacionContratos.TipoCliente = int.Parse(form["TipoCliente"]);
             contrato.ConfirmacionContratos.DescripcionTipoCliente = form["TipoClienteDescripcion"];
-            contrato = Utilities.UpdateContrato(form, contrato);
+            contrato = _utilities.UpdateContrato(form, contrato);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
@@ -320,7 +338,7 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            Utilities.FillPdf(fields, contrato);
+            _utilities.FillPdf(fields, contrato);
 
             pdfForm.FlattenFields();
             pdf.Close();
@@ -386,9 +404,7 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            //Contrato contrato = Utilities.FillContrato(form);
-
-            Utilities.FillPdf(fields, contrato);
+            _utilities.FillPdf(fields, contrato);
 
 
 
@@ -455,12 +471,12 @@ namespace ContratoDigital.Controllers
 #if DEBUG
 
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(srcTemplate),
+                _utilities.GetTemplate(srcTemplate),
                 "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
 #endif
 #if RELEASE
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(srcTemplate),
+                _utilities.GetTemplate(srcTemplate),
                 "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
 #endif
 
@@ -500,21 +516,21 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            //Contrato contrato = Utilities.FillContrato(form);
+            //Contrato contrato = _utilities.FillContrato(form);
             //Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
-            //Utilities.FillPdf(fields, contrato);
+            //_utilities.FillPdf(fields, contrato);
 
             PdfFormField toSet;
             string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
             // Número de contrato
             fields.TryGetValue("CodigoBarras", out toSet);
-            //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
-            //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));            
-            toSet.SetValue(Utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
+            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
+            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));            
+            toSet.SetValue(_utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
 
             fields.TryGetValue("CodigoBarrasPlano", out toSet);
             //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
-            toSet.SetValue("(415)" + convenio + "(8020)00000" + contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
+            toSet.SetValue("(415)" + convenio + "(8020)00000" + contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
 
 
             fields.TryGetValue("Nombre", out toSet);
@@ -621,7 +637,7 @@ namespace ContratoDigital.Controllers
                         break;
                 }
             }
-            emailMessage.Content = String.Format(Utilities.GetTemplate(srcTemplate));
+            emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate));
 
             try
             {
@@ -674,17 +690,17 @@ namespace ContratoDigital.Controllers
                 PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
                 IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-                //Contrato contrato = Utilities.FillContrato(form);
+                //Contrato contrato = _utilities.FillContrato(form);
                 //Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
-                //Utilities.FillPdf(fields, contrato);
+                //_utilities.FillPdf(fields, contrato);
 
                 PdfFormField toSet;
                 string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
                 // Número de contrato
                 fields.TryGetValue("CodigoBarras", out toSet);
-                //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
-                //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));                                                                                                            
-                toSet.SetValue(Utilities.GenerateCode128("415" + convenio + "802000000" +confirmacionContrato.ReferenciaPago + "3900" + contrato.valor_primer_pago + "96" + "00000" + String.Format("{0:dd-MM-yyyy}", confirmacionContrato.FechaReferenciaPago.AddDays(3)) ));
+                //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
+                //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));                                                                                                            
+                toSet.SetValue(_utilities.GenerateCode128("415" + convenio + "802000000" +confirmacionContrato.ReferenciaPago + "3900" + contrato.valor_primer_pago + "96" + "00000" + String.Format("{0:dd-MM-yyyy}", confirmacionContrato.FechaReferenciaPago.AddDays(3)) ));
 
                 fields.TryGetValue("CodigoBarrasPlano", out toSet);
                 //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
@@ -808,7 +824,7 @@ namespace ContratoDigital.Controllers
                             break;
                     }
                 }
-                emailMessage.Content = String.Format(Utilities.GetTemplate(srcTemplate));
+                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate));
 
                 try
                 {
@@ -836,12 +852,12 @@ namespace ContratoDigital.Controllers
             string src = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
-                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.0-20180803.pdf";
+                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.1-20180902.pdf";
 
             }
             else
             {
-                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-auto-v.1.0-20180803.pdf";
+                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-auto-v.1.1-20180902.pdf";
             }
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
@@ -850,21 +866,21 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            //Contrato contrato = Utilities.FillContrato(form);
+            //Contrato contrato = _utilities.FillContrato(form);
 
-            //Utilities.FillPdf(fields, contrato);
+            //_utilities.FillPdf(fields, contrato);
 
             PdfFormField toSet;
             string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
             // Número de contrato
             fields.TryGetValue("CodigoBarras", out toSet);
-            //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
-            //toSet.SetValue(Utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));
-            toSet.SetValue(Utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
+            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
+            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));
+            toSet.SetValue(_utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
 
             fields.TryGetValue("CodigoBarrasPlano", out toSet);
             //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
-            toSet.SetValue("(415)" + convenio + "(8020)00000" +contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + Utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
+            toSet.SetValue("(415)" + convenio + "(8020)00000" +contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
 
             fields.TryGetValue("Nombre", out toSet);
             toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
@@ -1106,12 +1122,12 @@ namespace ContratoDigital.Controllers
 #if DEBUG
 
             emailMessage.Content = String.Format(
-                Utilities.GetTemplate(srcTemplate),
+                _utilities.GetTemplate(srcTemplate),
                 "http://localhost:53036/ContratoDigital/RemoteUpload/?guuid=" + documentoIdentidad.Guuid + "&id=" + documentoIdentidad.IdDocumentoIdentidad);
 #endif
 #if RELEASE
                 emailMessage.Content = String.Format(
-                Utilities.GetTemplate(srcTemplate),                
+                _utilities.GetTemplate(srcTemplate),                
                 "http://tienda.autofinanciera.com.co/ContratoDigital/RemoteUpload/?guuid=" + documentoIdentidad.Guuid + "&id=" + documentoIdentidad.IdDocumentoIdentidad);            
 #endif
 
@@ -1233,8 +1249,8 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            Contrato contrato = Utilities.FillContrato(form);
-            Utilities.FillPdf(fields, contrato);
+            Contrato contrato = _utilities.FillContrato(form);
+            _utilities.FillPdf(fields, contrato);
 
             pdfForm.FlattenFields();
             pdf.Close();
@@ -1245,10 +1261,11 @@ namespace ContratoDigital.Controllers
 
         public async Task<IActionResult> RegisterSiicon(int id)
         {
+            Status status = new Status(_context);
             var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             PersonaSiicon personaSiicon = new PersonaSiicon();
             personaSiicon.TipoPersonaId = 2;
-            personaSiicon.CiudadConstitucionId = 99;
+            personaSiicon.CiudadConstitucionId = int.Parse(_utilities.PadWithZeroes( status.GetCiudadSiiconId( int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5));
             personaSiicon.FechaConstitucion = String.Format("{0:MM/dd/yyyy}",contrato.fecha_suscripcion_contrato);
             personaSiicon.PrimerNombre = contrato.primer_nombre;
             personaSiicon.SegundoNombre = contrato.segundo_nombre;
@@ -1257,9 +1274,9 @@ namespace ContratoDigital.Controllers
             personaSiicon.RazonSocial = contrato.nombre_razon_social_representante_legal;
             personaSiicon.TipoDocumentoIdentidadId = int.Parse(contrato.tipo_documento_identidad_suscriptor);
             personaSiicon.NumeroDocumento = contrato.documento_identidad_suscriptor.ToString();
-            personaSiicon.CiudadExpedicionId = 99;
+            personaSiicon.CiudadExpedicionId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5));
             personaSiicon.FechaNacimiento = String.Format("{0:MM/dd/yyyy}",contrato.fecha_nacimiento_suscriptor);
-            personaSiicon.CiudadNacimientoId = 99;
+            personaSiicon.CiudadNacimientoId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5)); ;
             personaSiicon.SexoId = int.Parse(contrato.sexo_suscriptor);
             personaSiicon.EstadoCivilId = int.Parse(contrato.estado_civil_suscriptor);
             personaSiicon.Email = contrato.email_suscriptor;
@@ -1267,16 +1284,16 @@ namespace ContratoDigital.Controllers
             personaSiicon.BarrioNotifiacion = contrato.direccion_domicilio_suscriptor;
             personaSiicon.TelefonoNotifiacion = contrato.telefono_suscriptor;
             personaSiicon.CelularNotificacion = contrato.celular_suscriptor;
-            personaSiicon.DepartamentoNotificacionId = int.Parse(contrato.departamento_suscriptor);
-            personaSiicon.CiudadNotificacionId = 99;
+            personaSiicon.DepartamentoNotificacionId = int.Parse(status.GetDepartamentoSiiconID( int.Parse(contrato.departamento_suscriptor)));
+            personaSiicon.CiudadNotificacionId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5)); ;
             personaSiicon.EmpresaLabora = contrato.empresa_empleadora_suscriptor;
             personaSiicon.CargoLabora = contrato.cargo_suscriptor;
             personaSiicon.DireccionLabora = contrato.direccion_empleo_suscriptor;
             personaSiicon.BarrioLabora = contrato.direccion_empleo_suscriptor;
             personaSiicon.TelefonoLabora = contrato.telefono_empleo_suscriptor;
             personaSiicon.CelularOficina = contrato.celular_empleo_suscriptor;
-            personaSiicon.DepartamentoLaboraId = int.Parse(contrato.departamento_empleo_suscriptor);
-            personaSiicon.CiudadLaboraId = 99;
+            personaSiicon.DepartamentoLaboraId = int.Parse(status.GetDepartamentoSiiconID(int.Parse(contrato.departamento_empleo_suscriptor)));
+            personaSiicon.CiudadLaboraId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_empleo_suscriptor)).ToString(), 5));
             personaSiicon.IngresoMensual = (int)contrato.ingresos_mensuales_suscriptor;
             personaSiicon.EgresoMensual = (int)contrato.egresos_mensuales_suscriptor;
             personaSiicon.Profesion = contrato.profesion_suscriptor;
@@ -1291,7 +1308,7 @@ namespace ContratoDigital.Controllers
 
 
         #region
-        // Utilities Local Methods
+        // _utilities Local Methods
         void GetStatusList()
         {
             ViewData["TipoIdentidad"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.TipoIdentificacion);
