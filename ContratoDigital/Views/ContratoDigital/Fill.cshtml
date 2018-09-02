@@ -92,8 +92,19 @@
                             <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_suscriptor" name="documento_identidad_suscriptor" required readonly value="@Model.NumeroDocumento" autocomplete="off" />
                         </div>
                         <div class="col-12 col-md-4">
+                            <label for="departamentoDocumentoSuscriptor">Departamento</label>
+                            <select id="departamentoDocumentoSuscriptor" name="departamentoDocumentoSuscriptor" class="form-control form-control-lg">
+                                <option value="">Seleccione un tipo</option>
+                                @foreach (var item in departamento)
+                                {
+                                    <option value="@item.IdEstado"  data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
+
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
                             <label for="procedencia_documento_identidad_suscriptor">De:</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required autocomplete="off" />
+                            <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required autocomplete="off" readonly ></select>
                         </div>
                     </div>
                 </section>
@@ -133,8 +144,18 @@
                                     <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" name="documento_identidad_representante_legal" autocomplete="off" />
                                 </div>
                                 <div class="col-12 col-md-4">
+                                    <select id="departamentoDocumentoRepresentanteLegal" name="departamentoDocumentoRepresentanteLegal" class="form-control form-control-lg">
+                                        <option value="">Seleccione un tipo</option>
+                                        @foreach (var item in departamento)
+                                        {
+                                            <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
+
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-4">
                                     <label for="procedencia_documento_identidad_representante_legal">De:</label>
-                                    <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" autocomplete="off" />
+                                    <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" autocomplete="off" readonly ></select>
                                 </div>
                             </div>
                         </div>
@@ -198,14 +219,14 @@
                                 <option value="">Seleccione un tipo</option>
                                 @foreach (var item in departamento)
                                 {
-                                    <option value="@item.IdEstado">@item.Descripcion</option>
+                                    <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
 
                                 }
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="ciudad_suscriptor">Ciudad</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor" name="ciudad_suscriptor" required autocomplete="off" />
+                            <select class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor" name="ciudad_suscriptor" required autocomplete="off" readonly></select>
                         </div>
                     </div>
 
@@ -287,14 +308,14 @@
                                 <option value="">Seleccione un tipo</option>
                                 @foreach (var item in departamento)
                                 {
-                                    <option value="@item.IdEstado">@item.Descripcion</option>
+                                    <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
 
                                 }
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="ciudad_empleo_suscriptor">Ciudad</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required autocomplete="off" />
+                            <select  class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required autocomplete="off" readonly ></select>
                         </div>
                     </div>
 

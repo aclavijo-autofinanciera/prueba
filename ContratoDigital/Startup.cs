@@ -55,6 +55,7 @@ namespace ContratoDigital
                     options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
                 });
             services.AddSingleton<Status>();
+            services.AddSingleton<Utilities>();
 
         }
 

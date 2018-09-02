@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
+using ContratoDigital.Controllers;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
 using iText.Barcodes;
@@ -25,18 +26,24 @@ namespace ContratoDigital
     /// <summary>
     /// Métodos utilitarios iterativos. 
     /// </summary>
-    static public class Utilities
+    public class Utilities
     {
 
+        private readonly ContratoDigitalContext _context;
+        public Utilities(ContratoDigitalContext context)
+        {
+            _context = context;
+        }
+        
         /// <summary>
         /// Asigna todos los valores de la clase contrato a un PDF.
         /// </summary>
         /// <param name="fields">Lista de campos del archivo PDF como tal</param>
         /// <param name="contrato">Modelo de datos de todas la personas.</param>
-        static public void FillPdf(IDictionary<String, PdfFormField> fields, Contrato contrato)
+        public void FillPdf(IDictionary<String, PdfFormField> fields, Contrato contrato)
         {
             PdfFormField toSet;
-
+            Status status = new Status(_context);
             // Número de contrato
             fields.TryGetValue("numero_de_contrato", out toSet);
             toSet.SetValue(contrato.numero_de_contrato.ToString().ToUpper());
@@ -49,13 +56,13 @@ namespace ContratoDigital
             fields.TryGetValue("tipo_documento_identidad_suscriptor", out toSet);
             switch (contrato.tipo_documento_identidad_suscriptor)
             {
-                case "1":
+                case "4":
                     toSet.SetValue("CC");
                     break;
-                case "2":
+                case "5":
                     toSet.SetValue("CE");
                     break;
-                case "3":
+                case "6":
                     toSet.SetValue("NIT");
                     break;
             }
@@ -67,7 +74,7 @@ namespace ContratoDigital
 
             // Procedencia documento de identidad
             fields.TryGetValue("procedencia_documento_identidad_suscriptor", out toSet);
-            toSet.SetValue(contrato.procedencia_documento_identidad_suscriptor.ToUpper());
+            toSet.SetValue(status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor)));
 
             if (contrato.documento_identidad_representante_legal > 0)
             {
@@ -77,7 +84,19 @@ namespace ContratoDigital
 
                 // Tipo de documento identidad
                 fields.TryGetValue("tipo_documento_representante_legal", out toSet);
-                toSet.SetValue(contrato.tipo_documento_representante_legal.ToUpper());
+                switch (contrato.tipo_documento_representante_legal.ToUpper())
+                {
+                    case "4":
+                        toSet.SetValue("CC");
+                        break;
+                    case "5":
+                        toSet.SetValue("CE");
+                        break;
+                    case "6":
+                        toSet.SetValue("NIT");
+                        break;
+                }
+                
 
                 // Documento identidad del representante legal
                 fields.TryGetValue("documento_identidad_representante_legal", out toSet);
@@ -85,7 +104,7 @@ namespace ContratoDigital
 
                 // Procedencia documento de identidad representate legal
                 fields.TryGetValue("procedencia_documento_identidad_representante_legal", out toSet);
-                toSet.SetValue(contrato.procedencia_documento_identidad_representante_legal.ToUpper());
+                toSet.SetValue(status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_representante_legal)));
             }
 
             // Fecha nacimiento suscriptor
@@ -98,15 +117,42 @@ namespace ContratoDigital
 
             // Lugar de nacimiento suscriptor
             fields.TryGetValue("lugar_nacimiento_suscriptor", out toSet);
-            toSet.SetValue(contrato.lugar_nacimiento_suscriptor.ToUpper());
+            toSet.SetValue(contrato.lugar_nacimiento_suscriptor);
 
             // Sexo suscriptor
             fields.TryGetValue("sexo_suscriptor", out toSet);
-            toSet.SetValue(contrato.sexo_suscriptor);
+            switch (contrato.sexo_suscriptor)
+            {
+                case "8":
+                    toSet.SetValue("masculino");
+                    break;
+                case "9":
+                    toSet.SetValue("femenino");
+                    break;
+            }
+            
 
             // Estado Civil Suscriptor
             fields.TryGetValue("estado_civil_suscriptor", out toSet);
-            toSet.SetValue(contrato.estado_civil_suscriptor);
+            switch (contrato.estado_civil_suscriptor)
+            {
+                case "11":
+                    toSet.SetValue("soltero");
+                    break;
+                case "12":
+                    toSet.SetValue("divorciado");
+                    break;
+                case "13":
+                    toSet.SetValue("casado");
+                    break;
+                case "14":
+                    toSet.SetValue("viudo");
+                    break;
+                case "16":
+                    toSet.SetValue("UL");
+                    break;
+            }
+            
 
             // Dirección de domicilio suscriptor
             fields.TryGetValue("direccion_domicilio_suscriptor", out toSet);
@@ -114,11 +160,11 @@ namespace ContratoDigital
 
             // Departamento de suscriptor 
             fields.TryGetValue("departamento_suscriptor", out toSet);
-            toSet.SetValue(contrato.departamento_suscriptor.ToUpper());
+            toSet.SetValue(status.GetStatusName(int.Parse( contrato.departamento_suscriptor)));
 
             // Ciudad suscriptor
             fields.TryGetValue("ciudad_suscriptor", out toSet);
-            toSet.SetValue(contrato.ciudad_suscriptor.ToUpper());
+            toSet.SetValue(status.GetCiudadName(int.Parse( contrato.ciudad_suscriptor)));
 
             // Teléfono suscritpro
             fields.TryGetValue("telefono_suscriptor", out toSet);
@@ -155,11 +201,11 @@ namespace ContratoDigital
 
             // Departamento laboral suscriptor
             fields.TryGetValue("departamento_empleo_suscriptor", out toSet);
-            toSet.SetValue(contrato.departamento_empleo_suscriptor.ToUpper());
+            toSet.SetValue(status.GetStatusName(int.Parse( contrato.departamento_empleo_suscriptor)));
 
             // ciudad laboral suscriptor
             fields.TryGetValue("ciudad_empleo_suscriptor", out toSet);
-            toSet.SetValue(contrato.ciudad_empleo_suscriptor.ToUpper());
+            toSet.SetValue(status.GetCiudadName(int.Parse( contrato.ciudad_empleo_suscriptor)));
 
             //Teléfono Laboral Suscriptor
             fields.TryGetValue("telefono_empleo_suscriptor", out toSet);
@@ -201,13 +247,13 @@ namespace ContratoDigital
                 fields.TryGetValue("tipo_identidad_suscriptor_conjunto", out toSet);
                 switch (contrato.tipo_identidad_suscriptor_conjunto)
                 {
-                    case "1":
+                    case "4":
                         toSet.SetValue("CC");
                         break;
-                    case "2":
+                    case "5":
                         toSet.SetValue("CE");
                         break;
-                    case "3":
+                    case "6":
                         toSet.SetValue("NIT");
                         break;
                 }
@@ -219,7 +265,7 @@ namespace ContratoDigital
 
                 // Procedencia de documento de identidad
                 fields.TryGetValue("procedencia_documento_identidad_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.procedencia_documento_identidad_suscriptor.ToUpper());
+                toSet.SetValue(status.GetCiudadName(int.Parse( contrato.procedencia_documento_identidad_suscriptor)));
 
                 if (contrato.documento_identidad_representante_legal_suscriptor_conjunto > 0)
                 {
@@ -231,13 +277,13 @@ namespace ContratoDigital
                     fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);
                     switch (contrato.tipo_identidad_representante_legal_suscriptor_conjunto)
                     {
-                        case "1":
+                        case "4":
                             toSet.SetValue("CC");
                             break;
-                        case "2":
+                        case "5":
                             toSet.SetValue("CE");
                             break;
-                        case "3":
+                        case "6":
                             toSet.SetValue("NIT");
                             break;
                     }
@@ -248,7 +294,7 @@ namespace ContratoDigital
 
                     // Procedencia del documento de identidad representante legal
                     fields.TryGetValue("procedencia_identificacion_representante_legal_suscriptor_conjunto", out toSet);
-                    toSet.SetValue(contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto.ToUpper());
+                    toSet.SetValue(status.GetCiudadName(int.Parse(contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto)));
 
                 }
 
@@ -262,15 +308,40 @@ namespace ContratoDigital
 
                 // lugar nacimiento suscriptor conjunto
                 fields.TryGetValue("lugar_nacimiento_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.lugar_nacimiento_suscriptor_conjunto.ToUpper());
+                toSet.SetValue(contrato.lugar_nacimiento_suscriptor_conjunto);
 
                 // Sexo Suscriptor conjunto
                 fields.TryGetValue("sexo_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.sexo_suscriptor_conjunto);
+                switch (contrato.sexo_suscriptor_conjunto)
+                {
+                    case "8":
+                        toSet.SetValue("masculino");
+                        break;
+                    case "9":
+                        toSet.SetValue("femenino");
+                        break;
+                }
 
                 // Estado civil
                 fields.TryGetValue("estado_civil_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.estado_civil_suscriptor_conjunto);
+                switch (contrato.estado_civil_suscriptor_conjunto)
+                {
+                    case "11":
+                        toSet.SetValue("soltero");
+                        break;
+                    case "12":
+                        toSet.SetValue("divorciado");
+                        break;
+                    case "13":
+                        toSet.SetValue("casado");
+                        break;
+                    case "14":
+                        toSet.SetValue("viudo");
+                        break;
+                    case "16":
+                        toSet.SetValue("UL");
+                        break;
+                }
 
                 // Dirección domicilio suscriptor conjunto
                 fields.TryGetValue("dirección_suscriptor_conjunto", out toSet);
@@ -278,11 +349,11 @@ namespace ContratoDigital
 
                 // departamento suscriptor conjunto
                 fields.TryGetValue("departamento_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.departamento_suscriptor_conjunto.ToUpper());
+                toSet.SetValue(status.GetStatusName(int.Parse( contrato.departamento_suscriptor_conjunto)));
 
                 // ciudad suscriptor conjuntos
                 fields.TryGetValue("ciudad_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.ciudad_suscriptor_conjunto.ToUpper());
+                toSet.SetValue(status.GetCiudadName(int.Parse( contrato.ciudad_suscriptor_conjunto)));
 
                 // Telefono suscriptor conjunto
                 fields.TryGetValue("telefono_suscriptor_conjunto", out toSet);
@@ -318,11 +389,11 @@ namespace ContratoDigital
 
                 //Departamento suscriptor conjunto
                 fields.TryGetValue("departamento_empleo_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.departamento_empleo_suscriptor_conjunto.ToUpper());
+                toSet.SetValue(status.GetStatusName(int.Parse( contrato.departamento_empleo_suscriptor_conjunto)));
 
                 // CIudad empleo suscriptor conjunto
                 fields.TryGetValue("ciudad_empleo_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.ciudad_empleo_suscriptor_conjunto.ToUpper());
+                toSet.SetValue(status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor_conjunto)));
 
                 // Teléfono empleo Suscriptor Conjunto            
                 fields.TryGetValue("telefono_empleo_suscriptor_conjunto", out toSet);
@@ -507,7 +578,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="fields">Lista de cmapos del archivo PDF como tal</param>
         /// <param name="prospecto">Modelo de datos del prospecto</param>
-        static public void FillPdf(IDictionary<String, PdfFormField> fields, Prospecto prospecto)
+        public void FillPdf(IDictionary<String, PdfFormField> fields, Prospecto prospecto)
         {
             PdfFormField toSet;
 
@@ -583,7 +654,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="form">Los datos del formulario HTML capturados</param>
         /// <returns>una entidad de personas con todos los datos del contrato PDF</returns>
-        static public Contrato FillContrato(IFormCollection form)
+        public Contrato FillContrato(IFormCollection form)
         {
             Contrato contrato = new Contrato();
             // Suscriptor
@@ -777,7 +848,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="form">Los datos del formulario HTML capturados</param>
         /// <returns>una entidad de personas con todos los datos del contrato PDF</returns>
-        static public Contrato UpdateContrato(IFormCollection form, Contrato contrato)
+        public Contrato UpdateContrato(IFormCollection form, Contrato contrato)
         {
             // Suscriptor
             contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
@@ -967,7 +1038,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="form">Los datos del formulario HTML capturados</param>
         /// <returns>Un entidad de persnoas cona todos los datos del contrato PDF</returns>
-        static public Prospecto FillProspecto(IFormCollection form)
+        public Prospecto FillProspecto(IFormCollection form)
         {
             Prospecto prospecto = new Prospecto();
             prospecto.PrimerNombre = form["PrimerNombre"].ToString().ToUpper();
@@ -1049,7 +1120,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="form">Los datos del formulario HTML capturados</param>
         /// <returns>Un entidad de persnoas cona todos los datos del contrato PDF</returns>
-        static public Prospecto UpdateProspecto(IFormCollection form, Prospecto prospecto)
+        public Prospecto UpdateProspecto(IFormCollection form, Prospecto prospecto)
         {
             prospecto.PrimerNombre = form["PrimerNombre"].ToString().ToUpper();
             prospecto.SegundoNombre = form["SegundoNombre"].ToString().ToUpper();
@@ -1129,7 +1200,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="codeContent">El código en números a ser codificado</param>
         /// <returns>El código encriptado en formato ASCII</returns>
-        static public string GenerateCode128(string codeContent)
+        public string GenerateCode128(string codeContent)
         {
             int i = 0;
             long checksum = 0; ;
@@ -1240,7 +1311,7 @@ namespace ContratoDigital
         /// <param name="mini"></param>
         /// <param name="codeContent">La cadena a ser transformada</param>
         /// <param name="i">Índice </param>
-        static public void TestNum(ref int mini, ref string codeContent, ref int i)
+        public void TestNum(ref int mini, ref string codeContent, ref int i)
         {
             mini = mini - 1;
             if (i + mini <= codeContent.Length)
@@ -1264,7 +1335,7 @@ namespace ContratoDigital
         /// </summary>
         /// <param name="templateName">Nombre de la plantilla</param>
         /// <returns></returns>
-        static public string GetTemplate(string templateName)
+        public string GetTemplate(string templateName)
         {
             using (var stream = new FileStream(templateName, FileMode.Open)) //Assembly.GetExecutingAssembly().GetManifestResourceStream(templateName))
             {
@@ -1278,7 +1349,7 @@ namespace ContratoDigital
         /// <param name="value">El valor incial a rellenar</param>
         /// <param name="max">El máximo número de caracteres a rellenar</param>
         /// <returns>El valor inicial con padding de ceros</returns>
-        static public string PadWithZeroes(string value, int max)
+        public string PadWithZeroes(string value, int max)
         {
             var eval = value.Split('.');
             int j = eval[0].Length;
@@ -1345,7 +1416,20 @@ namespace ContratoDigital
         public string GetStatusName(int id)
         {
             return  _context.Estados.SingleOrDefault(x => x.IdEstado == id).Descripcion;
-        }        
+        }
+        public string GetDepartamentoSiiconID(int id)
+        {
+            return _context.Estados.SingleOrDefault(x => x.IdEstado == id).IdSiicon.ToString();
+        }
+        public string GetCiudadName(int id)
+        {
+            return _context.Ciudades.SingleOrDefault(x => x.IdCiudad == id).Descripcion;
+        }
+
+        public int GetCiudadSiiconId(int id)
+        {
+            return _context.Ciudades.SingleOrDefault(x => x.IdCiudad == id).IdSiicon;
+        }
     }
 
 }
