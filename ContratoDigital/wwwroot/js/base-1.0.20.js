@@ -59,20 +59,7 @@ jQuery(function ($) {
         maxDate: "-18Y"
     });
       
-    $("#isRepreentanteLegal").on("click", function () {
-        $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
-        $("#nombre_razon_social_representante_legal").prop("required", true);
-    });
-
-    $("#isRepreentanteLegalConjunto").on("click", function () {
-        $("#RepresentanteLegalConjuntoSection").fadeIn("slow").removeClass("d-none");
-        $("#representante_legal_suscriptor_conjunto").prop("required", true);
-    });
-
-    $("#isSuscriptorConjunto").on("click", function () {
-        $("#SuscriptorConjuntoSection").fadeIn("slow").removeClass("d-none");
-        $("#nombre_suscriptor_conjunto").prop("required", true);
-    });
+    
 
     // Validación de prospecto.
     $(".ProspectoValidation").validate({
@@ -112,7 +99,17 @@ jQuery(function ($) {
             Email: {
                 required: true,
                 email: true
+            },
+            TipoMedio: {
+                required: true
+            },
+            TipoMedioAgencia: {
+                required: true
+            },
+            TipoCliente: {
+                required: true
             }
+
         },
         messages: {
             // Prospecto 
@@ -150,6 +147,15 @@ jQuery(function ($) {
             Email: {
                 required: "Este campo es requerido",
                 email: "Este cmapo debe ser un correo válido"
+            },
+            TipoMedio: {
+                required: "Este campo es requerido"
+            },
+            TipoMedioAgencia: {
+                required: "Este campo es requerido"
+            },
+            TipoCliente: {
+                required: "Este campo es requerido"
             }
         }
     });
@@ -317,9 +323,6 @@ jQuery(function ($) {
             documento_identidad_suscriptor_conjunto: {
                 digits:true
             },
-            procedencia_documento_identidad_suscriptor_conjunto: {
-                alphabetical:true
-            },
             fecha_nacimiento_suscriptor_conjunto: {
                 //dateISO:true
             },
@@ -358,6 +361,15 @@ jQuery(function ($) {
             },
             email_suscriptor_conjunto: {
                 email:true
+            },
+            TipoMedio: {
+                required: true
+            },
+            TipoMedioAgencia: {
+                required: true
+            },
+            TipoCliente: {
+                required: true
             }
         },
         messages: {
@@ -521,9 +533,6 @@ jQuery(function ($) {
             documento_identidad_suscriptor_conjunto: {
                 digits: "El campo debe ser numérico"
             },
-            procedencia_documento_identidad_suscriptor_conjunto: {
-                alphabetical: "El campo debe ser alfabético"
-            },
             fecha_nacimiento_suscriptor_conjunto: {
                 dateISO: "Debe ingresar una fecha válida"
             },
@@ -560,6 +569,15 @@ jQuery(function ($) {
             },
             email_suscriptor_conjunto: {
                 email: "Debe ingresar una dirección de correo válida"
+            },
+            TipoMedio: {
+                required: "Requerido"
+            },
+            TipoMedioAgencia: {
+                required: "Requerido"
+            },
+            TipoCliente: {
+                required: "Requerido"
             }
         },
         submitHandler: function (form) {
@@ -567,7 +585,295 @@ jQuery(function ($) {
         }
     });
 
+    // Validación representante legal
+    $("#isRepreentanteLegal").on("click", function () {
+        $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
+        $("#nombre_razon_social_representante_legal, #tipo_documento_representante_legal, #documento_identidad_representante_legal, #procedencia_documento_identidad_representante_legal  ").prop("required", true);
+        $("#nombre_razon_social_representante_legal").rules("add", {
+            required: true,
+            alphabetical: true,
+            messages: {
+                required: "Required input",
+                alphabetical: "Este campo es alfabético"
+            }
+        });
+        $("#tipo_documento_representante_legal, #procedencia_documento_identidad_representante_legal").rules("add", {
+            required: true,
+            messages: {
+                required: "Este campo es requerido"
 
+            }
+        });
+        $("#documento_identidad_representante_legal").rules("add", {
+            required: true,
+            digits: true,
+            messages: {
+                required: "Este campo es requerido",
+                digits: "Este campo es numérico"
+            }
+        });
+    });
+    if ($("#documento_identidad_representante_legal").length > 0)
+    {
+        if ($("#documento_identidad_representante_legal").val().length > 0) {
+            $("#nombre_razon_social_representante_legal, #tipo_documento_representante_legal, #documento_identidad_representante_legal, #procedencia_documento_identidad_representante_legal  ").prop("required", true);
+            $("#nombre_razon_social_representante_legal").rules("add", {
+                required: true,
+                alphabetical: true,
+                messages: {
+                    required: "Required input",
+                    alphabetical: "Este campo es alfabético"
+                }
+            });
+            $("#tipo_documento_representante_legal, #procedencia_documento_identidad_representante_legal").rules("add", {
+                required: true,
+                messages: {
+                    required: "Este campo es requerido"
+
+                }
+            });
+            $("#documento_identidad_representante_legal").rules("add", {
+                required: true,
+                digits: true,
+                messages: {
+                    required: "Este campo es requerido",
+                    digits: "Este campo es numérico"
+                }
+            });
+        }
+    }
+    
+
+    // Validación representante legal conjunto
+    $("#isRepreentanteLegalConjunto").on("click", function () {
+        $("#RepresentanteLegalConjuntoSection").fadeIn("slow").removeClass("d-none");
+        $("#representante_legal_suscriptor_conjunto, #tipo_identidad_representante_legal_suscriptor_conjunto," +
+            " #documento_identidad_representante_legal_suscriptor_conjunto, " +
+            "#procedencia_identificacion_representante_legal_suscriptor_conjunto").prop("required", true);
+
+        $("#representante_legal_suscriptor_conjunto").rules("add", {
+            required: true,
+            alphabetical:true,
+            messages: {
+                required: "Required input",
+                alphabetical: "Este campo es alfabético"
+            }
+        });
+        $("#tipo_identidad_representante_legal_suscriptor_conjunto, #procedencia_identificacion_representante_legal_suscriptor_conjunto").rules("add", {
+            required: true,        
+            messages: {
+                required: "Este campo es requerido"
+                
+            }
+        });
+        $("#documento_identidad_representante_legal_suscriptor_conjunto").rules("add", {
+            required: true,        
+            digits:true,
+            messages: {
+                required: "Este campo es requerido",
+                digits:"Este campo es numérico"
+
+                
+            }
+        });
+        
+    });
+    if ($("#documento_identidad_representante_legal_suscriptor_conjunto").length > 0)
+    {
+        if ($("#documento_identidad_representante_legal_suscriptor_conjunto").val().length > 0) {
+            $("#representante_legal_suscriptor_conjunto, #tipo_identidad_representante_legal_suscriptor_conjunto," +
+                " #documento_identidad_representante_legal_suscriptor_conjunto, " +
+                "#procedencia_identificacion_representante_legal_suscriptor_conjunto").prop("required", true);
+
+            $("#representante_legal_suscriptor_conjunto").rules("add", {
+                required: true,
+                alphabetical: true,
+                messages: {
+                    required: "Required input",
+                    alphabetical: "Este campo es alfabético"
+                }
+            });
+            $("#tipo_identidad_representante_legal_suscriptor_conjunto, #procedencia_identificacion_representante_legal_suscriptor_conjunto").rules("add", {
+                required: true,
+                messages: {
+                    required: "Este campo es requerido"
+
+                }
+            });
+            $("#documento_identidad_representante_legal_suscriptor_conjunto").rules("add", {
+                required: true,
+                digits: true,
+                messages: {
+                    required: "Este campo es requerido",
+                    digits: "Este campo es numérico"
+
+
+                }
+            });
+        }
+    }   
+
+    // Validación suscriptor conjunto
+    $("#isSuscriptorConjunto").on("click", function () {
+        $("#SuscriptorConjuntoSection").fadeIn("slow").removeClass("d-none");
+        $("#nombre_suscriptor_conjunto,#tipo_identidad_suscriptor_conjunto, #documento_identidad_suscriptor_conjunto, " +
+            "#procedencia_documento_identidad_suscriptor_conjunto, #fecha_nacimiento_suscriptor_conjunto, #lugar_nacimiento_suscriptor_conjunto, " +
+            "#sexo_suscriptor_conjunto, #estado_civil_suscriptor_conjunto, #dirección_suscriptor_conjunto, #departamento_suscriptor_conjunto, " +
+            "#ciudad_suscriptor_conjunto, #telefono_suscriptor_conjunto,  #celular_suscriptor_conjunto, #empresa_empleadora_suscriptor_conjunto," +
+            "#cargo_suscriptor_conjunto, #ingresos_mensuales_suscriptor_conjunto, #egresos_mensuales_suscriptor_conjunto, #otros_ingresos_suscriptor_conjunto," + 
+            "#direccion_empleo_suscriptor_conjunto, #departamento_empleo_suscriptor_conjunto, #ciudad_empleo_suscriptor_conjunto, #telefono_empleo_suscriptor_conjunto," +
+
+            "#celular_empleo_suscriptor_conjunto, #profesion_suscriptor_conjunto, #correspondencia_suscriptor_conjunto, #email_suscriptor_conjunto").prop("required", true);
+
+        $("#nombre_suscriptor_conjunto, #lugar_nacimiento_suscriptor_conjunto, #empresa_empleadora_suscriptor_conjunto," +
+        "#cargo_suscriptor_conjunto,#profesion_suscriptor_conjunto").rules("add", {
+            required: true,
+            alphabetical: true,
+            messages: {
+                required: "Este campo es requerido",
+                alphabetical: "Este campo debe ser alfabético"
+            }
+        });
+        $("#tipo_identidad_suscriptor_conjunto, #procedencia_documento_identidad_suscriptor_conjunto," +
+            "#fecha_nacimiento_suscriptor_conjunto, #sexo_suscriptor_conjunto, #estado_civil_suscriptor_conjunto," +
+            "#departamento_suscriptor_conjunto, #ciudad_suscriptor_conjunto,#departamento_empleo_suscriptor_conjunto," +
+            " #ciudad_empleo_suscriptor_conjunto, #correspondencia_suscriptor_conjunto ").rules("add", {
+            required: true,
+            messages: {
+                required:"Este campo es requerido"
+            }
+        });
+        $("#dirección_suscriptor_conjunto, #direccion_empleo_suscriptor_conjunto").rules("add", {
+            required: true,
+            maxlength:200,
+            messages: {
+                required: "Este campo es requerido",
+                maxlength: "Este campo debe tener máximo 200 caracteres"
+            }
+        });
+        $("#documento_identidad_suscriptor_conjunto").rules("add", {
+            required: true,
+            digits: true,
+            messages: {
+                required: "Este campo es requerido",
+                digits: "este campo debe ser numérico"
+            }
+        });
+        $("#telefono_suscriptor_conjunto, #celular_suscriptor_conjunto, " +
+            "#telefono_empleo_suscriptor_conjunto, #celular_empleo_suscriptor_conjunto").rules("add", {
+                required: true,
+                digits: true,
+                minlength:7,
+                messages: {
+                    required: "Este campo es requerido",
+                    digits: "este campo debe ser numérico",
+                    minLength: "Este campo de ser un número de teléfono válido"
+                }
+        });
+        $("#ingresos_mensuales_suscriptor_conjunto, #egresos_mensuales_suscriptor_conjunto, #otros_ingresos_suscriptor_conjunto").rules("add", {
+            required: true,
+            number: true,
+            messages: {
+                required: "Este campo es requerido",
+                number: "este campo debe ser numérico"
+            }
+        });
+        $("#email_suscriptor_conjunto").rules("add", {
+            required: true,
+            email: true,
+            messages: {
+                required: "Este campo es requerido",
+                email: "Debe ser un email válido"
+            }
+        });
+
+
+        /*$("#myinput").rules("add", {
+            required: true,
+            minlength: 2,
+            messages: {
+                required: "Required input",
+                minlength: jQuery.validator.format("Please, at least {0} characters are necessary")
+            }
+        });*/
+
+    });
+    if ($("#documento_identidad_suscriptor_conjunto").length>0)
+    {
+        if ($("#documento_identidad_suscriptor_conjunto").val().length > 0) {
+            $("#nombre_suscriptor_conjunto,#tipo_identidad_suscriptor_conjunto, #documento_identidad_suscriptor_conjunto, " +
+                "#procedencia_documento_identidad_suscriptor_conjunto, #fecha_nacimiento_suscriptor_conjunto, #lugar_nacimiento_suscriptor_conjunto, " +
+                "#sexo_suscriptor_conjunto, #estado_civil_suscriptor_conjunto, #dirección_suscriptor_conjunto, #departamento_suscriptor_conjunto, " +
+                "#ciudad_suscriptor_conjunto, #telefono_suscriptor_conjunto,  #celular_suscriptor_conjunto, #empresa_empleadora_suscriptor_conjunto," +
+                "#cargo_suscriptor_conjunto, #ingresos_mensuales_suscriptor_conjunto, #egresos_mensuales_suscriptor_conjunto, #otros_ingresos_suscriptor_conjunto," +
+                "#direccion_empleo_suscriptor_conjunto, #departamento_empleo_suscriptor_conjunto, #ciudad_empleo_suscriptor_conjunto, #telefono_empleo_suscriptor_conjunto," +
+
+                "#celular_empleo_suscriptor_conjunto, #profesion_suscriptor_conjunto, #correspondencia_suscriptor_conjunto, #email_suscriptor_conjunto").prop("required", true);
+
+            $("#nombre_suscriptor_conjunto, #lugar_nacimiento_suscriptor_conjunto, #empresa_empleadora_suscriptor_conjunto," +
+                "#cargo_suscriptor_conjunto,#profesion_suscriptor_conjunto").rules("add", {
+                    required: true,
+                    alphabetical: true,
+                    messages: {
+                        required: "Este campo es requerido",
+                        alphabetical: "Este campo debe ser alfabético"
+                    }
+                });
+            $("#tipo_identidad_suscriptor_conjunto, #procedencia_documento_identidad_suscriptor_conjunto," +
+                "#fecha_nacimiento_suscriptor_conjunto, #sexo_suscriptor_conjunto, #estado_civil_suscriptor_conjunto," +
+                "#departamento_suscriptor_conjunto, #ciudad_suscriptor_conjunto,#departamento_empleo_suscriptor_conjunto," +
+                " #ciudad_empleo_suscriptor_conjunto, #correspondencia_suscriptor_conjunto ").rules("add", {
+                    required: true,
+                    messages: {
+                        required: "Este campo es requerido"
+                    }
+                });
+            $("#dirección_suscriptor_conjunto, #direccion_empleo_suscriptor_conjunto").rules("add", {
+                required: true,
+                maxlength: 200,
+                messages: {
+                    required: "Este campo es requerido",
+                    maxlength: "Este campo debe tener máximo 200 caracteres"
+                }
+            });
+            $("#documento_identidad_suscriptor_conjunto").rules("add", {
+                required: true,
+                digits: true,
+                messages: {
+                    required: "Este campo es requerido",
+                    digits: "este campo debe ser numérico"
+                }
+            });
+            $("#telefono_suscriptor_conjunto, #celular_suscriptor_conjunto, " +
+                "#telefono_empleo_suscriptor_conjunto, #celular_empleo_suscriptor_conjunto").rules("add", {
+                    required: true,
+                    digits: true,
+                    minlength: 7,
+                    messages: {
+                        required: "Este campo es requerido",
+                        digits: "este campo debe ser numérico",
+                        minLength: "Este campo de ser un número de teléfono válido"
+                    }
+                });
+            $("#ingresos_mensuales_suscriptor_conjunto, #egresos_mensuales_suscriptor_conjunto, #otros_ingresos_suscriptor_conjunto").rules("add", {
+                required: true,
+                number: true,
+                messages: {
+                    required: "Este campo es requerido",
+                    number: "este campo debe ser numérico"
+                }
+            });
+            $("#email_suscriptor_conjunto").rules("add", {
+                required: true,
+                email: true,
+                messages: {
+                    required: "Este campo es requerido",
+                    email: "Debe ser un email válido"
+                }
+            });
+        }
+    }
+    
     // User Validation
     $(".UserValidation").validate({
         rules: {
@@ -650,6 +956,8 @@ jQuery(function ($) {
                         {
                             $("#IdAsesor").val(data[0].CodAsesor);
                             $("#Nombre").val(data[0].Asesor);
+                            $("#Agencia").val(data[0].CodAgencia);
+                            $("#DescripcionAgencia").val(data[0].Agencia);
                             $('.error-area').html('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
                                 '<strong>El usuario puede ser registrado (Code: ' + data[0].CodAsesor + ').</strong>' +
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -667,14 +975,12 @@ jQuery(function ($) {
                                 '<span aria-hidden="true">&times;</span>' +
                                 '</button>' +
                                 '</div >');
-                        }   
-
-                        
+                        }                           
                     }
                     else
                     {
                         $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                            '<strong>El usuario no posee un regustro en SIICON y no puede ser creado.</strong>' +
+                            '<strong>El usuario no posee un registro en SIICON y no puede ser creado.</strong>' +
                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                             '<span aria-hidden="true">&times;</span>' +
                             '</button>' +
@@ -721,6 +1027,7 @@ jQuery(function ($) {
         }
     }
 
+    // Ciudades Suscriptor
     // Selección de ciudad
     $("#departamentoDocumentoSuscriptor").on('change', function () {
         $.ajax({
@@ -873,39 +1180,24 @@ jQuery(function ($) {
         });
     });
 
-    var targetBien = $("#idcompania");
-    var targetTipoDeBien = $("#tipodeBien");
-    var targetMarca = $("#marca");
-    var targetPlanAhorro = $("#planDeAhorro");
-    var targetCalculo = $("#tipoCalculo");
-    // Assign tipo de bien
-    targetBien.on('change', function ()
-    {        
-        $("#compania").val($(this).find(":selected").text());
-        if ($("#idcompania").val() === "6831062e-c994-4686-a989-1964b1200cbc") {
-            $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
-            $("#legaleseAuto").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
-        }
-        else {
-            $("#legaleseAuto").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
-            $("#legaleseElectro").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
-        }
+    // Ciudades Suscriptor Conjunto
+    // Selección de ciudad suscriptor conjunto
+    $("#departamentoDocumentoSuscriptorConjunto").on('change', function () {
         $.ajax({
             type: "GET",
-            url: "/api/Freyja/GetTipoBien/" + $(this).find(":selected").val(),
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                targetTipoDeBien.empty();
-                targetTipoDeBien.append("<option value=\"\">Selecciona una opción</option>");
+                var ciudad = $("#procedencia_documento_identidad_suscriptor_conjunto");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
                 $.each(data, function (i, item) {
                     var rows =
-                        "<option value=\"" + item.CodTipoBien + "\">" + item["Tipo de Bien"] + "</option>";
-                    targetTipoDeBien.append(rows);
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
                 });
-                targetTipoDeBien.removeAttr("readonly");
-                $("#Agencia").removeAttr("readonly");
-                $("#TipoMedio").removeAttr("readonly");
+                ciudad.removeAttr("readonly");
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
@@ -924,68 +1216,26 @@ jQuery(function ($) {
                     '</div >');
             }
 
-        });        
+        });
     });
 
-    // Asssign marca
-    targetTipoDeBien.on("change", function ()
-    {        
-        $('#descripcionTipoBien').val(targetTipoDeBien.find(":selected").text());
+    // Delección de ciudad para representante legal  suscriptor conjunto
+    $("#departamentoDocumentoLegalSuscriptorConjunto").on('change', function () {
         $.ajax({
             type: "GET",
-            url: "/api/Freyja/GetMarcas",
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                targetMarca.empty();                
-                targetMarca.append("<option value=\"\">Selecciona una opción</option>");
+                var ciudad = $("#procedencia_identificacion_representante_legal_suscriptor_conjunto");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
                 $.each(data, function (i, item) {
                     var rows =
-                        "<option value=\"" + ((targetBien.val() === "26e0e553-8bb9-41b2-869a-1fddaf06e900") ? item.CodMarcaAuto : item.CodMarcaElectro) + "\">" + item.Marca + "</option>";
-                    targetMarca.append(rows);
-                }); 
-                targetMarca.removeAttr("readonly");
-            }, 
-            failure: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-            }, 
-            error: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-            } 
-
-        });
-        
-    });
-
-    // assign Plan de Ahorro
-    targetMarca.on('change', function ()
-    {        
-        $.ajax({
-            type: "GET",
-            url: "/api/Freyja/getBienes/" + targetBien.find(":selected").val() + "/" + targetTipoDeBien.find(":selected").val() + "/" + targetMarca.find(":selected").val(),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {                
-                targetPlanAhorro.empty();                
-                targetPlanAhorro.append("<option value=\"\">Seleccione una opción</option> ");
-                data1 = data.sort(GetSortOrder('ValorBien'));
-                $.each(data1, function (i, item) {
-                    var rows =
-                        "<option value=\"" + item.BienId + "\" data-valorbien=\"" + item.ValorBien + "\" data-codbiencompleto=\"" + item.CodBienCompleto + "\" >" + item.BienCompleto + "</option>";
-                    targetPlanAhorro.append(rows);
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
                 });
-                targetPlanAhorro.removeAttr("readonly");                
-                $("#descripcionMarca").val(targetMarca.find(":selected").text());                
+                ciudad.removeAttr("readonly");
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
@@ -1002,27 +1252,28 @@ jQuery(function ($) {
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
                     '</div >');
-            } 
+            }
+
         });
     });
 
-    // Assign Cuota
-    targetPlanAhorro.on('change', function ()
-    {        
+    // Seleccion de Ciudad para la cédula suscriptor conjunto
+    $("#departamento_suscriptor_conjunto").on('change', function () {
         $.ajax({
             type: "GET",
-            url: "/api/Freyja/GetBienesParametros/" + targetBien.find(":selected").val() + "/" + targetTipoDeBien.find(":selected").val() + "/" + targetPlanAhorro.find(":selected").data("valorbien") + "/0",
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {                
-                targetCalculo.empty();                
-                targetCalculo.append("<option value=\"\">Selecciona una opción</option>");        
+            success: function (data) {
+                var ciudad = $("#ciudad_suscriptor_conjunto");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
                 $.each(data, function (i, item) {
                     var rows =
-                        "<option value=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + targetPlanAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat( targetPlanAhorro.find(":selected").data("valorbien") ) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
-                    targetCalculo.append(rows);
-                }); 
-                targetCalculo.removeAttr("readonly");
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
+                });
+                ciudad.removeAttr("readonly");
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
@@ -1039,78 +1290,52 @@ jQuery(function ($) {
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
                     '</div >');
-            } 
+            }
+
         });
     });
 
-    // Cálculo de todo.
-    targetCalculo.on('change', function ()
-    {
+    // Seleccion de Ciudad para la empresa laboral suscriptor conjunto
+    $("#departamento_empleo_suscriptor_conjunto").on('change', function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/GetCiudades/" + $(this).find(":selected").data("idsiicon"),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var ciudad = $("#ciudad_empleo_suscriptor_conjunto");
+                ciudad.empty();
+                ciudad.append("<option value=\"\">Selecciona una opción</option>");
+                $.each(data, function (i, item) {
+                    var rows =
+                        "<option value=\"" + item.idCiudad + "\">" + item.descripcion + "</option>";
+                    ciudad.append(rows);
+                });
+                ciudad.removeAttr("readonly");
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+            }
 
-        var valbien = costodelbien = $("#planDeAhorro").find(":selected").data("valorbien");
-        var inscripcion = targetCalculo.find(":selected").data("inscripcion");
-        var plazo = targetCalculo.find(":selected").data("plazo");
-        var administracion = targetCalculo.find(":selected").data("administracion");
-        var iva = 0.19;
-        $('.porcentajeInscripcion').empty().text(inscripcion).val(inscripcion);
-        $('.porcentajeAdministracion').empty().text(administracion).val(administracion);
-        $('.porcentajeIva').empty().text(iva*100).val(iva*100);
-        $('.plazo').empty().text(plazo).val(plazo); 
-        if (valbien <= 24000000)
-        {
-            $("#legaleseAuto").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
-            $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
-        }
-        else
-        {
-            $("#legaleseAuto").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
-            $("#legaleseElectro").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
-        }
-        if (valbien === "" || valbien === 0) {
-            valbien = 0;
-            $("#costo_del_bien, #cuota_ingreso, #administracion, #iva_cuota_ingreso, #iva_administracion, #total_cuota_ingreso, #total_cuota_bruta, #primera_cuota_neta, #valor_primer_pago").val(0.00);
-        }
-
-        $("#DescripcionDelBien, #detalles_bien, #detalle").finish().fadeTo('normal', 0).val($("#planDeAhorro").find(":selected").text()).finish().fadeTo('normal', 1);
-
-        // Valor del costo del bien 
-        $("#costo_del_bien, #valor_bien").finish().fadeTo('normal', 0).val(parseFormat(costodelbien)).finish().fadeTo('normal', 1);
-
-        // Cuota de ingreso 
-        //valorPorcentajeInscripcion = costodelbien * 0.045;
-        var valorPorcentajeInscripcion = costodelbien * (inscripcion/100);
-        $("#cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(valorPorcentajeInscripcion)).finish().fadeTo('normal', 1);
-
-        // Iva Inscripción 
-        var ivaInscripcion = (inscripcion/100) * valbien * iva;
-        $("#iva_cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(ivaInscripcion)).finish().fadeTo('normal', 1);
-
-        // Total de la inscripción 
-        var totalInscripcion = valorPorcentajeInscripcion + ivaInscripcion;
-        $("#total_cuota_ingreso").finish().fadeTo('normal', 0).val(parseFormat(totalInscripcion)).finish().fadeTo('normal', 1);
-
-        // Primera cuota 
-        //cuotaNeta40 = valbien / canmes_40;
-        var cuotaneta = valbien / plazo;
-        $('#primera_cuota_neta').finish().fadeTo('normal', 0).val(parseFormat(cuotaneta)).finish().fadeTo('normal', 1);
-
-        // Administracion 
-        var administracionNeta = (administracion / 100) * cuotaneta;
-        $("#administracion").finish().fadeTo('normal', 0).val(parseFormat(administracionNeta)).finish().fadeTo('normal', 1);
-
-        // IVA Administración 
-        var ivaAdministracion = administracionNeta * iva;
-        $("#iva_administracion").finish().fadeTo('normal', 0).val(parseFormat(ivaAdministracion)).finish().fadeTo('normal', 1);
-
-        //Total Cuota Bruta 
-        var totalCuotaMensual = cuotaneta + administracionNeta + ivaAdministracion;
-        $("#total_cuota_bruta").finish().fadeTo('normal', 0).val(parseFormat(totalCuotaMensual)).finish().fadeTo('normal', 1);
-
-        // Valor total del primer pago 
-         var valorPrimeraInversion = totalInscripcion + totalCuotaMensual;
-        $("#valor_primer_pago").finish().fadeTo('normal', 0).val(parseFormat(valorPrimeraInversion)).finish().fadeTo('normal', 1);
+        });
     });
 
+
+    
+    // refresh status del contrato
     var refreshContrato = $("#RefreshStatusContrato");
     refreshContrato.on('click', function () {
         var idContrato = refreshContrato.data("contrato");
@@ -1237,169 +1462,7 @@ jQuery(function ($) {
                 }
             });
         }
-    });
-
-    var tipodeMedio = $("#TipoMedio");
-    if (tipodeMedio.length)
-    {
-        $.ajax({
-            type: "GET",
-            url: "/api/Freyja/GetTipoMedio/",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                try {
-
-                    tipodeMedio.append("<option value=\"\">Selecciona una opción</option>");
-                    $.each(data, function (i, item) {
-                        var rows =
-                            "<option value=\"" + item.TipoMedioId + "\" >" + item.TipoMedio + " </option>";
-                        tipodeMedio.append(rows);
-                    });
-                } catch (e) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).addClass('fa-spin');
-                }
-            },
-            failure: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-                $(this).removeClass('fa-spin');
-            },
-            error: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-                $(this).removeClass('fa-spin');
-            }
-        });
-        tipodeMedio.on("change", function () {
-            var tipoMedioAgencia = $("#TipoMedioAgencia");
-            $.ajax({
-                type: "GET",
-                url: "/api/Freyja/GetMedioAgencia/" + $("#idcompania").val() + "/" + tipodeMedio.val() + "/" + $("#Agencia").val(),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    try {
-
-                        tipoMedioAgencia.append("<option value=\"\">Selecciona una opción</option>");
-                        $.each(data, function (i, item) {
-                            var rows = "<option value=\"" + item.MedioId + "\" >" + item.Medio + " </option>";
-                            tipoMedioAgencia.append(rows);
-                        });
-                        tipoMedioAgencia.removeAttr("readonly");
-                    } catch (e) {
-                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                            '<span aria-hidden="true">&times;</span>' +
-                            '</button>' +
-                            '</div >');
-                        $(this).addClass('fa-spin');
-                    }
-                },
-                failure: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).removeClass('fa-spin');
-                },
-                error: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).removeClass('fa-spin');
-                }
-            });
-        });
-    }
-
-    // Fill in the hidden inputs de agencia
-    $("#Agencia").on("change", function () {
-        $("#AgenciaDescripcion").val($("#Agencia").find(":selected").text());
-    });
-    $("#TipoMedio").on("change", function () {
-        $("#TipoMedioDescripcion").val($("#TipoMedio").find(":selected").text());
-    });
-    $("#TipoMedioAgencia").on("change", function () {
-        $("#TipoMedioAgenciaDescripcion").val($("#TipoMedioAgencia").find(":selected").text());
-    });
-    $("#TipoCliente").on("change", function () {
-        $("#TipoClienteDescripcion").val($("#TipoCliente").find(":selected").text());
-    });
-    
-
-    // Agencias Creación de Usuarios
-    var agenciasUser = $("#Agencia");
-    if (agenciasUser.length)
-    {
-        targetBien.on('change', function () { 
-        
-            $.ajax({
-                type: "GET",
-                url: "/api/Freyja/GetAgencias/" + userIdSiicon + "/" + $("#idcompania").val(),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    try {
-
-                        agenciasUser.append("<option value=\"\">Selecciona una opción</option>");
-                        $.each(data, function (i, item) {
-                            var rows =
-                                "<option value=\"" + item.AgenciaId + "\" >" + item.Agencia + " </option>";
-                            agenciasUser.append(rows);
-                        });
-                    } catch (e) {
-                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                            '<span aria-hidden="true">&times;</span>' +
-                            '</button>' +
-                            '</div >');
-                        $(this).addClass('fa-spin');
-                    }
-                },
-                failure: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).removeClass('fa-spin');
-                },
-                error: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).removeClass('fa-spin');
-                }
-            });
-        });
-        
-    }
+    });    
 });
 
 //Validación de colores de los forms
