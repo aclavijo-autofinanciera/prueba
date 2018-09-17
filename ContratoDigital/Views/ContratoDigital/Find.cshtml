@@ -152,57 +152,61 @@
                                     <div class="row">
                                         <div class="col-12 col-md-4 font-weight-bold">Estado</div>
                                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                            <div>
-                                                @if (item.ConfirmacionContratos.IsAccepted)
-                                                {
-                                                    <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
-                                                }
-                                                else
-                                                {
-                                                    <label class="text-muted">
-                                                        <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
-                                                    </label>
-                                                }
-                                            </div>
-                                            <div>
-                                                @if (item.ConfirmacionContratos.IsIdUploaded)
-                                                {
-                                                    <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
-                                                }
-                                                else
-                                                {
-                                                    <label class="text-muted">
-                                                        <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
-                                                    </label>
+                                            @if (item.ConfirmacionContratos != null)
+                                            {
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsAccepted)
+                                                    {
+                                                        <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-muted">
+                                                            <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                        </label>
+                                                    }
+                                                </div>
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsIdUploaded)
+                                                    {
+                                                        <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-muted">
+                                                            <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                        </label>
 
-                                                }
-                                            </div>
-                                            <div>
-                                                @if (item.ConfirmacionContratos.IsPaid)
-                                                {
+                                                    }
+                                                </div>
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsPaid)
+                                                    {
 
-                                                    <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
-                                                }
-                                                else
-                                                {
-                                                    <label class="text-muted">
-                                                        <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
-                                                    </label>
+                                                        <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-muted">
+                                                            <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                        </label>
 
-                                                }
-                                            </div>
-                                            <div>
-                                                @if (item.ConfirmacionContratos.IsVerified)
-                                                {
-                                                    <label class="text-success"><i class="fas fa-check"></i> ARD</label>
-                                                }
-                                                else
-                                                {
-                                                    <label class="text-muted">
-                                                        <i class="far fa-clock"></i> ARD
-                                                    </label>
-                                                }
-                                            </div>
+                                                    }
+                                                </div>
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsVerified)
+                                                    {
+                                                        <label class="text-success"><i class="fas fa-check"></i> ARD</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-muted">
+                                                            <i class="far fa-clock"></i> ARD
+                                                        </label>
+                                                    }
+                                                </div>
+                                            }
+
                                         </div>
                                     </div>
 
