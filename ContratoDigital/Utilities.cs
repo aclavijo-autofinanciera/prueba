@@ -36,7 +36,7 @@ namespace ContratoDigital
         }
         
         /// <summary>
-        /// Asigna todos los valores de la clase contrato a un PDF.
+        /// Asigna todos los valores de la clase contrato a un PDF de contrato.
         /// </summary>
         /// <param name="fields">Lista de campos del archivo PDF como tal</param>
         /// <param name="contrato">Modelo de datos de todas la personas.</param>
@@ -124,10 +124,10 @@ namespace ContratoDigital
             switch (contrato.sexo_suscriptor)
             {
                 case "8":
-                    toSet.SetValue("masculino");
+                    toSet.SetValue("femenino");
                     break;
                 case "9":
-                    toSet.SetValue("femenino");
+                    toSet.SetValue("masculino");
                     break;
             }
             
@@ -149,7 +149,7 @@ namespace ContratoDigital
                     toSet.SetValue("viudo");
                     break;
                 case "16":
-                    toSet.SetValue("UL");
+                    toSet.SetValue("ul");
                     break;
             }
             
@@ -222,11 +222,11 @@ namespace ContratoDigital
             // Envío correspondencia
             fields.TryGetValue("envio_correspondencia_suscriptor", out toSet);
             //contrato.envio_correspondencia_suscriptor == "email" ?  :;
-            toSet.SetValue(contrato.envio_correspondencia_suscriptor == "email" ? "email" : contrato.envio_correspondencia_suscriptor);
+            toSet.SetValue(contrato.envio_correspondencia_suscriptor == "correoelectronico" ? "correoelectronico" : contrato.envio_correspondencia_suscriptor);
 
             // Email
             fields.TryGetValue("email_suscriptor", out toSet);
-            if (contrato.envio_correspondencia_suscriptor == "email")
+            if (contrato.envio_correspondencia_suscriptor == "correoelectronico")
             {
                 toSet.SetValue(contrato.email_suscriptor.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
             }
@@ -315,10 +315,10 @@ namespace ContratoDigital
                 switch (contrato.sexo_suscriptor_conjunto)
                 {
                     case "8":
-                        toSet.SetValue("masculino");
+                        toSet.SetValue("femenino");
                         break;
                     case "9":
-                        toSet.SetValue("femenino");
+                        toSet.SetValue("masculino");
                         break;
                 }
 
@@ -339,7 +339,7 @@ namespace ContratoDigital
                         toSet.SetValue("viudo");
                         break;
                     case "16":
-                        toSet.SetValue("UL");
+                        toSet.SetValue("ul");
                         break;
                 }
 
@@ -409,12 +409,12 @@ namespace ContratoDigital
 
                 // Envio Correspondencia suscriptor conjunto 
                 fields.TryGetValue("correspondencia_suscriptor_conjunto", out toSet);
-                toSet.SetValue(contrato.correspondencia_suscriptor_conjunto == "email" ? "email" : contrato.envio_correspondencia_suscriptor);
+                toSet.SetValue(contrato.correspondencia_suscriptor_conjunto == "correoelectronico" ? "correoelectronico" : contrato.envio_correspondencia_suscriptor);
                 //toSet.SetValue(contrato.envio_correspondencia_suscriptor.ToUpper());
 
                 // Email Suscriptor Conjunto
                 fields.TryGetValue("email_suscriptor_conjunto", out toSet);
-                if (contrato.correspondencia_suscriptor_conjunto == "email")
+                if (contrato.correspondencia_suscriptor_conjunto == "correoelectronico")
                 {
                     toSet.SetValue(contrato.email_suscriptor_conjunto.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
                 }
@@ -429,7 +429,7 @@ namespace ContratoDigital
             // Tipo de bien
             fields.TryGetValue("tipo_de_bien", out toSet);
             //toSet.SetValue(contrato.tipo_de_bien);
-            if (contrato.id_tipo_de_bien == 1)
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
                 toSet.SetValue("motocicleta");
             }
@@ -571,10 +571,89 @@ namespace ContratoDigital
             // Asesor Comercial            
             fields.TryGetValue("asesor_comercial", out toSet);
             toSet.SetValue(contrato.asesor_comercial);
+
+            // Aceptación del contrato
+            fields.TryGetValue("notificacion_aceptacion", out toSet);
+
+            if(contrato.ConfirmacionContratos.FechaAceptacion > new DateTime())
+            {
+                toSet.SetValue(String.Format("Las condiciones del contrato fueron aceptadas el : {0:dd} - {0:MM} - {0:yyyy}", contrato.ConfirmacionContratos.FechaAceptacion));
+            }
+            else
+            {
+                toSet.SetValue("Las condiciones del contrato no han sido aceptadas");
+            }
+            
         }
 
         /// <summary>
-        /// Asigna todos los valores de la clase prospecto a un PDF
+        /// Asigna todos los valores de la clase prospecto a un PDF de Recibo.
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <param name="prospecto"></param>
+        public void FillRecibo(IDictionary<String, PdfFormField> fields, Contrato contrato)
+        {
+            PdfFormField toSet;
+            string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
+            // Número de contrato
+            fields.TryGetValue("CodigoBarras", out toSet);            
+            toSet.SetValue(GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
+
+            fields.TryGetValue("CodigoBarrasPlano", out toSet);            
+            toSet.SetValue("(415)" + convenio + "(8020)00000" + contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15)));
+
+            fields.TryGetValue("Nombre", out toSet);
+            toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
+
+            fields.TryGetValue("Telefono", out toSet);
+            toSet.SetValue(contrato.telefono_suscriptor);
+
+            fields.TryGetValue("Celular", out toSet);
+            toSet.SetValue(contrato.celular_suscriptor);
+
+            fields.TryGetValue("Email", out toSet);
+            toSet.SetValue(contrato.email_suscriptor);
+
+            fields.TryGetValue("Detalle", out toSet);
+            toSet.SetValue(contrato.tipo_de_bien);
+
+            fields.TryGetValue("Plazo", out toSet);
+            toSet.SetValue(contrato.plazo_bien + " mesess");
+
+            fields.TryGetValue("ValorBien", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
+
+            fields.TryGetValue("CuotaIngreso", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.cuota_ingreso));
+
+            fields.TryGetValue("IvaIngreso", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_cuota_ingreso));
+
+            fields.TryGetValue("TotalCuotaIngreso", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_ingreso));
+
+            fields.TryGetValue("PrimeraCuotaNeta", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.primera_cuota_neta));
+
+            fields.TryGetValue("Administracion", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.administracion));
+
+            fields.TryGetValue("IvaAdministracion", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_administracion));
+
+            fields.TryGetValue("TotalCuotaBruta", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_bruta));
+
+            fields.TryGetValue("PrimerPago", out toSet);
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.valor_primer_pago));
+
+            fields.TryGetValue("PagoOportuno", out toSet);
+            toSet.SetValue("FECHA LÍMITE: " + string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3))));
+
+        }
+
+        /// <summary>
+        /// Asigna todos los valores de la clase prospecto a un PDF de cotización
         /// </summary>
         /// <param name="fields">Lista de cmapos del archivo PDF como tal</param>
         /// <param name="prospecto">Modelo de datos del prospecto</param>
@@ -585,9 +664,6 @@ namespace ContratoDigital
             fields.TryGetValue("Nombre", out toSet);
             toSet.SetValue((prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido).ToUpper());
 
-            //fields.TryGetValue("Documento", out toSet);
-            //toSet.SetValue(prospecto.NumeroDocumento.ToString());
-
             fields.TryGetValue("Telefono", out toSet);
             toSet.SetValue(prospecto.Telefono.ToString());
 
@@ -597,32 +673,17 @@ namespace ContratoDigital
             fields.TryGetValue("Email", out toSet);
             toSet.SetValue(prospecto.Email.ToUpper());
 
-            /*fields.TryGetValue("Marca", out toSet);
-            toSet.SetValue(prospecto.Marca_exclusiva_bien.ToUpper());
-
-            fields.TryGetValue("Cuota", out toSet);
-            toSet.SetValue(prospecto.CuotaDeIngreso.ToString().ToUpper());*/
+            fields.TryGetValue("Vigencia", out toSet);
+            toSet.SetValue(String.Format("{0:dd/MM/yyyy}", DateTime.Now.AddDays(10)));
 
             fields.TryGetValue("Detalle", out toSet);
-            toSet.SetValue(prospecto.Detalles_bien.ToUpper());
+            toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());
+
+            fields.TryGetValue("Plazo", out toSet);
+            toSet.SetValue(prospecto.Plazo + " meses");
 
             fields.TryGetValue("ValorBien", out toSet);
             toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.ValorDelBien));
-
-            /* fields.TryGetValue("PorcentajeInscripcion", out toSet);
-             toSet.SetValue(prospecto.PorcentajeInscripcion.ToString().ToUpper());
-
-             fields.TryGetValue("PorcentajeAdministracion", out toSet);
-             toSet.SetValue(prospecto.PorcentajeAdministracion.ToString().ToUpper());
-
-             fields.TryGetValue("IVA", out toSet);
-             toSet.SetValue(prospecto.PorcentajeIva.ToString().ToUpper());
-
-             fields.TryGetValue("Plazo", out toSet);
-             toSet.SetValue(prospecto.Plazo.ToString().ToUpper());
-
-             fields.TryGetValue("TipoBien", out toSet);
-             toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());*/
 
             fields.TryGetValue("CuotaIngreso", out toSet);
             toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.CuotaDeIngreso));
@@ -796,19 +857,7 @@ namespace ContratoDigital
             Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
             contrato.valor_bien = valor_bien;
 
-            //contrato.cuota_bien = contrato.detalles_bien.Contains("CUOTA FIJA") ? "FIJA" : "VARIABLE";
-            if (contrato.marca_exclusiva_bien.Contains("BAJAJ") ||
-                contrato.marca_exclusiva_bien.Contains("KAWASAKI") ||
-                contrato.marca_exclusiva_bien.Contains("KTM") ||
-                contrato.marca_exclusiva_bien.Contains("KYMCO") ||
-                contrato.marca_exclusiva_bien.Contains("YAMAHA"))
-            {
-                contrato.cuota_bien = "VARIABLE";
-            }
-            else
-            {
-                contrato.cuota_bien = "FIJA";
-            }
+            contrato.cuota_bien = form["detalles_bien"].ToString().ToUpper().Contains("FIJA") ? "FIJA" : "VARIABLE";
 
             contrato.plazo_bien = form["plazo_bien"].ToString().ToUpper();
 
@@ -918,7 +967,7 @@ namespace ContratoDigital
             contrato.procedencia_documento_identidad_suscriptor_conjunto = form["procedencia_documento_identidad_suscriptor_conjunto"].ToString().ToUpper();
 
             // Representante legal Suscriptor conjunto
-            contrato.representante_legal_suscriptor_conjunto = form["representante_legal_suscriptor_conjunto"].ToString().ToUpper();
+            contrato.representante_legal_suscriptor_conjunto = form["representante_legal_suscriptor_conjunto"];
             contrato.tipo_identidad_representante_legal_suscriptor_conjunto = form["tipo_identidad_representante_legal_suscriptor_conjunto"];
 
             int.TryParse(s: form["documento_identidad_representante_legal_suscriptor_conjunto"], result: out int documento_identidad_representante_legal_suscriptor_conjunto);
@@ -975,19 +1024,7 @@ namespace ContratoDigital
             contrato.descripcion_bien = form["detalles_bien"].ToString().ToUpper();
             contrato.codigo_bien = form["codigo_bien"].ToString().ToUpper();
 
-            //contrato.cuota_bien = contrato.detalles_bien.Contains("CUOTA FIJA") ? "FIJA" : "VARIABLE";
-            if (contrato.marca_exclusiva_bien.Contains("BAJAJ") ||
-                contrato.marca_exclusiva_bien.Contains("KAWASAKI") ||
-                contrato.marca_exclusiva_bien.Contains("KTM") ||
-                contrato.marca_exclusiva_bien.Contains("KYMCO") ||
-                contrato.marca_exclusiva_bien.Contains("YAMAHA"))
-            {
-                contrato.cuota_bien = "VARIABLE";
-            }
-            else
-            {
-                contrato.cuota_bien = "FIJA";
-            }
+            contrato.cuota_bien = form["detalles_bien"].ToString().ToUpper().Contains("FIJA") ? "FIJA" : "VARIABLE";
 
             Double.TryParse(s: form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
             contrato.porcentaje_administracion = porcentajeAdministracion;
@@ -1000,8 +1037,7 @@ namespace ContratoDigital
 
             Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
             contrato.valor_bien = valor_bien;
-
-            contrato.cuota_bien = contrato.detalles_bien.Contains("CUOTA FIJA") ? "FIJA" : "VARIABLE";
+            
             contrato.plazo_bien = form["plazo_bien"];
 
             // pago Inicial
@@ -1029,6 +1065,8 @@ namespace ContratoDigital
 
             Double.TryParse(s: form["valor_primer_pago"], result: out double valor_primer_pago);
             contrato.valor_primer_pago = valor_primer_pago;
+
+
 
             return contrato;
         }
@@ -1393,6 +1431,19 @@ namespace ContratoDigital
         public const string ContratoPDF = "ContratoDigital";
         public const string ReciboPagoPDF = "ReciboDePago";
         public const string CotizacionPDF = "Cotizacion";
+
+        public const string ContratoAuto = "contrato/2018-09-14-autofinanciera_v.2.0.pdf";
+        public const string ContratoAutoKoreana = "contrato/2018-09-14-autokoreana_v-2.0.pdf";
+        public const string ContratoColWager = "contrato/2018-09-14-colwager_v-2.0.pdf";        
+        public const string ContratoElectro = "contrato/2018-09-14-electroplan_v-2.0.pdf";
+        public const string ContratoKia = "contrato/2018-09-14-kiaplan_v-2.0.pdf";
+        public const string ContratoMotoMas = "contrato/2018-09-14-motomas_v-2.0.pdf";
+
+        public const string CotizacionAuto = "cotizacion/2018-09-14-Cotizacion_auto_v-2.0.pdf";
+        public const string CotizacionElectro = "cotizacion/2018-09-14-Cotizacion_electro_v-2.0.pdf";
+
+        public const string ReciboAuto = "recibo/2018-09-14-Recibo_auto_v-2.0.pdf";
+        public const string ReciboElectro = "recibo/2018-09-14-Recibo_electro_v-2.0.pdf";
 
         public enum Estados
         {
