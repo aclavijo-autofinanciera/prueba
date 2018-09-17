@@ -91,10 +91,10 @@ namespace ContratoDigital.Controllers
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/motomas_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoMotoMas;
                         break;
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoElectro;
                         break;
                 }
             }
@@ -103,17 +103,17 @@ namespace ContratoDigital.Controllers
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/kiaplan_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoKia;
                         break;
                     case "HYUNDAI":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autokoreana_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" +  Constants.ContratoAutoKoreana;
                         break;
                     case "VOLKSWAGEN":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/colwager_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoColWager;
                         break;
 
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_v.1.3_20180725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAuto;
                         break;
                 }
             }
@@ -314,10 +314,10 @@ namespace ContratoDigital.Controllers
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/motomas_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/"+ Constants.ContratoMotoMas;
                         break;
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/"+ Constants.ContratoElectro;
                         break;
                 }
             }
@@ -326,17 +326,17 @@ namespace ContratoDigital.Controllers
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/kiaplan_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoKia;
                         break;
                     case "HYUNDAI":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autokoreana_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/"+ Constants.ContratoAutoKoreana;
                         break;
                     case "VOLKSWAGEN":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/colwager_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoColWager;
                         break;
 
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_v.1.3_20180725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAuto;
                         break;
                 }
             }
@@ -378,10 +378,10 @@ namespace ContratoDigital.Controllers
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/motomas_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoMotoMas;
                         break;
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoElectro;
                         break;
                 }
 
@@ -391,17 +391,17 @@ namespace ContratoDigital.Controllers
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/kiaplan_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoKia;
                         break;
                     case "HYUNDAI":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autokoreana_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAutoKoreana;
                         break;
                     case "VOLKSWAGEN":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/colwager_v-1.0-20170725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoColWager;
                         break;
 
                     default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_v.1.3_20180725.pdf";
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAuto;
                         break;
                 }
             }
@@ -511,12 +511,11 @@ namespace ContratoDigital.Controllers
             string src = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
-                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.0-20180803.pdf";
-
+                src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReciboElectro;
             }
             else
             {
-                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-auto-v.1.0-20180803.pdf";
+                src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReciboAuto;
             }
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
@@ -861,12 +860,12 @@ namespace ContratoDigital.Controllers
             string src = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
-                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.1-20180902.pdf";
+                src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReciboElectro;
 
             }
             else
             {
-                src = _hostingEnvironment.WebRootPath + "/pdf/recibo-auto-v.1.1-20180902.pdf";
+                src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReciboAuto;
             }
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
@@ -1250,7 +1249,7 @@ namespace ContratoDigital.Controllers
         {
             MemoryStream stream = new MemoryStream();
 
-            string src = _hostingEnvironment.WebRootPath + "/pdf/electroplan_yamaha_motomas_contrato_v1.1_20180601.pdf";
+            string src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoMotoMas;
             PdfWriter pdfwriter = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
             pdfwriter.SetCloseStream(false);
