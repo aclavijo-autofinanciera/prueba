@@ -114,21 +114,29 @@
                                 <div class="row mt-4">
                                     <div class="col-12 col-md-6">
                                         <label for="bien">Seleccione compañía</label>
-                                        <select class="form-control form-control-lg" id="idcompania" name="idcompania">
-                                            <option value="@Model.IdCompania">@Model.Compania</option>
+                                        <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off">
                                             <option value="">Seleccione una opción</option>
-                                            <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera</option>
-                                            <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan</option>
+                                            <option selected value="@Model.IdCompania">@Model.Compania</option>
+                                            <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
+                                            <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
                                         </select>
                                         <input type="hidden" name="compania" id="compania" value="@Model.Compania" />
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <label for="tipodeBien">Seleccione un tipo de bien</label>
-                                        <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
-                                            <option value="@Model.Id_Tipo_Bien">@Model.Detalles_bien</option>
+                                        <label for="">Agencia</label>
+                                        <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
+                                            <option value="@Model.ConfirmacionProspecto.Agencia">@Model.ConfirmacionProspecto.DescripcionAgencia </option>
                                             <option value="">Seleccione una opción</option>
                                         </select>
-                                        <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" @Model.Detalles_bien />
+                                        <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionAgencia" />
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="tipodeBien">Seleccione un tipo de bien</label>
+                                        <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
+                                            <option value="@Model.Id_Tipo_Bien">@Model.Tipo_de_Bien</option>
+                                            <option value="">Seleccione una opción</option>
+                                        </select>
+                                        <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" value="@Model.Tipo_de_Bien" />
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label for="marca">Seleccione una marca</label>
@@ -138,9 +146,6 @@
                                         </select>
                                         <input type="hidden" name="descripcionMarca" id="descripcionMarca" value="@Model.Marca_exclusiva_bien" />
                                     </div>
-                                </div>
-
-                                <div class="row mt-4">
                                     <div class="col-12 col-md-6">
                                         <label for="planDeAhorro">Seleccione un plan de ahorro</label>
                                         <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly>
@@ -154,13 +159,7 @@
                                             <option value="">Seleccione una opción</option>
                                         </select>
                                     </div>
-                                    <div class="col-12 col-md-6">                                        
-                                        <label for="">Agencia</label>
-                                        <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
-                                            <option value="@Model.ConfirmacionProspecto.Agencia">@Model.ConfirmacionProspecto.DescripcionAgencia </option>
-                                        </select>
-                                        <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionAgencia" />                                        
-                                    </div>
+
                                     <div class="col-12 col-md-6">
                                         <label for="">Tipo de medio</label>
                                         <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly>
@@ -177,9 +176,9 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label>Tipo de cliente</label>
-                                        <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente">
+                                        <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente" readonly>
                                             <option value="@Model.ConfirmacionProspecto.TipoCliente">@Model.ConfirmacionProspecto.DescripcionTipoCliente</option>
-                                            <option>Seleccione una opcíon</option>
+                                            <option value="">Seleccione una opción</option>
                                             <option value="0">Nuevo cliente</option>
                                             <option value="1">Cliente antiguo</option>
                                             <option value="2">Persona jurídicia</option>
@@ -187,6 +186,9 @@
                                         <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoCliente" />
 
                                     </div>
+
+
+                                    
                                     
                                 </div>
                             </div>
