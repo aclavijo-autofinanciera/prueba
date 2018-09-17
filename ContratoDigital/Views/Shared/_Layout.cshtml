@@ -2,6 +2,7 @@
 @using ContratoDigital.Areas.Identity.Data
 @inject SignInManager<ContratoDigitalUser> SignInManager
 @inject UserManager<ContratoDigitalUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 @{
     //var userID = UserManager.GetUserId(User);
     var user = UserManager.Users.SingleOrDefault(x => x.Id == UserManager.GetUserId(User));    
@@ -149,9 +150,23 @@
             </div>
         </div>
     </footer>
-    <script>
-        var userIdSiicon = "@user.IdSiicon";
-    </script>
+    
+
+    @if (await UserManager.IsInRoleAsync(user,"Asesor"))
+    {
+        <script>
+            var asesorID = "@user.Asesor";
+            var agenciaAsesor = "@user.Agencia";
+            var agenciaDescripcion = "@user.DescripcionAgencia";
+        </script>
+    }
+    else
+    {
+        <script>
+            var userIdSiicon = "@user.IdSiicon";
+        </script>
+    }
+
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery-3.3.1.js"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
@@ -159,7 +174,8 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
         <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
-        <script src="~/js/base-1.0.12.js" asp-append-version="true"></script>
+        <script src="~/js/base-1.0.20.js" asp-append-version="true"></script>
+        <script src="~/js/Freyja-1.0.3.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -186,7 +202,8 @@
         </script>
         <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script src="~/js/base-1.0.12.js" asp-append-version="true"></script>
+        <script src="~/js/base-1.0.20.js" asp-append-version="true"></script>
+        <script src="~/js/Freyja-1.0.3.js" asp-append-version="true"></script>
     </environment>
     @RenderSection("Scripts", required: false)
 </body>
