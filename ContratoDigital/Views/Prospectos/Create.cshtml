@@ -86,7 +86,7 @@
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
                             <label for="bien">Seleccione compañía</label>
-                            <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off" >
+                            <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off" required>
                                 <option value="">Seleccione una opción</option>
                                 <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
                                 <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
@@ -94,59 +94,53 @@
                             <input type="hidden" name="compania" id="compania" />
                         </div>
                         <div class="col-12 col-md-4">
+                            <label for="">Agencia</label>
+                            <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly disabled required  autocomplete="off" >
+                                <option value="">Seleccione una opción</option>
+                            </select>
+                            <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" />
+                        </div>
+                        <div class="col-12 col-md-4">
                             <label for="tipodeBien">Seleccione un tipo de bien</label>
-                            <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly >                                
+                            <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly disabled required  autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                             </select>
                             <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" />
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="marca">Seleccione una marca</label>
-                            <select class="form-control form-control-lg" id="marca" name="marca" readonly>
+                            <select class="form-control form-control-lg" id="marca" name="marca" readonly disabled required  autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                             </select>
                             <input type="hidden" name="descripcionMarca" id="descripcionMarca" />
                         </div>
-                    </div>
-
-                    <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
                             <label for="planDeAhorro">Seleccione un plan de ahorro</label>
-                            <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly>
+                            <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly disabled required  autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="tipoCalculo">Seleccione una cuota</label>
-                            <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
+                            <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly required  autocomplete="off" >
                                 <option value="">Seleccione una opción</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-4">
 
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-4">
-                            <label for="">Agencia</label>
-                            <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly></select>
-                            <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" />
-                        </div>
                         <div class="col-12 col-md-4">
                             <label for="">Tipo de medio</label>
-                            <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly></select>
+                            <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly disabled required  autocomplete="off" ></select>
                             <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" />
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="">Agencia Medio</label>
-                            <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly></select>
+                            <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly disabled required  autocomplete="off" ></select>
                             <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" />
                         </div>
                         <div class="col-12 col-md-4">
                             <label>Tipo de cliente</label>
-                            <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente">
-                                <option>Seleccione una opcíon</option>
+                            <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente" required  autocomplete="off" >
+                                <option value="">Seleccione una opción</option>
                                 <option value="0">Nuevo cliente</option>
                                 <option value="1">Cliente antiguo</option>
                                 <option value="2">Persona jurídicia</option>
@@ -155,7 +149,7 @@
 
                         </div>
                     </div>
-
+                    
 
 
 
@@ -175,19 +169,19 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <label>Porcentaje inscripción</label>
                             <input type="text" class="form-control form-control-lg porcentajeInscripcion" id="porcentajeInscripcion" name="porcentajeInscripcion" readonly />
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <label>Porcentaje Administracion</label>
                             <input type="text" class="form-control form-control-lg porcentajeAdministracion" id="porcentajeAdministracion" name="porcentajeAdministracion" readonly />
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <label>I.V.A.</label>
                             <input type="text" class="form-control form-control-lg porcentajeIva" id="porcentajeIva" name="porcentajeIva" readonly />
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <label for="plazo_bien">Plazo</label>
                             <input type="text" class="form-control form-control-lg plazo" id="plazo_bien" name="plazo_bien" readonly />
                         </div>
