@@ -45,12 +45,27 @@ namespace ContratoDigital.Controllers
             return await service.SelecccionarMarcasAsync();
         }
 
+        [HttpGet("GetMarcas/{compania}/{tipobien}")]
+        [Route("api/Freyja/GetMarcas")]
+        public async Task<ActionResult<string>> GetMarcas(string compania, int tipobien)
+        {
+            return await service.SelecccionarMarcasTipoBienAsync(compania, tipobien);
+        }
+
         [HttpGet("GetTipoBien/{compania}")]
         [Route("api/Freyja/GetTipoBien")]
         public async Task<ActionResult<string>> GetTipoBien(string compania)
         {
             //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SelecccionarTiposBienesCompañiaAsync(compania);
+        }
+
+        [HttpGet("GetTipoBien/{compania}/{agencia}")]
+        [Route("api/Freyja/GetTipoBien")]
+        public async Task<ActionResult<string>> GetTipoBien(string compania, int agencia)
+        {
+            //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
+            return await service.SelecccionarTiposBienesCompañiaAgenciaAsync(compania,agencia);
         }
 
         [HttpGet("GetPorcentajeInscripcion/{compania}")]
@@ -143,13 +158,13 @@ namespace ContratoDigital.Controllers
                 persona.BarrioLabora + ", " + persona.TelefonoLabora + ", " + persona.CelularOficina + ", " + persona.DepartamentoLaboraId + ", " + 
                 persona.CiudadLaboraId + ", " + persona.IngresoMensual + ", " + persona.EgresoMensual + ", " + persona.Profesion + ", " + persona.TerceroId);
 
-            return await service.CrearPersonaAsync(persona.TipoPersonaId, persona.TipoIdentificacionRepreLegalId,persona.NumeroIdentificacionRepreLegal,
+            return ""; /*await service.CrearPersonaAsync(persona.TipoPersonaId, persona.TipoIdentificacionRepreLegalId,persona.NumeroIdentificacionRepreLegal,
                 persona.CiudadConstitucionId, persona.FechaConstitucion, persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido, persona.SegundoApellido,
                 persona.RazonSocial, persona.TipoDocumentoIdentidadId, persona.NumeroDocumento, persona.DigitoVerificacion, persona.CiudadExpedicionId, persona.FechaNacimiento,
                 persona.CiudadNacimientoId, persona.SexoId, persona.EstadoCivilId, persona.Email, persona.DireccionNotifiacion, persona.BarrioNotifiacion, persona.TelefonoNotifiacion,
                 persona.CelularNotificacion, persona.DepartamentoNotificacionId, persona.CiudadNotificacionId, persona.EmpresaLabora, persona.CargoLabora,
                 persona.DireccionLabora,persona.BarrioLabora, persona.TelefonoLabora, persona.CelularOficina, persona.DepartamentoLaboraId, persona.CiudadLaboraId,
-                persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId);
+                persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId);*/
         }
 
         /// <summary>
