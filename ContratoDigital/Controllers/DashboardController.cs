@@ -25,11 +25,19 @@ namespace ContratoDigital.Controllers
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _emailConfiguration = emailConfiguration;
-            _userManager = userManager;
+            _userManager = userManager;           
+
         }
 
+        
         public IActionResult Index()
         {
+            var name = User.Identity.Name;
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                RedirectToAction("/Identity/Account/AccessDenied");
+            }
             return View();
         }
 
@@ -54,10 +62,11 @@ namespace ContratoDigital.Controllers
 
             user.Nombre = form["Nombre"];
             user.Apellido = form["Apellido"];
-            //int.TryParse(s: form["Agencia"], result:  out int agencia);            
+            int.TryParse(s: form["Agencia"], result:  out int agencia);            
             user.Cedula = form["Cedula"];
             string userPwd = form["Password"];
-            //user.Agencia = agencia;
+            user.Agencia = agencia;
+            user.DescripcionAgencia = form["DescripcionAgencia"];
 
             WebserviceController service = new WebserviceController(_context);
             string resultSiicon = service.GetSiiconUserId(user.Cedula).Result.Value;            
