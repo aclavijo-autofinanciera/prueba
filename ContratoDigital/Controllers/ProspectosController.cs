@@ -76,9 +76,10 @@ namespace ContratoDigital.Controllers
                 
             };            
             _context.ConfirmacionProspectos.Add(confirmacionProspecto);
+            await _context.SaveChangesAsync();
             try
             {
-                await _context.SaveChangesAsync();
+               
             }
             catch(Exception ex)
             {
@@ -290,11 +291,11 @@ namespace ContratoDigital.Controllers
             string srcPdf = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.1-20180902.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.CotizacionElectro;
             }
             else
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.1-20180902.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.CotizacionAuto;
             }
 
             PdfWriter pdfWriter = new PdfWriter(stream);
@@ -320,11 +321,11 @@ namespace ContratoDigital.Controllers
             string srcPdf = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-electro-v-1.1-20180902.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/"+ Constants.CotizacionElectro;
             }
             else
             {
-                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/cotizacion-auto-v-1.1-20180902.pdf";
+                srcPdf = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.CotizacionAuto;
             }
                 
 
