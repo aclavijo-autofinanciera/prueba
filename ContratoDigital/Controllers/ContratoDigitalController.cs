@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -147,20 +147,14 @@ namespace ContratoDigital.Controllers
                 TipoCliente = int.Parse(form["TipoCliente"]),
                 DescripcionTipoCliente = form["TipoClienteDescripcion"]
             };
-            try
-            {
-                _context.ConfirmacionContratos.Add(confirmacionContrato);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                string value = ex.Message;
-            }
+            _context.ConfirmacionContratos.Add(confirmacionContrato);
+            await _context.SaveChangesAsync();
+            
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
+                new EmailAddress{Name = "Mi Contrato", Address="tienda@autofinanciera.com.co"}
             };
             emailMessage.ToAddresses = new List<EmailAddress>()
             {
@@ -218,18 +212,9 @@ namespace ContratoDigital.Controllers
 #if RELEASE
             emailMessage.Content = String.Format(
                 _utilities.GetTemplate(srcTemplate),                
-                "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);            
+                "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
 #endif
-            try
-            {
-                emailService.Send(emailMessage, stream, Constants.ContratoPDF);
-                TempData["EmailResult"] = "Success";
-            }
-            catch (Exception ex)
-            {
-                TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
-            }
-            TempData.Keep("EmailResult");
+            emailService.Send(emailMessage, stream, Constants.ContratoPDF);            
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
 
@@ -425,7 +410,7 @@ namespace ContratoDigital.Controllers
             EmailMessage emailMessage = new EmailMessage();
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
             };
             emailMessage.ToAddresses = new List<EmailAddress>()
             {
@@ -535,7 +520,7 @@ namespace ContratoDigital.Controllers
             EmailMessage emailMessage = new EmailMessage();
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
             };
             emailMessage.ToAddresses = new List<EmailAddress>()
             {
@@ -584,7 +569,15 @@ namespace ContratoDigital.Controllers
                         break;
                 }
             }
-            emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate));
+            if(contrato.ConfirmacionContratos != null)
+            {
+                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), String.Format("{0:dd del MM de YYYY}", contrato.ConfirmacionContratos.FechaAceptacion));
+            }
+            else
+            {
+                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate));
+            }
+            
 
             try
             {
@@ -619,16 +612,16 @@ namespace ContratoDigital.Controllers
 
                 MemoryStream stream = new MemoryStream();
 
-                Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+                Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == confirmacionContrato.IdContrato);
                 string src = "";
                 if (contrato.id_compania.Equals(Constants.GuuidElectro))
                 {
-                    src = _hostingEnvironment.WebRootPath + "/pdf/recibo-electro-v-1.0-20180803.pdf";
+                    src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReciboElectro;
 
                 }
                 else
                 {
-                    src = _hostingEnvironment.WebRootPath + "/pdf/recibo-auto-v.1.0-20180803.pdf";
+                    src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReciboAuto;
                 }
                 PdfWriter pdfwriter = new PdfWriter(stream);
                 PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
@@ -647,13 +640,13 @@ namespace ContratoDigital.Controllers
                 EmailService emailService = new EmailService(_emailConfiguration);
                 EmailMessage emailMessage = new EmailMessage();
                 emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
-            };
+                {
+                    new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
+                };
                 emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
-            };
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                };
 
                 string srcTemplate = "";
                 if (contrato.id_compania.Equals(Constants.GuuidElectro))
@@ -698,17 +691,7 @@ namespace ContratoDigital.Controllers
                     }
                 }
                 emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate));
-
-                try
-                {
-                    emailService.Send(emailMessage, stream, Constants.ReciboPagoPDF);
-                    TempData["EmailResult"] = "Success";
-                }
-                catch (Exception ex)
-                {
-                    TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
-                }
-                TempData.Keep("EmailResult");
+                emailService.Send(emailMessage, stream, Constants.ReciboPagoPDF);   
 
             }
             else
@@ -882,7 +865,7 @@ namespace ContratoDigital.Controllers
             EmailMessage emailMessage = new EmailMessage();
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
              };
             emailMessage.ToAddresses = new List<EmailAddress>()
             {
@@ -1078,7 +1061,7 @@ namespace ContratoDigital.Controllers
             var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             PersonaSiicon personaSiicon = new PersonaSiicon();
             personaSiicon.TipoPersonaId = 2;
-            personaSiicon.CiudadConstitucionId = int.Parse(_utilities.PadWithZeroes( status.GetCiudadSiiconId( int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5));
+            personaSiicon.CiudadConstitucionId = _utilities.PadWithZeroes( status.GetCiudadSiiconId( int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5);
             personaSiicon.FechaConstitucion = String.Format("{0:MM/dd/yyyy}",contrato.fecha_suscripcion_contrato);
             personaSiicon.PrimerNombre = contrato.primer_nombre;
             personaSiicon.SegundoNombre = contrato.segundo_nombre;
@@ -1087,9 +1070,9 @@ namespace ContratoDigital.Controllers
             personaSiicon.RazonSocial = contrato.nombre_razon_social_representante_legal;
             personaSiicon.TipoDocumentoIdentidadId = int.Parse(contrato.tipo_documento_identidad_suscriptor);
             personaSiicon.NumeroDocumento = contrato.documento_identidad_suscriptor.ToString();
-            personaSiicon.CiudadExpedicionId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5));
+            personaSiicon.CiudadExpedicionId = _utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5);
             personaSiicon.FechaNacimiento = String.Format("{0:MM/dd/yyyy}",contrato.fecha_nacimiento_suscriptor);
-            personaSiicon.CiudadNacimientoId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5)); ;
+            personaSiicon.CiudadNacimientoId = _utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5);
             personaSiicon.SexoId = int.Parse(contrato.sexo_suscriptor);
             personaSiicon.EstadoCivilId = int.Parse(contrato.estado_civil_suscriptor);
             personaSiicon.Email = contrato.email_suscriptor;
@@ -1098,7 +1081,7 @@ namespace ContratoDigital.Controllers
             personaSiicon.TelefonoNotifiacion = contrato.telefono_suscriptor;
             personaSiicon.CelularNotificacion = contrato.celular_suscriptor;
             personaSiicon.DepartamentoNotificacionId = int.Parse(status.GetDepartamentoSiiconID( int.Parse(contrato.departamento_suscriptor)));
-            personaSiicon.CiudadNotificacionId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5)); ;
+            personaSiicon.CiudadNotificacionId = _utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5);
             personaSiicon.EmpresaLabora = contrato.empresa_empleadora_suscriptor;
             personaSiicon.CargoLabora = contrato.cargo_suscriptor;
             personaSiicon.DireccionLabora = contrato.direccion_empleo_suscriptor;
@@ -1106,7 +1089,7 @@ namespace ContratoDigital.Controllers
             personaSiicon.TelefonoLabora = contrato.telefono_empleo_suscriptor;
             personaSiicon.CelularOficina = contrato.celular_empleo_suscriptor;
             personaSiicon.DepartamentoLaboraId = int.Parse(status.GetDepartamentoSiiconID(int.Parse(contrato.departamento_empleo_suscriptor)));
-            personaSiicon.CiudadLaboraId = int.Parse(_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_empleo_suscriptor)).ToString(), 5));
+            personaSiicon.CiudadLaboraId =_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_empleo_suscriptor)).ToString(), 5);
             personaSiicon.IngresoMensual = (int)contrato.ingresos_mensuales_suscriptor;
             personaSiicon.EgresoMensual = (int)contrato.egresos_mensuales_suscriptor;
             personaSiicon.Profesion = contrato.profesion_suscriptor;
