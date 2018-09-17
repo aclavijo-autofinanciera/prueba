@@ -524,69 +524,8 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            //Contrato contrato = _utilities.FillContrato(form);
-            //Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
-            //_utilities.FillPdf(fields, contrato);
-
-            PdfFormField toSet;
-            string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
-            // Número de contrato
-            fields.TryGetValue("CodigoBarras", out toSet);
-            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
-            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));            
-            toSet.SetValue(_utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
-
-            fields.TryGetValue("CodigoBarrasPlano", out toSet);
-            //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
-            toSet.SetValue("(415)" + convenio + "(8020)00000" + contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
-
-
-            fields.TryGetValue("Nombre", out toSet);
-            toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
-
-            fields.TryGetValue("Telefono", out toSet);
-            toSet.SetValue(contrato.telefono_suscriptor);
-
-            fields.TryGetValue("Celular", out toSet);
-            toSet.SetValue(contrato.celular_suscriptor);
-
-            fields.TryGetValue("Email", out toSet);
-            toSet.SetValue(contrato.email_suscriptor);
-
-            fields.TryGetValue("Detalle", out toSet);
-            toSet.SetValue(contrato.descripcion_bien);
-
-            fields.TryGetValue("ValorBien", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
+            _utilities.FillRecibo(fields, contrato);
             
-
-            fields.TryGetValue("CuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.cuota_ingreso));
-
-            fields.TryGetValue("IvaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_cuota_ingreso));
-
-            fields.TryGetValue("TotalCuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_ingreso));
-
-            fields.TryGetValue("PrimeraCuotaNeta", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.primera_cuota_neta));
-
-            fields.TryGetValue("Administracion", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.administracion));
-
-            fields.TryGetValue("IvaAdministracion", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_administracion));
-
-            fields.TryGetValue("TotalCuotaBruta", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_bruta));
-            
-            fields.TryGetValue("PrimerPago", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_primer_pago));
-
-            fields.TryGetValue("PagoOportuno", out toSet);
-            toSet.SetValue("FECHA LÍMITE: " + string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3))));
-
             pdfForm.FlattenFields();
             pdf.Close();
             stream.Flush();
@@ -697,83 +636,9 @@ namespace ContratoDigital.Controllers
 
                 PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
                 IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
-
-                //Contrato contrato = _utilities.FillContrato(form);
-                //Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
-                //_utilities.FillPdf(fields, contrato);
-
-                PdfFormField toSet;
-                string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
-                // Número de contrato
-                fields.TryGetValue("CodigoBarras", out toSet);
-                //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
-                //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));                                                                                                            
-                toSet.SetValue(_utilities.GenerateCode128("415" + convenio + "802000000" +confirmacionContrato.ReferenciaPago + "3900" + contrato.valor_primer_pago + "96" + "00000" + String.Format("{0:dd-MM-yyyy}", confirmacionContrato.FechaReferenciaPago.AddDays(3)) ));
-
-                fields.TryGetValue("CodigoBarrasPlano", out toSet);
-                //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
-                toSet.SetValue("(415)" + convenio + "(8020)00000" + confirmacionContrato.ReferenciaPago + "(3900)" + contrato.valor_primer_pago + "(96)" + "00000" + String.Format("{0:dd-MM-yyyy}", confirmacionContrato.FechaReferenciaPago.AddDays(3))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
-
-
-                fields.TryGetValue("Nombre", out toSet);
-                toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
-                //toSet.SetValue("Juan Pablo Alviar");
-
-                //fields.TryGetValue("DireccionSuscriptor", out toSet);
-                //toSet.SetValue(contrato.direccion_domicilio_suscriptor);
-
-                //fields.TryGetValue("TelefonoSuscriptor", out toSet);
-                //toSet.SetValue(contrato.telefono_suscriptor);
-
-                //fields.TryGetValue("CelularSuscriptor", out toSet);
-                //toSet.SetValue(contrato.celular_suscriptor);
-
-                //fields.TryGetValue("CiudadSuscriptor", out toSet);
-                //toSet.SetValue(contrato.ciudad_suscriptor);
-
-                //fields.TryGetValue("DescripcionBien", out toSet);
-                fields.TryGetValue("Detalle", out toSet);
-                toSet.SetValue(contrato.detalles_bien);
-                //toSet.SetValue("Kia Stinger 2018");
-
-                //fields.TryGetValue("ValorBien", out toSet);
-                //toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
-                //toSet.SetValue("$ 120.000.000");
-
-                fields.TryGetValue("CuotaIngreso", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.cuota_ingreso));
-
-                //fields.TryGetValue("IvaCuotaIngreso", out toSet);
-                fields.TryGetValue("IvaIngreso", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_cuota_ingreso));
-
-                fields.TryGetValue("TotalCuotaIngreso", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_ingreso));
-
-                fields.TryGetValue("PrimeraCuotaNeta", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.primera_cuota_neta));
-
-                fields.TryGetValue("Administracion", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.administracion));
-
-                fields.TryGetValue("IvaAdministracion", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_administracion));
-
-                fields.TryGetValue("TotalCuotaBruta", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_bruta));
-
-                //fields.TryGetValue("ValorTotalPrimerPago", out toSet);
-                //toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_primer_pago));
-                ////toSet.SetValue("$ 1000.00");
-
-                //fields.TryGetValue("TotalAPagar", out toSet);
-                fields.TryGetValue("PrimerPago", out toSet);
-                toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_primer_pago));
-                //toSet.SetValue("$ 1000.00");
-
-                //fields.TryGetValue("ReferenciaDePago", out toSet);
-                //toSet.SetValue("18062500039");
-
+                
+                _utilities.FillRecibo(fields, contrato);
+                
                 pdfForm.FlattenFields();
                 pdf.Close();
                 stream.Flush();
@@ -874,67 +739,7 @@ namespace ContratoDigital.Controllers
             PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
             IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
 
-            //Contrato contrato = _utilities.FillContrato(form);
-
-            //_utilities.FillPdf(fields, contrato);
-
-            PdfFormField toSet;
-            string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
-            // Número de contrato
-            fields.TryGetValue("CodigoBarras", out toSet);
-            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000172097016433900019830909620180630"));
-            //toSet.SetValue(_utilities.GenerateCode128("4157709998014350802000000180625000393900000010009620180628"));
-            toSet.SetValue(_utilities.GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
-
-            fields.TryGetValue("CodigoBarrasPlano", out toSet);
-            //toSet.SetValue("(415)7709998014350(8020)0000017209701643(3900)01983090(96)20180630");
-            toSet.SetValue("(415)" + convenio + "(8020)00000" +contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + _utilities.PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))); //+ "(415)7709998014350(8020)0000018062500039(3900)00001000(96)20180628");
-
-            fields.TryGetValue("Nombre", out toSet);
-            toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
-
-            fields.TryGetValue("Telefono", out toSet);
-            toSet.SetValue(contrato.telefono_suscriptor);
-
-            fields.TryGetValue("Celular", out toSet);
-            toSet.SetValue(contrato.celular_suscriptor);
-
-            fields.TryGetValue("Email", out toSet);
-            toSet.SetValue(contrato.email_suscriptor);
-
-            fields.TryGetValue("Detalle", out toSet);
-            toSet.SetValue(contrato.descripcion_bien);
-
-            fields.TryGetValue("ValorBien", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
-
-            fields.TryGetValue("CuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.cuota_ingreso));
-
-            fields.TryGetValue("IvaIngreso", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_cuota_ingreso));
-
-            fields.TryGetValue("TotalCuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_ingreso));
-
-            fields.TryGetValue("PrimeraCuotaNeta", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.primera_cuota_neta));
-
-            fields.TryGetValue("Administracion", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.administracion));
-
-            fields.TryGetValue("IvaAdministracion", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_administracion));
-
-            fields.TryGetValue("TotalCuotaBruta", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_bruta));
-
-            fields.TryGetValue("PrimerPago", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.valor_primer_pago));
-
-            fields.TryGetValue("PagoOportuno", out toSet);
-            toSet.SetValue("FECHA LÍMITE: " + string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3))));
-
+            _utilities.FillRecibo(fields, contrato);
 
             pdfForm.FlattenFields();
             pdf.Close();
