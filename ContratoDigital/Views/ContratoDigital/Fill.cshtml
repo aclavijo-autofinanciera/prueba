@@ -1,7 +1,7 @@
 ﻿@model ContratoDigital.Models.Prospecto
 @{
-    Random rnd = new Random();
-    var contrato = rnd.Next(8000000, 8999999);
+    /*Random rnd = new Random();
+    var contrato = rnd.Next(8000000, 8999999);*/    
     ViewData["Title"] = "Contrato Digital";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var tipoidentidad = (IQueryable<Estado>)ViewData["TipoIdentidad"];
@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-12 col-sm-12 col-md-4">
                         <label for="numero_de_contrato">Número de contrato</label>
-                        <input type="text" id="numero_de_contrato" name="numero_de_contrato" readonly class="text-center form-control-plaintext form-control-lg azul font-weight-bold t-3" value="@contrato" required autocomplete="off" />
+                        <input type="text" id="numero_de_contrato" name="numero_de_contrato" readonly class="text-center form-control-plaintext form-control-lg azul font-weight-bold t-3" value="@ViewData["NumeroContrato"]" required autocomplete="off" />
                     </div>
                 </div>
                 <!--#region suscriptor-->
@@ -93,7 +93,7 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="departamentoDocumentoSuscriptor">Departamento</label>
-                            <select id="departamentoDocumentoSuscriptor" name="departamentoDocumentoSuscriptor" class="form-control form-control-lg">
+                            <select id="departamentoDocumentoSuscriptor" name="departamentoDocumentoSuscriptor" class="form-control form-control-lg" required>
                                 <option value="">Seleccione un tipo</option>
                                 @foreach (var item in departamento)
                                 {
@@ -104,7 +104,9 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="procedencia_documento_identidad_suscriptor">De:</label>
-                            <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required autocomplete="off" readonly ></select>
+                            <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required autocomplete="off" readonly >
+                                <option value="">Seleccione una opción</option>
+                            </select>
                         </div>
                     </div>
                 </section>
@@ -144,6 +146,7 @@
                                     <input type="text" class="form-control form-control-lg" placeholder="ie: 10000000" id="documento_identidad_representante_legal" name="documento_identidad_representante_legal" autocomplete="off" />
                                 </div>
                                 <div class="col-12 col-md-4">
+                                    <label for="departamentoDocumentoRepresentanteLegal">Departamento</label>
                                     <select id="departamentoDocumentoRepresentanteLegal" name="departamentoDocumentoRepresentanteLegal" class="form-control form-control-lg">
                                         <option value="">Seleccione un tipo</option>
                                         @foreach (var item in departamento)
@@ -393,8 +396,19 @@
                                 <input type="text" class="form-control form-control-lg text-uppercase" id="documento_identidad_suscriptor_conjunto" name="documento_identidad_suscriptor_conjunto" autocomplete="off" />
                             </div>
                             <div class="col-12 col-md-4">
+                                <label for="departamentoDocumentoSuscriptorConjunto">Departamento</label>
+                                <select id="departamentoDocumentoSuscriptorConjunto" name="departamentoDocumentoSuscriptorConjunto" class="form-control form-control-lg">
+                                    <option value="">Seleccione un tipo</option>
+                                    @foreach (var item in departamento)
+                                    {
+                                        <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
+
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4">
                                 <label for="procedencia_documento_identidad_suscriptor_conjunto">De: </label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" autocomplete="off" />
+                                <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" autocomplete="off" readonly></select>                                
                             </div>
                         </div>
                     </section>
@@ -413,7 +427,7 @@
                             <div class="card-body">
 
                                 <div class="form-row mt-4">
-                                    <div class="col">
+                                    <div class="col-12">
                                         <label for="representante_legal_suscriptor_conjunto">Nombre representante legal (solo personas jurídicas)</label>
                                         <input type="text" class="form-control form-control-lg text-uppercase" id="representante_legal_suscriptor_conjunto" name="representante_legal_suscriptor_conjunto" autocomplete="off" />
                                     </div>
@@ -436,8 +450,19 @@
                                         <input type="text" id="documento_identidad_representante_legal_suscriptor_conjunto" name="documento_identidad_representante_legal_suscriptor_conjunto" class="form-control form-control-lg" autocomplete="off" />
                                     </div>
                                     <div class="col-12 col-md-4">
+                                        <label for="departamentoDocumentoLegalSuscriptorConjunto">Departamento</label>
+                                        <select id="departamentoDocumentoLegalSuscriptorConjunto" name="departamentoDocumentoLegalSuscriptorConjunto" class="form-control form-control-lg">
+                                            <option value="">Seleccione un tipo</option>
+                                            @foreach (var item in departamento)
+                                            {
+                                                <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
+
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4">
                                         <label for="procedencia_identificacion_representante_legal_suscriptor_conjunto">De:</label>
-                                        <input type="text" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" class="form-control form-control-lg text-uppercase" autocomplete="off" />
+                                        <select class="form-control form-control-lg text-uppercase" id="procedencia_identificacion_representante_legal_suscriptor_conjunto" name="procedencia_identificacion_representante_legal_suscriptor_conjunto" autocomplete="off" readonly></select>
                                     </div>
                                 </div>
 
@@ -493,14 +518,14 @@
                                     <option value="">Seleccione un tipo</option>
                                     @foreach (var item in departamento)
                                     {
-                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                        <option value="@item.IdEstado"  data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
 
                                     }
                                 </select>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="ciudad_suscriptor_conjunto">Ciudad</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" autocomplete="off" />
+                                <select class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" autocomplete="off" readonly></select>                                
                             </div>
                         </div>
                         <div class="form-row mt-4">
@@ -569,14 +594,14 @@
                                     <option value="">Seleccione un tipo</option>
                                     @foreach (var item in departamento)
                                     {
-                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                        <option value="@item.IdEstado"   data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
 
                                     }
                                 </select>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="ciudad_empleo_suscriptor_conjunto">Ciudad</label>
-                                <input type="text" class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" autocomplete="off" />
+                                <select class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" autocomplete="off" readonly ></select>
                             </div>
                         </div>
 
@@ -627,26 +652,34 @@
                     </div>
                     <div class="form-row mt-2 error-area"></div>
 
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-4">
+                    <div class="row mt-4">
+                        <div class="col-12 col-md-6">
                             <label for="bien">Seleccione compañía</label>
-                            <select class="form-control form-control-lg" id="idcompania" name="idcompania">
-                                <option value="@Model.IdCompania">@Model.Compania</option>
+                            <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off">
                                 <option value="">Seleccione una opción</option>
+                                <option selected value="@Model.IdCompania">@Model.Compania</option>
                                 <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
                                 <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
                             </select>
                             <input type="hidden" name="compania" id="compania" value="@Model.Compania" />
                         </div>
-                        <div class="col-12 col-md-4">
-                            <label for="tipodeBien">Seleccione un tipo de bien</label>
-                            <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
-                                <option value="@Model.Id_Tipo_Bien">@Model.Detalles_bien</option>
+                        <div class="col-12 col-md-6">
+                            <label for="">Agencia</label>
+                            <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
+                                <option value="@Model.ConfirmacionProspecto.Agencia">@Model.ConfirmacionProspecto.DescripcionAgencia </option>
                                 <option value="">Seleccione una opción</option>
                             </select>
-                            <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" value="@Model.Detalles_bien" />
+                            <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionAgencia" />
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
+                            <label for="tipodeBien">Seleccione un tipo de bien</label>
+                            <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
+                                <option value="@Model.Id_Tipo_Bien">@Model.Tipo_de_Bien</option>
+                                <option value="">Seleccione una opción</option>
+                            </select>
+                            <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" value="@Model.Tipo_de_Bien" />
+                        </div>
+                        <div class="col-12 col-md-6">
                             <label for="marca">Seleccione una marca</label>
                             <select class="form-control form-control-lg" id="marca" name="marca" readonly>
                                 <option value="@Model.Id_marca">@Model.Marca_exclusiva_bien</option>
@@ -654,53 +687,39 @@
                             </select>
                             <input type="hidden" name="descripcionMarca" id="descripcionMarca" value="@Model.Marca_exclusiva_bien" />
                         </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
                             <label for="planDeAhorro">Seleccione un plan de ahorro</label>
                             <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly>
                                 <option value="@Model.Referencia">@Model.DescripcionDelBien</option>
                                 <option value="">Seleccione una opción</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
                             <label for="tipoCalculo">Seleccione una cuota</label>
                             <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
-                                <option value="">@Model.Plazo</option>
                                 <option value="">Seleccione una opción</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-4">
-                            <label for="">Agencia</label>
-                            <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
-                                <option value="@Model.ConfirmacionProspecto.Agencia">@Model.ConfirmacionProspecto.DescripcionAgencia </option>
-                            </select>
-                            <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionAgencia" />
-                        </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
                             <label for="">Tipo de medio</label>
                             <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly>
                                 <option value="@Model.ConfirmacionProspecto.TipoMedio">@Model.ConfirmacionProspecto.DescripcionTipoMedio</option>
                             </select>
                             <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoMedio" />
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
                             <label for="">Agencia Medio</label>
                             <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly>
                                 <option value="@Model.ConfirmacionProspecto.Medio">@Model.ConfirmacionProspecto.DescripcionMedio</option>
                             </select>
                             <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionMedio" />
                         </div>
-                        <div class="col-12 col-md-4">
-
+                        <div class="col-12 col-md-6">
                             <label>Tipo de cliente</label>
-                            <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente">
+                            <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente" readonly>
                                 <option value="@Model.ConfirmacionProspecto.TipoCliente">@Model.ConfirmacionProspecto.DescripcionTipoCliente</option>
-                                <option>Seleccione una opcíon</option>
+                                <option>Seleccione una opción</option>
                                 <option value="0">Nuevo cliente</option>
                                 <option value="1">Cliente antiguo</option>
                                 <option value="2">Persona jurídicia</option>
@@ -708,7 +727,94 @@
                             <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoCliente" />
 
                         </div>
+
+
+
+
                     </div>
+
+                    @*<div class="form-row mt-4">
+            <div class="col-12 col-md-4">
+                <label for="bien">Seleccione compañía</label>
+                <select class="form-control form-control-lg" id="idcompania" name="idcompania">
+                    <option value="@Model.IdCompania">@Model.Compania</option>
+                    <option value="">Seleccione una opción</option>
+                    <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
+                    <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
+                </select>
+                <input type="hidden" name="compania" id="compania" value="@Model.Compania" />
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="tipodeBien">Seleccione un tipo de bien</label>
+                <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
+                    <option value="@Model.Id_Tipo_Bien">@Model.Detalles_bien</option>
+                    <option value="">Seleccione una opción</option>
+                </select>
+                <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" value="@Model.Detalles_bien" />
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="marca">Seleccione una marca</label>
+                <select class="form-control form-control-lg" id="marca" name="marca" readonly>
+                    <option value="@Model.Id_marca">@Model.Marca_exclusiva_bien</option>
+                    <option value="">Seleccione una opción</option>
+                </select>
+                <input type="hidden" name="descripcionMarca" id="descripcionMarca" value="@Model.Marca_exclusiva_bien" />
+            </div>
+        </div>
+
+        <div class="form-row mt-4">
+            <div class="col-12 col-md-4">
+                <label for="planDeAhorro">Seleccione un plan de ahorro</label>
+                <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly>
+                    <option value="@Model.Referencia">@Model.DescripcionDelBien</option>
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="tipoCalculo">Seleccione una cuota</label>
+                <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
+                    <option value="">@Model.Plazo</option>
+                    <option value="">Seleccione una opción</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row mt-4">
+            <div class="col-12 col-md-4">
+                <label for="">Agencia</label>
+                <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
+                    <option value="@Model.ConfirmacionProspecto.Agencia">@Model.ConfirmacionProspecto.DescripcionAgencia </option>
+                </select>
+                <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionAgencia" />
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="">Tipo de medio</label>
+                <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly>
+                    <option value="@Model.ConfirmacionProspecto.TipoMedio">@Model.ConfirmacionProspecto.DescripcionTipoMedio</option>
+                </select>
+                <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoMedio" />
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="">Agencia Medio</label>
+                <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly>
+                    <option value="@Model.ConfirmacionProspecto.Medio">@Model.ConfirmacionProspecto.DescripcionMedio</option>
+                </select>
+                <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionMedio" />
+            </div>
+            <div class="col-12 col-md-4">
+
+                <label>Tipo de cliente</label>
+                <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente">
+                    <option value="@Model.ConfirmacionProspecto.TipoCliente">@Model.ConfirmacionProspecto.DescripcionTipoCliente</option>
+                    <option>Seleccione una opcíon</option>
+                    <option value="0">Nuevo cliente</option>
+                    <option value="1">Cliente antiguo</option>
+                    <option value="2">Persona jurídicia</option>
+                </select>
+                <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoCliente" />
+
+            </div>
+        </div>*@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
@@ -733,7 +839,7 @@
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
                             <label for="detalles_bien">Detalle del bien</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="detalles_bien" name="detalles_bien" value="@Model.DescripcionDelBien" autocomplete="off" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="detalles_bien" name="detalles_bien" value="@Model.DescripcionDelBien" autocomplete="off" readonly />
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="valor_bien">Valor del bien</label>
@@ -746,7 +852,7 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="codigo_bien">Código del bien</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="codigo_bien" name="codigo_bien" value="@Model.Referencia" />
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="codigo_bien" name="codigo_bien" value="@Model.Referencia" readonly />
                         </div>
                     </div>
 
