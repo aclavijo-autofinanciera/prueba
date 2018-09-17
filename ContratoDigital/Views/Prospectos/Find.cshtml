@@ -112,17 +112,21 @@
                                             <div class="col-12 col-md-4 font-weight-bold">Correo</div>
                                             <div class="col-12 col-md-8 text-black-65">
                                                 @item.Email
-                                                @if (item.ConfirmacionProspecto.IsConfirmed == true)
+                                                @if (item.ConfirmacionProspecto != null)
                                                 {
-                                                    <span class="badge badge-success"><i class="fas fa-check"></i> confirmado</span>
+                                                    @if (item.ConfirmacionProspecto.IsConfirmed == true)
+                                                    {
+                                                        <span class="badge badge-success"><i class="fas fa-check"></i> confirmado</span>
 
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge badge-warning">Por confirmar</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-warning">Por confirmar</span>
 
+                                                    }
                                                 }
-                                           </div>
+
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12 col-md-4 font-weight-bold">Bien</div>
