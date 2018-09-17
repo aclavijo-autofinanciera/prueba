@@ -19,6 +19,9 @@ namespace ContratoDigital.Areas.Identity.Data
         public int Agencia { get; set; }
 
         [PersonalData]
+        public string DescripcionAgencia { get; set; }
+
+        [PersonalData]
         public string IdSiicon { get; set; }
 
         [PersonalData]
