@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,6 +58,15 @@ namespace ContratoDigital.Controllers
         public IActionResult Fill(int id)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == id);
+            Contrato numeroContrato = _context.Contratos.LastOrDefault();
+            if(numeroContrato == null )
+            {
+                ViewData["NumeroContrato"] = 8000000;
+            }
+            else
+            {
+                ViewData["NumeroContrato"] = numeroContrato.IdContrato + 8000000 + 1;
+            }
             GetStatusList();
             if (prospecto == null)
             {
