@@ -1,4 +1,4 @@
-﻿ using System;
+ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -183,6 +183,84 @@ namespace ContratoDigital.Controllers
                 ViewData["IsConfirmed"] = false;
             }
             return View();
+        }
+
+        public async Task<IActionResult> EmailConfirmacion(int id)
+        {
+            Prospecto prospecto = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
+            EmailService emailService = new EmailService(_emailConfiguration);
+            EmailMessage emailMessage = new EmailMessage();
+            CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
+            emailMessage.FromAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
+            };
+            emailMessage.ToAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+            };
+
+
+            string src = "";
+            if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
+            {
+                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Verificación de correo electrónico";
+                switch (prospecto.Marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailMotoMas.html";
+                        break;
+                    case "AUTECO - BAJAJ":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailBajaj.html";
+                        break;
+                    case "AUTECO - KAWASAKI":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailKawasaki.html";
+                        break;
+                    case "AUTECO - KTM":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailKtm.html";
+                        break;
+
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailElectroplan.html";
+                        break;
+                }
+            }
+            else
+            {
+                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Verificación de correo electrónico";
+                switch (prospecto.Marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailKiaPlan.html";
+                        break;
+                    case "HYUNDAI":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailAutokoreana.html";
+                        break;
+                    case "VOLKSWAGEN":
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailAutofinanciera.html";
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionCorreo/ConfirmacionEmailAutofinanciera.html";
+                        break;
+                }
+            }
+
+            emailMessage.Content = String.Format(
+                _utilities.GetTemplate(src),
+                canonicalUrlService.GetCanonicalUrl() + "Prospectos/confirmarcorreo/?guuid=" + prospecto.ConfirmacionProspecto.Guuid + "&id=" + prospecto.ConfirmacionProspecto.Id);
+            
+
+            try
+            {
+                emailService.Send(emailMessage);
+                TempData["EmailResult"] = "Success";
+            }
+            catch (Exception ex)
+            {
+                TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
+            }
+            TempData.Keep("EmailREsult");
+            return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
         }
 
         public async Task<IActionResult> Details(int id)
