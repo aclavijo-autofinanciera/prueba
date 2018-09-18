@@ -118,15 +118,15 @@
                                 Email
                             </div>
                             <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @Model.Email
+                                @Model.Email<br />
                                 @if (Model.ConfirmacionProspecto.IsConfirmed == true)
                                 {
-                                    <span class="badge badge-success"><i class="fas fa-check"></i> confirmado</span>
+                                    <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
 
                                 }
                                 else
                                 {
-                                    <span class="badge badge-warning">Por confirmar</span>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = Model.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
 
                                 }
                             </div>
