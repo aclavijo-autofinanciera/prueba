@@ -58,7 +58,7 @@ namespace ContratoDigital.Controllers
         public IActionResult Fill(int id)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == id);
-            Contrato numeroContrato = _context.Contratos.LastOrDefault();
+            Contrato numeroContrato = _context.Contratos.OrderBy(x=>x.IdContrato).LastOrDefault();
             if(numeroContrato == null )
             {
                 ViewData["NumeroContrato"] = 8000000;
@@ -82,6 +82,25 @@ namespace ContratoDigital.Controllers
             Contrato contrato = _utilities.FillContrato(form);
             contrato.asesor_comercial = _userManager.GetUserId(User);
             _context.Add(contrato);
+            await _context.SaveChangesAsync();
+
+            ConfirmacionContrato confirmacionContrato = new ConfirmacionContrato()
+            {
+                IdContrato = contrato.IdContrato,
+                Guuid = Guid.NewGuid().ToString(),
+                IsAccepted = false,
+                IsIdUploaded = false,
+                IsPaid = false,
+                Agencia = int.Parse(form["Agencia"]),
+                DescripcionAgencia = form["AgenciaDescripcion"],
+                TipoMedio = int.Parse(form["TipoMedio"]),
+                DescripcionTipoMedio = form["TipoMedioDescripcion"],
+                Medio = int.Parse(form["TipoMedioAgencia"]),
+                DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
+                TipoCliente = int.Parse(form["TipoCliente"]),
+                DescripcionTipoCliente = form["TipoClienteDescripcion"]
+            };
+            _context.ConfirmacionContratos.Add(confirmacionContrato);
             await _context.SaveChangesAsync();
 
             MemoryStream stream = new MemoryStream();
@@ -131,24 +150,7 @@ namespace ContratoDigital.Controllers
             stream.Flush();
             stream.Position = 0;
 
-            ConfirmacionContrato confirmacionContrato = new ConfirmacionContrato()
-            {
-                IdContrato = contrato.IdContrato,
-                Guuid = Guid.NewGuid().ToString(),
-                IsAccepted = false,
-                IsIdUploaded = false,
-                IsPaid = false,
-                Agencia = int.Parse(form["Agencia"]),
-                DescripcionAgencia = form["AgenciaDescripcion"],
-                TipoMedio = int.Parse(form["TipoMedio"]),
-                DescripcionTipoMedio = form["TipoMedioDescripcion"],
-                Medio = int.Parse(form["TipoMedioAgencia"]),
-                DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
-                TipoCliente = int.Parse(form["TipoCliente"]),
-                DescripcionTipoCliente = form["TipoClienteDescripcion"]
-            };
-            _context.ConfirmacionContratos.Add(confirmacionContrato);
-            await _context.SaveChangesAsync();
+            
             
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
@@ -575,7 +577,7 @@ namespace ContratoDigital.Controllers
             }
             else
             {
-                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate));
+                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), "Aún no ha sido confirmado");
             }
             
 
@@ -597,7 +599,8 @@ namespace ContratoDigital.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmarCorreo(string guuid, int id)
         {
-            ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
+            ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
+            //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
             WebserviceController webservice = new WebserviceController(_context);
             string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
             dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
@@ -690,7 +693,19 @@ namespace ContratoDigital.Controllers
                             break;
                     }
                 }
-                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate));
+                if(contrato.ConfirmacionContratos != null)
+                {
+                    if(contrato.ConfirmacionContratos.FechaAceptacion > new DateTime())
+                    {
+                        emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), contrato.ConfirmacionContratos.FechaAceptacion);
+                    }
+                    
+                }
+                else
+                {
+                    emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), "Aún no ha sido confirmado");
+                }
+                
                 emailService.Send(emailMessage, stream, Constants.ReciboPagoPDF);   
 
             }
