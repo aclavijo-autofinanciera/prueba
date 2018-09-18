@@ -575,13 +575,13 @@ namespace ContratoDigital
             // Aceptación del contrato
             fields.TryGetValue("notificacion_aceptacion", out toSet);
 
-            if(contrato.ConfirmacionContratos.FechaAceptacion > new DateTime())
+            if(contrato.ConfirmacionContratos != null)
             {
-                toSet.SetValue(String.Format("Las condiciones del contrato fueron aceptadas el : {0:dd} - {0:MM} - {0:yyyy}", contrato.ConfirmacionContratos.FechaAceptacion));
-            }
-            else
-            {
-                toSet.SetValue("Las condiciones del contrato no han sido aceptadas");
+                if(contrato.ConfirmacionContratos.FechaAceptacion > new DateTime())
+                {
+                    toSet.SetValue(String.Format("Las condiciones del contrato fueron aceptadas el : {0:dd} - {0:MM} - {0:yyyy}", contrato.ConfirmacionContratos.FechaAceptacion));
+                }
+                
             }
             
         }
