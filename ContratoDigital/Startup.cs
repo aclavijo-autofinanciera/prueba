@@ -43,8 +43,10 @@ namespace ContratoDigital
 
             
             services.AddMemoryCache();
-            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
-            services.AddTransient<IEmailService, EmailService>();            
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());            
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddSingleton<ICanonicalUrlConfiguration>(Configuration.GetSection("CanonicalUrlConfiguration").Get<CanonicalUrlConfiguration>());
+            services.AddTransient<ICanonicalUrlService, CanonicalUrlService>();
             services.AddSession();
             services.AddLogging();                       
             services.AddMvc()

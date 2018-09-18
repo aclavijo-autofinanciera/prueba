@@ -1426,8 +1426,9 @@ namespace ContratoDigital
         /// <summary>
         /// Identificador único de Usuario en el Siicon
         /// </summary>
-        public const string GuuidUsuarioSiicon = "85250b4a-e393-4b0a-b787-51edb8172118";
+        public const string GuuidUsuarioSiicon = "85250b4a-e393-4b0a-b787-51edb8172118";        
 
+        
         public const string ContratoPDF = "ContratoDigital";
         public const string ReciboPagoPDF = "ReciboDePago";
         public const string CotizacionPDF = "Cotizacion";
@@ -1444,6 +1445,8 @@ namespace ContratoDigital
 
         public const string ReciboAuto = "recibo/2018-09-14-Recibo_auto_v-2.0.pdf";
         public const string ReciboElectro = "recibo/2018-09-14-Recibo_electro_v-2.0.pdf";
+
+
 
         public enum Estados
         {

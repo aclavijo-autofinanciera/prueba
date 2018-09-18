@@ -37,13 +37,15 @@ namespace ContratoDigital.Controllers
         private readonly UserManager<ContratoDigitalUser> _userManager;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IEmailConfiguration _emailConfiguration;
+        private readonly ICanonicalUrlConfiguration _canonicalUrlConfiguration;
         private readonly Utilities _utilities;
         
-        public ContratoDigitalController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, UserManager<ContratoDigitalUser> userManager)
+        public ContratoDigitalController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, ICanonicalUrlConfiguration canonicalUrlConfiguration, UserManager<ContratoDigitalUser> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _emailConfiguration = emailConfiguration;
+            _canonicalUrlConfiguration = canonicalUrlConfiguration;
             _userManager = userManager;
             _utilities = new Utilities(_context);
             
@@ -154,6 +156,7 @@ namespace ContratoDigital.Controllers
             
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
+            CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
                 new EmailAddress{Name = "Mi Contrato", Address="tienda@autofinanciera.com.co"}
@@ -205,17 +208,11 @@ namespace ContratoDigital.Controllers
                         break;
                 }
             }
-#if DEBUG
 
             emailMessage.Content = String.Format(
                 _utilities.GetTemplate(srcTemplate),
-                "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
-#endif
-#if RELEASE
-            emailMessage.Content = String.Format(
-                _utilities.GetTemplate(srcTemplate),                
-                "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
-#endif
+                canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
+            
             emailService.Send(emailMessage, stream, Constants.ContratoPDF);            
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
@@ -410,6 +407,7 @@ namespace ContratoDigital.Controllers
             stream.Position = 0;
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
+            CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
                 new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
@@ -464,17 +462,9 @@ namespace ContratoDigital.Controllers
                 }
             }
 
-#if DEBUG
-
             emailMessage.Content = String.Format(
                 _utilities.GetTemplate(srcTemplate),
-                "http://localhost:53036/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
-#endif
-#if RELEASE
-            emailMessage.Content = String.Format(
-                _utilities.GetTemplate(srcTemplate),
-                "http://tienda.autofinanciera.com.co/ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
-#endif
+                canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
 
             try
             {
@@ -519,7 +509,7 @@ namespace ContratoDigital.Controllers
             stream.Position = 0;
 
             EmailService emailService = new EmailService(_emailConfiguration);
-            EmailMessage emailMessage = new EmailMessage();
+            EmailMessage emailMessage = new EmailMessage();            
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
                 new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
@@ -641,7 +631,7 @@ namespace ContratoDigital.Controllers
                 stream.Position = 0;
 
                 EmailService emailService = new EmailService(_emailConfiguration);
-                EmailMessage emailMessage = new EmailMessage();
+                EmailMessage emailMessage = new EmailMessage();                
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
@@ -697,7 +687,7 @@ namespace ContratoDigital.Controllers
                 {
                     if(contrato.ConfirmacionContratos.FechaAceptacion > new DateTime())
                     {
-                        emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), contrato.ConfirmacionContratos.FechaAceptacion);
+                        emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), String.Format("{0:dd-MM-yyyy}",contrato.ConfirmacionContratos.FechaAceptacion));
                     }
                     
                 }
@@ -878,6 +868,7 @@ namespace ContratoDigital.Controllers
             
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
+            CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
                 new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
@@ -930,18 +921,9 @@ namespace ContratoDigital.Controllers
                 }
             }
 
-#if DEBUG
-
             emailMessage.Content = String.Format(
                 _utilities.GetTemplate(srcTemplate),
-                "http://localhost:53036/ContratoDigital/RemoteUpload/?guuid=" + documentoIdentidad.Guuid + "&id=" + documentoIdentidad.IdDocumentoIdentidad);
-#endif
-#if RELEASE
-                emailMessage.Content = String.Format(
-                _utilities.GetTemplate(srcTemplate),                
-                "http://tienda.autofinanciera.com.co/ContratoDigital/RemoteUpload/?guuid=" + documentoIdentidad.Guuid + "&id=" + documentoIdentidad.IdDocumentoIdentidad);            
-#endif
-
+               canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/RemoteUpload/?guuid=" + documentoIdentidad.Guuid + "&id=" + documentoIdentidad.IdDocumentoIdentidad);
 
 
             try

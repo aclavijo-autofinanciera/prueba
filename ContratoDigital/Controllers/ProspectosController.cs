@@ -1,8 +1,9 @@
- using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ContratoDigital.Areas.Identity.Data;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
 using iText.Forms;
@@ -11,6 +12,7 @@ using iText.Kernel.Pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,12 +32,16 @@ namespace ContratoDigital.Controllers
         private readonly ContratoDigitalContext _context;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IEmailConfiguration _emailConfiguration;
+        private readonly ICanonicalUrlConfiguration _canonicalUrlConfiguration;
         private readonly Utilities _utilities;
-        public ProspectosController(ContratoDigitalContext context, IHostingEnvironment hostingEnvironment, IEmailConfiguration emailConfiguration)
+        private readonly UserManager<ContratoDigitalUser> _userManager;
+        public ProspectosController(ContratoDigitalContext context, IHostingEnvironment hostingEnvironment, IEmailConfiguration emailConfiguration, ICanonicalUrlConfiguration canonicalUrlConfiguration, UserManager<ContratoDigitalUser> userManager)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
             _emailConfiguration = emailConfiguration;
+            _canonicalUrlConfiguration = canonicalUrlConfiguration;
+            _userManager = userManager;
             _utilities = new Utilities(_context);
         }
 
@@ -71,9 +77,8 @@ namespace ContratoDigital.Controllers
                 Medio = int.Parse(form["TipoMedioAgencia"]),
                 DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
                 TipoCliente = int.Parse(form["TipoCliente"]),
-                DescripcionTipoCliente = form["TipoClienteDescripcion"]
-
-                
+                DescripcionTipoCliente = form["TipoClienteDescripcion"],
+                UserId = _userManager.GetUserId(User)
             };            
             _context.ConfirmacionProspectos.Add(confirmacionProspecto);
             await _context.SaveChangesAsync();
@@ -88,6 +93,8 @@ namespace ContratoDigital.Controllers
             
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
+            CanonicalUrlService urlService = new CanonicalUrlService(_canonicalUrlConfiguration);
+
             emailMessage.FromAddresses = new List<EmailAddress>()
             {
                 new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
@@ -141,18 +148,10 @@ namespace ContratoDigital.Controllers
                         break;
                 }
             }
-#if DEBUG 
 
             emailMessage.Content = String.Format(
                 _utilities.GetTemplate(src),
-                "http://localhost:53036/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id);
-#endif
-#if RELEASE
-            emailMessage.Content = String.Format(
-                _utilities.GetTemplate(src),
-                "http://tienda.autofinanciera.com.co/Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id); 
-           
-#endif
+                urlService.GetCanonicalUrl() + "Prospectos/confirmarcorreo/?guuid=" + confirmacionProspecto.Guuid + "&id=" + confirmacionProspecto.Id);
 
             try
             {
