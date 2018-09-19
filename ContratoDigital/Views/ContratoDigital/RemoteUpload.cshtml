@@ -22,13 +22,13 @@
 
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <form asp-action="RemoteUpload" enctype="multipart/form-data">
+                    <form asp-action="RemoteUpload" enctype="multipart/form-data"  class="bootstrapValidation uploadIDValidation">
                         <input asp-for="IdContrato" type="hidden" class="form-control" />
                         <div class="form-row mt-4">
                             <div class="col-12">
                                 <div class="polymer-box">
                                     <label asp-for="Anverso" class="control-label">Anverso del documento de identificación</label>
-                                    <input asp-for="Anverso" class="form-control form-control-lg" />
+                                    <input asp-for="Anverso" class="form-control form-control-lg" required />
                                     <span asp-validation-for="Anverso" class="text-danger"></span>
                                 </div>
                             </div>
@@ -37,7 +37,7 @@
                             <div class="col-12">
                                 <div class="polymer-box">
                                     <label asp-for="Reverso" class="control-label">Reverso del documento de identificación</label>
-                                    <input asp-for="Reverso" class="form-control form-control-lg" />
+                                    <input asp-for="Reverso" class="form-control form-control-lg" required />
                                     <span asp-validation-for="Reverso" class="text-danger"></span>
                                 </div>
                             </div>
