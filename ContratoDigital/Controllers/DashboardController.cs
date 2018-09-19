@@ -28,7 +28,6 @@ namespace ContratoDigital.Controllers
             _userManager = userManager;           
 
         }
-
         
         public IActionResult Index()
         {
@@ -44,17 +43,35 @@ namespace ContratoDigital.Controllers
         #region Users
         public IActionResult Users()
         {
+            var name = User.Identity.Name;
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                RedirectToAction("/Identity/Account/AccessDenied");
+            }
             return View();
         }
 
         public IActionResult AddUser()
         {
+            var name = User.Identity.Name;
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                RedirectToAction("/Identity/Account/AccessDenied");
+            }
             return View(new ContratoDigitalUser());
         }
 
         [HttpPost]
         public async Task<IActionResult> AddUser(IFormCollection form)
         {
+            var name = User.Identity.Name;
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                RedirectToAction("/Identity/Account/AccessDenied");
+            }
             var user = new ContratoDigitalUser();
             user.UserName = form["UserName"];
             user.Email = form["Email"];
@@ -110,6 +127,12 @@ namespace ContratoDigital.Controllers
 
         public IActionResult UserDetails(string id)
         {
+            var name = User.Identity.Name;
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                RedirectToAction("/Identity/Account/AccessDenied");
+            }
             ContratoDigitalUser user = _userManager.FindByNameAsync(id).Result;
             if(user != null)
             {
