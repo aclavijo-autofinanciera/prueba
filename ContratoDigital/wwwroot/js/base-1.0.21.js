@@ -1017,6 +1017,26 @@ jQuery(function ($) {
         });
     });
 
+    // Validación UploadID Remoto
+    $(".uploadIDValidation").validate({
+        rules: {
+            Anverso: {
+                required:true
+            },
+            Reverso: {
+                required:true
+            }
+        },
+        messages: {
+            Anverso: {
+                required: "Este campo es requerido"
+            },
+            Reverso: {
+                required: "Este campo es requerido"
+            }
+        }
+    });
+
     if ($("#idcompania").val())
     {        
         if ($("#idcompania").val() === "6831062e-c994-4686-a989-1964b1200cbc") {
