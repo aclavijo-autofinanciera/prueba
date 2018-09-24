@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +18,14 @@ namespace ContratoDigital.Controllers
     {
         ServiceClient service = new ServiceClient();
         private readonly ContratoDigitalContext _context;
-        public WebserviceController(ContratoDigitalContext context)
+        private readonly IEmailConfiguration _emailConfiguration;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly Utilities _utilities;
+        public WebserviceController(ContratoDigitalContext context, IEmailConfiguration emailConfiguration, Utilities utilites)
         {
             _context = context;
+            _emailConfiguration = emailConfiguration;
+            _utilities = utilites;
         }
 
 
@@ -144,7 +150,9 @@ namespace ContratoDigital.Controllers
         {
             return await service.SelecccionarMediosAgenciaAsync(compania, tipoMedioId, codAgencia);
         }
+
         
+
         public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
         {
 
@@ -222,12 +230,110 @@ namespace ContratoDigital.Controllers
                 throw;
             }
         }
+
+
         [HttpGet("GetCiudades/{id}")]
         [Route("api/Freyja/GetCiudades")]
         public ActionResult<List<Ciudades>> GetCiudades(int id)
         {
             var ciudades = _context.Ciudades.Where(x => x.IdDepartamentoSiicon == id).ToList(); //FromSql(sql : $"SELECT * FROM CIUDADES WHERE IdDepartamentoSiicon = {id}").ToList();
             return ciudades;
+        }
+
+        /// <summary>
+        /// Registra un pago realizado en el sistema
+        /// </summary>
+        /// <param name="_referencia">Referencia de pago asignada al contrato</param>
+        /// <param name="_contrato">Id de contrato del cual se ha pagado la referencia</param>
+        /// <returns></returns>
+        [HttpGet("RegistrarPago/{_referencia}/{_contrato}/{_valorpago}")]
+        [Route("api/Freyja/RegistrarPago")]
+        public async Task<ActionResult<string>> RegistrarPago(string _referencia, string _contrato, string _valorpago)
+        {
+            int numerocontrato = 0;
+            int.TryParse(_contrato, out numerocontrato);
+            double valorPago = 0;
+            double.TryParse(_valorpago, out valorPago);
+            if(String.IsNullOrEmpty(_referencia) || numerocontrato <= 0 || valorPago <= 0)
+            {
+                return "HTTP 501: Error de conversión";
+            }
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == numerocontrato);
+            if(contrato == null)
+            {
+                return "HTTP 404: Contrato no conseguido";
+            }
+            if(contrato.ConfirmacionContratos.ReferenciaPago != _referencia)
+            {
+                return "HTTP 404: Referencia no conseguida";
+            }
+            if(valorPago >= contrato.valor_primer_pago)
+            {
+                contrato.ConfirmacionContratos.IsPaid = true;
+                contrato.ConfirmacionContratos.FechaPago = DateTime.Now;
+                await _context.SaveChangesAsync();
+                return "HTTP 200: OK";
+            }
+            else
+            {
+                EmailService emailService = new EmailService(_emailConfiguration);
+                EmailMessage emailMessage = new EmailMessage();
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                new EmailAddress{Name = "Mi Contrato", Address="tienda@autofinanciera.com.co"}
+                };
+                emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+                };
+                string srcTemplate = "";
+                if (contrato.id_compania.Equals(Constants.GuuidElectro))
+                {
+                    emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
+                    switch (contrato.marca_exclusiva_bien)
+                    {
+                        case "YAMAHA":
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialMotoMas.html";
+                            break;
+                        case "AUTECO - BAJAJ":
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialBajaj.html";
+                            break;
+                        case "AUTECO - KAWASAKI":
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialKawasaki.html";
+                            break;
+                        case "AUTECO - KTM":
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialKtm.html";
+                            break;
+                        default:
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialElectroplan.html";
+                            break;
+                    }
+                }
+                else
+                {
+                    emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
+                    switch (contrato.marca_exclusiva_bien)
+                    {
+                        case "KIA":
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialKiaPlan.html";
+                            break;
+                        case "HYUNDAI":
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialAutokoreana.html";
+                            break;
+                        case "VOLKSWAGEN":
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialAutofinanciera.html";
+                            break;
+                        default:
+                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/PagoParcial/PagoParcialAutofinanciera.html";
+                            break;
+                    }
+                }
+                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate),
+                    ""
+                    );
+                emailService.Send(emailMessage);
+            }
+            return "HTTP 502: Pago Parcial";
         }
 
         
