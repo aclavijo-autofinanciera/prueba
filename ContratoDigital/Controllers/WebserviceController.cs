@@ -21,11 +21,12 @@ namespace ContratoDigital.Controllers
         private readonly IEmailConfiguration _emailConfiguration;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly Utilities _utilities;
-        public WebserviceController(ContratoDigitalContext context, IEmailConfiguration emailConfiguration, Utilities utilites)
+        public WebserviceController(ContratoDigitalContext context, IEmailConfiguration emailConfiguration, IHostingEnvironment hostingEnvironment, Utilities utilites)
         {
             _context = context;
             _emailConfiguration = emailConfiguration;
             _utilities = utilites;
+            _hostingEnvironment = hostingEnvironment;
         }
 
 
@@ -150,31 +151,7 @@ namespace ContratoDigital.Controllers
         {
             return await service.SelecccionarMediosAgenciaAsync(compania, tipoMedioId, codAgencia);
         }
-
         
-
-        public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
-        {
-
-            Console.WriteLine(persona.TipoPersonaId + ", " + persona.TipoIdentificacionRepreLegalId + ", " + persona.NumeroIdentificacionRepreLegal + ", " +
-                persona.CiudadConstitucionId + ", " + persona.FechaConstitucion + ", " + persona.PrimerNombre + ", " + persona.SegundoNombre + ", " + 
-                persona.PrimerApellido + ", " + persona.SegundoApellido + ", " + persona.RazonSocial + ", " + persona.TipoDocumentoIdentidadId + ", " + 
-                persona.NumeroDocumento + ", " + persona.DigitoVerificacion + ", " + persona.CiudadExpedicionId + ", " + persona.FechaNacimiento + ", " +
-                persona.CiudadNacimientoId + ", " + persona.SexoId + ", " + persona.EstadoCivilId + ", " + persona.Email + ", " +  persona.DireccionNotifiacion + ", " + 
-                persona.BarrioNotifiacion + ", " + persona.TelefonoNotifiacion + ", " + persona.CelularNotificacion + ", " + persona.DepartamentoNotificacionId + ", " + 
-                persona.CiudadNotificacionId + ", " + persona.EmpresaLabora + ", " + persona.CargoLabora + ", " + persona.DireccionLabora + ", " + 
-                persona.BarrioLabora + ", " + persona.TelefonoLabora + ", " + persona.CelularOficina + ", " + persona.DepartamentoLaboraId + ", " + 
-                persona.CiudadLaboraId + ", " + persona.IngresoMensual + ", " + persona.EgresoMensual + ", " + persona.Profesion + ", " + persona.TerceroId);
-
-            return ""; /*await service.CrearPersonaAsync(persona.TipoPersonaId, persona.TipoIdentificacionRepreLegalId,persona.NumeroIdentificacionRepreLegal,
-                persona.CiudadConstitucionId, persona.FechaConstitucion, persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido, persona.SegundoApellido,
-                persona.RazonSocial, persona.TipoDocumentoIdentidadId, persona.NumeroDocumento, persona.DigitoVerificacion, persona.CiudadExpedicionId, persona.FechaNacimiento,
-                persona.CiudadNacimientoId, persona.SexoId, persona.EstadoCivilId, persona.Email, persona.DireccionNotifiacion, persona.BarrioNotifiacion, persona.TelefonoNotifiacion,
-                persona.CelularNotificacion, persona.DepartamentoNotificacionId, persona.CiudadNotificacionId, persona.EmpresaLabora, persona.CargoLabora,
-                persona.DireccionLabora,persona.BarrioLabora, persona.TelefonoLabora, persona.CelularOficina, persona.DepartamentoLaboraId, persona.CiudadLaboraId,
-                persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId);*/
-        }
-
         /// <summary>
         /// Devuelve una clase con los 4 estados posibles de un contrato.
         /// </summary>
@@ -336,6 +313,34 @@ namespace ContratoDigital.Controllers
             return "HTTP 502: Pago Parcial";
         }
 
+        public async Task<ActionResult<string>> RegistrarContratos()
+        {
+            return "HTTP 200: OK";
+        }
+        
+        /*
+        [HttpGet("RegistrarPago")]
+        public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
+        {
+
+            Console.WriteLine(persona.TipoPersonaId + ", " + persona.TipoIdentificacionRepreLegalId + ", " + persona.NumeroIdentificacionRepreLegal + ", " +
+                persona.CiudadConstitucionId + ", " + persona.FechaConstitucion + ", " + persona.PrimerNombre + ", " + persona.SegundoNombre + ", " +
+                persona.PrimerApellido + ", " + persona.SegundoApellido + ", " + persona.RazonSocial + ", " + persona.TipoDocumentoIdentidadId + ", " +
+                persona.NumeroDocumento + ", " + persona.DigitoVerificacion + ", " + persona.CiudadExpedicionId + ", " + persona.FechaNacimiento + ", " +
+                persona.CiudadNacimientoId + ", " + persona.SexoId + ", " + persona.EstadoCivilId + ", " + persona.Email + ", " + persona.DireccionNotifiacion + ", " +
+                persona.BarrioNotifiacion + ", " + persona.TelefonoNotifiacion + ", " + persona.CelularNotificacion + ", " + persona.DepartamentoNotificacionId + ", " +
+                persona.CiudadNotificacionId + ", " + persona.EmpresaLabora + ", " + persona.CargoLabora + ", " + persona.DireccionLabora + ", " +
+                persona.BarrioLabora + ", " + persona.TelefonoLabora + ", " + persona.CelularOficina + ", " + persona.DepartamentoLaboraId + ", " +
+                persona.CiudadLaboraId + ", " + persona.IngresoMensual + ", " + persona.EgresoMensual + ", " + persona.Profesion + ", " + persona.TerceroId);
+
+            return ""; /*await service.CrearPersonaAsync(persona.TipoPersonaId, persona.TipoIdentificacionRepreLegalId,persona.NumeroIdentificacionRepreLegal,
+                persona.CiudadConstitucionId, persona.FechaConstitucion, persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido, persona.SegundoApellido,
+                persona.RazonSocial, persona.TipoDocumentoIdentidadId, persona.NumeroDocumento, persona.DigitoVerificacion, persona.CiudadExpedicionId, persona.FechaNacimiento,
+                persona.CiudadNacimientoId, persona.SexoId, persona.EstadoCivilId, persona.Email, persona.DireccionNotifiacion, persona.BarrioNotifiacion, persona.TelefonoNotifiacion,
+                persona.CelularNotificacion, persona.DepartamentoNotificacionId, persona.CiudadNotificacionId, persona.EmpresaLabora, persona.CargoLabora,
+                persona.DireccionLabora,persona.BarrioLabora, persona.TelefonoLabora, persona.CelularOficina, persona.DepartamentoLaboraId, persona.CiudadLaboraId,
+                persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId);*//*
+        } */
         
 
     }
