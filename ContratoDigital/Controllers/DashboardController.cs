@@ -20,22 +20,23 @@ namespace ContratoDigital.Controllers
         private readonly UserManager<ContratoDigitalUser> _userManager;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IEmailConfiguration _emailConfiguration;
-        public DashboardController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, UserManager<ContratoDigitalUser> userManager)
+        private readonly Utilities _utilities;
+        public DashboardController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, Utilities utilities, UserManager<ContratoDigitalUser> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _emailConfiguration = emailConfiguration;
-            _userManager = userManager;           
+            _userManager = userManager;
+            _utilities = utilities;
 
         }
         
         public IActionResult Index()
-        {
-            var name = User.Identity.Name;
-            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+        {                        
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;         
             if (!isAdmin)
-            {
-                RedirectToAction("/Identity/Account/AccessDenied");
+            {                
+                return RedirectToAction("AccessDenied", "Identity/Account");
             }
             return View();
         }
@@ -43,22 +44,20 @@ namespace ContratoDigital.Controllers
         #region Users
         public IActionResult Users()
         {
-            var name = User.Identity.Name;
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                RedirectToAction("/Identity/Account/AccessDenied");
+                return RedirectToAction("AccessDenied", "Identity/Account");
             }
             return View();
         }
 
         public IActionResult AddUser()
         {
-            var name = User.Identity.Name;
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                RedirectToAction("/Identity/Account/AccessDenied");
+                return RedirectToAction("AccessDenied", "Identity/Account");
             }
             return View(new ContratoDigitalUser());
         }
@@ -66,11 +65,10 @@ namespace ContratoDigital.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(IFormCollection form)
         {
-            var name = User.Identity.Name;
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                RedirectToAction("/Identity/Account/AccessDenied");
+                return RedirectToAction("AccessDenied", "Identity/Account");
             }
             var user = new ContratoDigitalUser();
             user.UserName = form["UserName"];
@@ -85,7 +83,7 @@ namespace ContratoDigital.Controllers
             user.Agencia = agencia;
             user.DescripcionAgencia = form["DescripcionAgencia"];
 
-            WebserviceController service = new WebserviceController(_context);
+            WebserviceController service = new WebserviceController(_context, _emailConfiguration, _utilities);
             string resultSiicon = service.GetSiiconUserId(user.Cedula).Result.Value;            
             string resultAsesor = service.GetAsesorId(user.Cedula).Result.Value;
 
@@ -127,11 +125,10 @@ namespace ContratoDigital.Controllers
 
         public IActionResult UserDetails(string id)
         {
-            var name = User.Identity.Name;
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                RedirectToAction("/Identity/Account/AccessDenied");
+                return RedirectToAction("AccessDenied", "Identity/Account");
             }
             ContratoDigitalUser user = _userManager.FindByNameAsync(id).Result;
             if(user != null)

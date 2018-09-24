@@ -48,6 +48,7 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Index()
         {            
             return View(await _context.Prospectos
+                .Where(x=> x.ConfirmacionProspecto.UserId == _userManager.GetUserId(User))
                 .OrderByDescending(x => x.IdProspecto)
                 .ToListAsync());
         }
@@ -289,6 +290,7 @@ namespace ContratoDigital.Controllers
             prospecto.ConfirmacionProspecto.DescripcionMedio = form["TipoMedioAgenciaDescripcion"];
             prospecto.ConfirmacionProspecto.TipoCliente = int.Parse(form["TipoCliente"]);
             prospecto.ConfirmacionProspecto.DescripcionTipoCliente = form["TipoClienteDescripcion"];
+            prospecto.ConfirmacionProspecto.UserId = _userManager.GetUserId(User);            
             prospecto = _utilities.UpdateProspecto(form, prospecto);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details","Prospectos", new {id = prospecto.IdProspecto });
