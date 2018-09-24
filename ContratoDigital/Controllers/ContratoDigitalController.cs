@@ -54,7 +54,20 @@ namespace ContratoDigital.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Contratos.OrderByDescending(x => x.IdContrato).ToListAsync());
+            return View(await _context.Contratos
+                .Where(x => x.asesor_comercial == _userManager.GetUserId(User))
+                .OrderByDescending(x => x.IdContrato).ToListAsync());
+        }
+
+        public async Task<IActionResult> FindAll()
+        {
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                return RedirectToAction("AccessDenied", "Identity/Account");
+            }
+            return View(await _context.Contratos                
+                .OrderByDescending(x => x.IdContrato).ToListAsync());
         }
 
         public IActionResult Fill(int id)
@@ -100,7 +113,8 @@ namespace ContratoDigital.Controllers
                 Medio = int.Parse(form["TipoMedioAgencia"]),
                 DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
                 TipoCliente = int.Parse(form["TipoCliente"]),
-                DescripcionTipoCliente = form["TipoClienteDescripcion"]
+                DescripcionTipoCliente = form["TipoClienteDescripcion"],
+                UserId = _userManager.GetUserId(User)
             };
             _context.ConfirmacionContratos.Add(confirmacionContrato);
             await _context.SaveChangesAsync();
@@ -282,7 +296,9 @@ namespace ContratoDigital.Controllers
             contrato.ConfirmacionContratos.DescripcionMedio = form["TipoMedioAgenciaDescripcion"];
             contrato.ConfirmacionContratos.TipoCliente = int.Parse(form["TipoCliente"]);
             contrato.ConfirmacionContratos.DescripcionTipoCliente = form["TipoClienteDescripcion"];
+            contrato.ConfirmacionContratos.UserId = _userManager.GetUserId(User);
             contrato = _utilities.UpdateContrato(form, contrato);
+            contrato.asesor_comercial = _userManager.GetUserId(User);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
@@ -591,7 +607,7 @@ namespace ContratoDigital.Controllers
         {
             ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
             //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
-            WebserviceController webservice = new WebserviceController(_context);
+            WebserviceController webservice = new WebserviceController(_context,_emailConfiguration, _utilities);
             string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
             dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
             if (confirmacionContrato.Guuid.Equals(guuid) && confirmacionContrato.IsAccepted.Equals(false))
@@ -1091,7 +1107,7 @@ namespace ContratoDigital.Controllers
             personaSiicon.EgresoMensual = (int)contrato.egresos_mensuales_suscriptor;
             personaSiicon.Profesion = contrato.profesion_suscriptor;
             personaSiicon.TerceroId = Constants.GuuidUsuarioSiicon;
-            WebserviceController service = new WebserviceController(_context);
+            WebserviceController service = new WebserviceController(_context, _emailConfiguration, _utilities);
             string result = service.CreatePersonaSiicon(personaSiicon).Result.Value;
             ViewData["ResultWS"] = result;
 
