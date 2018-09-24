@@ -70,21 +70,14 @@ namespace SiiconWebService
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarMediosAgencia", ReplyAction="http://tempuri.org/IService/SelecccionarMediosAgenciaResponse")]
         System.Threading.Tasks.Task<string> SelecccionarMediosAgenciaAsync(string CompañiaId, int TipoMedioId, int CodAgencia);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CrearPersona", ReplyAction="http://tempuri.org/IService/CrearPersonaResponse")]
-        System.Threading.Tasks.Task<string> CrearPersonaAsync(
-                    int TipoPersonaId, 
-                    int TipoIdentificacionRepreLegalId, 
-                    string NumeroIdentificacionRepreLegal, 
-                    string CiudadConstitucionId, 
-                    string FechaConstitucion, 
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CrearPersonaNatural", ReplyAction="http://tempuri.org/IService/CrearPersonaNaturalResponse")]
+        System.Threading.Tasks.Task<string> CrearPersonaNaturalAsync(
                     string PrimerNombre, 
                     string SegundoNombre, 
                     string PrimerApellido, 
                     string SegundoApellido, 
-                    string RazonSocial, 
                     int TipoDocumentoIdentidadId, 
                     string NumeroDocumento, 
-                    string DigitoVerificacion, 
                     string CiudadExpedicionId, 
                     string FechaNacimiento, 
                     string CiudadNacimientoId, 
@@ -108,6 +101,40 @@ namespace SiiconWebService
                     int IngresoMensual, 
                     int EgresoMensual, 
                     string Profesion, 
+                    string TerceroId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CrearContrato", ReplyAction="http://tempuri.org/IService/CrearContratoResponse")]
+        System.Threading.Tasks.Task<string> CrearContratoAsync(
+                    int Contrato, 
+                    int Persona1Id, 
+                    int Persona2Id, 
+                    string FechaAdhesion, 
+                    int CodAgencia, 
+                    int CodAsesor, 
+                    int CodConvenio, 
+                    int CodConcesionario, 
+                    int TipoMedioId, 
+                    int MedioId, 
+                    int MedioFechaId, 
+                    int CodTipoBien, 
+                    int BienId, 
+                    float ValorBien, 
+                    int CodMarca, 
+                    int TipoBienParametroId, 
+                    float PorcentajeInscripcion, 
+                    float PorcentajeAdministracion, 
+                    int DescuentoId, 
+                    float PorcentajeDescuento, 
+                    float MontoInscripcion, 
+                    float MontoInscripcionIVA, 
+                    int Plazo, 
+                    float MontoAdministracion, 
+                    float MontoAdministracionIVA, 
+                    float CuotaNeta, 
+                    string SuscriptorReferente, 
+                    int TipoVentaId, 
+                    string FechaCierre, 
+                    string CompañiaId, 
                     string TerceroId);
     }
     
@@ -251,20 +278,13 @@ namespace SiiconWebService
             return base.Channel.SelecccionarMediosAgenciaAsync(CompañiaId, TipoMedioId, CodAgencia);
         }
         
-        public System.Threading.Tasks.Task<string> CrearPersonaAsync(
-                    int TipoPersonaId, 
-                    int TipoIdentificacionRepreLegalId, 
-                    string NumeroIdentificacionRepreLegal, 
-                    string CiudadConstitucionId, 
-                    string FechaConstitucion, 
+        public System.Threading.Tasks.Task<string> CrearPersonaNaturalAsync(
                     string PrimerNombre, 
                     string SegundoNombre, 
                     string PrimerApellido, 
                     string SegundoApellido, 
-                    string RazonSocial, 
                     int TipoDocumentoIdentidadId, 
                     string NumeroDocumento, 
-                    string DigitoVerificacion, 
                     string CiudadExpedicionId, 
                     string FechaNacimiento, 
                     string CiudadNacimientoId, 
@@ -290,7 +310,43 @@ namespace SiiconWebService
                     string Profesion, 
                     string TerceroId)
         {
-            return base.Channel.CrearPersonaAsync(TipoPersonaId, TipoIdentificacionRepreLegalId, NumeroIdentificacionRepreLegal, CiudadConstitucionId, FechaConstitucion, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, RazonSocial, TipoDocumentoIdentidadId, NumeroDocumento, DigitoVerificacion, CiudadExpedicionId, FechaNacimiento, CiudadNacimientoId, SexoId, EstadoCivilId, Email, DireccionNotifiacion, BarrioNotifiacion, TelefonoNotifiacion, CelularNotificacion, DepartamentoNotificacionId, CiudadNotificacionId, EmpresaLabora, CargoLabora, DireccionLabora, BarrioLabora, TelefonoLabora, CelularOficina, DepartamentoLaboraId, CiudadLaboraId, IngresoMensual, EgresoMensual, Profesion, TerceroId);
+            return base.Channel.CrearPersonaNaturalAsync(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, TipoDocumentoIdentidadId, NumeroDocumento, CiudadExpedicionId, FechaNacimiento, CiudadNacimientoId, SexoId, EstadoCivilId, Email, DireccionNotifiacion, BarrioNotifiacion, TelefonoNotifiacion, CelularNotificacion, DepartamentoNotificacionId, CiudadNotificacionId, EmpresaLabora, CargoLabora, DireccionLabora, BarrioLabora, TelefonoLabora, CelularOficina, DepartamentoLaboraId, CiudadLaboraId, IngresoMensual, EgresoMensual, Profesion, TerceroId);
+        }
+        
+        public System.Threading.Tasks.Task<string> CrearContratoAsync(
+                    int Contrato, 
+                    int Persona1Id, 
+                    int Persona2Id, 
+                    string FechaAdhesion, 
+                    int CodAgencia, 
+                    int CodAsesor, 
+                    int CodConvenio, 
+                    int CodConcesionario, 
+                    int TipoMedioId, 
+                    int MedioId, 
+                    int MedioFechaId, 
+                    int CodTipoBien, 
+                    int BienId, 
+                    float ValorBien, 
+                    int CodMarca, 
+                    int TipoBienParametroId, 
+                    float PorcentajeInscripcion, 
+                    float PorcentajeAdministracion, 
+                    int DescuentoId, 
+                    float PorcentajeDescuento, 
+                    float MontoInscripcion, 
+                    float MontoInscripcionIVA, 
+                    int Plazo, 
+                    float MontoAdministracion, 
+                    float MontoAdministracionIVA, 
+                    float CuotaNeta, 
+                    string SuscriptorReferente, 
+                    int TipoVentaId, 
+                    string FechaCierre, 
+                    string CompañiaId, 
+                    string TerceroId)
+        {
+            return base.Channel.CrearContratoAsync(Contrato, Persona1Id, Persona2Id, FechaAdhesion, CodAgencia, CodAsesor, CodConvenio, CodConcesionario, TipoMedioId, MedioId, MedioFechaId, CodTipoBien, BienId, ValorBien, CodMarca, TipoBienParametroId, PorcentajeInscripcion, PorcentajeAdministracion, DescuentoId, PorcentajeDescuento, MontoInscripcion, MontoInscripcionIVA, Plazo, MontoAdministracion, MontoAdministracionIVA, CuotaNeta, SuscriptorReferente, TipoVentaId, FechaCierre, CompañiaId, TerceroId);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
