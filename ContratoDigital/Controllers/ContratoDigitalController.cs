@@ -607,7 +607,7 @@ namespace ContratoDigital.Controllers
         {
             ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
             //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
-            WebserviceController webservice = new WebserviceController(_context,_emailConfiguration, _utilities);
+            WebserviceController webservice = new WebserviceController(_context,_emailConfiguration,_hostingEnvironment, _utilities);
             string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
             dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
             if (confirmacionContrato.Guuid.Equals(guuid) && confirmacionContrato.IsAccepted.Equals(false))
@@ -855,8 +855,9 @@ namespace ContratoDigital.Controllers
             if( !string.IsNullOrEmpty(documentoIdentidad.Anverso) && !string.IsNullOrEmpty(documentoIdentidad.Reverso))
             {
                 confirmarContrato.IsIdUploaded = true;
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
+            
             return RedirectToAction("Details", "ContratoDigital", new { id = documentoIdentidad.IdContrato, status = 10 });
         }
 
@@ -1006,8 +1007,9 @@ namespace ContratoDigital.Controllers
             if (!string.IsNullOrEmpty(documentoIdentidad.Anverso) && !string.IsNullOrEmpty(documentoIdentidad.Reverso))
             {
                 confirmarContrato.IsIdUploaded = true;
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
+            
             return RedirectToAction("ConfirmRemoteUpload", "ContratoDigital", new { status = 100 });
             
         }
@@ -1068,7 +1070,7 @@ namespace ContratoDigital.Controllers
             return File(stream, "application/pdf", "AlgunaCosa.pdf");
         }
 
-        public async Task<IActionResult> RegisterSiicon(int id)
+        /*public async Task<IActionResult> RegisterSiicon(int id)
         {
             Status status = new Status(_context);
             var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
@@ -1107,13 +1109,13 @@ namespace ContratoDigital.Controllers
             personaSiicon.EgresoMensual = (int)contrato.egresos_mensuales_suscriptor;
             personaSiicon.Profesion = contrato.profesion_suscriptor;
             personaSiicon.TerceroId = Constants.GuuidUsuarioSiicon;
-            WebserviceController service = new WebserviceController(_context, _emailConfiguration, _utilities);
+            WebserviceController service = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities);
             string result = service.CreatePersonaSiicon(personaSiicon).Result.Value;
             ViewData["ResultWS"] = result;
 
             //return RedirectToAction("Details", "ContratoDigital", new { id });
             return View();
-        }
+        }*/
 
 
         #region
