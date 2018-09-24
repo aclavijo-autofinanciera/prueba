@@ -91,6 +91,8 @@ namespace ContratoDigital.Models
         public string compania { get; set; }
         public string tipo_de_bien { get; set; }
         public int id_tipo_de_bien { get; set; }
+        public int id_fecha_medio { get; set; }
+        public int id_tipo_bien_parametro { get; set; }
         public string marca_exclusiva_bien { get; set; }
         public int id_marca { get; set; }
         public string detalles_bien { get; set; }

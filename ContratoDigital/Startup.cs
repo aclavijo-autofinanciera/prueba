@@ -56,8 +56,10 @@ namespace ContratoDigital
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.None;
                 });
-            services.AddSingleton<Status>();
-            services.AddSingleton<Utilities>();
+            //services.AddSingleton<Status>();
+            services.AddTransient<Status>();
+            //services.AddSingleton<Utilities>();
+            services.AddTransient<Utilities>();
 
         }
 

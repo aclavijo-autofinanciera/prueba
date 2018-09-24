@@ -839,11 +839,16 @@ namespace ContratoDigital
             contrato.id_tipo_de_bien = id_tipo_bien;
             contrato.tipo_de_bien = form["descripcionTipoBien"];
             int.TryParse(s: form["marca"], result: out int id_marca);
+            int.TryParse(s: form["tipoBienParametroId"], result: out int id_tipo_bien_parametro);
+            contrato.id_tipo_bien_parametro = id_tipo_bien_parametro;
+            int.TryParse(s: form["medioFechaId"], result: out int id_fecha_medio);
+            contrato.id_fecha_medio = id_fecha_medio;
             contrato.id_marca = id_marca;
             contrato.marca_exclusiva_bien = form["descripcionMarca"].ToString().ToUpper();
             contrato.detalles_bien = form["planDeAhorro"].ToString().ToUpper();
             contrato.descripcion_bien = form["detalles_bien"].ToString().ToUpper();
             contrato.codigo_bien = form["codigo_bien"].ToString().ToUpper();
+            contrato.agencia = form["Agencia"].ToString().ToUpper();
 
             Double.TryParse(s: form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
             contrato.porcentaje_administracion = porcentajeAdministracion;
@@ -1020,9 +1025,14 @@ namespace ContratoDigital
             int.TryParse(s: form["marca"], result: out int id_marca);
             contrato.id_marca = id_marca;
             contrato.marca_exclusiva_bien = form["descripcionMarca"].ToString().ToUpper();
+            int.TryParse(s: form["tipoBienParametroId"], result: out int id_tipo_bien_parametro);
+            contrato.id_tipo_bien_parametro = id_tipo_bien_parametro;
+            int.TryParse(s: form["medioFechaId"], result: out int id_fecha_medio);
+            contrato.id_fecha_medio = id_fecha_medio;
             contrato.detalles_bien = form["planDeAhorro"].ToString().ToUpper();
             contrato.descripcion_bien = form["detalles_bien"].ToString().ToUpper();
             contrato.codigo_bien = form["codigo_bien"].ToString().ToUpper();
+            contrato.agencia = form["Agencia"].ToString().ToUpper();
 
             contrato.cuota_bien = form["detalles_bien"].ToString().ToUpper().Contains("FIJA") ? "FIJA" : "VARIABLE";
 
@@ -1111,6 +1121,12 @@ namespace ContratoDigital
             prospecto.DescripcionDelBien = form["DescripcionDelBien"].ToString().ToUpper();
             prospecto.Detalles_bien = form["detalle"].ToString().ToUpper();
 
+            int.TryParse(s: form["medioFechaId"], result: out int medioFechaId);
+            prospecto.IdFechaMedio = medioFechaId;
+
+            int.TryParse(s: form["tipoBienParametroId"], result: out int tipoBienParametroId);
+            prospecto.IdTipoBienParametro = tipoBienParametroId;
+
             double.TryParse(s: form["porcentajeAdministracion"], result: out double porcentajeAdministracion);
             prospecto.PorcentajeAdministracion = porcentajeAdministracion;
 
@@ -1180,6 +1196,12 @@ namespace ContratoDigital
             prospecto.Tipo_de_Bien = form["descripcionTipoBien"];
             int.TryParse(s: form["tipodeBien"], result: out int idTipoBien);
             prospecto.Id_Tipo_Bien = idTipoBien;
+
+            int.TryParse(s: form["medioFechaId"], result: out int medioFechaId);
+            prospecto.IdFechaMedio = medioFechaId;
+
+            int.TryParse(s: form["tipoBienParametroId"], result: out int tipoBienParametroId);
+            prospecto.IdTipoBienParametro = tipoBienParametroId;
 
             prospecto.Marca_exclusiva_bien = form["descripcionMarca"];
             int.TryParse(s: form["marca"], result: out int marcaExclusiva);

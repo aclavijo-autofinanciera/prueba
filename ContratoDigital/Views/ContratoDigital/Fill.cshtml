@@ -714,6 +714,8 @@
                                 <option value="@Model.ConfirmacionProspecto.Medio">@Model.ConfirmacionProspecto.DescripcionMedio</option>
                             </select>
                             <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionMedio" />
+                            <input type="hidden" name="tipoBienParametroId" id="tipoBienParametroId" value="@Model.IdTipoBienParametro" />
+                            <input type="hidden" name="medioFechaId" id="medioFechaId" value="@Model.IdFechaMedio" />
                         </div>
                         <div class="col-12 col-md-6">
                             <label>Tipo de cliente</label>
@@ -727,94 +729,8 @@
                             <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoCliente" />
 
                         </div>
-
-
-
-
                     </div>
 
-                    @*<div class="form-row mt-4">
-            <div class="col-12 col-md-4">
-                <label for="bien">Seleccione compañía</label>
-                <select class="form-control form-control-lg" id="idcompania" name="idcompania">
-                    <option value="@Model.IdCompania">@Model.Compania</option>
-                    <option value="">Seleccione una opción</option>
-                    <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
-                    <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
-                </select>
-                <input type="hidden" name="compania" id="compania" value="@Model.Compania" />
-            </div>
-            <div class="col-12 col-md-4">
-                <label for="tipodeBien">Seleccione un tipo de bien</label>
-                <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
-                    <option value="@Model.Id_Tipo_Bien">@Model.Detalles_bien</option>
-                    <option value="">Seleccione una opción</option>
-                </select>
-                <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" value="@Model.Detalles_bien" />
-            </div>
-            <div class="col-12 col-md-4">
-                <label for="marca">Seleccione una marca</label>
-                <select class="form-control form-control-lg" id="marca" name="marca" readonly>
-                    <option value="@Model.Id_marca">@Model.Marca_exclusiva_bien</option>
-                    <option value="">Seleccione una opción</option>
-                </select>
-                <input type="hidden" name="descripcionMarca" id="descripcionMarca" value="@Model.Marca_exclusiva_bien" />
-            </div>
-        </div>
-
-        <div class="form-row mt-4">
-            <div class="col-12 col-md-4">
-                <label for="planDeAhorro">Seleccione un plan de ahorro</label>
-                <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly>
-                    <option value="@Model.Referencia">@Model.DescripcionDelBien</option>
-                    <option value="">Seleccione una opción</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-4">
-                <label for="tipoCalculo">Seleccione una cuota</label>
-                <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
-                    <option value="">@Model.Plazo</option>
-                    <option value="">Seleccione una opción</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row mt-4">
-            <div class="col-12 col-md-4">
-                <label for="">Agencia</label>
-                <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
-                    <option value="@Model.ConfirmacionProspecto.Agencia">@Model.ConfirmacionProspecto.DescripcionAgencia </option>
-                </select>
-                <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionAgencia" />
-            </div>
-            <div class="col-12 col-md-4">
-                <label for="">Tipo de medio</label>
-                <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly>
-                    <option value="@Model.ConfirmacionProspecto.TipoMedio">@Model.ConfirmacionProspecto.DescripcionTipoMedio</option>
-                </select>
-                <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoMedio" />
-            </div>
-            <div class="col-12 col-md-4">
-                <label for="">Agencia Medio</label>
-                <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly>
-                    <option value="@Model.ConfirmacionProspecto.Medio">@Model.ConfirmacionProspecto.DescripcionMedio</option>
-                </select>
-                <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionMedio" />
-            </div>
-            <div class="col-12 col-md-4">
-
-                <label>Tipo de cliente</label>
-                <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente">
-                    <option value="@Model.ConfirmacionProspecto.TipoCliente">@Model.ConfirmacionProspecto.DescripcionTipoCliente</option>
-                    <option>Seleccione una opcíon</option>
-                    <option value="0">Nuevo cliente</option>
-                    <option value="1">Cliente antiguo</option>
-                    <option value="2">Persona jurídicia</option>
-                </select>
-                <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoCliente" />
-
-            </div>
-        </div>*@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-4">
