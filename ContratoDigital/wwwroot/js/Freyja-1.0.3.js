@@ -262,7 +262,7 @@
                 tipoCalculo.empty();
                 tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
                 $.each(data, function (i, item) {
-                    var rows = "<option value=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + planAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat(planAhorro.find(":selected").data("valorbien")) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
+                    var rows = "<option value=\"" + item.TipoBienId + "\" data-tipobienparametroid=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + planAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat(planAhorro.find(":selected").data("valorbien")) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
                     tipoCalculo.append(rows);
                 });
                 tipoCalculo.removeAttr("readonly disabled");
@@ -301,7 +301,7 @@
                     tipoMedioAgencia.empty();
                     tipoMedioAgencia.append("<option value=\"\">Selecciona una opción</option>");
                     $.each(data, function (i, item) {
-                        var rows = "<option value=\"" + item.MedioId + "\" >" + item.Medio + " </option>";
+                        var rows = "<option value=\"" + item.MedioId + "\" data-mediofechaid=\"" + item.MedioFechaId + "\" >" + item.Medio + " </option>";
                         tipoMedioAgencia.append(rows);
                     });
                     tipoMedioAgencia.removeAttr("readonly disabled");
@@ -341,6 +341,7 @@
     // Fill in hidden inputs fro tipo medio agencia
     $("#TipoMedioAgencia").on("change", function () {
         $("#TipoMedioAgenciaDescripcion").val(tipoMedioAgencia.find(":selected").text());
+        $("#medioFechaId").val(tipoMedioAgencia.find(":selected").data("mediofechaid"));
     });
     $("#TipoCliente").on("change", function () {
         $("#TipoClienteDescripcion").val($("#TipoCliente").find(":selected").text());
@@ -359,7 +360,8 @@
         $('.porcentajeInscripcion').empty().text(inscripcion).val(inscripcion);
         $('.porcentajeAdministracion').empty().text(administracion).val(administracion);
         $('.porcentajeIva').empty().text(iva * 100).val(iva * 100);
-        $('.plazo').empty().text(plazo).val(plazo);
+        $('.plazo').empty().text(plazo).val(plazo);        
+        $('#tipoBienParametroId').empty().val(tipoCalculo.find(":selected").data("tipobienparametroid"));
         /*if (valbien <= 24000000) {
             $("#legaleseAuto").finish().fadeTo('normal', 0).addClass("d-none").finish().fadeTo('normal', 1);
             $("#legaleseElectro").finish().fadeTo('normal', 0).removeClass("d-none").finish().fadeTo('normal', 1);
