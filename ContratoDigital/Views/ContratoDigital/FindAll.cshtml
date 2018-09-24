@@ -1,0 +1,157 @@
+﻿@model IEnumerable<Contrato>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Mis Contratos
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                @if (Model.Count() > 0)
+                {
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Acciones
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
+                                            <a class="dropdown-item" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
+                                            <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Nombre</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.primer_nombre @item.segundo_nombre @item.primer_apellido @item.segundo_apellido
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Documento identificación</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.documento_identidad_suscriptor
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Teléfono</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.telefono_suscriptor<br />
+                                    @item.celular_suscriptor
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Correo</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.email_suscriptor
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Bien</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.descripcion_bien
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Valor</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.valor_bien
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Estado</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @if (item.ConfirmacionContratos != null)
+                                    {
+                                        <div>
+
+                                            @if (item.ConfirmacionContratos.IsAccepted)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                </label>
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsIdUploaded)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                </label>
+
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsPaid)
+                                            {
+
+                                                <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                </label>
+
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsVerified)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> ARD</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> ARD
+                                                </label>
+                                            }
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
