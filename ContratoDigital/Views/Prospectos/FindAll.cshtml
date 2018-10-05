@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ContratoDigital.Models.Prospecto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Lista de prospectos
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mt-4">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="@Url.Action("Create", "Prospectos")" class="btn btn-azul"><i class="far fa-plus-square"></i> Registrar Prospecto</a>
+                    <a href="@Url.Action("Find", "Prospectos")" class="btn btn-azul"><i class="fas fa-search"></i>  Buscar prospectos</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Cedula</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item"><a href="@Url.Action("Edit", "Prospectos", new {id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="far fa-edit"></i></a></li>
+                                        <li class="list-inline-item"><a href="@Url.Action("Details", "Prospectos", new { id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Detalles"><i class="far fa-list-alt"></i></a></li>
+                                    </ul>
+                                </td>
+                                <td>@(item.PrimerNombre + " " + item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>
+                                <td>@Html.DisplayFor(modelItem => item.NumeroDocumento)</td>
+                                <td>@item.Email</td>
+                                <td>@item.Telefono<br />@item.Celular</td>
+                                <td>
+                                    @if (item.ConfirmacionProspecto.IsConfirmed == true)
+                                    {
+                                        <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
+
+                                    }
+                                    else
+                                    {
+                                        <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = item.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+
+                                    }
+                                </td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
