@@ -1,13 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ContratoDigital.Areas.Identity.Data;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SiiconWebService;
 
 namespace ContratoDigital.Controllers
@@ -21,12 +24,14 @@ namespace ContratoDigital.Controllers
         private readonly IEmailConfiguration _emailConfiguration;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly Utilities _utilities;
-        public WebserviceController(ContratoDigitalContext context, IEmailConfiguration emailConfiguration, IHostingEnvironment hostingEnvironment, Utilities utilites)
+        private readonly UserManager<ContratoDigitalUser> _userManager;
+        public WebserviceController(ContratoDigitalContext context, IEmailConfiguration emailConfiguration, IHostingEnvironment hostingEnvironment, Utilities utilites, UserManager<ContratoDigitalUser> userManager)
         {
             _context = context;
             _emailConfiguration = emailConfiguration;
             _utilities = utilites;
             _hostingEnvironment = hostingEnvironment;
+            _userManager = userManager;
         }
 
 
