@@ -48,7 +48,7 @@ namespace ContratoDigital.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> About()
+        public IActionResult About()
         {
 
             /*IdentityRole role = new IdentityRole();
