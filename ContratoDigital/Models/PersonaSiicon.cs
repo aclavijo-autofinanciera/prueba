@@ -8,8 +8,40 @@ namespace ContratoDigital.Models
 {
     public class PersonaSiicon
     {
-        [Key]
-        public int TipoIdentificacionRepreLegalId { get; set; } // EXCEL ANEXO
+        public string PrimerNombre { get; set; }
+        public string SegundoNombre { get; set; }
+        public string PrimerApellido { get; set; }
+        public string SegundoApellido { get; set; }
+        public int TipoDocumentoIdentidad { get; set; }
+        public string NumeroDocumento { get; set; }
+        public string CiudadExpedicionId { get; set; }
+        public string FechaNacimiento { get; set; }
+        public string CiudadNacimientoID { get; set; }
+        public int SexoId { get; set; }
+        public int EstadoCivilId { get; set; }
+        public string Email { get; set; }
+        public string DireccionNotificacion { get; set; }
+        public string BarrioNotificacion { get; set; }
+        public string  TelefonoNotificacion {get;set;}
+        public string CelularNotificacion { get; set; }
+        public int DepartamentoNotificacionId { get; set; }
+        public int CiudadNotificacionId { get; set; }
+        public string EmpresaLabora { get; set; }
+        public string CargoLabora { get; set; }
+        public string DireccionLabora { get; set; }
+        public string BarrioLabora { get; set; }
+        public string TelefonoLabora { get; set; }
+        public string CelularOficina { get; set; }
+        public int DepartamentoLaboraId { get; set; }
+        public int CiudadLaboraId { get; set; }
+        public int IngresoMensual { get; set; }
+        public int EgresoMensual { get; set; }
+        public string Profesion { get; set; }
+        public string TerceroId { get; set; }
+
+        
+        /*[Key]
+        /*public int TipoIdentificacionRepreLegalId { get; set; } // EXCEL ANEXO
         public int TipoPersonaId { get; set; } //, EXCEL ANEXO        
         public string NumeroIdentificacionRepreLegal { get; set; } //, (TEXTO)
         public string CiudadConstitucionId { get; set; } //, EXCEL ANEXO
@@ -45,6 +77,6 @@ namespace ContratoDigital.Models
         public int IngresoMensual { get; set; } //, (TEXTO) Solo números
         public int EgresoMensual { get; set; } //, (TEXTO) Solo números
         public string Profesion { get; set; } //, (TEXTO)
-        public string TerceroId { get; set; } //
+        public string TerceroId { get; set; } //*/
     }
 }
