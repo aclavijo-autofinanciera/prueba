@@ -84,7 +84,8 @@ jQuery(function ($) {
             },
             NumeroDocumento: {
                 required: true,
-                digits: true
+                digits: true,
+                minlenght:6
             },
             Telefono: {
                 required: true,
