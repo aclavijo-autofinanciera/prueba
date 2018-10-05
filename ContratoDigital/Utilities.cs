@@ -1509,6 +1509,12 @@ namespace ContratoDigital
         {
             return _context.Ciudades.SingleOrDefault(x => x.IdCiudad == id).IdSiicon;
         }
+
+        [Obsolete("Reemplazada por GetStatusSiiconId", false)]
+        public string GetDepartamentoSiiconID(int id)
+        {
+            return _context.Estados.SingleOrDefault(x => x.IdEstado == id).IdSiicon.ToString();
+        }
     }
 
 }
