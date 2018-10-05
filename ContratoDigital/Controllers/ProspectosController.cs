@@ -1,4 +1,4 @@
-﻿ using System;
+ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,7 +42,7 @@ namespace ContratoDigital.Controllers
             _emailConfiguration = emailConfiguration;
             _canonicalUrlConfiguration = canonicalUrlConfiguration;
             _userManager = userManager;
-            _utilities = new Utilities(_context);
+            _utilities = new Utilities(_context, _userManager);
         }
 
         public async Task<IActionResult> Index()
