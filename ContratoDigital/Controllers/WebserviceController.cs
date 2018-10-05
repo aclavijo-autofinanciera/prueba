@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -318,34 +318,158 @@ namespace ContratoDigital.Controllers
             return "HTTP 502: Pago Parcial";
         }
 
+        /// <summary>
+        /// Registra los contratos en el Siicon
+        /// </summary>
+        /// <returns>El resultado de de la acción.</returns>
+        [HttpGet("RegistrarContratos")]
+        [Route("api/Freyja/RegistrarContratos")]
         public async Task<ActionResult<string>> RegistrarContratos()
         {
+            List<Contrato> contratos = await _context.Contratos.Where(x =>
+            x.ConfirmacionContratos.IsAccepted == true &&
+            x.ConfirmacionContratos.IsIdUploaded == true &&
+            x.ConfirmacionContratos.IsIdUploaded == true).ToListAsync();
+            //string result = "";
+            Status status = new Status(_context);
+            
+            foreach (var item in contratos)
+            {
+
+                var user = _userManager.Users.SingleOrDefault(x => x.Id == item.asesor_comercial);
+                PersonaSiicon persona = new PersonaSiicon();
+                persona.PrimerNombre = item.primer_nombre;
+                persona.SegundoNombre = item.segundo_nombre;
+                persona.PrimerApellido = item.primer_apellido;
+                persona.SegundoApellido = item.segundo_apellido;
+                persona.TipoDocumentoIdentidad = status.GetStatusSiiconId(int.Parse(item.tipo_documento_identidad_suscriptor));
+                persona.NumeroDocumento = item.documento_identidad_suscriptor.ToString();
+                persona.CiudadExpedicionId = status.GetCiudadSiiconId(int.Parse(item.procedencia_documento_identidad_suscriptor)).ToString();
+                persona.FechaNacimiento = String.Format("{0:MM'/'dd'/'yyyy}", item.fecha_nacimiento_suscriptor);
+                persona.CiudadNacimientoID = status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString();
+                persona.SexoId = status.GetStatusSiiconId(int.Parse(item.sexo_suscriptor));
+                persona.EstadoCivilId = status.GetStatusSiiconId(int.Parse(item.estado_civil_suscriptor));
+                persona.Email = item.email_suscriptor;
+                persona.DireccionNotificacion = item.direccion_domicilio_suscriptor;
+                persona.BarrioNotificacion = item.direccion_domicilio_suscriptor;
+                persona.TelefonoNotificacion = item.telefono_suscriptor;
+                persona.CelularNotificacion = item.celular_suscriptor;
+                persona.DepartamentoNotificacionId = status.GetStatusSiiconId(int.Parse(item.departamento_suscriptor));
+                persona.CiudadNotificacionId = status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor));
+                persona.EmpresaLabora = item.empresa_empleadora_suscriptor;
+                persona.CargoLabora = item.cargo_suscriptor;
+                persona.DireccionLabora = item.direccion_empleo_suscriptor;
+                persona.BarrioLabora = item.direccion_empleo_suscriptor;
+                persona.TelefonoLabora = item.telefono_empleo_suscriptor;
+                persona.CelularOficina = item.celular_empleo_suscriptor;
+                persona.DepartamentoLaboraId = status.GetStatusSiiconId(int.Parse( item.departamento_empleo_suscriptor));
+                persona.CiudadLaboraId = status.GetCiudadSiiconId(int.Parse(item.ciudad_empleo_suscriptor));
+                persona.IngresoMensual = Convert.ToInt32(item.ingresos_mensuales_suscriptor);
+                persona.EgresoMensual = Convert.ToInt32(item.egresos_mensuales_suscriptor);
+                persona.Profesion = item.profesion_suscriptor;
+                
+                persona.TerceroId = user.IdSiicon;
+
+                string registroPersonaSiicon = CreatePersonaSiicon(persona).Result.Value;
+                dynamic jsonPersona = JsonConvert.DeserializeObject<dynamic>(registroPersonaSiicon);
+                //var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == item.IdContrato);
+                if (jsonPersona.First.ElementoId != null)
+                {                    
+                    item.ConfirmacionContratos.IdSuscriptor = jsonPersona.First.ElementoId;
+                    await _context.SaveChangesAsync();                 
+                }
+                if (item.ConfirmacionContratos.IdSuscriptor>0)
+                {
+                    ContratoSiicon contratoSiicon = new ContratoSiicon();
+                    contratoSiicon.Contrato = item.numero_de_contrato;
+                    contratoSiicon.Persona1Id = item.ConfirmacionContratos.IdSuscriptor;
+                    contratoSiicon.Persona2Id = 0;
+                    contratoSiicon.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaPago);
+                    contratoSiicon.CodAgencia = int.Parse(item.agencia);
+                    // TODO Change for actual asesor
+                    contratoSiicon.CodAsesor = 222668;
+                    contratoSiicon.CodConvenio = 1; // Valor Fijo
+                    contratoSiicon.CodConcesionario = 1; // Valor Fijo
+                    contratoSiicon.TipoMedioId = item.ConfirmacionContratos.TipoMedio;
+                    contratoSiicon.MedioId = item.ConfirmacionContratos.Medio;
+                    contratoSiicon.MedioFechaID = item.id_fecha_medio;
+                    contratoSiicon.CodTipoBien = item.id_tipo_de_bien;
+                    contratoSiicon.BienId = int.Parse(item.codigo_bien);
+                    contratoSiicon.ValorBien = Convert.ToInt32(item.valor_bien);
+                    contratoSiicon.CodMarca = item.id_marca;
+                    contratoSiicon.TipoBienParametroId = item.id_tipo_bien_parametro;
+                    contratoSiicon.PorcentajeInscripcion = (float)item.porcentaje_cuota_ingreso;
+                    contratoSiicon.PorcentajeAdministracion = (float)item.porcentaje_administracion;
+                    contratoSiicon.DescuentoId = 2; // Valor fijo
+                    contratoSiicon.PorcentajeDescuento = 0; // Valor Fijo
+                    contratoSiicon.MontoInscripcion = Convert.ToInt32(item.cuota_ingreso);
+                    contratoSiicon.MontoInscripcionIVA = Convert.ToInt32(item.iva_cuota_ingreso);
+                    contratoSiicon.plazo = int.Parse(item.plazo_bien);
+                    contratoSiicon.MontoAdministracion = Convert.ToInt32(item.administracion);
+                    contratoSiicon.MontoAdministracionIVA = Convert.ToInt32(item.iva_administracion);
+                    contratoSiicon.CuotaNeta = Convert.ToInt32(item.total_cuota_bruta);
+                    contratoSiicon.SuscriptorReferente = "000-000.0"; // Valor Fijo
+                    contratoSiicon.TipoventaID = 1; // Valor Fijo. 2 en caso de venta directa en concesionario
+                    contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaPago);
+                    contratoSiicon.CompañiaID = item.id_compania;
+                    contratoSiicon.TerceroId = user.IdSiicon;
+
+                    string registroContratoSiicon = CreateContratoSiicon(contratoSiicon).Result.Value;
+                    dynamic jsonContrato = JsonConvert.DeserializeObject<dynamic>(registroContratoSiicon);
+                    //var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == item.IdContrato);
+                    if (jsonContrato.First.ElementoId != null)
+                    {
+                        item.ConfirmacionContratos.IdContratoSiicon = jsonContrato.First.ElementoId;
+                        item.ConfirmacionContratos.FechaRegistro = DateTime.Now;
+                        item.ConfirmacionContratos.IsRegistered = true;
+                        await _context.SaveChangesAsync();
+                    }
+                }                
+            }
+            //return contratos;
             return "HTTP 200: OK";
         }
-        
-        /*
-        [HttpGet("RegistrarPago")]
+
+
+
         public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
+        {            
+            var resultat = service.CrearPersonaNaturalAsync(persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido,
+                persona.SegundoApellido, persona.TipoDocumentoIdentidad, persona.NumeroDocumento, persona.CiudadExpedicionId,
+                persona.FechaNacimiento, persona.CiudadNacimientoID, persona.SexoId, persona.EstadoCivilId, persona.Email,
+                persona.DireccionNotificacion, persona.BarrioNotificacion, persona.TelefonoNotificacion, persona.CelularNotificacion,
+                persona.DepartamentoNotificacionId.ToString(), persona.CiudadNacimientoID, persona.EmpresaLabora, persona.CargoLabora,
+                persona.DireccionLabora, persona.BarrioLabora, persona.TelefonoLabora, persona.CelularOficina, persona.DepartamentoLaboraId.ToString(),
+                persona.CiudadLaboraId.ToString(), persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId).Result;
+
+            return resultat; 
+        
+        } 
+
+        public async Task<ActionResult<string>> CreateContratoSiicon(ContratoSiicon contrato)
         {
 
-            Console.WriteLine(persona.TipoPersonaId + ", " + persona.TipoIdentificacionRepreLegalId + ", " + persona.NumeroIdentificacionRepreLegal + ", " +
-                persona.CiudadConstitucionId + ", " + persona.FechaConstitucion + ", " + persona.PrimerNombre + ", " + persona.SegundoNombre + ", " +
-                persona.PrimerApellido + ", " + persona.SegundoApellido + ", " + persona.RazonSocial + ", " + persona.TipoDocumentoIdentidadId + ", " +
-                persona.NumeroDocumento + ", " + persona.DigitoVerificacion + ", " + persona.CiudadExpedicionId + ", " + persona.FechaNacimiento + ", " +
-                persona.CiudadNacimientoId + ", " + persona.SexoId + ", " + persona.EstadoCivilId + ", " + persona.Email + ", " + persona.DireccionNotifiacion + ", " +
-                persona.BarrioNotifiacion + ", " + persona.TelefonoNotifiacion + ", " + persona.CelularNotificacion + ", " + persona.DepartamentoNotificacionId + ", " +
-                persona.CiudadNotificacionId + ", " + persona.EmpresaLabora + ", " + persona.CargoLabora + ", " + persona.DireccionLabora + ", " +
-                persona.BarrioLabora + ", " + persona.TelefonoLabora + ", " + persona.CelularOficina + ", " + persona.DepartamentoLaboraId + ", " +
-                persona.CiudadLaboraId + ", " + persona.IngresoMensual + ", " + persona.EgresoMensual + ", " + persona.Profesion + ", " + persona.TerceroId);
-
-            return ""; /*await service.CrearPersonaAsync(persona.TipoPersonaId, persona.TipoIdentificacionRepreLegalId,persona.NumeroIdentificacionRepreLegal,
-                persona.CiudadConstitucionId, persona.FechaConstitucion, persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido, persona.SegundoApellido,
-                persona.RazonSocial, persona.TipoDocumentoIdentidadId, persona.NumeroDocumento, persona.DigitoVerificacion, persona.CiudadExpedicionId, persona.FechaNacimiento,
-                persona.CiudadNacimientoId, persona.SexoId, persona.EstadoCivilId, persona.Email, persona.DireccionNotifiacion, persona.BarrioNotifiacion, persona.TelefonoNotifiacion,
-                persona.CelularNotificacion, persona.DepartamentoNotificacionId, persona.CiudadNotificacionId, persona.EmpresaLabora, persona.CargoLabora,
-                persona.DireccionLabora,persona.BarrioLabora, persona.TelefonoLabora, persona.CelularOficina, persona.DepartamentoLaboraId, persona.CiudadLaboraId,
-                persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId);*//*
-        } */
+            try
+            {
+                var resultat = service.CrearContratoAsync(contrato.Contrato, contrato.Persona1Id, contrato.Persona2Id, contrato.FechaAdhesion,
+                        contrato.CodAgencia, contrato.CodAsesor, contrato.CodConvenio, contrato.CodConcesionario, contrato.TipoMedioId, contrato.MedioId,
+                        contrato.MedioFechaID, contrato.CodTipoBien, contrato.BienId, contrato.ValorBien, contrato.CodMarca, contrato.TipoBienParametroId,
+                        contrato.PorcentajeInscripcion, contrato.PorcentajeAdministracion, contrato.DescuentoId, contrato.PorcentajeDescuento,
+                        contrato.MontoInscripcion, contrato.MontoInscripcionIVA, contrato.plazo, contrato.MontoAdministracion, contrato.MontoAdministracionIVA,
+                        contrato.CuotaNeta, contrato.SuscriptorReferente, contrato.TipoventaID, contrato.FechaCierre, contrato.CompañiaID, contrato.TerceroId).Result;
+                Console.WriteLine("[RESULTAT]: " + resultat);
+                return resultat;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR]: " + ex.Message);
+                Console.WriteLine("[ERROR]: " + ex.InnerException);
+                Console.WriteLine("[ERROR]: " + ex.StackTrace);
+                Console.WriteLine("[ERROR]: " + ex.TargetSite);
+                throw;
+            }
+            
+        }
         
 
     }
