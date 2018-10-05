@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,14 +73,18 @@ namespace ContratoDigital.Controllers
         public IActionResult Fill(int id)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == id);
+            if(prospecto.ConfirmacionProspecto.IsConfirmed == false)
+            {
+                return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
+            }
             Contrato numeroContrato = _context.Contratos.OrderBy(x=>x.IdContrato).LastOrDefault();
             if(numeroContrato == null )
             {
-                ViewData["NumeroContrato"] = 8000000;
+                ViewData["NumeroContrato"] = 8100000;
             }
             else
             {
-                ViewData["NumeroContrato"] = numeroContrato.IdContrato + 8000000 + 1;
+                ViewData["NumeroContrato"] = numeroContrato.IdContrato + 8000000 + 100030;
             }
             GetStatusList();
             if (prospecto == null)
