@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -1496,10 +1496,12 @@ namespace ContratoDigital
         {
             return  _context.Estados.SingleOrDefault(x => x.IdEstado == id).Descripcion;
         }
-        public string GetDepartamentoSiiconID(int id)
+
+        public int GetStatusSiiconId(int id)
         {
-            return _context.Estados.SingleOrDefault(x => x.IdEstado == id).IdSiicon.ToString();
+            return _context.Estados.SingleOrDefault(x => x.IdEstado == id).IdSiicon;
         }
+        
         public string GetCiudadName(int id)
         {
             return _context.Ciudades.SingleOrDefault(x => x.IdCiudad == id).Descripcion;
