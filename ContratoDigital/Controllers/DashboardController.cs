@@ -83,7 +83,7 @@ namespace ContratoDigital.Controllers
             user.Agencia = agencia;
             user.DescripcionAgencia = form["DescripcionAgencia"];
 
-            WebserviceController service = new WebserviceController(_context, _emailConfiguration,_hostingEnvironment, _utilities);
+            WebserviceController service = new WebserviceController(_context, _emailConfiguration,_hostingEnvironment, _utilities, _userManager);
             string resultSiicon = service.GetSiiconUserId(user.Cedula).Result.Value;            
             string resultAsesor = service.GetAsesorId(user.Cedula).Result.Value;
 
