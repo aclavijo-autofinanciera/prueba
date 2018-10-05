@@ -564,7 +564,7 @@ namespace ContratoDigital
 
             // Agencia
             fields.TryGetValue("agencia", out toSet);
-            toSet.SetValue("Agencia Digital");
+            toSet.SetValue(contrato.ConfirmacionContratos.DescripcionAgencia);
 
             // gerente
             fields.TryGetValue("gerente", out toSet);
@@ -572,7 +572,8 @@ namespace ContratoDigital
 
             // Asesor Comercial            
             fields.TryGetValue("asesor_comercial", out toSet);
-            toSet.SetValue(contrato.asesor_comercial);
+            var user = _userManager.Users.SingleOrDefault(x => x.Id == contrato.asesor_comercial);
+            toSet.SetValue(user.Nombre + " " + user.Apellido);
 
             // Aceptación del contrato
             fields.TryGetValue("notificacion_aceptacion", out toSet);
