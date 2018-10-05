@@ -342,9 +342,12 @@
                                 <li class="nav-item ">
                                     <a class="nav-link" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
                                 </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
-                                </li>
+                                @if (Model.ConfirmacionProspecto.IsConfirmed)
+                                {
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
+                                    </li>
+                                }
                             </ul>
 
                         </div>
