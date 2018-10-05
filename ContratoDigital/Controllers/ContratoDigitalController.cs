@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,7 +47,7 @@ namespace ContratoDigital.Controllers
             _emailConfiguration = emailConfiguration;
             _canonicalUrlConfiguration = canonicalUrlConfiguration;
             _userManager = userManager;
-            _utilities = new Utilities(_context);
+            _utilities = new Utilities(_context,_userManager);
             
         }
         
@@ -607,7 +607,7 @@ namespace ContratoDigital.Controllers
         {
             ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
             //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
-            WebserviceController webservice = new WebserviceController(_context,_emailConfiguration,_hostingEnvironment, _utilities);
+            WebserviceController webservice = new WebserviceController(_context,_emailConfiguration,_hostingEnvironment, _utilities, _userManager);
             string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
             dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
             if (confirmacionContrato.Guuid.Equals(guuid) && confirmacionContrato.IsAccepted.Equals(false))
