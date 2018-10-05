@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -30,9 +30,11 @@ namespace ContratoDigital
     {
 
         private readonly ContratoDigitalContext _context;
-        public Utilities(ContratoDigitalContext context)
+        private readonly UserManager<ContratoDigitalUser> _userManager;
+        public Utilities(ContratoDigitalContext context, UserManager<ContratoDigitalUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         
         /// <summary>
