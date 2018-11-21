@@ -45,7 +45,7 @@
                                 Acciones
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="@Url.Action("UserDetail", "Dashboard", new { id = item.UserName })"><i class="fas fa-list-ul"></i> Detalles</a>
+                                <a class="dropdown-item" href="@Url.Action("UserDetails", "Dashboard", new { id = item.UserName })"><i class="fas fa-list-ul"></i> Detalles</a>
                                 <a class="dropdown-item" href="@Url.Action("EditUser", "Dashboard", new { id = item.UserName })"><i class="far fa-edit"></i> Editar</a>
                                 <a class="dropdown-item" href="@Url.Action("DisableUser", "Dashboard", new { id = item.UserName })">
                                     @if (!UserManager.IsLockedOutAsync(item).Result)
