@@ -1,0 +1,195 @@
+﻿@model ContratoDigital.Models.Contrato
+@{
+    ViewData["Title"] = "GenerateReference";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Generación referencia
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <!-- Begin -->
+            <div class="col-12 col-md-8 error-area"></div>
+
+            <form method="post" class="bootstrapValidation" autocomplete="off">
+                <input type="hidden" value="@Model.IdContrato" name="idcontrato" id="idcontrato" />
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <h4 class="text-center">Datos contrato</h4>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8">
+
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Nombre
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @(Model.primer_nombre + " " + Model.segundo_nombre + " " + Model.primer_apellido + " " + Model.segundo_apellido)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Documento Identidad
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @ViewData["TipoIdentificacionSuscriptor"] - @Model.documento_identidad_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Saldo restante
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @{
+                                    double saldo = Model.valor_primer_pago;
+                                    foreach (var item in Model.Pagos)
+                                    {
+                                        saldo -= item.Monto;
+                                    }
+                                }
+                                @if (saldo > 0)
+                                {
+                                    <label class="text-warning"><i class="far fa-clock"></i> @string.Format("{0:0,0.00}", saldo)</label>
+                                }
+                                else if (saldo <= 0)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> @string.Format("{0:0,0.00}", saldo)</label>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                <label class="text-primary">Recibos emitidos</label>
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+
+                                @if (Model.RecibosPago.Count > 0)
+                                {
+                                    @foreach (var item in Model.RecibosPago)
+                                    {
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">$ @String.Format("{0:0,0.00}", item.Monto)</div>
+                                            <div class="col-12 col-md-6">@String.Format("{0:yyyy-MM-dd}", item.FechaEmision)</div>
+
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    Write("No hay recibos emitidos.");
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                <label class="text-success">Pagos Recibidos</label>
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+
+                                @if (Model.RecibosPago.Count > 0)
+                                {
+                                    @foreach (var item in Model.Pagos)
+                                    {
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">$ @String.Format("{0:0,0.00}", item.Monto)</div>
+                                            <div class="col-12 col-md-6">@String.Format("{0:yyyy-MM-dd}", item.FechaPago)</div>
+
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    Write("No hay pagos recibidos.");
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row mt-4">
+                    <div class="col-12"><hr /></div>
+                    <div class="col-12 col-md-6">
+                        <label for="pago_parcial">Abonos</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="abono_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="abono" aria-describedby="abono_addon" id="abono" name="abono" placeholder="0.00" value="@String.Format("{0:0}", saldo)" />
+                            <input type="hidden" value="@String.Format("{0:0}", saldo)" id="debe" name="debe" />
+                        </div>
+                        <br />
+                        <p>
+                            El recibo de pago de la cuota inicial que se le enviará al cliente será por el monto descrito anteriormente. <br />
+                            Si el monto es menor a la cuota inicial, se irá descontando con cada abono realizado.
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="saldo">Saldo restante</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="saldo_addon">$</span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg" aria-label="saldo" aria-describedby="saldo_addon" id="saldo" name="saldo" placeholder="0.00" value="0" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-lg btn-azul">Envíar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+</section>
+
+@section Scripts
+{   
+    <script>
+        jQuery(function ($) {
+            var abono = $("#abono");
+            var saldo = $("#saldo");
+            var debe = $("#debe");
+            abono.on("keyup", function () {
+                saldo.val(debe.val() - abono.val());
+            });
+        });
+    </script>
+}
