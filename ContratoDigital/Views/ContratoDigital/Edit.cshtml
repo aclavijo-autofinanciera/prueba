@@ -795,7 +795,9 @@
                             <label for="tipoCalculo">Seleccione una cuota</label>
                             <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
                                 <option value="">Seleccione una opción</option>
+                                <option selected value="@Model.tipo_calculo">@Model.descripcion_tipo_calculo</option>
                             </select>
+                            <input type="hidden" name="descripcionTipoCalculo" id="descripcionTipoCalculo" value="@Model.descripcion_tipo_calculo" />
                         </div>
 
                         <div class="col-12 col-md-6">
