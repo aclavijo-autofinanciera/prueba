@@ -24,16 +24,16 @@ namespace ContratoDigital.Models
         public string BarrioNotificacion { get; set; }
         public string  TelefonoNotificacion {get;set;}
         public string CelularNotificacion { get; set; }
-        public int DepartamentoNotificacionId { get; set; }
-        public int CiudadNotificacionId { get; set; }
+        public string DepartamentoNotificacionId { get; set; }
+        public string CiudadNotificacionId { get; set; }
         public string EmpresaLabora { get; set; }
         public string CargoLabora { get; set; }
         public string DireccionLabora { get; set; }
         public string BarrioLabora { get; set; }
         public string TelefonoLabora { get; set; }
         public string CelularOficina { get; set; }
-        public int DepartamentoLaboraId { get; set; }
-        public int CiudadLaboraId { get; set; }
+        public string DepartamentoLaboraId { get; set; }
+        public string CiudadLaboraId { get; set; }
         public int IngresoMensual { get; set; }
         public int EgresoMensual { get; set; }
         public string Profesion { get; set; }
