@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -118,9 +118,30 @@ namespace ContratoDigital.Controllers
                 DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
                 TipoCliente = int.Parse(form["TipoCliente"]),
                 DescripcionTipoCliente = form["TipoClienteDescripcion"],
-                UserId = _userManager.GetUserId(User)
+                UserId = _userManager.GetUserId(User),
+                FechaCreacion = DateTime.Now,
+                Observaciones = form["observaciones"],
+                IdEstado = (int)Constants.EstadosContratos.PorAceptarCondiciones                
             };
+            
+            int.TryParse(s: form["asesores"], result: out int asesor);
+            confirmacionContrato.Asesor = asesor;
+
             _context.ConfirmacionContratos.Add(confirmacionContrato);
+
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), double.Parse(form["abono"]), confirmacionContrato.IdContrato).Result.Value;
+            dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
+            
+            RecibosPago reciboPago = new RecibosPago()
+            {
+                Monto = int.Parse(form["abono"]),
+                IdContrato = contrato.IdContrato,
+                FechaEmision = DateTime.Now,
+                ReferenciaSiicon = json.First.ReferenciaPago
+            };
+            _context.RecibosPago.Add(reciboPago);
+
             await _context.SaveChangesAsync();
 
             MemoryStream stream = new MemoryStream();
