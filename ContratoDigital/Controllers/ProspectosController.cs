@@ -1,4 +1,4 @@
-﻿ using System;
+ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,11 +46,54 @@ namespace ContratoDigital.Controllers
         }
 
         public async Task<IActionResult> Index()
+        {
+            List<Prospecto> lista = new List<Prospecto>();
+            var user = _userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User));
+            if(_userManager.IsInRoleAsync(user, "Asesor").Result)
+            {
+                ViewData["isAsesor"] = true;
+                lista = await _context.Prospectos
+                    .Where(x => x.ConfirmacionProspecto.UserId == _userManager.GetUserId(User))
+                    .OrderByDescending(x => x.IdProspecto)
+                    .ToListAsync();
+            }
+            else
+            {
+                ViewData["isAsesor"] = false;
+            }
+            return View(lista);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string Agencia, string asesores)
         {            
-            return View(await _context.Prospectos
-                .Where(x=> x.ConfirmacionProspecto.UserId == _userManager.GetUserId(User))
-                .OrderByDescending(x => x.IdProspecto)
-                .ToListAsync());
+            List<Prospecto> lista = new List<Prospecto>();
+            List<int> idAgencias = new List<int>();
+
+            if(asesores.Equals("todos"))
+            {
+                lista = await _context.Prospectos
+                    .Where(x => x.ConfirmacionProspecto.Agencia == int.Parse(Agencia)) 
+                    .OrderByDescending(x => x.IdProspecto)
+                    .ToListAsync();
+            }
+            else if(!asesores.Equals("todos"))
+            {
+                lista = await _context.Prospectos
+                    .Where(x => x.ConfirmacionProspecto.Agencia == int.Parse(Agencia) && x.ConfirmacionProspecto.UserId == asesores) 
+                    .OrderByDescending(x => x.IdProspecto)
+                    .ToListAsync();
+            }
+            var user = _userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User));
+            if (_userManager.IsInRoleAsync(user, "Asesor").Result)
+            {
+                ViewData["isAsesor"] = true;                
+            }
+            else
+            {
+                ViewData["isAsesor"] = false;
+            }
+            return View(lista);
         }
 
         public IActionResult Create()
