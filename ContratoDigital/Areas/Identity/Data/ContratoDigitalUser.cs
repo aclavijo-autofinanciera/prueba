@@ -30,6 +30,9 @@ namespace ContratoDigital.Areas.Identity.Data
         [PersonalData]
         public string Cedula { get; set; }
 
+        //[PersonalData]
+        //public bool IsBlocked { get; set; }
+
 
     }
 }
