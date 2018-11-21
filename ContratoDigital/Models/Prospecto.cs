@@ -35,6 +35,8 @@ namespace ContratoDigital.Models
         public double PorcentajeAdministracion { get; set; }
         public double PorcentajeIva { get; set; }
         public string Plazo { get; set; }
+        public int TipoCalculo { get; set; }
+        public string DescripcionTipoCalculo { get; set; }
 
         public double ValorDelBien { get; set; }
         public double CuotaDeIngreso { get; set; }
