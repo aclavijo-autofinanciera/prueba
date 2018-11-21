@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -1481,6 +1481,31 @@ namespace ContratoDigital
             Ciudad = 4,
             Sexo = 5,
             EstadoCivil = 6
+        }
+
+        public enum EstadosProspectos
+        {
+            PorConfirmarCorreo = 51,
+            Confirmado = 52,
+            Presupuestado = 53,
+            Completado = 54,
+            PorContactar = 55,
+            Contactar = 56,
+            NoContactable = 57,
+            NoAceptado = 58,
+            NoProcesado = 59
+        }
+
+        public enum EstadosContratos
+        {
+            PorAceptarCondiciones = 60,
+            PorFacturar = 61,
+            PorPagar = 62,
+            Pagada = 63,
+            Cerrado = 64,
+            PagadoParcialmente = 65,
+            Anulado = 66,
+            Suspendido = 67
         }
     }
 
