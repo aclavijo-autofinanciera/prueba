@@ -689,7 +689,7 @@ namespace ContratoDigital
             toSet.SetValue(prospecto.Email.ToUpper());
 
             fields.TryGetValue("Vigencia", out toSet);
-            toSet.SetValue(String.Format("{0:dd/MM/yyyy}", DateTime.Now.AddDays(10)));
+            toSet.SetValue(String.Format("{0:dd/MM/yyyy}", DateTime.Now.AddDays(5)));
 
             fields.TryGetValue("Detalle", out toSet);
             toSet.SetValue(prospecto.Tipo_de_Bien.ToUpper());
