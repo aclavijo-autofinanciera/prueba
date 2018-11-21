@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
 using ContratoDigital.Data;
@@ -36,7 +37,7 @@ namespace ContratoDigital.Controllers
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;         
             if (!isAdmin)
             {                
-                return RedirectToAction("AccessDenied", "Identity/Account");
+                return RedirectToAction("AccessDenied", "Home");
             }
             return View();
         }
@@ -47,7 +48,7 @@ namespace ContratoDigital.Controllers
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                return RedirectToAction("AccessDenied", "Identity/Account");
+                return RedirectToAction("AccessDenied", "Home");
             }
             return View();
         }
@@ -57,7 +58,7 @@ namespace ContratoDigital.Controllers
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                return RedirectToAction("AccessDenied", "Identity/Account");
+                return RedirectToAction("AccessDenied", "Home");
             }
             return View(new ContratoDigitalUser());
         }
@@ -68,7 +69,7 @@ namespace ContratoDigital.Controllers
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                return RedirectToAction("AccessDenied", "Identity/Account");
+                return RedirectToAction("AccessDenied", "Home");
             }
             var user = new ContratoDigitalUser();
             user.UserName = form["UserName"];
@@ -128,7 +129,7 @@ namespace ContratoDigital.Controllers
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                return RedirectToAction("AccessDenied", "Identity/Account");
+                return RedirectToAction("AccessDenied", "Home");
             }
             ContratoDigitalUser user = _userManager.FindByNameAsync(id).Result;
             if(user != null)
