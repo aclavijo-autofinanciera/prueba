@@ -104,6 +104,8 @@ namespace ContratoDigital.Models
         public double porcentaje_cuota_ingreso { get; set; }
         public double porcentaje_administracion { get; set; }
         public double porcentaje_iva { get; set; }
+        public int tipo_calculo { get; set; }
+        public string descripcion_tipo_calculo { get; set; }
 
         public double cuota_ingreso { get; set; }        
         public double iva_cuota_ingreso { get; set; }
@@ -124,6 +126,8 @@ namespace ContratoDigital.Models
         public virtual Prospecto Prospecto { get; set; }
         public virtual ConfirmacionContrato ConfirmacionContratos { get; set; }
         public virtual DocumentoIdentidad DocumentoIdentidad { get; set; }
+        public virtual List<RecibosPago> RecibosPago { get; set; }
+        public virtual List<Pagos> Pagos { get; set; }
     }
 }
 
