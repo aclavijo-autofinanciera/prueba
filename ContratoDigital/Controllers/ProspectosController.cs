@@ -229,6 +229,7 @@ namespace ContratoDigital.Controllers
             {
                 confirmacionProspecto.IsConfirmed = true;
                 confirmacionProspecto.FechaConfirmacion = DateTime.Now;
+                confirmacionProspecto.IdEstado = (int)Constants.EstadosProspectos.Confirmado;
                 await _context.SaveChangesAsync();
                 ViewData["IsConfirmed"] = true;
             }
@@ -331,6 +332,7 @@ namespace ContratoDigital.Controllers
             var prospectos = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
             Status status = new Status(_context);
             ViewData["TipoIdDescripcion"] = status.GetStatusName(prospectos.TipoDocumentoIdentidad);
+            ViewData["Estado"] = status.GetStatusName(prospectos.ConfirmacionProspecto.IdEstado);
             return View(prospectos);
         }
 
@@ -353,7 +355,8 @@ namespace ContratoDigital.Controllers
             prospecto.ConfirmacionProspecto.DescripcionMedio = form["TipoMedioAgenciaDescripcion"];
             prospecto.ConfirmacionProspecto.TipoCliente = int.Parse(form["TipoCliente"]);
             prospecto.ConfirmacionProspecto.DescripcionTipoCliente = form["TipoClienteDescripcion"];
-            prospecto.ConfirmacionProspecto.UserId = _userManager.GetUserId(User);            
+            prospecto.ConfirmacionProspecto.UserId = _userManager.GetUserId(User);
+            prospecto.ConfirmacionProspecto.Observaciones = form["observaciones"];
             prospecto = _utilities.UpdateProspecto(form, prospecto);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details","Prospectos", new {id = prospecto.IdProspecto });
@@ -373,7 +376,7 @@ namespace ContratoDigital.Controllers
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
-                return RedirectToAction("AccessDenied", "Identity/Account");
+                return RedirectToAction("AccessDenied", "Home");
             }
             return View(await _context.Prospectos
                 .OrderByDescending(x => x.IdProspecto).ToListAsync());
@@ -497,18 +500,19 @@ namespace ContratoDigital.Controllers
             stream.Position = 0;
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
-            emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
-            };
-            emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
-            };            
+                     
 
             string src = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co"}
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Cotización plan de ahorro programado";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
