@@ -886,6 +886,11 @@ namespace ContratoDigital
             Double.TryParse(s: form["valor_bien"], result: out double valor_bien);
             contrato.valor_bien = valor_bien;
 
+            int.TryParse(s: form["tipoCalculo"], result: out int tipoCalculo);
+            contrato.tipo_calculo = tipoCalculo;
+
+            contrato.descripcion_tipo_calculo = form["descripcionTipoCalculo"];
+
             contrato.cuota_bien = form["detalles_bien"].ToString().ToUpper().Contains("FIJA") ? "FIJA" : "VARIABLE";
 
             contrato.plazo_bien = form["plazo_bien"].ToString().ToUpper();
@@ -1074,6 +1079,11 @@ namespace ContratoDigital
             
             contrato.plazo_bien = form["plazo_bien"];
 
+            int.TryParse(s: form["tipoCalculo"], result: out int tipoCalculo);
+            contrato.tipo_calculo = tipoCalculo;
+
+            contrato.descripcion_tipo_calculo = form["descripcionTipoCalculo"];
+
             // pago Inicial
 
             Double.TryParse(s: form["cuota_ingreso"], result: out double cuota_ingreso);
@@ -1163,6 +1173,11 @@ namespace ContratoDigital
 
             prospecto.Plazo = form["plazo_bien"].ToString().ToUpper();
 
+            int.TryParse(s: form["tipoCalculo"], result: out int tipoCalculo);
+            prospecto.TipoCalculo = tipoCalculo;
+
+            prospecto.DescripcionTipoCalculo = form["descripcionTipoCalculo"];
+
             double.TryParse(s: form["costo_del_bien"], result: out double costodelbien);
             prospecto.ValorDelBien = costodelbien;
 
@@ -1247,6 +1262,11 @@ namespace ContratoDigital
             prospecto.PorcentajeIva = porcentajeIva;
 
             prospecto.Plazo = form["plazo_bien"].ToString().ToUpper();
+
+            int.TryParse(s: form["tipoCalculo"], result: out int tipoCalculo);
+            prospecto.TipoCalculo = tipoCalculo;
+
+            prospecto.DescripcionTipoCalculo = form["descripcionTipoCalculo"];
 
             double.TryParse(s: form["costo_del_bien"], result: out double costodelbien);
             prospecto.ValorDelBien = costodelbien;
