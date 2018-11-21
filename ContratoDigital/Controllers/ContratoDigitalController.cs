@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -811,6 +811,43 @@ namespace ContratoDigital.Controllers
             stream.Flush();
             stream.Position = 0;
             return File(stream, "application/pdf", "[Mi Contrato] " + DateTime.Now.ToString("yyyy-MM-dd-") + Constants.ReciboPagoPDF + ".pdf");
+        }
+
+        public async Task<IActionResult> GenerateReference(int id)
+        {
+            Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
+            Status status = new Status(_context);
+            ViewData["TipoIdentificacionSuscriptor"] = status.GetStatusName(int.Parse(contrato.tipo_documento_identidad_suscriptor));
+            return View(contrato);            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GenerateReference(IFormCollection form)
+        {
+            Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == int.Parse(form["idcontrato"]));
+            if(contrato != null)
+            {
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+                string referenciaPago = webservice.GenerarReferenciaPago(contrato.id_compania, contrato.documento_identidad_suscriptor.ToString(), double.Parse(form["abono"]), contrato.IdContrato).Result.Value;
+                dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
+
+                RecibosPago reciboPago = new RecibosPago()
+                {
+                    Monto = int.Parse(form["abono"]),
+                    IdContrato = contrato.IdContrato,
+                    FechaEmision = DateTime.Now,
+                    ReferenciaSiicon = json.First.ReferenciaPago
+                };
+                _context.RecibosPago.Add(reciboPago);
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = contrato.IdContrato });
+            }
+            else
+            {
+                return RedirectToAction("Details", new { id = contrato.IdContrato, error = 56 });
+            }
+            
         }
 
         public IActionResult Find(int errorid)
