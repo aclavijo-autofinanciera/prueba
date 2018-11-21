@@ -723,6 +723,15 @@ namespace ContratoDigital
 
             fields.TryGetValue("PrimerPago", out toSet);
             toSet.SetValue(String.Format("$ {0:0,0.00}", prospecto.ValorTotalPrimerPago));
+
+
+            var user = _userManager.Users.SingleOrDefault(x => x.Id == prospecto.ConfirmacionProspecto.UserId);
+            
+            fields.TryGetValue("NombreAsesor", out toSet);
+            toSet.SetValue(user.Nombre + " " + user.Apellido);
+
+            fields.TryGetValue("CodigoAsesor", out toSet);
+            toSet.SetValue(user.Id);
         }
 
         /// <summary>
