@@ -1,4 +1,4 @@
- using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -385,32 +385,67 @@ namespace ContratoDigital.Controllers
         [HttpPost]
         public async Task<IActionResult> Find(IFormCollection form)
         {
-            ViewData["NumeroDocumento"] = form["NumeroDocumento"];
-            ViewData["Nombre"] = form["Nombre"];
-
-            int.TryParse(form["NumeroDocumento"], out int numeroDocumento);
-            string nombre = form["Nombre"];
-            if(!String.IsNullOrEmpty(nombre))
+            var user = _userManager.Users.SingleOrDefault(x => x.Id ==  _userManager.GetUserId(User));            
+            bool isAdmin = _userManager.IsInRoleAsync(user, "Administrador").Result;
+            if (!isAdmin)
             {
-                var splitted = nombre.ToUpper().Split(' ');
-                string searchQuery = "";
-                for(int i = 0; i< splitted.Count(); i++)
+                ViewData["NumeroDocumento"] = form["NumeroDocumento"];
+                ViewData["Nombre"] = form["Nombre"];
+
+                int.TryParse(form["NumeroDocumento"], out int numeroDocumento);
+                string nombre = form["Nombre"];
+                if (!String.IsNullOrEmpty(nombre))
                 {
-                    searchQuery += $"\"*" + splitted[i] + "*\"";
-                    if(i<splitted.Count()-1)
+                    var splitted = nombre.ToUpper().Split(' ');
+                    string searchQuery = "";
+                    for (int i = 0; i < splitted.Count(); i++)
                     {
-                        searchQuery += " OR ";
+                        searchQuery += $"\"*" + splitted[i] + "*\"";
+                        if (i < splitted.Count() - 1)
+                        {
+                            searchQuery += " OR ";
+                        }
                     }
+                    return View(await _context.Prospectos.FromSql($"SELECT Prospectos.* FROM  Prospectos JOIN ConfirmacionProspectos ON ConfirmacionProspectos.idProspecto = Prospectos.IdProspecto  WHERE CONTAINS(Prospectos.PrimerNombre,{searchQuery} )  OR CONTAINS(Prospectos.SegundoNombre, {searchQuery})  OR CONTAINS(Prospectos.PrimerApellido, {searchQuery})  OR CONTAINS(Prospectos.SegundoApellido, {searchQuery})  OR Prospectos.NumeroDocumento =  {numeroDocumento}  AND ConfirmacionProspectos.UserId = '{user.Id}'")
+                        .OrderByDescending(x => x.IdProspecto).ToListAsync());
                 }
-                return View(await _context.Prospectos.FromSql($"SELECT * FROM  Prospectos WHERE CONTAINS(PrimerNombre,{searchQuery} ) OR CONTAINS(SegundoNombre, {searchQuery}) OR CONTAINS(PrimerApellido, {searchQuery}) OR CONTAINS(SegundoApellido, {searchQuery}) OR NumeroDocumento =  {numeroDocumento}")
-                    .OrderByDescending(x => x.IdProspecto).ToListAsync());
+                else
+                {
+                    return View(await _context.Prospectos.Where(x =>
+                    x.NumeroDocumento == numeroDocumento)
+                        .OrderByDescending(x => x.IdProspecto).ToListAsync());
+                }
             }
             else
             {
-                return View(await _context.Prospectos.Where(x =>
-                x.NumeroDocumento == numeroDocumento)
-                    .OrderByDescending(x => x.IdProspecto).ToListAsync());
+                ViewData["NumeroDocumento"] = form["NumeroDocumento"];
+                ViewData["Nombre"] = form["Nombre"];
+
+                int.TryParse(form["NumeroDocumento"], out int numeroDocumento);
+                string nombre = form["Nombre"];
+                if (!String.IsNullOrEmpty(nombre))
+                {
+                    var splitted = nombre.ToUpper().Split(' ');
+                    string searchQuery = "";
+                    for (int i = 0; i < splitted.Count(); i++)
+                    {
+                        searchQuery += $"\"*" + splitted[i] + "*\"";
+                        if (i < splitted.Count() - 1)
+                        {
+                            searchQuery += " OR ";
+                        }
+                    }
+                    return View(await _context.Prospectos.FromSql($"SELECT * FROM  Prospectos WHERE CONTAINS(PrimerNombre,{searchQuery} ) OR CONTAINS(SegundoNombre, {searchQuery}) OR CONTAINS(PrimerApellido, {searchQuery}) OR CONTAINS(SegundoApellido, {searchQuery}) OR NumeroDocumento =  {numeroDocumento}")
+                        .OrderByDescending(x => x.IdProspecto).ToListAsync());
+                }
+                else
+                {
+                    return View(await _context.Prospectos.Where(x =>
+                    x.NumeroDocumento == numeroDocumento)
+                        .OrderByDescending(x => x.IdProspecto).ToListAsync());
+                }
             }
+            
         }
 
         public IActionResult CargaMasiva()
