@@ -67,48 +67,60 @@ jQuery(function ($) {
             // Prospecto 
             PrimerNombre: {
                 required: true,
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 50
             },
             SegundoNombre: {
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 50
             },
             PrimerApellido: {
                 required: true,
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 50
             },
             SegundoApellido: {
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 50
             },
             TipoDocumentoIdentidad: {
-                required: true                    
+                required: true,
+                maxlength: 10
             },
             NumeroDocumento: {
                 required: true,
                 digits: true,
-                minlenght:6
+                minlength: 6,
+                maxlength: 10
             },
             Telefono: {
                 required: true,
                 minlength: 7,
-                digits:true
+                digits: true,
+                maxlength: 200
             },
             Celular: {
                 required: true,
                 minlength: 7,
-                digits:true
+                digits: true,
+                maxlength: 200
             },
             Email: {
                 required: true,
-                email: true
+                email: true,
+                maxlength: 200
             },
             TipoMedio: {
-                required: true
+                required: true,
+                maxlength: 10
             },
             TipoMedioAgencia: {
-                required: true
+                required: true,
+                maxlength: 10
             },
             TipoCliente: {
-                required: true
+                required: true,
+                maxlength: 10
             }
 
         },
@@ -116,47 +128,59 @@ jQuery(function ($) {
             // Prospecto 
             PrimerNombre: {
                 required: "Este campo es requerido",
-                alphabetical: "Este campo debe ser alfabético"
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
             },
             SegundoNombre: {
-                alphabetical: "Este campo debe ser alfabético"
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
             },
             PrimerApellido: {
                 required: "Este campo es requerido",
-                alphabetical: "Este campo debe ser alfabético"
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
             },
             SegundoApellido: {
-                alphabetical: "Este campo debe ser alfabético"
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
             },
             TipoDocumentoIdentidad: {
-                required: "Este campo es requerido"
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"                
             },
             NumeroDocumento: {
                 required: "Este campo es requerido",
-                digits: "Este campo debe ser numérico"
+                digits: "Este campo debe ser numérico",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"                
             },
             Telefono: {
                 required: "Este campo es requerido",      
                 minlength: "Debe ingresar un teléfono válido",
-                digits: "Debe ingresar un teléfono válido"
+                digits: "Debe ingresar un teléfono válido",
+                maxlength: "Este campo no debe ser mayor a 200 caracteres"
             },
             Celular: {
                 required: "Este campo es requerido",                    
                 minlength: "Debe ingresar un teléfono válido",
-                digits: "Debe ingresar un teléfono válido"
+                digits: "Debe ingresar un teléfono válido",
+                maxlength: "Este campo no debe ser mayor a 200 caracteres"
             },
             Email: {
                 required: "Este campo es requerido",
-                email: "Este cmapo debe ser un correo válido"
+                email: "Este cmapo debe ser un correo válido",
+                maxlength: "Este campo no debe ser mayor a 200 caracteres"
             },
             TipoMedio: {
-                required: "Este campo es requerido"
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
             },
             TipoMedioAgencia: {
-                required: "Este campo es requerido"
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
             },
             TipoCliente: {
-                required: "Este campo es requerido"
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
             }
         }
     });
@@ -167,164 +191,207 @@ jQuery(function ($) {
             // Suscriptor 
             primer_nombre: {
                 required: true,
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 200
             },
             segundo_nombre: {                    
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 200
             },
             primer_apellido: {
                 required: true,
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 200
             },
             segundo_apellido: {                    
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 200
             },
             tipo_identificacion_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             documento_identidad_suscriptor: {
                 required: true,
-                digits: true
+                digits: true,
+                maxlength: 10
             },
             procedencia_documento_identidad_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             fecha_nacimiento_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 10
                 //dateISO: true
             },
             lugar_nacimiento_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             sexo_suscriptor: {
-                required: true
+                required: true,
+                    maxlength: 50
             },
             estado_civil_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             direccion_domicilio_suscriptor: {
                 required: true,
                 maxlength: 200
             },
             departamento_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             ciudad_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             telefono_suscriptor: {
                 required: true,
                 digits: true,
-                minlength:7
+                minlength: 7,
+                maxlength: 50
             },
             celular_suscriptor: {
                 required: true,
                 digits: true,
-                minlength: 7
+                minlength: 7,
+                maxlength: 50
             },
             empresa_empleadora_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             cargo_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             ingresos_mensuales_suscriptor: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             egresos_mensuales_suscriptor: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             otros_ingresos_suscriptor: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             direccion_empleo_suscriptor: {
                 required: true,
                 maxlength: 200
             },
             departamento_empleo_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             ciudad_empleo_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             telefono_empleo_suscriptor: {
                 required: true,
                 digits: true,
-                minlength: 7
+                minlength: 7,
+                maxlength: 50
             },
             celular_empleo_suscriptor: {
                 required: true,
                 digits: true,
-                minlength: 7
+                minlength: 7,
+                maxlength: 50
             },
             profesion_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             envio_correspondencia_suscriptor: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             email_suscriptor: {
                 required: true,
-                email: true
+                email: true,
+                maxlength: 250
             },
             detalles_bien: {
-                required: true
+                required: true,
+                maxlength: 50
             },
             valor_bien: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             codigo_bien: {
-                required: true
+                required: true,
+                maxlength: 15
             },
             cuota_bien: {
-                required: true
+                required: true,
+                maxlength: 15
             },
             plazo_bien: {
-                required: true
+                required: true,
+                maxlength: 15
             },
             cuota_ingreso: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             administracion: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15            
             },
             iva_cuota_ingreso: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             iva_administracion: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             total_cuota_ingreso: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             total_cuota_bruta: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             primera_cuota_neta: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             valor_primer_pago: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 15
             },
             nombre_suscriptor_conjunto: {
-                alphabetical: true
+                alphabetical: true,
+                maxlength: 50
             },
             documento_identidad_suscriptor_conjunto: {
-                digits:true
+                digits: true,
+                maxlength: 15
             },
             fecha_nacimiento_suscriptor_conjunto: {
+                maxlength: 10
                 //dateISO:true
             },
             dirección_suscriptor_conjunto: {
@@ -332,20 +399,25 @@ jQuery(function ($) {
             },
             telefono_suscriptor_conjunto: {
                 digits: true,
-                minlength: 7
+                minlength: 7,
+                maxlength: 50
             },
             celular_suscriptor_conjunto: {
                 digits: true,
-                minlength: 7
+                minlength: 7,
+                maxlength: 50
             },
             ingresos_mensuales_suscriptor_conjunto: {
-                number:true
+                number: true,
+                maxlength: 15
             },
             egresos_mensuales_suscriptor_conjunto: {
-                number:true
+                number: true,
+                maxlength: 15
             },
             otros_ingresos_suscriptor_conjunto: {
-                number:true
+                number: true,
+                maxlength: 15
             },
             direccion_empleo_suscriptor_conjunto: {
                 maxlength:200
@@ -353,24 +425,30 @@ jQuery(function ($) {
             telefono_empleo_suscriptor_conjunto: {
                 required: true,
                 digits: true,
-                minlength: 7
+                minlength: 7,
+                maxlength: 50
             },
             celular_empleo_suscriptor_conjunto: {
                 required: true,
                 digits: true,
-                minlength: 7
+                minlength: 7,
+                maxlength: 50
             },
             email_suscriptor_conjunto: {
-                email:true
+                email: true,
+                maxlength: 250
             },
             TipoMedio: {
-                required: true
+                required: true,
+                maxlength: 15
             },
             TipoMedioAgencia: {
-                required: true
+                required: true,
+                maxlength: 15
             },
             TipoCliente: {
-                required: true
+                required: true,
+                maxlength: 15
             }
         },
         messages: {
@@ -1017,6 +1095,47 @@ jQuery(function ($) {
             }
         });
     });
+
+    // SARLAFT VAlidation
+    /*$('#NumeroDocumento').blur(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/Freyja/SarlaftCheck/" + $("#Cedula").val(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                try {
+                    
+                } catch (e) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong><br> [' + e + ']' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).addClass('fa-spin');
+                }
+            },
+            failure: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            },
+            error: function (data) {
+                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '</div >');
+                $(this).removeClass('fa-spin');
+            }
+        });
+    });*/
 
     // Validación UploadID Remoto
     $(".uploadIDValidation").validate({
