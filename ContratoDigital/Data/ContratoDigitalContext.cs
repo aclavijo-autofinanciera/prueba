@@ -24,6 +24,8 @@ namespace ContratoDigital.Data
         public DbSet<Prospecto> Prospectos { get; set; }        
         public DbSet<TipoEstado> TipoEstados { get; set; }
         public DbSet<UploadId> UploadId { get; set; }
+        public DbSet<RecibosPago> RecibosPago { get; set; }
+        public DbSet<Pagos> Pagos { get; set; }
         
     }
 }
