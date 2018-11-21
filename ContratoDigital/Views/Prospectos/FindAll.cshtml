@@ -53,16 +53,20 @@
                                 <td>@item.Email</td>
                                 <td>@item.Telefono<br />@item.Celular</td>
                                 <td>
-                                    @if (item.ConfirmacionProspecto.IsConfirmed == true)
+                                    @if (item.ConfirmacionProspecto != null)
                                     {
-                                        <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
+                                        if (item.ConfirmacionProspecto.IsConfirmed == true)
+                                        {
+                                            <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
 
-                                    }
-                                    else
-                                    {
-                                        <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = item.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                        }
+                                        else
+                                        {
+                                            <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = item.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
 
+                                        }
                                     }
+
                                 </td>
 
                             </tr>
