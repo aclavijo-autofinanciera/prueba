@@ -91,6 +91,12 @@
                             <div class="polymer-box">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" value="@Model.Email" required autocomplete="off" />
+                            </div>                            
+                        </div>
+                        <div class="col-12 col-md-8 mt-4">
+                            <div class="polymer-box">
+                                <label for="observaciones">Observaciones</label>
+                                <textarea id="observaciones" name="observaciones" class="form-control form-control-lg">@Model.ConfirmacionProspecto.Observaciones</textarea>
                             </div>
                             <hr />
                         </div>
@@ -157,7 +163,9 @@
                                         <label for="tipoCalculo">Seleccione una cuota</label>
                                         <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
                                             <option value="">Seleccione una opción</option>
+                                            <option value="@Model.TipoCalculo" selected>@Model.DescripcionTipoCalculo</option>
                                         </select>
+                                        <input type="hidden" name="descripcionTipoCalculo" id="descripcionTipoCalculo" value="@Model.DescripcionTipoCalculo" />
                                     </div>
 
                                     <div class="col-12 col-md-6">
