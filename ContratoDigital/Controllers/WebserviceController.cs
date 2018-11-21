@@ -143,6 +143,13 @@ namespace ContratoDigital.Controllers
             return await service.SelecccionarTerceroAsync(cedula);
         }
 
+        [HttpGet("GetAsesoresPorAgencia/{idAgencia}")]
+        public ActionResult<List<ContratoDigitalUser>> GetAsesoresPorAgencia(string idAgencia)
+        {            
+            var usuarios = _userManager.Users.Where(x => x.Agencia == int.Parse(idAgencia)).ToList();
+            return usuarios;
+        }
+
         [HttpGet("GetTipoMedio")]
         [Route("api/Freyja/GetTipoMedio")]
         public async Task<ActionResult<string>> GetTipoMedio()
@@ -241,15 +248,43 @@ namespace ContratoDigital.Controllers
                 return "HTTP 501: Error de conversión";
             }
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == numerocontrato);
-            if(contrato == null)
+            if (contrato == null)
             {
                 return "HTTP 404: Contrato no conseguido";
             }
-            if(contrato.ConfirmacionContratos.ReferenciaPago != _referencia)
+
+            RecibosPago recibos = await _context.RecibosPago.SingleOrDefaultAsync(x => x.ReferenciaSiicon == _referencia);
+            if (recibos == null)
             {
                 return "HTTP 404: Referencia no conseguida";
             }
-            if(valorPago >= contrato.valor_primer_pago)
+
+            Pagos pago = new Pagos()
+            {
+                Monto = Double.Parse(_valorpago),
+                IdContrato = contrato.IdContrato,
+                FechaPago = DateTime.Now,
+                ReferenciaSiicon = _referencia
+            };
+
+            await _context.Pagos.AddAsync(pago);
+            await _context.SaveChangesAsync();
+
+            List<Pagos> pagos = _context.Pagos.Where(x => x.IdContrato == contrato.IdContrato).ToList();
+            double total = 0;
+            foreach (var item in pagos)
+            {
+                total += item.Monto;
+            }
+            if(total >= contrato.valor_primer_pago)
+            {
+                contrato.ConfirmacionContratos.IsPaid = true;
+                await _context.SaveChangesAsync();
+                return "HTTP 200: OK";
+            }
+
+
+            /*if(valorPago >= contrato.valor_primer_pago)
             {
                 contrato.ConfirmacionContratos.IsPaid = true;
                 contrato.ConfirmacionContratos.FechaPago = DateTime.Now;
@@ -260,17 +295,18 @@ namespace ContratoDigital.Controllers
             {
                 EmailService emailService = new EmailService(_emailConfiguration);
                 EmailMessage emailMessage = new EmailMessage();
-                emailMessage.FromAddresses = new List<EmailAddress>()
-                {
-                new EmailAddress{Name = "Mi Contrato", Address="tienda@autofinanciera.com.co"}
-                };
-                emailMessage.ToAddresses = new List<EmailAddress>()
-                {
-                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
-                };
+                
                 string srcTemplate = "";
                 if (contrato.id_compania.Equals(Constants.GuuidElectro))
                 {
+                    emailMessage.FromAddresses = new List<EmailAddress>()
+                    {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
+                    };
+                        emailMessage.ToAddresses = new List<EmailAddress>()
+                    {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+                    };
                     emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
                     switch (contrato.marca_exclusiva_bien)
                     {
@@ -293,6 +329,14 @@ namespace ContratoDigital.Controllers
                 }
                 else
                 {
+                    emailMessage.FromAddresses = new List<EmailAddress>()
+                    {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address="tienda@autofinanciera.com.co"}
+                    };
+                        emailMessage.ToAddresses = new List<EmailAddress>()
+                    {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+                    };
                     emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
                     switch (contrato.marca_exclusiva_bien)
                     {
@@ -314,8 +358,8 @@ namespace ContratoDigital.Controllers
                     ""
                     );
                 emailService.Send(emailMessage);
-            }
-            return "HTTP 502: Pago Parcial";
+            }*/
+            return "HTTP 200: Pago Parcial";
         }
 
         /// <summary>
@@ -329,9 +373,17 @@ namespace ContratoDigital.Controllers
             List<Contrato> contratos = await _context.Contratos.Where(x =>
             x.ConfirmacionContratos.IsAccepted == true &&
             x.ConfirmacionContratos.IsIdUploaded == true &&
-            x.ConfirmacionContratos.IsIdUploaded == true).ToListAsync();
+            x.ConfirmacionContratos.IsPaid == true &&
+            x.ConfirmacionContratos.IsRegistered == false).ToListAsync();
+            
+            foreach (var item in contratos)
+            {
+                Console.WriteLine("[CONTRATOS]: " + item.IdContrato + " | Pagado: " +  item.ConfirmacionContratos.IsPaid);                
+            }
+
             //string result = "";
             Status status = new Status(_context);
+            Utilities utilities = new Utilities(_context, _userManager);
             
             foreach (var item in contratos)
             {
@@ -344,9 +396,9 @@ namespace ContratoDigital.Controllers
                 persona.SegundoApellido = item.segundo_apellido;
                 persona.TipoDocumentoIdentidad = status.GetStatusSiiconId(int.Parse(item.tipo_documento_identidad_suscriptor));
                 persona.NumeroDocumento = item.documento_identidad_suscriptor.ToString();
-                persona.CiudadExpedicionId = status.GetCiudadSiiconId(int.Parse(item.procedencia_documento_identidad_suscriptor)).ToString();
+                persona.CiudadExpedicionId =  utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.procedencia_documento_identidad_suscriptor)).ToString(), 5);
                 persona.FechaNacimiento = String.Format("{0:MM'/'dd'/'yyyy}", item.fecha_nacimiento_suscriptor);
-                persona.CiudadNacimientoID = status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString();
+                persona.CiudadNacimientoID = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString(), 5);
                 persona.SexoId = status.GetStatusSiiconId(int.Parse(item.sexo_suscriptor));
                 persona.EstadoCivilId = status.GetStatusSiiconId(int.Parse(item.estado_civil_suscriptor));
                 persona.Email = item.email_suscriptor;
@@ -354,23 +406,28 @@ namespace ContratoDigital.Controllers
                 persona.BarrioNotificacion = item.direccion_domicilio_suscriptor;
                 persona.TelefonoNotificacion = item.telefono_suscriptor;
                 persona.CelularNotificacion = item.celular_suscriptor;
-                persona.DepartamentoNotificacionId = status.GetStatusSiiconId(int.Parse(item.departamento_suscriptor));
-                persona.CiudadNotificacionId = status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor));
+                persona.DepartamentoNotificacionId = utilities.PadWithZeroes( status.GetStatusSiiconId(int.Parse(item.departamento_suscriptor)).ToString(), 2);
+                persona.CiudadNotificacionId = utilities.PadWithZeroes( status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString(), 5);
                 persona.EmpresaLabora = item.empresa_empleadora_suscriptor;
                 persona.CargoLabora = item.cargo_suscriptor;
                 persona.DireccionLabora = item.direccion_empleo_suscriptor;
                 persona.BarrioLabora = item.direccion_empleo_suscriptor;
                 persona.TelefonoLabora = item.telefono_empleo_suscriptor;
                 persona.CelularOficina = item.celular_empleo_suscriptor;
-                persona.DepartamentoLaboraId = status.GetStatusSiiconId(int.Parse( item.departamento_empleo_suscriptor));
-                persona.CiudadLaboraId = status.GetCiudadSiiconId(int.Parse(item.ciudad_empleo_suscriptor));
+                persona.DepartamentoLaboraId = utilities.PadWithZeroes(status.GetStatusSiiconId(int.Parse( item.departamento_empleo_suscriptor)).ToString(), 5);
+                persona.CiudadLaboraId = utilities.PadWithZeroes( status.GetCiudadSiiconId(int.Parse(item.ciudad_empleo_suscriptor)).ToString(), 5);
                 persona.IngresoMensual = Convert.ToInt32(item.ingresos_mensuales_suscriptor);
                 persona.EgresoMensual = Convert.ToInt32(item.egresos_mensuales_suscriptor);
                 persona.Profesion = item.profesion_suscriptor;
                 
                 persona.TerceroId = user.IdSiicon;
 
+                
+
                 string registroPersonaSiicon = CreatePersonaSiicon(persona).Result.Value;
+                Console.WriteLine("[NOTIFICACION]: " + registroPersonaSiicon);
+                
+
                 dynamic jsonPersona = JsonConvert.DeserializeObject<dynamic>(registroPersonaSiicon);
                 //var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == item.IdContrato);
                 if (jsonPersona.First.ElementoId != null)
@@ -387,7 +444,7 @@ namespace ContratoDigital.Controllers
                     contratoSiicon.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaPago);
                     contratoSiicon.CodAgencia = int.Parse(item.agencia);
                     // TODO Change for actual asesor
-                    contratoSiicon.CodAsesor = 222668;
+                    contratoSiicon.CodAsesor = user.Asesor;  //222668;
                     contratoSiicon.CodConvenio = 1; // Valor Fijo
                     contratoSiicon.CodConcesionario = 1; // Valor Fijo
                     contratoSiicon.TipoMedioId = item.ConfirmacionContratos.TipoMedio;
@@ -410,11 +467,12 @@ namespace ContratoDigital.Controllers
                     contratoSiicon.CuotaNeta = Convert.ToInt32(item.total_cuota_bruta);
                     contratoSiicon.SuscriptorReferente = "000-000.0"; // Valor Fijo
                     contratoSiicon.TipoventaID = 1; // Valor Fijo. 2 en caso de venta directa en concesionario
-                    contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaPago);
+                    contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.Pagos.Last().FechaPago);
                     contratoSiicon.CompañiaID = item.id_compania;
                     contratoSiicon.TerceroId = user.IdSiicon;
 
                     string registroContratoSiicon = CreateContratoSiicon(contratoSiicon).Result.Value;
+                    Console.WriteLine("[NOTIFICACION]:" + registroPersonaSiicon);
                     dynamic jsonContrato = JsonConvert.DeserializeObject<dynamic>(registroContratoSiicon);
                     //var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == item.IdContrato);
                     if (jsonContrato.First.ElementoId != null)
@@ -433,8 +491,11 @@ namespace ContratoDigital.Controllers
 
 
         public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
-        {            
-            var resultat = service.CrearPersonaNaturalAsync(persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido,
+        {
+            try
+            {
+                Console.WriteLine("[SENT JSON]: Nombre:  " + persona.PrimerNombre + ", Segundo Nombre: " + persona.SegundoNombre + ", Apellido: " + persona.PrimerApellido + ", Segundo Apellido" + persona.SegundoApellido + ", Tipo Documento: " + persona.TipoDocumentoIdentidad + ", Numero Documento: " + persona.NumeroDocumento + ", CiudadID: " + persona.CiudadExpedicionId + ", fecha nac: " + persona.FechaNacimiento + ", CiudadNac: " + persona.CiudadNacimientoID + ", Sexo: " + persona.SexoId + ", Estado Civil: " + persona.EstadoCivilId + ", Email: " + persona.Email + ", Dirección:  " + persona.DireccionNotificacion + ", Barrio: " + persona.BarrioNotificacion + ", telefono: " + persona.TelefonoNotificacion + ", Celular: " + persona.CelularNotificacion + ", departamento: " + persona.DepartamentoNotificacionId.ToString() + ", ciudad nacimiuento: " + persona.CiudadNacimientoID + ", Empresa: " + persona.EmpresaLabora + ", Cargo: " + persona.CargoLabora + ", Dirección: " + persona.DireccionLabora + ", barrio: " + persona.BarrioLabora + ", telefono: " + persona.TelefonoLabora + ", Celular: " + persona.CelularOficina + ", departamentlo lab: " + persona.DepartamentoLaboraId.ToString() + ", CiudadLab: " + persona.CiudadLaboraId.ToString() + ", Ingreso men: " + persona.IngresoMensual + ", EgresoMen: " + persona.EgresoMensual + ", profesion: " + persona.Profesion + ", tercero ID: " + persona.TerceroId);
+                var resultat = service.CrearPersonaNaturalAsync(persona.PrimerNombre, persona.SegundoNombre, persona.PrimerApellido,
                 persona.SegundoApellido, persona.TipoDocumentoIdentidad, persona.NumeroDocumento, persona.CiudadExpedicionId,
                 persona.FechaNacimiento, persona.CiudadNacimientoID, persona.SexoId, persona.EstadoCivilId, persona.Email,
                 persona.DireccionNotificacion, persona.BarrioNotificacion, persona.TelefonoNotificacion, persona.CelularNotificacion,
@@ -442,7 +503,18 @@ namespace ContratoDigital.Controllers
                 persona.DireccionLabora, persona.BarrioLabora, persona.TelefonoLabora, persona.CelularOficina, persona.DepartamentoLaboraId.ToString(),
                 persona.CiudadLaboraId.ToString(), persona.IngresoMensual, persona.EgresoMensual, persona.Profesion, persona.TerceroId).Result;
 
-            return resultat; 
+                return resultat;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR]: " + ex.Message);
+                Console.WriteLine("[ERROR]: " + ex.InnerException);
+                Console.WriteLine("[ERROR]: " + ex.StackTrace);
+                Console.WriteLine("[ERROR]: " + ex.TargetSite);
+                throw;
+            }
+
+            
         
         } 
 
@@ -451,13 +523,14 @@ namespace ContratoDigital.Controllers
 
             try
             {
+                Console.WriteLine("[RESULTAT]: " + "[Contrato]: " + contrato.Contrato + ", [PersonaID1]: " + contrato.Persona1Id + ", [PersonaID2]: " + contrato.Persona2Id + ", [FechaAdhesion]: " + contrato.FechaAdhesion + ", [CodAgencia]: " + contrato.CodAgencia + ", [CodAsesor]: " + contrato.CodAsesor + ", [CodConvenio]: " + contrato.CodConvenio + ", [CodConcesionario]: " + contrato.CodConcesionario + ", [TipoMedioID]: " + contrato.TipoMedioId + ", [MedioID]: " + contrato.MedioId + ", [MedioFechaID]: " + contrato.MedioFechaID + ", [CodTipoBien]: " + contrato.CodTipoBien + ", [BienID]: " + contrato.BienId + ", [ValorBien]: " + contrato.ValorBien + ", [CodMarca]: " + contrato.CodMarca + ", [TipoBienParametroID]: " + contrato.TipoBienParametroId + ", [PorcentajeInscripcion]: " + contrato.PorcentajeInscripcion + ", [PorcentajeAdministracion]: " + contrato.PorcentajeAdministracion + ", [DescuentoID]: " + contrato.DescuentoId + ", [PorcentajeDescuento]: " + contrato.PorcentajeDescuento + ", [MontoInscripcion]: " + contrato.MontoInscripcion + ", [MontoInscripcionIVA]: " + contrato.MontoInscripcionIVA + ", [Plazo]: " + contrato.plazo + ", [MontoAdministracion]: " + contrato.MontoAdministracion + ", [MontoAdministracionIVA]: " + contrato.MontoAdministracionIVA + ", [CuotaNeta]: " + contrato.CuotaNeta + ", [SuscriptorReferente]: " + contrato.SuscriptorReferente + ", [TipoVentaID]: " + contrato.TipoventaID + ", [FechaCierra]: " + contrato.FechaCierre + ", [CompañíaID]: " + contrato.CompañiaID + ", [TerceroID]: " + contrato.TerceroId);
                 var resultat = service.CrearContratoAsync(contrato.Contrato, contrato.Persona1Id, contrato.Persona2Id, contrato.FechaAdhesion,
                         contrato.CodAgencia, contrato.CodAsesor, contrato.CodConvenio, contrato.CodConcesionario, contrato.TipoMedioId, contrato.MedioId,
                         contrato.MedioFechaID, contrato.CodTipoBien, contrato.BienId, contrato.ValorBien, contrato.CodMarca, contrato.TipoBienParametroId,
                         contrato.PorcentajeInscripcion, contrato.PorcentajeAdministracion, contrato.DescuentoId, contrato.PorcentajeDescuento,
                         contrato.MontoInscripcion, contrato.MontoInscripcionIVA, contrato.plazo, contrato.MontoAdministracion, contrato.MontoAdministracionIVA,
                         contrato.CuotaNeta, contrato.SuscriptorReferente, contrato.TipoventaID, contrato.FechaCierre, contrato.CompañiaID, contrato.TerceroId).Result;
-                Console.WriteLine("[RESULTAT]: " + resultat);
+                
                 return resultat;
             }
             catch (Exception ex)
