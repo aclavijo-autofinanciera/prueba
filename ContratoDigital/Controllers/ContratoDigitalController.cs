@@ -290,6 +290,7 @@ namespace ContratoDigital.Controllers
                 }
 
             }
+            ViewData["Estado"] = status.GetStatusName(contrato.ConfirmacionContratos.IdEstado);
             return View(contrato);
         }
 
@@ -657,15 +658,16 @@ namespace ContratoDigital.Controllers
         {
             ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
             //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
-            WebserviceController webservice = new WebserviceController(_context,_emailConfiguration,_hostingEnvironment, _utilities, _userManager);
-            string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
-            dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
+            //WebserviceController webservice = new WebserviceController(_context,_emailConfiguration,_hostingEnvironment, _utilities, _userManager);
+            //string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
+            //dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
             if (confirmacionContrato.Guuid.Equals(guuid) && confirmacionContrato.IsAccepted.Equals(false))
             {
                 confirmacionContrato.IsAccepted = true;
                 confirmacionContrato.FechaAceptacion = DateTime.Now;
                 confirmacionContrato.FechaReferenciaPago = DateTime.Now;
-                confirmacionContrato.ReferenciaPago = json.First.ReferenciaPago; //referenciaPago;
+                //confirmacionContrato.ReferenciaPago = json.First.ReferenciaPago; //referenciaPago;                
+
                 await _context.SaveChangesAsync();
                 ViewData["IsConfirmed"] = true;
 
@@ -845,7 +847,7 @@ namespace ContratoDigital.Controllers
                         searchQuery += " OR ";
                     }
                 }
-                return View(await _context.Contratos.FromSql($"SELECT * FROM CONTRATOS WHERE CONTAINS(primer_nombre, {searchQuery}) OR  CONTAINS(primer_apellido, {searchQuery}) OR CONTAINS(segundo_nombre, {searchQuery}) OR  CONTAINS(segundo_apellido, {searchQuery}) OR  numero_de_contrato = {numeroContrato} OR documento_identidad_suscriptor = {numeroDocumento}")
+                return View(await _context.Contratos.FromSql($"SELECT * FROM Contratos WHERE CONTAINS(primer_nombre, {searchQuery}) OR  CONTAINS(primer_apellido, {searchQuery}) OR CONTAINS(segundo_nombre, {searchQuery}) OR  CONTAINS(segundo_apellido, {searchQuery}) OR  numero_de_contrato = {numeroContrato} OR documento_identidad_suscriptor = {numeroDocumento}")
                     .OrderByDescending(x => x.IdContrato).ToListAsync());
             }
             else
