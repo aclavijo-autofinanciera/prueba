@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 namespace ContratoDigital
 {
@@ -31,9 +32,9 @@ namespace ContratoDigital
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.CheckConsentNeeded = context => true;                
+                options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });            
+            });
             services.AddDbContext<ContratoDigitalContext>(options => options
             .UseLazyLoadingProxies()
             .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -41,12 +42,18 @@ namespace ContratoDigital
             //services.AddDbContext<ContratoDigitalContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<ContratoDigitalContext>(options => options.UseSqlServer("Data Source=localhost;Initial Catalog=ContratoDigital;User Id=SA;Password=NissanGTR2018$;"));
 
-            
-            services.AddMemoryCache();
+
+            services.AddMemoryCache(); 
+
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());            
             services.AddTransient<IEmailService, EmailService>();
             services.AddSingleton<ICanonicalUrlConfiguration>(Configuration.GetSection("CanonicalUrlConfiguration").Get<CanonicalUrlConfiguration>());
             services.AddTransient<ICanonicalUrlService, CanonicalUrlService>();
+            //services.AddSingleton<IHostedService, DailyJobs>();
+            //services.AddHostedService<DailyJobs>();
+            services.AddTransient<IHostedService, DailyJobs>();
+
+
             services.AddSession();
             services.AddLogging();                       
             services.AddMvc()
@@ -64,7 +71,7 @@ namespace ContratoDigital
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
