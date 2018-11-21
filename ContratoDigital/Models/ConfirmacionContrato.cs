@@ -42,6 +42,12 @@ namespace ContratoDigital.Models
         public int IdRepresentanteLegal { get; set; }
         public int IdRepresentanteLegalConjunto { get; set; }
 
+        public int IdEstado { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string Observaciones { get; set; }
+
+
+
         public virtual Contrato Contrato { get; set; }
     }
 }
