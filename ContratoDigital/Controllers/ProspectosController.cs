@@ -142,19 +142,19 @@ namespace ContratoDigital.Controllers
             EmailMessage emailMessage = new EmailMessage();
             CanonicalUrlService urlService = new CanonicalUrlService(_canonicalUrlConfiguration);
 
-            emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
-            };
-            emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
-            };
-            
+                      
 
             string src = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co"}
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
@@ -178,6 +178,14 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
@@ -237,19 +245,20 @@ namespace ContratoDigital.Controllers
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
             CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
-            emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
-            };
-            emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
-            };
+            
 
 
             string src = "";
             if (prospecto.IdCompania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co"}
+                };
+                emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
@@ -273,6 +282,14 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
@@ -515,6 +532,14 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Cotización plan de ahorro programado";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
