@@ -1,5 +1,13 @@
-﻿@model ContratoDigital.Models.Prospecto
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+
+
+@model ContratoDigital.Models.Prospecto
 @{
+
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -41,13 +49,35 @@
                             <div class="col-12 col-md-4 font-weight-bold">
                                 Documento identidad
                             </div>
-                            <div class="col-12 col-md-8 text-black-65 text-uppercase">                                
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @ViewData["TipoIdDescripcion"] - @Model.NumeroDocumento
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Estado</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">@ViewData["Estado"]</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Registrado por</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @{
+                                    var user = UserManager.Users.SingleOrDefault(x => x.Id == Model.ConfirmacionProspecto.UserId);
+                                    Write(user.Nombre + " " + user.Apellido);
+                                }
 
-
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Fecha de registro</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">                                
+                                @String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionProspecto.FechaCreacion)
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12 col-md-8">
                     <div class="polymer-box">
@@ -133,6 +163,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Observaciones</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">@Model.ConfirmacionProspecto.Observaciones</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-12 col-md-8 mt-4">
                     <div class="polymer-box">
                         <h4 class="text-center">Datos del bien</h4>
@@ -336,14 +375,15 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
                                 </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="@Url.Action("Generate", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-receipt"></i>  Generar cotización</a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
-                                </li>
+
                                 @if (Model.ConfirmacionProspecto.IsConfirmed)
                                 {
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="@Url.Action("Generate", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-receipt"></i>  Generar cotización</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
+                                    </li>
                                     <li class="nav-item ">
                                         <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
                                     </li>
@@ -356,7 +396,7 @@
             </div>
         </div>
     </section>
-    
+
     <section>
         <div class="container mt-4">
 
