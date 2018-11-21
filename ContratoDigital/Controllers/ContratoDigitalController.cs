@@ -196,18 +196,19 @@ namespace ContratoDigital.Controllers
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
             CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
-            emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato", Address="tienda@autofinanciera.com.co"}
-            };
-            emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
-            };
+           
 
             string srcTemplate = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address="tienda@autofinanciera.com.co"}
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -230,6 +231,14 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -449,20 +458,19 @@ namespace ContratoDigital.Controllers
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
             CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
-            emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
-            };
-            emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
-            };
-
-
-
+            
             string srcTemplate = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
+
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -485,6 +493,14 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -551,18 +567,19 @@ namespace ContratoDigital.Controllers
 
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();            
-            emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
-            };
-            emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
-            };
+            
 
             string srcTemplate = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Recibo de pago";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -585,6 +602,14 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Recibo de pago";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -604,7 +629,7 @@ namespace ContratoDigital.Controllers
             }
             if(contrato.ConfirmacionContratos != null)
             {
-                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), String.Format("{0:dd del MM de YYYY}", contrato.ConfirmacionContratos.FechaAceptacion));
+                emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), String.Format("{0:dd 'de' MM 'del' yyyy}", contrato.ConfirmacionContratos.FechaAceptacion));
             }
             else
             {
@@ -673,18 +698,19 @@ namespace ContratoDigital.Controllers
 
                 EmailService emailService = new EmailService(_emailConfiguration);
                 EmailMessage emailMessage = new EmailMessage();                
-                emailMessage.FromAddresses = new List<EmailAddress>()
-                {
-                    new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
-                };
-                emailMessage.ToAddresses = new List<EmailAddress>()
-                {
-                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
-                };
+                
 
                 string srcTemplate = "";
                 if (contrato.id_compania.Equals(Constants.GuuidElectro))
                 {
+                    emailMessage.FromAddresses = new List<EmailAddress>()
+                    {
+                        new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                    };
+                        emailMessage.ToAddresses = new List<EmailAddress>()
+                    {
+                        new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                    };
                     emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Factura Digital PDF";
                     switch (contrato.marca_exclusiva_bien)
                     {
@@ -707,6 +733,14 @@ namespace ContratoDigital.Controllers
                 }
                 else
                 {
+                    emailMessage.FromAddresses = new List<EmailAddress>()
+                    {
+                        new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                    };
+                        emailMessage.ToAddresses = new List<EmailAddress>()
+                    {
+                        new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                    };
                     emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Factura Digital PDF";
                     switch (contrato.marca_exclusiva_bien)
                     {
@@ -728,7 +762,7 @@ namespace ContratoDigital.Controllers
                 {
                     if(contrato.ConfirmacionContratos.FechaAceptacion > new DateTime())
                     {
-                        emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), String.Format("{0:dd-MM-yyyy}",contrato.ConfirmacionContratos.FechaAceptacion));
+                        emailMessage.Content = String.Format(_utilities.GetTemplate(srcTemplate), String.Format("{0:dd-MM-yyyy}", contrato.ConfirmacionContratos.FechaAceptacion));
                     }
                     
                 }
@@ -911,18 +945,19 @@ namespace ContratoDigital.Controllers
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
             CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
-            emailMessage.FromAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = "Mi Contrato", Address = "tienda@autofinanciera.com.co" }
-             };
-            emailMessage.ToAddresses = new List<EmailAddress>()
-            {
-                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
-            };
+            
 
             string srcTemplate = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                 };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Diligenciar documento de identidad";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -945,6 +980,14 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                 };
+                    emailMessage.ToAddresses = new List<EmailAddress>()
+                {
+                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Diligenciar documento de identidad";
                 switch (contrato.marca_exclusiva_bien)
                 {
