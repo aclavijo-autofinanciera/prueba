@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json;
 using SiiconWebService;
 
 namespace ContratoDigital.Controllers
@@ -122,7 +122,10 @@ namespace ContratoDigital.Controllers
                 DescripcionMedio = form["TipoMedioAgenciaDescripcion"],
                 TipoCliente = int.Parse(form["TipoCliente"]),
                 DescripcionTipoCliente = form["TipoClienteDescripcion"],
-                UserId = _userManager.GetUserId(User)
+                UserId = _userManager.GetUserId(User),
+                IdEstado = (int)Constants.EstadosProspectos.PorConfirmarCorreo,
+                FechaCreacion = DateTime.Now,
+                Observaciones = form["observaciones"]
             };            
             _context.ConfirmacionProspectos.Add(confirmacionProspecto);
             await _context.SaveChangesAsync();
