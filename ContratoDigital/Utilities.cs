@@ -651,10 +651,19 @@ namespace ContratoDigital
             toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_bruta));
 
             fields.TryGetValue("PrimerPago", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.valor_primer_pago));
+            //toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.valor_primer_pago));
+            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.RecibosPago.Last().Monto));
 
             fields.TryGetValue("PagoOportuno", out toSet);
             toSet.SetValue("FECHA LÍMITE: " + string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3))));
+
+            var user = _userManager.Users.SingleOrDefault(x => x.Id == contrato.asesor_comercial);
+
+            fields.TryGetValue("NombreAsesor", out toSet);
+            toSet.SetValue(user.Nombre + " " + user.Apellido);
+
+            fields.TryGetValue("CodigoAsesor", out toSet);
+            toSet.SetValue(user.Id);
 
         }
 
