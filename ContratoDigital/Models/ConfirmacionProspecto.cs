@@ -24,7 +24,12 @@ namespace ContratoDigital.Models
         public int Agencia { get; set; }
         public string DescripcionAgencia { get; set; }
         public int Asesor { get; set; }
-        public string UserId{get;set;}
+        public string UserId { get; set; }
+
+        public int IdEstado { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string Observaciones {get;set;}
+        public DateTime FechaContactoFuturo { get; set; }
 
         public virtual Prospecto Prospecto { get; set; }
         
