@@ -1,7 +1,16 @@
-﻿@model ContratoDigital.Models.Prospecto
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+@{
+    //var userID = UserManager.GetUserId(User);
+    var user = UserManager.Users.SingleOrDefault(x => x.Id == UserManager.GetUserId(User));
+}
+@model ContratoDigital.Models.Prospecto
 @{
     /*Random rnd = new Random();
-    var contrato = rnd.Next(8000000, 8999999);*/    
+    var contrato = rnd.Next(8000000, 8999999);*/
     ViewData["Title"] = "Contrato Digital";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var tipoidentidad = (IQueryable<Estado>)ViewData["TipoIdentidad"];
@@ -84,7 +93,7 @@
                                     {
                                         <option value="@item.IdEstado">@item.Descripcion</option>
                                     }
-                                }                                
+                                }
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
@@ -97,14 +106,14 @@
                                 <option value="">Seleccione un tipo</option>
                                 @foreach (var item in departamento)
                                 {
-                                    <option value="@item.IdEstado"  data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
+                                    <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
 
                                 }
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="procedencia_documento_identidad_suscriptor">De:</label>
-                            <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required autocomplete="off" readonly >
+                            <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor" name="procedencia_documento_identidad_suscriptor" required autocomplete="off" readonly>
                                 <option value="">Seleccione una opción</option>
                             </select>
                         </div>
@@ -135,9 +144,9 @@
                                     <select class="form-control form-control-lg" id="tipo_documento_representante_legal" name="tipo_documento_representante_legal" autocomplete="off">
                                         <option value="">Seleccione un tipo</option>
                                         @foreach (var item in tipoidentidad)
-                                        {                                            
+                                        {
                                             <option value="@item.IdEstado">@item.Descripcion</option>
-                                            
+
                                         }
                                     </select>
                                 </div>
@@ -158,7 +167,7 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="procedencia_documento_identidad_representante_legal">De:</label>
-                                    <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" autocomplete="off" readonly ></select>
+                                    <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_representante_legal" name="procedencia_documento_identidad_representante_legal" autocomplete="off" readonly></select>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +327,7 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="ciudad_empleo_suscriptor">Ciudad</label>
-                            <select  class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required autocomplete="off" readonly ></select>
+                            <select class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor" name="ciudad_empleo_suscriptor" required autocomplete="off" readonly></select>
                         </div>
                     </div>
 
@@ -408,7 +417,7 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="procedencia_documento_identidad_suscriptor_conjunto">De: </label>
-                                <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" autocomplete="off" readonly></select>                                
+                                <select class="form-control form-control-lg text-uppercase" id="procedencia_documento_identidad_suscriptor_conjunto" name="procedencia_documento_identidad_suscriptor_conjunto" autocomplete="off" readonly></select>
                             </div>
                         </div>
                     </section>
@@ -518,14 +527,14 @@
                                     <option value="">Seleccione un tipo</option>
                                     @foreach (var item in departamento)
                                     {
-                                        <option value="@item.IdEstado"  data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
+                                        <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
 
                                     }
                                 </select>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="ciudad_suscriptor_conjunto">Ciudad</label>
-                                <select class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" autocomplete="off" readonly></select>                                
+                                <select class="form-control form-control-lg text-uppercase" id="ciudad_suscriptor_conjunto" name="ciudad_suscriptor_conjunto" autocomplete="off" readonly></select>
                             </div>
                         </div>
                         <div class="form-row mt-4">
@@ -594,14 +603,14 @@
                                     <option value="">Seleccione un tipo</option>
                                     @foreach (var item in departamento)
                                     {
-                                        <option value="@item.IdEstado"   data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
+                                        <option value="@item.IdEstado" data-idsiicon="@item.IdSiicon">@item.Descripcion</option>
 
                                     }
                                 </select>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="ciudad_empleo_suscriptor_conjunto">Ciudad</label>
-                                <select class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" autocomplete="off" readonly ></select>
+                                <select class="form-control form-control-lg text-uppercase" id="ciudad_empleo_suscriptor_conjunto" name="ciudad_empleo_suscriptor_conjunto" autocomplete="off" readonly></select>
                             </div>
                         </div>
 
@@ -698,7 +707,9 @@
                             <label for="tipoCalculo">Seleccione una cuota</label>
                             <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
                                 <option value="">Seleccione una opción</option>
+                                <option selected value="@Model.TipoCalculo">@Model.DescripcionTipoCalculo</option>
                             </select>
+                            <input type="hidden" name="descripcionTipoCalculo" id="descripcionTipoCalculo" value="@Model.DescripcionTipoCalculo" />
                         </div>
 
                         <div class="col-12 col-md-6">
@@ -728,6 +739,12 @@
                             </select>
                             <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoCliente" />
 
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label>Asesor</label>
+                            <select class="form-control form-control-lg" id="asesores" name="asesores">
+                                <option>seleccione una opción</option>
+                            </select>
                         </div>
                     </div>
 
@@ -876,10 +893,44 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col-12"><hr /></div>
+                        <div class="col-12 col-md-6">
+                            <label for="pago_parcial">Abonos</label>                            
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="abono_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="abono" aria-describedby="abono_addon" id="abono" name="abono" placeholder="0.00" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" />
+                                <input type="hidden" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" id="debe" name="debe" />
+                            </div>
+                            <br />
+                            <p>El recibo de pago de la cuota inicial que se le enviará al cliente será por el monto descrito anteriormente. <br/>                            
+                            Si el monto es menor a la cuota inicial, se irá descontando con cada abono realizado.</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="saldo">Saldo restante</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="saldo_addon">$</span>
+                                </div>
+                                <input type="text" class="form-control form-control-lg" aria-label="saldo" aria-describedby="saldo_addon" id="saldo" name="saldo" placeholder="0.00" value="0" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-4">
+                        <div class="col-12"><hr /></div>
+                        <div class="col-12">
+                            <label for="obseraciones">Observaciones</label>
+                            <textarea id="observaciones" name="observaciones" class="form-control form-control-lg" rows="4">Observaciones del prospecto: @Model.ConfirmacionProspecto.Observaciones</textarea>
+                        </div>
+                    </div>
                 </section>
                 <!--#endregion-->
                 <!--#region legal-->
-                
+
                 <section id="legaleseElectro" class="d-none">
                     <div class="form-row mt-4">
                         <div class="col">
@@ -1017,6 +1068,85 @@
         </div>
     </div>
 </div>
+@section Scripts
+    {
+    @{bool IsAsesor = await UserManager.IsInRoleAsync(user, "Asesor"); }
+    @if (IsAsesor)
+    {
+        <script>
+
+            jQuery(function ($) {
+                $("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');                
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+
+            jQuery(function ($) {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/api/Freyja/GetAsesoresPorAgencia/" + $('#Agencia').val(),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        try {
+                            var asesores = $('#asesores');
+                            asesores.empty();
+                            asesores.append("<option value=\"\">Selecciona una opción</option><option value=\"todos\">Seleccionar todos</option>");
+                            $.each(data, function (i, item) {
+                                var rows = "<option value=\"" + item.id + "\" >" + item.nombre + " " + item.apellido + " </option>";
+                                asesores.append(rows);
+                            });
+                            asesores.removeAttr("readonly disabled");
+                        } catch (e) {
+                            $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div >');
+                            $(this).addClass('fa-spin');
+                        }
+                    },
+                    failure: function (data) {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                        $(this).removeClass('fa-spin');
+                    },
+                    error: function (data) {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                        $(this).removeClass('fa-spin');
+                    }
+                });
+            });
+        </script>
+    }
+        <script>
+            jQuery(function ($) {
+                var abono = $("#abono");
+                var saldo = $("#saldo");
+                var debe = $("#debe");
+
+                abono.on("keyup", function () {
+                    saldo.val(debe.val() - abono.val());
+                });
+            });
+            
+
+        </script>
+}
 
 
 
