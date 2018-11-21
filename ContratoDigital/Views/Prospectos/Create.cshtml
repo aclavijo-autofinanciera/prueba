@@ -122,9 +122,10 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="tipoCalculo">Seleccione una cuota</label>
-                            <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly required  autocomplete="off" >
+                            <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly required autocomplete="off">
                                 <option value="">Seleccione una opción</option>
                             </select>
+                            <input type="hidden" name="descripcionTipoCalculo" id="descripcionTipoCalculo" />
                         </div>
 
                         <div class="col-12 col-md-4">
@@ -293,7 +294,15 @@
                         </div>
                     </div>
 
-
+                    <div class="form-row mt-4">
+                        <div class="col-4">
+                            <label for=""></label>
+                        </div>
+                        <div class="col-12">
+                            <label for="observaciones">Observaciones</label>
+                            <textarea id="observaciones" name="observaciones" rows="4" class="form-control form-control-lg"></textarea>
+                        </div>
+                    </div>
 
                     <div class="form-row mt-4">
                         <div class="col text-center">
