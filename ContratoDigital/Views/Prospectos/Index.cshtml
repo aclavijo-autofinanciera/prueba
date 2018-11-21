@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <div class="row">            
+        <div class="row">
             <div class="col-12 mt-4">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="@Url.Action("Create", "Prospectos")" class="btn btn-azul"><i class="far fa-plus-square"></i> Registrar Prospecto</a>
@@ -24,6 +24,48 @@
                 </div>
             </div>
         </div>
+
+        @{
+            bool isAsesor = false;
+            if (ViewData["isAsesor"] != null)
+            {
+                isAsesor = (bool)ViewData["isAsesor"];
+            }
+          }
+
+        @if (!isAsesor)
+        {
+            <form method="post" autocomplete="off">
+                <div class="form-row mt-4">
+                    <div class="col-12 col-md-4">
+                        <label for="bien">Seleccione compañía</label>
+                        <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
+                            <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label for="">Agencia</label>
+                        <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly disabled required autocomplete="off">
+                            <option value="">Seleccione una opción</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label>Asesores</label>
+                        <select class="form-control form-control-lg" id="asesores" name="asesores" readonly disabled required autocomplete="off">
+                            <option value="">Seleccione una opción</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-12 text-right mt-1">
+                        <button type="submit" class="btn btn-azul">Filtrar</button>
+                    </div>
+                </div>
+            </form>
+        }
+
 
         <div class="row mt-4">
             <div class="col-12">
@@ -39,35 +81,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @if (Model.Count() > 0)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item"><a href="@Url.Action("Edit", "Prospectos", new {id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="far fa-edit"></i></a></li>
+                                            <li class="list-inline-item"><a href="@Url.Action("Details", "Prospectos", new { id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Detalles"><i class="far fa-list-alt"></i></a></li>
+                                        </ul>
+                                    </td>
+                                    <td>@(item.PrimerNombre + " " + item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NumeroDocumento)</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Telefono<br />@item.Celular</td>
+                                    <td>
+                                        @if (item.ConfirmacionProspecto.IsConfirmed == true)
+                                        {
+                                            <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
+
+                                        }
+                                        else
+                                        {
+                                            <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = item.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+
+                                        }
+                                    </td>
+
+                                </tr>
+
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td>
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item"><a href="@Url.Action("Edit", "Prospectos", new {id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="far fa-edit"></i></a></li>
-                                        <li class="list-inline-item"><a href="@Url.Action("Details", "Prospectos", new { id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Detalles"><i class="far fa-list-alt"></i></a></li>
-                                    </ul>
+                                <td colspan="6">
+                                    <h4>No se encontraron registros para la búsqueda seleccionada</h4>
                                 </td>
-                                <td>@(item.PrimerNombre + " " + item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>
-                                <td>@Html.DisplayFor(modelItem => item.NumeroDocumento)</td>
-                                <td>@item.Email</td>
-                                <td>@item.Telefono<br />@item.Celular</td>
-                                <td>
-                                    @if (item.ConfirmacionProspecto.IsConfirmed == true)
-                                    {
-                                        <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
-
-                                    }
-                                    else
-                                    {
-                                        <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = item.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
-
-                                    }
-                                </td>
-
                             </tr>
-
                         }
+
                     </tbody>
                 </table>
             </div>
