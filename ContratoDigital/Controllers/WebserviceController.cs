@@ -464,7 +464,7 @@ namespace ContratoDigital.Controllers
                     contratoSiicon.plazo = int.Parse(item.plazo_bien);
                     contratoSiicon.MontoAdministracion = Convert.ToInt32(item.administracion);
                     contratoSiicon.MontoAdministracionIVA = Convert.ToInt32(item.iva_administracion);
-                    contratoSiicon.CuotaNeta = Convert.ToInt32(item.total_cuota_bruta);
+                    contratoSiicon.CuotaNeta = Convert.ToInt32(item.primera_cuota_neta);
                     contratoSiicon.SuscriptorReferente = "000-000.0"; // Valor Fijo
                     contratoSiicon.TipoventaID = 1; // Valor Fijo. 2 en caso de venta directa en concesionario
                     contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.Pagos.Last().FechaPago);
