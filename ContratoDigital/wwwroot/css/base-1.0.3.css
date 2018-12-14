@@ -389,6 +389,10 @@ And XLG EXtra Large
 .t-1 {    font-size: 1rem;}
 .t-2 {    font-size: 2rem;}
 .t-3 {    font-size: 3rem;}
+.op-25{opacity:0.25;}
+.op-50{opacity:0.50;}
+.op-75{opacity:0.75;}
+
 
 /* BS OVerrides */
 .text-black-65 {color: rgba(0, 0, 0, 0.65) !important;}
