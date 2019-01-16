@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -635,43 +635,46 @@ namespace ContratoDigital
             toSet.SetValue(contrato.plazo_bien + " mesess");
 
             fields.TryGetValue("ValorBien", out toSet);
-            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
+            toSet.SetValue(String.Format("{0:0,0}", contrato.valor_bien));
 
             fields.TryGetValue("CuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.cuota_ingreso));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.cuota_ingreso));
 
             fields.TryGetValue("IvaIngreso", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_cuota_ingreso));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.iva_cuota_ingreso));
 
             fields.TryGetValue("TotalCuotaIngreso", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_ingreso));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.total_cuota_ingreso));
 
             fields.TryGetValue("PrimeraCuotaNeta", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.primera_cuota_neta));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.primera_cuota_neta));
 
             fields.TryGetValue("Administracion", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.administracion));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.administracion));
 
             fields.TryGetValue("IvaAdministracion", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.iva_administracion));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.iva_administracion));
 
             fields.TryGetValue("TotalCuotaBruta", out toSet);
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.total_cuota_bruta));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.total_cuota_bruta));
 
             fields.TryGetValue("PrimerPago", out toSet);
             //toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.valor_primer_pago));
-            toSet.SetValue(String.Format("$ {0:0,0.00}", contrato.RecibosPago.Last().Monto));
+            toSet.SetValue(String.Format("$ {0:0,0}", contrato.RecibosPago.Last().Monto));
 
             fields.TryGetValue("PagoOportuno", out toSet);
-            toSet.SetValue("FECHA LÍMITE: " + string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3))));
+            toSet.SetValue(string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3))));
+
+            fields.TryGetValue("FechaGeneracion", out toSet);
+            toSet.SetValue(string.Format("{0:dd-MM-yyyy}", (DateTime.Now)));
 
             var user = _userManager.Users.SingleOrDefault(x => x.Id == contrato.asesor_comercial);
 
             fields.TryGetValue("NombreAsesor", out toSet);
             toSet.SetValue(user.Nombre + " " + user.Apellido);
 
-            fields.TryGetValue("CodigoAsesor", out toSet);
-            toSet.SetValue(user.Id);
+            //fields.TryGetValue("CodigoAsesor", out toSet);
+            //toSet.SetValue(user.Id);
 
         }
 
@@ -1477,6 +1480,17 @@ namespace ContratoDigital
         //    ContratoDigitalContext _context = new ContratoDigitalContext();
 
         //}
+
+        /// <summary>
+        /// Construye el contenido de un elemento de Json de dos elementos
+        /// </summary>
+        /// <param name="titulo">El título del valor a incluir</param>
+        /// <param name="valor">El valor explicito a incluir</param>
+        /// <returns>Un string formateado con json</returns>
+        public string BuildJsonString(string titulo, int valor)
+        {   
+            return "{\"Titulo\": \"" + titulo + "\",\"Valor\": " + valor + "}";
+        }
     }
 
     static public class Constants
@@ -1517,8 +1531,8 @@ namespace ContratoDigital
         public const string CotizacionAuto = "cotizacion/2018-09-14-Cotizacion_auto_v-2.0.pdf";
         public const string CotizacionElectro = "cotizacion/2018-09-14-Cotizacion_electro_v-2.0.pdf";
 
-        public const string ReciboAuto = "recibo/2018-09-14-Recibo_auto_v-2.0.pdf";
-        public const string ReciboElectro = "recibo/2018-09-14-Recibo_electro_v-2.0.pdf";
+        public const string ReciboAuto = "recibo/2019-01-11-recibo_auto_v-3.1.pdf";
+        public const string ReciboElectro = "recibo/2019-01-11-recibo_electro_v-3.1.pdf";
 
 
 
