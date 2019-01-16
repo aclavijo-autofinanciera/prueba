@@ -1,0 +1,30 @@
+﻿@model ContratoDigital.Models.PlainText
+@{
+    ViewData["Title"] = "Carga Masiva de Oportunidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/highway.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        @ViewData["Title"]
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <form asp-action="CargaMasiva" enctype="multipart/form-data" class="bootstrapValidation uploadIDValidation">
+                    <input asp-for="IdPlainText" type="hidden" class="form-control" />
+                    <div class="form-row mt-4">
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
