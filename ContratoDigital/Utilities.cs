@@ -620,6 +620,14 @@ namespace ContratoDigital
             fields.TryGetValue("Email", out toSet);
             toSet.SetValue(contrato.email_suscriptor);
 
+            fields.TryGetValue("ReferenciaPago", out toSet);
+            toSet.SetValue(contrato.RecibosPago.Last().ReferenciaSiicon);
+
+            fields.TryGetValue("NumeroContrato", out toSet);
+            toSet.SetValue(contrato.numero_de_contrato.ToString());
+            
+            
+
             fields.TryGetValue("Detalle", out toSet);
             toSet.SetValue(contrato.tipo_de_bien);
 
