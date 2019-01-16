@@ -8,6 +8,7 @@ namespace ContratoDigital.Models
     public class ContratoSiicon
     {
         public int Contrato { get; set; }
+        public int IdContrato { get; set; }
         public int Persona1Id { get; set; }
         public int Persona2Id { get; set; }
         public string FechaAdhesion{get;set;}
