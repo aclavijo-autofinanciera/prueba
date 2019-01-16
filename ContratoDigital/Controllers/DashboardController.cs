@@ -31,7 +31,11 @@ namespace ContratoDigital.Controllers
             _utilities = utilities;
 
         }
-        
+
+        /// <summary>
+        /// Vista principal del dashboard.
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {                        
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;         
@@ -43,6 +47,10 @@ namespace ContratoDigital.Controllers
         }
 
         #region Users
+        /// <summary>
+        /// listado principal de todos los usuarios registrados en el sistema
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Users()
         {
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
@@ -53,6 +61,10 @@ namespace ContratoDigital.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Acción de añadir un usuario. En esta se utiliza el SIICON de base para la comprobación
+        /// </summary>
+        /// <returns></returns>
         public IActionResult AddUser()
         {
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
@@ -63,6 +75,11 @@ namespace ContratoDigital.Controllers
             return View(new ContratoDigitalUser());
         }
 
+        /// <summary>
+        /// Método Post para la creación de los usuarios en el aplicativo basados en la permisología del Siicon
+        /// </summary>
+        /// <param name="form"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddUser(IFormCollection form)
         {
@@ -124,6 +141,11 @@ namespace ContratoDigital.Controllers
             return RedirectToAction("UserDetails", "Dashboard", new { id = user.UserName });
         }
 
+        /// <summary>
+        /// Vista detalle del usuario.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult UserDetails(string id)
         {
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
@@ -144,5 +166,7 @@ namespace ContratoDigital.Controllers
             
         }
         #endregion
+
+
     }
 }
