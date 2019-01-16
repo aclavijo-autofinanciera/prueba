@@ -77,14 +77,14 @@ namespace ContratoDigital.Controllers
             {
                 return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
             }
-            Contrato numeroContrato = _context.Contratos.OrderBy(x=>x.IdContrato).LastOrDefault();
+            Contrato numeroContrato = _context.Contratos.OrderBy(x => x.numero_de_contrato).LastOrDefault();
             if(numeroContrato == null )
             {
                 ViewData["NumeroContrato"] = 8100000;
             }
             else
             {
-                ViewData["NumeroContrato"] = numeroContrato.IdContrato + 8000000 + 100030;
+                ViewData["NumeroContrato"] = numeroContrato.numero_de_contrato + 1;
             }
             GetStatusList();
             if (prospecto == null)
@@ -99,6 +99,15 @@ namespace ContratoDigital.Controllers
         {
 
             Contrato contrato = _utilities.FillContrato(form);
+            Contrato numeroContrato = _context.Contratos.OrderBy(x => x.numero_de_contrato).LastOrDefault();
+            if (numeroContrato == null)
+            {
+                contrato.numero_de_contrato = 8100000;
+            }
+            else
+            {
+                contrato.numero_de_contrato = numeroContrato.numero_de_contrato +1;
+            }
             contrato.asesor_comercial = _userManager.GetUserId(User);
             _context.Add(contrato);
             await _context.SaveChangesAsync();
@@ -298,6 +307,10 @@ namespace ContratoDigital.Controllers
         {
             GetStatusList();
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            if (contrato.ConfirmacionContratos.IsPaid)
+            {
+                return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
+            }
             Status status = new Status(_context);
             ViewData["ProcedenciaIdentidadSuscriptor"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor));
             if(contrato.documento_identidad_representante_legal > 0)
@@ -323,6 +336,11 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Edit(IFormCollection form)
         {            
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == int.Parse(form["IdContrato"]));
+            if(contrato.ConfirmacionContratos.IsPaid)
+            {
+                return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
+            }
+
             contrato.ConfirmacionContratos.Agencia = int.Parse(form["Agencia"]);
             contrato.ConfirmacionContratos.DescripcionAgencia = form["AgenciaDescripcion"];
             contrato.ConfirmacionContratos.TipoMedio = int.Parse(form["TipoMedio"]);
