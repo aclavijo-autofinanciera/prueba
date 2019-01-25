@@ -600,13 +600,14 @@ namespace ContratoDigital
             string convenio = contrato.id_compania.Equals(Constants.GuuidAuto) ? Constants.ConvenioAuto : Constants.ConvenioElectro;
 
             // Número de contrato
-            fields.TryGetValue("CodigoBarras", out toSet);            
+            //fields.TryGetValue("CodigoBarras", out toSet);            
             //toSet.SetValue(GenerateCode128("415" + convenio + "802000000" + contrato.ConfirmacionContratos.ReferenciaPago + "3900" + PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15))));
-            toSet.SetValue(GenerateCode128("415" + convenio + "80200000" + contrato.RecibosPago.Last().ReferenciaSiicon + "3900" + PadWithZeroes(contrato.RecibosPago.Last().Monto.ToString(), 12) + "96" + String.Format("{0:ddMMyyyy}", contrato.RecibosPago.Last().FechaEmision.AddDays(15))));
+            //toSet.SetValue(GenerateCode128("415" + convenio + "8020" +  PadWithZeroes(contrato.RecibosPago.Last().ReferenciaSiicon,16) + "3900" + PadWithZeroes(contrato.RecibosPago.Last().Monto.ToString(), 12) + "96" + String.Format("{0:yyyyMMdd}", contrato.RecibosPago.Last().FechaEmision.AddDays(15))));
+            //toSet.SetValue(GenerateCode128("415" + convenio + "8020" +  PadWithZeroes(contrato.RecibosPago.Last().ReferenciaSiicon,16) + "3900" + PadWithZeroes(contrato.RecibosPago.Last().Monto.ToString(), 8) + "96" + String.Format("{0:yyyyMMdd}", contrato.RecibosPago.Last().FechaEmision.AddDays(15))));
 
-            fields.TryGetValue("CodigoBarrasPlano", out toSet);
+            //fields.TryGetValue("CodigoBarrasPlano", out toSet);
             //toSet.SetValue("(415)" + convenio + "(8020)00000" + contrato.ConfirmacionContratos.ReferenciaPago + "(3900)" + PadWithZeroes(contrato.valor_primer_pago.ToString(), 12) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.ConfirmacionContratos.FechaReferenciaPago.AddDays(15)));
-            toSet.SetValue("(415)" + convenio + "(8020)" + PadWithZeroes(contrato.RecibosPago.Last().ReferenciaSiicon,8) + "(3900)" + PadWithZeroes(contrato.RecibosPago.Last().Monto.ToString(), 8) + "(96)" + String.Format("{0:ddMMyyyy}", contrato.RecibosPago.Last().FechaEmision.AddDays(15)));
+            //toSet.SetValue("(415)" + convenio + "(8020)" + PadWithZeroes(contrato.RecibosPago.Last().ReferenciaSiicon,16) + "(3900)" + PadWithZeroes(contrato.RecibosPago.Last().Monto.ToString(), 8) + "(96)" + String.Format("{0:yyyyMMdd}", contrato.RecibosPago.Last().FechaEmision.AddDays(15)));
 
             fields.TryGetValue("Nombre", out toSet);
             toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido);
