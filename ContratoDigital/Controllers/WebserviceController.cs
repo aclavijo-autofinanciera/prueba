@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -182,7 +182,7 @@ namespace ContratoDigital.Controllers
                 contrato.IsAccepted = contratoDummy.IsAccepted;
                 contrato.IsIdUploaded = contratoDummy.IsIdUploaded;
                 contrato.IsPaid = contratoDummy.IsPaid;
-                contrato.IsVerified = contratoDummy.IsVerified;
+                contrato.IsRegistered = contratoDummy.IsRegistered;
                 contrato.FechaAceptacion = contratoDummy.FechaAceptacion;
                 contrato.FechaPago = contratoDummy.FechaPago;
                 contrato.FechaVerificacion = contratoDummy.FechaVerificacion;
