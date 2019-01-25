@@ -1141,18 +1141,22 @@ jQuery(function ($) {
     $(".uploadIDValidation").validate({
         rules: {
             Anverso: {
-                required:true
+                required: true,
+                accept: "image/*"
             },
             Reverso: {
-                required:true
+                required: true,
+                accept: "image/*"
             }
         },
         messages: {
             Anverso: {
-                required: "Este campo es requerido"
+                required: "Este campo es requerido",
+                accept: "El archivo debe ser una imagen"
             },
             Reverso: {
-                required: "Este campo es requerido"
+                required: "Este campo es requerido",
+                accept: "El archivo debe ser una imagen"
             }
         }
     });
@@ -1490,11 +1494,11 @@ jQuery(function ($) {
                     $(this).addClass('fa-spin');
                     if (data.isAccepted)
                     {
-                        $(".isAccepted").html('<label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>');
+                        $(".isAccepted").html('<label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato aceptadas</label>');
                     }
                     else
                     {
-                        $('.isAccepted').html('<label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/EmailContract/' + idContrato + '", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');                        
+                        $('.isAccepted').html('<label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato por aceptar &nbsp;&nbsp;<span class="badge badge-azul "><a href="/ContratoDigital/EmailContract/' + idContrato + '", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>');                        
                     }
 
                     if (data.isIdUploaded)
@@ -1515,11 +1519,11 @@ jQuery(function ($) {
                     }
                     if (data.isVerified)
                     {
-                        $('.isVerified').html('<label class="text-success"><i class="fas fa-check"></i> ARD</label>');
+                        $('.isRegistered').html('<label class="text-success"><i class="fas fa-check"></i> Registrado en Siicon</label>');
                     }
                     else
                     {
-                        $('.isVerified').html('<label class="text-muted"><i class="far fa-clock"></i> ARD</label>');
+                        $('.isRegistered').html('<label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>');
                     }
                     $(this).removeClass('fa-spin');
 
