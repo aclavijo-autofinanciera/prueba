@@ -42,16 +42,16 @@
                             Estado del contrato
                         </div>
                         <div class="col-12 col-md-8 text-black-65">
-                            @ViewData["Estado"]
+                            @*ViewData["Estado"]*@
                             <hr />
                             <div class="isAccepted">
                                 @if (Model.ConfirmacionContratos.IsAccepted)
                                 {
-                                    <label class="text-success"><i class="fas fa-check"></i> Aceptación de las Condiciones del contrato</label>
+                                    <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato aceptadas</label>
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
                                 }
                             </div>
                             <div class="isIdUploaded">
@@ -77,14 +77,14 @@
 
                                 }
                             </div>
-                            <div class="isVerified">
+                            <div class="isRegistered">
                                 @if (Model.ConfirmacionContratos.IsRegistered)
                                 {
                                     <label class="text-success"><i class="fas fa-check"></i> Registrado Siicon</label>
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Registrado Siicon</label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
                                 }
                             </div>
                             <div>
@@ -1207,10 +1207,10 @@
                                 <a class="nav-link" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="@Url.Action("Index", "Prospectos")" id="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="@Url.Action("Index", "Prospectos")" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-receipt"></i> Recibo
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="contratosDigitalesMenuDropdown">
+                                <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
                                     <a class="dropdown-item" href="@Url.Action("GenerateReference", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-file-invoice-dollar"></i> Generar nuevo recibo de pago</a>
                                     <a class="dropdown-item" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Imprimir último recibo de pago</a>
                                     <a class="dropdown-item" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar último recibo de pago por correo</a>

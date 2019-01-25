@@ -157,12 +157,12 @@
                                                 <div>
                                                     @if (item.ConfirmacionContratos.IsAccepted)
                                                     {
-                                                        <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
+                                                        <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato aceptadas</label>
                                                     }
                                                     else
                                                     {
                                                         <label class="text-muted">
-                                                            <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                            <i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
                                                         </label>
                                                     }
                                                 </div>
@@ -196,12 +196,12 @@
                                                 <div>
                                                     @if (item.ConfirmacionContratos.IsVerified)
                                                     {
-                                                        <label class="text-success"><i class="fas fa-check"></i> ARD</label>
+                                                        <label class="text-success"><i class="fas fa-check"></i> Registrado en Siicon</label>
                                                     }
                                                     else
                                                     {
                                                         <label class="text-muted">
-                                                            <i class="far fa-clock"></i> ARD
+                                                            <i class="far fa-clock"></i> Registro en Siicon pendiente
                                                         </label>
                                                     }
                                                 </div>
