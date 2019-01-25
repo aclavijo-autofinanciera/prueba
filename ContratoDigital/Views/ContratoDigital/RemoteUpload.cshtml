@@ -28,7 +28,8 @@
                             <div class="col-12">
                                 <div class="polymer-box">
                                     <label asp-for="Anverso" class="control-label">Anverso del documento de identificación</label>
-                                    <input asp-for="Anverso" class="form-control form-control-lg" required />
+                                    <!--<input asp-for="Anverso" class="form-control form-control-lg" accept=".png,.gif,.jpg,.jpeg,image/*" required />-->
+                                    <input asp-for="Anverso" class="form-control form-control-lg" accept=".png,.gif,.jpg,.jpeg,image/*" required />
                                     <span asp-validation-for="Anverso" class="text-danger"></span>
                                 </div>
                             </div>
@@ -37,7 +38,7 @@
                             <div class="col-12">
                                 <div class="polymer-box">
                                     <label asp-for="Reverso" class="control-label">Reverso del documento de identificación</label>
-                                    <input asp-for="Reverso" class="form-control form-control-lg" required />
+                                    <input asp-for="Reverso" class="form-control form-control-lg" accept=".png,.gif,.jpg,.jpeg,image/*" required />
                                     <span asp-validation-for="Reverso" class="text-danger"></span>
                                 </div>
                             </div>
