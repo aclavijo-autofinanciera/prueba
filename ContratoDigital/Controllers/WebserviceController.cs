@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -148,6 +148,13 @@ namespace ContratoDigital.Controllers
         {
             var usuarios = _userManager.Users.Where(x => x.Agencia == int.Parse(idAgencia)).ToList();
             return usuarios;
+        }
+
+        [HttpGet("GetAsesoresPorAgenciaSiicon/{companiaId}/{codAgencia}")]
+        [Route("api/Freyja/GetAsesoresPorAgenciaSiicon")]
+        public async Task<ActionResult<string>> GetAsesoresPorAgenciaSiicon(string companiaId,int codAgencia)
+        {
+            return await service.SeleccionarAsesoresAgenciaAsync(companiaId, codAgencia);
         }
 
         [HttpGet("GetTipoMedio")]
