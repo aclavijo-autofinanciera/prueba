@@ -41,10 +41,10 @@
                     </div>
                     <div class="col-12 col-md-2">
                         <div class="dropdown">
-                            <button class="btn btn-azul dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-azul dropdown-toggle" type="button" data-target="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Acciones
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu" id="dropdownMenuButton">
                                 <a class="dropdown-item" href="@Url.Action("UserDetails", "Dashboard", new { id = item.UserName })"><i class="fas fa-list-ul"></i> Detalles</a>
                                 <a class="dropdown-item" href="@Url.Action("EditUser", "Dashboard", new { id = item.UserName })"><i class="far fa-edit"></i> Editar</a>
                                 <a class="dropdown-item" href="@Url.Action("DisableUser", "Dashboard", new { id = item.UserName })">

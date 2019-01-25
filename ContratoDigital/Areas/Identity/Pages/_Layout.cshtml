@@ -80,10 +80,10 @@
                                     <a class="nav-link text-uppercase" href="@Url.Action("Index","Home")">Inicio</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="@Url.Action("Index","Prospectos")" id="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="@Url.Action("Index","Prospectos")" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Prospectos
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="contratosDigitalesMenuDropdown">
+                                    <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
                                         <a class="dropdown-item" href="@Url.Action("Index","Prospectos")">Mis prospectos</a>
                                         <a class="dropdown-item" href="@Url.Action("Create","Prospectos")">Registrar prospectos</a>
                                         <a class="dropdown-item" href="@Url.Action("Find","Prospectos")">Buscar prospectos</a>
@@ -97,10 +97,10 @@
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle" href="#" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Contratos digitales
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="contratosDigitalesMenuDropdown">
+                                    <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
                                         <a class="dropdown-item" href="@Url.Action("Index", "ContratoDigital")">Mis últimos contratos</a>
                                         <a class="dropdown-item" href="@Url.Action("Find", "ContratoDigital")">Buscar contratos</a>
                                         <a class="dropdown-item" href="@Url.Action("ListByStatus", "ContratoDigital")">Contratos pendientes</a>
