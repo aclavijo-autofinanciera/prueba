@@ -742,7 +742,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label>Asesor</label>
-                            <select class="form-control form-control-lg" id="asesores" name="asesores">
+                            <select class="form-control form-control-lg" id="asesores" name="asesores" required>
                                 <option>seleccione una opción</option>
                             </select>
                         </div>
@@ -1083,53 +1083,58 @@
     else
     {
         <script>
+            function getAsesorPorAgenciaSiicon() {
+                jQuery(function ($) {
 
-            jQuery(function ($) {
-
-                $.ajax({
-                    type: "GET",
-                    url: "/api/Freyja/GetAsesoresPorAgencia/" + $('#Agencia').val(),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        try {
-                            var asesores = $('#asesores');
-                            asesores.empty();
-                            asesores.append("<option value=\"\">Selecciona una opción</option><option value=\"todos\">Seleccionar todos</option>");
-                            $.each(data, function (i, item) {
-                                var rows = "<option value=\"" + item.id + "\" >" + item.nombre + " " + item.apellido + " </option>";
-                                asesores.append(rows);
-                            });
-                            asesores.removeAttr("readonly disabled");
-                        } catch (e) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/Freyja/GetAsesoresPorAgenciaSiicon/" + $('#idcompania').val() + "/" + $('#Agencia').val(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            try {
+                                var asesores = $('#asesores');
+                                asesores.empty();
+                                asesores.append("<option value=\"\">Selecciona una opción</option>"); //<option value=\"todos\">Seleccionar todos</option>");
+                                $.each(data, function (i, item) {
+                                    var rows = "<option value=\"" + item.CodAsesor + "\" >" + item.Asesor + " </option>";
+                                    asesores.append(rows);
+                                });
+                                asesores.removeAttr("readonly disabled");
+                            } catch (e) {
+                                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                    '<span aria-hidden="true">&times;</span>' +
+                                    '</button>' +
+                                    '</div >');
+                                $(this).addClass('fa-spin');
+                            }
+                        },
+                        failure: function (data) {
                             $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                                 '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                                 '<span aria-hidden="true">&times;</span>' +
                                 '</button>' +
                                 '</div >');
-                            $(this).addClass('fa-spin');
+                            $(this).removeClass('fa-spin');
+                        },
+                        error: function (data) {
+                            $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div >');
+                            $(this).removeClass('fa-spin');
                         }
-                    },
-                    failure: function (data) {
-                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                            '<span aria-hidden="true">&times;</span>' +
-                            '</button>' +
-                            '</div >');
-                        $(this).removeClass('fa-spin');
-                    },
-                    error: function (data) {
-                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                            '<span aria-hidden="true">&times;</span>' +
-                            '</button>' +
-                            '</div >');
-                        $(this).removeClass('fa-spin');
-                    }
+                    });
                 });
+            }
+            getAsesorPorAgenciaSiicon();
+            $('#Agencia').on('change', function () {                
+                getAsesorPorAgenciaSiicon();
             });
         </script>
     }
