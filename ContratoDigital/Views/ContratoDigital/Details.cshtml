@@ -8,6 +8,7 @@
 @model ContratoDigital.Models.Contrato
 
 @{
+   
     ViewData["Title"] = "Detalle del contrato de Adhesión - " + Model.numero_de_contrato;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -99,6 +100,7 @@
                             @{
                                 var user = UserManager.Users.SingleOrDefault(x => x.Id == Model.ConfirmacionContratos.UserId);
                                 Write(user.Nombre + " " + user.Apellido);
+
                             }
 
                         </div>
@@ -107,8 +109,24 @@
                         <div class="col-12 col-md-4 font-weight-bold">Asignado a</div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @{
-                                //user = UserManager.Users.SingleOrDefault(x => x.Asesor == Model.ConfirmacionContratos.Asesor);
-                                //Write(user.Nombre + " " + user.Apellido);
+                                if(Model.ConfirmacionContratos.Asesor >0)
+                                {
+                                    user = UserManager.Users.SingleOrDefault(x => x.Asesor == Model.ConfirmacionContratos.Asesor);
+                                    if (user != null)
+                                    {
+                                        Write(user.Nombre + " " + user.Apellido);
+                                    }
+                                    else
+                                    {
+                                        Write("Código del asesor: " + Model.ConfirmacionContratos.Asesor);
+                                    }
+                                }
+                                else
+                                {
+                                    Write("Sin asesor asignado");
+                                }
+
+
                             }
                         </div>
                     </div>
@@ -211,7 +229,7 @@
                             Procedencia
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @Model.procedencia_documento_identidad_suscriptor
+                            @ViewData["ProcedenciaIdentificacion"]
                         </div>
                     </div>
                 </div>
@@ -330,7 +348,8 @@
                             Ciudad, Departamento, País
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @(Model.ciudad_suscriptor + ", " + ViewData["DepartamentoSuscriptor"] + ", " + Model.pais_suscriptor)
+                            @*(  Model.ciudad_suscriptor + ", " + ViewData["DepartamentoSuscriptor"] + ", Colombia" )*@
+                            @( ViewData["CiudadSuscriptor"] + ", " + ViewData["DepartamentoSuscriptor"] + ", Colombia" )
                         </div>
                     </div>
                 </div>
@@ -414,7 +433,7 @@
                             Ciudad, Departamento, País
                         </div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @(Model.ciudad_empleo_suscriptor + ", " + Model.departamento_empleo_suscriptor + ", " + Model.pais_empleo_suscriptor)
+                            @(ViewData["DepartamentoLaboralSuscriptor"] + ", " + ViewData["CiudadLaboralSuscriptor"] + ", " + Model.pais_empleo_suscriptor)
                         </div>
                     </div>
                 </div>
@@ -707,7 +726,7 @@
                                 Ciudad, Departamento, País
                             </div>
                             <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @(Model.ciudad_empleo_suscriptor_conjunto + " - " + Model.departamento_empleo_suscriptor_conjunto + " - " + Model.pais_empleo_suscriptor_conjunto)
+                                @(ViewData["CiudadLaboralSuscriptorConjunto"] + ", " + ViewData["DepartamentoLaboralSuscriptorConjunto"] + ", Colombia" )
                             </div>
                         </div>
                     </div>
