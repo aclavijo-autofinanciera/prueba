@@ -121,6 +121,9 @@ jQuery(function ($) {
             TipoCliente: {
                 required: true,
                 maxlength: 10
+            },
+            asesores: {
+                required:true
             }
 
         },
@@ -181,6 +184,9 @@ jQuery(function ($) {
             TipoCliente: {
                 required: "Este campo es requerido",
                 maxlength: "Este campo no debe ser mayor a 10 caracteres"
+            },
+            asesores: {
+                required: "Este campo es requerido"
             }
         }
     });
@@ -449,6 +455,9 @@ jQuery(function ($) {
             TipoCliente: {
                 required: true,
                 maxlength: 15
+            },
+            asesores: {
+                required: true
             }
         },
         messages: {
@@ -657,6 +666,9 @@ jQuery(function ($) {
             },
             TipoCliente: {
                 required: "Requerido"
+            },
+            asesores: {
+                required: "Este campo es requerido"
             }
         },
         submitHandler: function (form) {
