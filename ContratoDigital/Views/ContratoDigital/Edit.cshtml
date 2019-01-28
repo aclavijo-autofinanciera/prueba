@@ -1,4 +1,13 @@
-﻿@model ContratoDigital.Models.Contrato
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@model ContratoDigital.Models.Contrato
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+@{
+    //var userID = UserManager.GetUserId(User);
+    var user = UserManager.Users.SingleOrDefault(x => x.Id == UserManager.GetUserId(User));
+}
 @{
 
     ViewData["Title"] = "Contrato Digital";
@@ -119,13 +128,13 @@
                 </section>
                 <!--#endregion-->
                 <!--#region representate legal suscriptor-->
-                
-                    <div class="form-row mt-2 @(Model.documento_identidad_representante_legal > 0 ? Html.Raw("d-none") : Html.Raw("")) ">
-                        <div class="col">
-                            <a class="btn btn-azul text-white" id="isRepreentanteLegal"><i class="fas fa-plus"></i> Agregar representante legal</a>
-                        </div>
+
+                <div class="form-row mt-2 @(Model.documento_identidad_representante_legal > 0 ? Html.Raw("d-none") : Html.Raw("")) ">
+                    <div class="col">
+                        <a class="btn btn-azul text-white" id="isRepreentanteLegal"><i class="fas fa-plus"></i> Agregar representante legal</a>
                     </div>
-                
+                </div>
+
                 <section class="@(Model.documento_identidad_representante_legal > 0 ? Html.Raw("") : Html.Raw("d-none") )" id="RepreentanteLegalSection" autocomplete="off">
                     <div class="card mt-4 border-azul ">
                         <div class="card-header text-white bg-azul">
@@ -411,7 +420,7 @@
                         <a class="btn btn-azul text-white" id="isSuscriptorConjunto"><i class="fas fa-plus"></i> Agregar suscriptor conjunto</a>
                     </div>
                 </div>
-                
+
                 <section class="@(Model.documento_identidad_suscriptor_conjunto > 0 ? Html.Raw("") : Html.Raw("d-none") )" id="SuscriptorConjuntoSection">
 
                     <!--#region suscriptor conjunto-->
@@ -1000,6 +1009,93 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+    {
+    @{bool IsAsesor = await UserManager.IsInRoleAsync(user, "Asesor"); }
+    @if (IsAsesor)
+    {
+        <script>
+
+            jQuery(function ($) {
+                //$("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            function getAsesorPorAgenciaSiicon() {
+                jQuery(function ($) {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/Freyja/GetAsesoresPorAgenciaSiicon/" + $('#idcompania').val() + "/" + $('#Agencia').val(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            try {
+                                var asesores = $('#asesores');
+                                asesores.empty();
+                                //asesores.append("<option value=\"\">Selecciona una opción</option><option value=\"todos\">Seleccionar todos</option>");
+                                $.each(data, function (i, item) {
+                                    var rows = "<option value=\"" + item.CodAsesor + "\" >" + item.Asesor + " </option>";
+                                    asesores.append(rows);
+                                });
+                                asesores.removeAttr("readonly disabled");
+                            } catch (e) {
+                                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                    '<span aria-hidden="true">&times;</span>' +
+                                    '</button>' +
+                                    '</div >');
+                                $(this).addClass('fa-spin');
+                            }
+                        },
+                        failure: function (data) {
+                            $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div >');
+                            $(this).removeClass('fa-spin');
+                        },
+                        error: function (data) {
+                            $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div >');
+                            $(this).removeClass('fa-spin');
+                        }
+                    });
+                });
+            }
+            //getAsesorPorAgenciaSiicon();
+            $('#Agencia').on('change', function () {
+                getAsesorPorAgenciaSiicon();
+            });
+        </script>
+    }
+    <script>
+        jQuery(function ($) {
+            var abono = $("#abono");
+            var saldo = $("#saldo");
+            var debe = $("#debe");
+
+            abono.on("keyup", function () {
+                saldo.val(debe.val() - abono.val());
+            });
+        });
+
+
+    </script>
+}
+
+
 
 
 
