@@ -125,7 +125,8 @@ namespace ContratoDigital.Controllers
                 UserId = _userManager.GetUserId(User),
                 IdEstado = (int)Constants.EstadosProspectos.PorConfirmarCorreo,
                 FechaCreacion = DateTime.Now,
-                Observaciones = form["observaciones"]
+                Observaciones = form["observaciones"],
+                Asesor = int.Parse(form["asesores"])
             };            
             _context.ConfirmacionProspectos.Add(confirmacionProspecto);
             await _context.SaveChangesAsync();
@@ -356,7 +357,7 @@ namespace ContratoDigital.Controllers
             prospecto.ConfirmacionProspecto.TipoCliente = int.Parse(form["TipoCliente"]);
             prospecto.ConfirmacionProspecto.DescripcionTipoCliente = form["TipoClienteDescripcion"];
             prospecto.ConfirmacionProspecto.UserId = _userManager.GetUserId(User);
-            prospecto.ConfirmacionProspecto.Observaciones = form["observaciones"];
+            prospecto.ConfirmacionProspecto.Observaciones = form["observaciones"];            
             prospecto = _utilities.UpdateProspecto(form, prospecto);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details","Prospectos", new {id = prospecto.IdProspecto });
