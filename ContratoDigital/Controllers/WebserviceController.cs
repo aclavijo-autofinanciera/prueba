@@ -157,6 +157,27 @@ namespace ContratoDigital.Controllers
             return await service.SeleccionarAsesoresAgenciaAsync(companiaId, codAgencia);
         }
 
+        [HttpGet("GetNombreAsesor/{companiaId}/{codAgencia}/{asesor}")]
+        [Route("api/Freyja/GetNombreAsesor")]
+        public async Task<ActionResult<string>> GetNombreAsesor(string companiaId, int codAgencia, int asesor)
+        {
+            string result = service.SeleccionarAsesoresAgenciaAsync(companiaId, codAgencia).Result;
+            string nombreAsesor = "Asesor no registrado";
+            if (!string.IsNullOrEmpty(result))
+            {
+                dynamic json = JsonConvert.DeserializeObject<dynamic>(result);
+                foreach (var item in json)
+                {
+                    if (item.CodAsesor == asesor)
+                    {
+                        nombreAsesor = item.Asesor.ToString();
+                        break;
+                    }
+                }
+            }
+            return nombreAsesor;
+        }
+
         [HttpGet("GetTipoMedio")]
         [Route("api/Freyja/GetTipoMedio")]
         public async Task<ActionResult<string>> GetTipoMedio()
