@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MimeKit;
 using MimeKit.Text;
+using Newtonsoft.Json;
+using SiiconWebService;
 
 namespace ContratoDigital
 {
@@ -572,8 +574,37 @@ namespace ContratoDigital
 
             // Asesor Comercial            
             fields.TryGetValue("asesor_comercial", out toSet);
-            var user = _userManager.Users.SingleOrDefault(x => x.Id == contrato.asesor_comercial);
-            toSet.SetValue(user.Nombre + " " + user.Apellido);
+
+            var user = _userManager.Users.SingleOrDefault(x => x.Asesor == contrato.ConfirmacionContratos.Asesor);
+            if(user != null)
+            {
+                toSet.SetValue(user.Nombre + " " + user.Apellido);
+            }
+            else
+            {
+                using (ServiceClient service = new ServiceClient())
+                {
+                    string result = service.SeleccionarAsesoresAgenciaAsync(contrato.id_compania, int.Parse(contrato.agencia)).Result;
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        dynamic json = JsonConvert.DeserializeObject<dynamic>(result);
+                        foreach (var item in json)
+                        {
+                            if(item.CodAsesor == contrato.ConfirmacionContratos.Asesor)
+                            {
+                                toSet.SetValue(item.Asesor.ToString());
+                                break;
+                            }
+                            
+                        }
+                    }
+                    else
+                    {
+                        toSet.SetValue("Asesor no registrado");
+                    }
+                }
+            }
+            
 
             // Aceptación del contrato
             fields.TryGetValue("notificacion_aceptacion", out toSet);
