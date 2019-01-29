@@ -109,17 +109,9 @@
                         <div class="col-12 col-md-4 font-weight-bold">Asignado a</div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @{
-                                if(Model.ConfirmacionContratos.Asesor >0)
+                                if(Model.ConfirmacionContratos.Asesor > 0)
                                 {
-                                    user = UserManager.Users.SingleOrDefault(x => x.Asesor == Model.ConfirmacionContratos.Asesor);
-                                    if (user != null)
-                                    {
-                                        Write(user.Nombre + " " + user.Apellido);
-                                    }
-                                    else
-                                    {
-                                        Write("Código del asesor: " + Model.ConfirmacionContratos.Asesor);
-                                    }
+                                     Html.Raw(ViewData["NombreAsesor"] + " <br>Código del asesor: " + Model.ConfirmacionContratos.Asesor);
                                 }
                                 else
                                 {
@@ -1212,7 +1204,7 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            @if (Model.ConfirmacionContratos.IsPaid == false)
+                            @if (Model.ConfirmacionContratos.IsAccepted == false)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" href="@Url.Action("Edit", "ContratoDigital", new {id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
