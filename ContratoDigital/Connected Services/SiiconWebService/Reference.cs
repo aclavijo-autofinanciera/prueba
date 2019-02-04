@@ -37,6 +37,9 @@ namespace SiiconWebService
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarAsesor", ReplyAction="http://tempuri.org/IService/SelecccionarAsesorResponse")]
         System.Threading.Tasks.Task<string> SelecccionarAsesorAsync(long Cedula);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarAsesorCodigo", ReplyAction="http://tempuri.org/IService/SelecccionarAsesorCodigoResponse")]
+        System.Threading.Tasks.Task<string> SelecccionarAsesorCodigoAsync(int Codigo);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarAsesoresAgencia", ReplyAction="http://tempuri.org/IService/SeleccionarAsesoresAgenciaResponse")]
         System.Threading.Tasks.Task<string> SeleccionarAsesoresAgenciaAsync(string CompañiaId, int CodAgencia);
         
@@ -106,6 +109,28 @@ namespace SiiconWebService
                     string Profesion, 
                     string TerceroId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CrearCierreComercial", ReplyAction="http://tempuri.org/IService/CrearCierreComercialResponse")]
+        System.Threading.Tasks.Task<string> CrearCierreComercialAsync(
+                    string PrimerNombre, 
+                    string SegundoNombre, 
+                    string PrimerApellido, 
+                    string SegundoApellido, 
+                    int TipoDocumentoIdentidadId, 
+                    string NumeroDocumento, 
+                    int Contrato, 
+                    int CodTipoBien, 
+                    int TipoMedioId, 
+                    int MedioId, 
+                    int CodAgencia, 
+                    int CodAsesor, 
+                    string FechaAdhesion, 
+                    float ValorBien, 
+                    int CodConcesionario, 
+                    int CodMarca, 
+                    string FechaCierre, 
+                    string CompañiaId, 
+                    string TerceroId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CrearContrato", ReplyAction="http://tempuri.org/IService/CrearContratoResponse")]
         System.Threading.Tasks.Task<string> CrearContratoAsync(
                     int Contrato, 
@@ -140,6 +165,18 @@ namespace SiiconWebService
                     string CompañiaId, 
                     string TerceroId, 
                     string ContratoPagos);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarTiposPagos", ReplyAction="http://tempuri.org/IService/SeleccionarTiposPagosResponse")]
+        System.Threading.Tasks.Task<string> SeleccionarTiposPagosAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarCuentasBancariasCompañia", ReplyAction="http://tempuri.org/IService/SeleccionarCuentasBancariasCompañiaResponse")]
+        System.Threading.Tasks.Task<string> SeleccionarCuentasBancariasCompañiaAsync(string CompañiaId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarConcesionarioCompañia", ReplyAction="http://tempuri.org/IService/SeleccionarConcesionarioCompañiaResponse")]
+        System.Threading.Tasks.Task<string> SeleccionarConcesionarioCompañiaAsync(string CompañiaId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarCierreComercialCompañia", ReplyAction="http://tempuri.org/IService/SeleccionarCierreComercialCompañiaResponse")]
+        System.Threading.Tasks.Task<string> SeleccionarCierreComercialCompañiaAsync(string CompañiaId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
@@ -225,6 +262,11 @@ namespace SiiconWebService
         public System.Threading.Tasks.Task<string> SelecccionarAsesorAsync(long Cedula)
         {
             return base.Channel.SelecccionarAsesorAsync(Cedula);
+        }
+        
+        public System.Threading.Tasks.Task<string> SelecccionarAsesorCodigoAsync(int Codigo)
+        {
+            return base.Channel.SelecccionarAsesorCodigoAsync(Codigo);
         }
         
         public System.Threading.Tasks.Task<string> SeleccionarAsesoresAgenciaAsync(string CompañiaId, int CodAgencia)
@@ -322,6 +364,30 @@ namespace SiiconWebService
             return base.Channel.CrearPersonaNaturalAsync(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, TipoDocumentoIdentidadId, NumeroDocumento, CiudadExpedicionId, FechaNacimiento, CiudadNacimientoId, SexoId, EstadoCivilId, Email, DireccionNotifiacion, BarrioNotifiacion, TelefonoNotifiacion, CelularNotificacion, DepartamentoNotificacionId, CiudadNotificacionId, EmpresaLabora, CargoLabora, DireccionLabora, BarrioLabora, TelefonoLabora, CelularOficina, DepartamentoLaboraId, CiudadLaboraId, IngresoMensual, EgresoMensual, Profesion, TerceroId);
         }
         
+        public System.Threading.Tasks.Task<string> CrearCierreComercialAsync(
+                    string PrimerNombre, 
+                    string SegundoNombre, 
+                    string PrimerApellido, 
+                    string SegundoApellido, 
+                    int TipoDocumentoIdentidadId, 
+                    string NumeroDocumento, 
+                    int Contrato, 
+                    int CodTipoBien, 
+                    int TipoMedioId, 
+                    int MedioId, 
+                    int CodAgencia, 
+                    int CodAsesor, 
+                    string FechaAdhesion, 
+                    float ValorBien, 
+                    int CodConcesionario, 
+                    int CodMarca, 
+                    string FechaCierre, 
+                    string CompañiaId, 
+                    string TerceroId)
+        {
+            return base.Channel.CrearCierreComercialAsync(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, TipoDocumentoIdentidadId, NumeroDocumento, Contrato, CodTipoBien, TipoMedioId, MedioId, CodAgencia, CodAsesor, FechaAdhesion, ValorBien, CodConcesionario, CodMarca, FechaCierre, CompañiaId, TerceroId);
+        }
+        
         public System.Threading.Tasks.Task<string> CrearContratoAsync(
                     int Contrato, 
                     int Persona1Id, 
@@ -357,6 +423,26 @@ namespace SiiconWebService
                     string ContratoPagos)
         {
             return base.Channel.CrearContratoAsync(Contrato, Persona1Id, Persona2Id, FechaAdhesion, CodAgencia, CodAsesor, CodConvenio, CodConcesionario, TipoMedioId, MedioId, MedioFechaId, CodTipoBien, BienId, ValorBien, CodMarca, TipoBienParametroId, PorcentajeInscripcion, PorcentajeAdministracion, DescuentoId, PorcentajeDescuento, MontoInscripcion, MontoInscripcionIVA, Plazo, MontoAdministracion, MontoAdministracionIVA, CuotaNeta, SuscriptorReferente, TipoVentaId, FechaCierre, CompañiaId, TerceroId, ContratoPagos);
+        }
+        
+        public System.Threading.Tasks.Task<string> SeleccionarTiposPagosAsync()
+        {
+            return base.Channel.SeleccionarTiposPagosAsync();
+        }
+        
+        public System.Threading.Tasks.Task<string> SeleccionarCuentasBancariasCompañiaAsync(string CompañiaId)
+        {
+            return base.Channel.SeleccionarCuentasBancariasCompañiaAsync(CompañiaId);
+        }
+        
+        public System.Threading.Tasks.Task<string> SeleccionarConcesionarioCompañiaAsync(string CompañiaId)
+        {
+            return base.Channel.SeleccionarConcesionarioCompañiaAsync(CompañiaId);
+        }
+        
+        public System.Threading.Tasks.Task<string> SeleccionarCierreComercialCompañiaAsync(string CompañiaId)
+        {
+            return base.Channel.SeleccionarCierreComercialCompañiaAsync(CompañiaId);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

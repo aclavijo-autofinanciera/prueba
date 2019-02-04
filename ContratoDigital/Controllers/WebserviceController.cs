@@ -616,6 +616,21 @@ namespace ContratoDigital.Controllers
             return result + "]";
         }
 
+        /// <summary>
+        /// Registra los contrataos en el Siicon en cierre comercial
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionResult<string>> RegistrarCierreComercial()
+        {
+
+            return "";
+        }
+
+        public async Task<ActionResult<string>> CreateContratoCierreComercial(Contrato contrato)
+        {
+            return "";
+        }
+
         #region reports
 
         [HttpGet("GetReporteContratos")]
