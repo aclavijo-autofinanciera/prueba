@@ -59,7 +59,15 @@ jQuery(function ($) {
         maxDate: "-18Y"
     });
       
-    
+    //Validación de ARD Numero
+    $(".ARDNumeroValidation").validate({
+        rules: {
+            numero_de_contrato: {
+                required: true,
+                digits:true
+            }
+        }
+    });
 
     // Validación de prospecto.
     $(".ProspectoValidation").validate({
@@ -188,6 +196,10 @@ jQuery(function ($) {
             asesores: {
                 required: "Este campo es requerido"
             }
+        },
+        submitHandler: function (form) { // <- pass 'form' argument in
+            $(".submitbutton").attr("disabled", true);
+            form.submit(); // <- use 'form' argument here.
         }
     });
 
@@ -672,6 +684,7 @@ jQuery(function ($) {
             }
         },
         submitHandler: function (form) {
+            $(".submitbutton").attr("disabled", true);
             form.submit();
         }
     });
