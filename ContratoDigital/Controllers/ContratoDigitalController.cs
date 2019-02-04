@@ -277,7 +277,14 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Details(int id)
         {
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            
             Status status = new Status(_context);
+            if(contrato.ConfirmacionContratos.Asesor != 0)
+            {
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+                ViewData["NombreAsesor"] = webservice.GetNombreAsesor(contrato.id_compania, int.Parse(contrato.agencia), contrato.ConfirmacionContratos.Asesor).Result.Value;
+            }
+            
             ViewData["TipoIdentificacionSuscriptor"] = status.GetStatusName(int.Parse(contrato.tipo_documento_identidad_suscriptor));
             ViewData["ProcedenciaIdentificacion"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor));
             ViewData["SexoSuscriptor"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor));
@@ -314,7 +321,7 @@ namespace ContratoDigital.Controllers
         {
             GetStatusList();
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
-            if (contrato.ConfirmacionContratos.IsPaid)
+            if (contrato.ConfirmacionContratos.IsAccepted)
             {
                 return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
             }
@@ -343,7 +350,7 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Edit(IFormCollection form)
         {            
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == int.Parse(form["IdContrato"]));
-            if(contrato.ConfirmacionContratos.IsPaid)
+            if(contrato.ConfirmacionContratos.IsAccepted)
             {
                 return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
             }
@@ -691,8 +698,7 @@ namespace ContratoDigital.Controllers
                 confirmacionContrato.IsAccepted = true;
                 confirmacionContrato.FechaAceptacion = DateTime.Now;
                 confirmacionContrato.FechaReferenciaPago = DateTime.Now;
-                //confirmacionContrato.ReferenciaPago = json.First.ReferenciaPago; //referenciaPago;                
-
+                //confirmacionContrato.ReferenciaPago = json.First.ReferenciaPago; //referenciaPago;  
                 await _context.SaveChangesAsync();
                 ViewData["IsConfirmed"] = true;
 
@@ -805,6 +811,7 @@ namespace ContratoDigital.Controllers
             {
                 ViewData["IsConfirmed"] = false;
             }
+            
             return View();
         }
 
