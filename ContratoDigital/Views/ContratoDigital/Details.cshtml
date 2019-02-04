@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 @using ContratoDigital.Areas.Identity.Data
 @inject SignInManager<ContratoDigitalUser> SignInManager
 @inject UserManager<ContratoDigitalUser> UserManager
@@ -111,7 +111,13 @@
                             @{
                                 if(Model.ConfirmacionContratos.Asesor > 0)
                                 {
-                                     Html.Raw(ViewData["NombreAsesor"] + " <br>Código del asesor: " + Model.ConfirmacionContratos.Asesor);
+                                    @*ViewData["NombreAsesor"] 
+                                    <br>
+                                    Write("Código del asesor");
+                                    Model.ConfirmacionContratos.Asesor);*@
+                                    @ViewData["NombreAsesor"]  
+                                    @Html.Raw("<br/>") 
+                                    @("Código del asesor: " + Model.ConfirmacionContratos.Asesor)
                                 }
                                 else
                                 {
