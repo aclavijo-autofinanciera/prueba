@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+
+
+@model ContratoDigital.Models.Contrato
+
+@{
+
+    ViewData["Title"] = "ARD: Número de contrato";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Busqueda por rango de fechas
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <form method="post" class="ARDNumeroValidation bootstrapValidation" autocomplete="off">
+                    <!-- begin form-->
+                    <div class="form-row justify-content-center">
+                        <div class="col-12">
+                            <div class="polymer-box">
+                                <div class="row align-content-center">
+                                    <div class="col-6">
+                                        <label for="fecha_inicio">Fecha inicio</label>
+                                        <input type="text" id="fecha_inicio" name="fecha_inicio" class="form-control form-control-lg text-uppercase" placeholder="Ej: 2019-12-31" required autocomplete="off">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="fecha_fin">Fecha fin</label>
+                                        <input type="text" id="fecha_fin" name="fecha_fin" class="form-control form-control-lg text-uppercase" placeholder="Ej: 2019-12-31" required autocomplete="off">
+                                    </div>                                    
+                                </div>
+                                <div class="row align-content-center">
+                                    <div class="col-6">
+                                        <div class="col text-center mt-3">
+                                            <label for="fecha_fin"></label>
+                                            <button type="submit" class="btn btn-lg btn-azul">Envíar</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end form-->
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

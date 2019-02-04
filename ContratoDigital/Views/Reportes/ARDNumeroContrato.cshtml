@@ -1,0 +1,1232 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+
+
+@model ContratoDigital.Models.Contrato
+
+@{
+
+    ViewData["Title"] = "ARD: Número de contrato";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                        Busqueda de contrato
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <form method="post" class="ARDNumeroValidation bootstrapValidation" autocomplete="off">
+                    <!-- begin form-->
+                    <div class="form-row justify-content-center">
+                        <div class="col-12">
+                            <div class="polymer-box">
+                                <div class=" row align-content-center">
+                                    <div class="col-8">
+                                        <label for="numero_de_contrato">Número de contrato</label>
+                                        <input type="text" id="_numerodecontrato" name="_numerodecontrato" class="form-control form-control-lg text-uppercase" placeholder="Ej: 8100001" required autocomplete="off">
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="col text-center mt-3">
+                                            <label for="numero_de_contrato"></label>
+                                            <button type="submit" class="btn btn-lg btn-azul">Envíar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- end form-->
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            @if(Model != null)
+            { 
+                <!-- Begin -->
+                <div class="col-12 col-md-8 error-area">
+
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <h4 class="text-center">Datos suscriptor</h4>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Estado del contrato
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65">
+                                @*ViewData["Estado"]*@
+                                <hr />
+                                <div class="isAccepted">
+                                    @if (Model.ConfirmacionContratos.IsAccepted)
+                                    {
+                                        <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato aceptadas</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                    }
+                                </div>
+                                <div class="isIdUploaded">
+                                    @if (Model.ConfirmacionContratos.IsIdUploaded)
+                                    {
+                                        <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+
+                                    }
+                                </div>
+                                <div class="isPaid">
+                                    @if (Model.ConfirmacionContratos.IsPaid)
+                                    {
+
+                                        <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-muted"><i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+
+                                    }
+                                </div>
+                                <div class="isRegistered">
+                                    @if (Model.ConfirmacionContratos.IsRegistered)
+                                    {
+                                        <label class="text-success"><i class="fas fa-check"></i> Registrado Siicon</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
+                                    }
+                                </div>                                
+                                <hr />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Registrado por</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @{
+                                    var user = UserManager.Users.SingleOrDefault(x => x.Id == Model.ConfirmacionContratos.UserId);
+                                    Write(user.Nombre + " " + user.Apellido);
+
+                                }
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Asignado a</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @{
+                                    if (Model.ConfirmacionContratos.Asesor > 0)
+                                    {
+                                        Html.Raw(ViewData["NombreAsesor"] + " <br>Código del asesor: " + Model.ConfirmacionContratos.Asesor);
+                                    }
+                                    else
+                                    {
+                                        Write("Sin asesor asignado");
+                                    }
+
+
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Fecha de registro</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaCreacion)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Nombre
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @(Model.primer_nombre + " " + Model.segundo_nombre + " " + Model.primer_apellido + " " + Model.segundo_apellido)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Documento Identidad
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @ViewData["TipoIdentificacionSuscriptor"] - @Model.documento_identidad_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.DocumentoIdentidad != null)
+                    {
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 text-center">                                    
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentoModal" data-fetched="false" data-idcontrato="@Model.IdContrato" id="showDocs">
+                                        Ver documentos
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <a href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Adjuntar cédula</a>
+                                    <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar adjunto de documento</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    <section>
+                        <!-- Modal -->
+                        <div class="modal fade" id="documentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Documento identidad - @Model.documento_identidad_suscriptor </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <section class="DocumentoModal">
+                                            <div class="polymer-box">
+                                                <h5>Anverso</h5>
+                                                <div class="AnversoDocumento"></div>
+                                            </div>
+                                            <div class="polymer-box">
+                                                <h5>Reverso</h5>
+                                                <div class="ReversoDocumento"></div>
+                                            </div>
+                                        </section>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Procedencia
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @ViewData["ProcedenciaIdentificacion"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (!String.IsNullOrEmpty(Model.nombre_razon_social_representante_legal))
+                {
+
+                    <div class="col-12 col-md-8 mt-3">
+                        <div class="polymer-box">
+                            <h5>Representante legal</h5>
+                        </div>
+                        <section class="polymer-box">
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Nombre representante legal
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.nombre_razon_social_representante_legal
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Documento identidad
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @(Model.tipo_documento_representante_legal + " - " + Model.documento_identidad_representante_legal)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Procedencia
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.procedencia_documento_identidad_representante_legal
+                                </div>
+                            </div>
+
+                        </section>
+                    </div>
+
+                }
+
+
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Fecha de nacimiento
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("{0:dd'/'MM'/'yyyy}", Model.fecha_nacimiento_suscriptor)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Lugar de nacimiento
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.lugar_nacimiento_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Sexo
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @ViewData["SexoSuscriptor"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Estado civil
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @ViewData["EstadoCivilSuscriptor"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Dirección domicilio
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.direccion_domicilio_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Ciudad, Departamento, País
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @*(  Model.ciudad_suscriptor + ", " + ViewData["DepartamentoSuscriptor"] + ", Colombia" )*@
+                                @( ViewData["CiudadSuscriptor"] + ", " + ViewData["DepartamentoSuscriptor"] + ", Colombia" )
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Teléfonos
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.telefono_suscriptor<br />@Model.celular_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Empresa donde labora
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.empresa_empleadora_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Cargo
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.cargo_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Ingresos y egresos
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                Ingresos: @String.Format("$ {0:0,0.00}", Model.ingresos_mensuales_suscriptor) <br />
+                                Egresos: @String.Format("$ {0:0,0.00}", Model.egresos_mensuales_suscriptor)
+                                @if (Model.otros_ingresos_suscriptor > 0)
+                                {
+                                    <br />@("Otros: " + String.Format("$ {0:0,0.00}", Model.otros_ingresos_suscriptor))
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Dirección laboral
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.direccion_empleo_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Ciudad, Departamento, País
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @(ViewData["DepartamentoLaboralSuscriptor"] + ", " + ViewData["CiudadLaboralSuscriptor"] + ", " + Model.pais_empleo_suscriptor)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Teléfonos laborales
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.telefono_empleo_suscriptor<br />@Model.celular_empleo_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Profesión o actividad económica
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.profesion_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Envío de correspondencia
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.envio_correspondencia_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4  font-weight-bold">
+                                Email
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.email_suscriptor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.documento_identidad_suscriptor_conjunto > 0)
+                {
+                    <div class="col-12 col-md-8 mt-4 font-weight-bold">
+                        <div class="polymer-box">
+                            <h4 class="text-center">Datos suscriptor conjunto</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Nombre completo
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.nombre_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Documento identidad
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @(ViewData["TipoIdentificacionSuscriptorConjunto"] + " - " + Model.documento_identidad_suscriptor_conjunto)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    De
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.procedencia_documento_identidad_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!String.IsNullOrEmpty(Model.representante_legal_suscriptor_conjunto))
+                    {
+                        <div class="col-12 col-md-8 mt-4">
+                            <div class="polymer-box">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        Nombre representante legal
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        @Model.representante_legal_suscriptor_conjunto
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        Documento de identidad
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        @(ViewData["TipoIdentificacionLegalConjunto"] + " - " + Model.documento_identidad_representante_legal_suscriptor_conjunto)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">
+                                        De
+                                    </div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        @Model.procedencia_identificacion_representante_legal_suscriptor_conjunto
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Fecha de nacimiento
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.fecha_nacimiento_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Lugar de nacimiento
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.lugar_nacimiento_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Sexo
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @ViewData["SexoSuscriptorConjunto"]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Estado civil
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @ViewData["EstadoCivilSuscriptorConjunto"]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Dirección domicilio
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.direccion_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Ciudad, Departamento, País
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @(Model.ciudad_suscriptor_conjunto + ", " + ViewData["DepartamentoSuscriptorConjunto"] + ", " + Model.pais_suscriptor_conjunto)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Teléfonos
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.telefono_suscriptor_conjunto<br />@Model.celular_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Empresa donde labora
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.empresa_empleadora_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Cargo
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.cargo_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Ingresos y Egresos
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    Ingresos: @String.Format("$ {0:0,0.00}", Model.ingresos_mensuales_suscriptor_conjunto)<br />
+                                    Egresos:  @String.Format("$ {0:0,0.00}", Model.egresos_mensuales_suscriptor_conjunto)<br />
+                                    @if (Model.otros_ingresos_suscriptor_conjunto > 0)
+                                    {
+                                        String.Format("Otros: $ {0:0,0.00}", Model.otros_ingresos_suscriptor_conjunto);
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Dirección laboral
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.direccion_empleo_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Ciudad, Departamento, País
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @(ViewData["CiudadLaboralSuscriptorConjunto"] + ", " + ViewData["DepartamentoLaboralSuscriptorConjunto"] + ", Colombia" )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Teléfonos
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.telefono_empleo_suscriptor_conjunto<br />@Model.celular_empleo_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Profesión o actividad económica
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.profesion_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Envío de correspondencia
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.correspondencia_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Email
+                                </div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @Model.email_suscriptor_conjunto
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Agencia
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.ConfirmacionContratos.DescripcionAgencia
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Tipo Medio
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.ConfirmacionContratos.DescripcionTipoMedio
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Tipo medio agencia
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.ConfirmacionContratos.DescripcionMedio
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Tipo de cliente
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.ConfirmacionContratos.DescripcionTipoCliente
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8 mt-4">
+                    <div class="polymer-box">
+                        <h3 class="text-center">Características del bien</h3>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Compañía
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.compania
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Tipo de bien
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.tipo_de_bien
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Marca exclusiva
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.marca_exclusiva_bien
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Detalles del bien
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.descripcion_bien
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Codigo del bien
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.codigo_bien
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Valor del bien
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.valor_bien)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                IVA
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.porcentaje_iva %
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Porcentaje inscripción
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.porcentaje_cuota_ingreso %
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Porcentaje administración
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.porcentaje_administracion %
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Tipo de cuota
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.cuota_bien
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Plazo y Número participantes
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.plazo_bien
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8 mt-4 font-weight-bold">
+                    <div class="polymer-box">
+                        <h3 class="text-center">Pago inicial</h3>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Cuota de ingreso
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.cuota_ingreso)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                I.V.A. sobre la cuota de ingreso
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.iva_cuota_ingreso)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Total cuota de ingreso
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.total_cuota_ingreso)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Primera cuota neta
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.primera_cuota_neta)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Administración
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.administracion)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                I.V.A. sobre la administración
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.iva_administracion)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Total cuota bruta
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.total_cuota_bruta)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box alert alert-success" role="alert">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Valor cuota primer pago
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @String.Format("$ {0:0,0.00}", Model.valor_primer_pago)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Observaciones
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @Model.ConfirmacionContratos.Observaciones
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8 mt-4 font-weight-bold">
+                    <div class="polymer-box">
+                        <h3 class="text-center">Cuadro resumen de pago</h3>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                Saldo restante
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                @{
+                                    double saldo = Model.valor_primer_pago;
+                                    foreach (var item in Model.Pagos)
+                                    {
+                                        saldo -= item.Monto;
+                                    }
+                                }
+                                @if (saldo > 0)
+                                {
+                                    <label class="text-warning"><i class="far fa-clock"></i> @string.Format("{0:0,0.00}", saldo)</label>
+                                }
+                                else if (saldo <= 0)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> @string.Format("{0:0,0.00}", saldo)</label>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                <label class="text-primary">Recibos emitidos</label>
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+
+                                @if (Model.RecibosPago.Count > 0)
+                                {
+                                    @foreach (var item in Model.RecibosPago)
+                                    {
+                                        <div class="row">
+                                            <div class="col-12 col-md-4">$ @String.Format("{0:0,0.00}", item.Monto)</div>
+                                            <div class="col-12 col-md-4">@String.Format("{0:yyyy-MM-dd}", item.FechaEmision)</div>
+                                            <div class="col-12 col-md-4">@item.ReferenciaSiicon</div>
+
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    Write("No hay recibos emitidos.");
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-8">
+                    <div class="polymer-box">
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">
+                                <label class="text-success">Pagos Recibidos</label>
+                            </div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+
+                                @if (Model.RecibosPago.Count > 0)
+                                {
+                                    @foreach (var item in Model.Pagos)
+                                    {
+                                        <div class="row">
+                                            <div class="col-12 col-md-4">$ @String.Format("{0:0,0.00}", item.Monto)</div>
+                                            <div class="col-12 col-md-4">@String.Format("{0:yyyy-MM-dd}", item.FechaPago)</div>
+                                            <div class="col-12 col-md-4">@item.ReferenciaSiicon</div>
+
+
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    Write("No hay pagos recibidos.");
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- End -->
+            }
+        </div>
+
+
+
+
+        
+        
+    </div>
+</section>
+
