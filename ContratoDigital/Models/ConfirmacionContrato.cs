@@ -18,6 +18,7 @@ namespace ContratoDigital.Models
         public bool IsPaid { get; set; }
         public bool IsVerified { get; set; }
         public bool IsRegistered { get; set; }
+        public bool IsRegisteredCommercial { get; set; }
         public DateTime FechaVerificacion { get; set; }
         public DateTime FechaAceptacion { get; set; }
         public DateTime FechaPago { get; set; }
@@ -35,6 +36,7 @@ namespace ContratoDigital.Models
         public int Asesor { get; set; }
         public string UserId { get; set; }
         public int IdContratoSiicon { get; set; }
+        public int IdCierreComercial { get; set; }
 
         // ID de registro de personas en el Siicon
         public int IdSuscriptor { get; set; }
@@ -44,6 +46,7 @@ namespace ContratoDigital.Models
 
         public int IdEstado { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public DateTime FechaCierreComercial { get; set; }
         public string Observaciones { get; set; }
 
 
