@@ -91,14 +91,41 @@ namespace ContratoDigital.Controllers
             {
                 return RedirectToAction("Find", "Prospectos", new { errorid = 1 });
             }
+            DateTime fechaCierre = new DateTime();
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(prospecto.IdCompania).Result.Value);
+            if (jsonFechaCierre.First.FechaCierre != null)
+            {
+                string value = jsonFechaCierre.First.FechaCierre;
+                fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            if (DateTime.Now > fechaCierre)
+            {
+                ViewData["Warning"] = "Fecha límite de cierre comercial. Debe esperar a que esta vuelva a abrir nuevmaente";
+            }
             return View(prospecto);
         }
 
         [HttpPost]
         public async Task<IActionResult> Fill(IFormCollection form)
         {
-
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            DateTime fechaCierre = new DateTime();
             Contrato contrato = _utilities.FillContrato(form);
+
+
+            dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(contrato.id_compania).Result.Value);
+            if (jsonFechaCierre.First.FechaCierre != null)
+            {
+                string value = jsonFechaCierre.First.FechaCierre;
+                fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            if(DateTime.Now>fechaCierre)
+            {
+                return RedirectToAction("Details", "Prospectos",  new { id = contrato.IdProspecto});
+            }
+
+            
             Contrato numeroContrato = _context.Contratos.OrderBy(x => x.numero_de_contrato).LastOrDefault();
             if (numeroContrato == null)
             {
@@ -111,7 +138,7 @@ namespace ContratoDigital.Controllers
             contrato.asesor_comercial = _userManager.GetUserId(User);
             _context.Add(contrato);
             await _context.SaveChangesAsync();
-
+            
             ConfirmacionContrato confirmacionContrato = new ConfirmacionContrato()
             {
                 IdContrato = contrato.IdContrato,
@@ -129,6 +156,7 @@ namespace ContratoDigital.Controllers
                 DescripcionTipoCliente = form["TipoClienteDescripcion"],
                 UserId = _userManager.GetUserId(User),
                 FechaCreacion = DateTime.Now,
+                FechaCierreComercial = fechaCierre,
                 Observaciones = form["observaciones"],
                 IdEstado = (int)Constants.EstadosContratos.PorAceptarCondiciones                
             };
@@ -138,7 +166,7 @@ namespace ContratoDigital.Controllers
 
             _context.ConfirmacionContratos.Add(confirmacionContrato);
 
-            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            
             string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), double.Parse(form["abono"]), confirmacionContrato.IdContrato).Result.Value;
             dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
             
@@ -279,12 +307,12 @@ namespace ContratoDigital.Controllers
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             
             Status status = new Status(_context);
-            if(contrato.ConfirmacionContratos.Asesor != 0)
-            {
-                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            if (contrato.ConfirmacionContratos.Asesor != 0)
+            {                
                 ViewData["NombreAsesor"] = webservice.GetNombreAsesor(contrato.id_compania, int.Parse(contrato.agencia), contrato.ConfirmacionContratos.Asesor).Result.Value;
-            }
-            
+            }            
+
             ViewData["TipoIdentificacionSuscriptor"] = status.GetStatusName(int.Parse(contrato.tipo_documento_identidad_suscriptor));
             ViewData["ProcedenciaIdentificacion"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor));
             ViewData["SexoSuscriptor"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor));
@@ -689,6 +717,7 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> ConfirmarCorreo(string guuid, int id)
         {
             ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == confirmacionContrato.IdContrato);
             //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
             //WebserviceController webservice = new WebserviceController(_context,_emailConfiguration,_hostingEnvironment, _utilities, _userManager);
             //string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
@@ -698,13 +727,24 @@ namespace ContratoDigital.Controllers
                 confirmacionContrato.IsAccepted = true;
                 confirmacionContrato.FechaAceptacion = DateTime.Now;
                 confirmacionContrato.FechaReferenciaPago = DateTime.Now;
-                //confirmacionContrato.ReferenciaPago = json.First.ReferenciaPago; //referenciaPago;  
+
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+                string cierreResult = webservice.RegistrarCierreComercial(contrato).Result.Value;
+                confirmacionContrato.IdCierreComercial = int.Parse(cierreResult);
+                if(confirmacionContrato.IdCierreComercial > 0)
+                {
+                    confirmacionContrato.IsRegisteredCommercial = true;
+                }
+
                 await _context.SaveChangesAsync();
                 ViewData["IsConfirmed"] = true;
 
+                
+
+
                 MemoryStream stream = new MemoryStream();
 
-                Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == confirmacionContrato.IdContrato);
+                
                 string src = "";
                 if (contrato.id_compania.Equals(Constants.GuuidElectro))
                 {
