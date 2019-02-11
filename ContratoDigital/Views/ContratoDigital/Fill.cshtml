@@ -19,6 +19,21 @@
     var departamento = (IQueryable<Estado>)ViewData["Departamento"];
 }
 
+@if (ViewData["Warning"] != null)
+{
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger mb-0" role="alert">
+                        @ViewData["Warning"]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -897,7 +912,7 @@
                     <div class="form-row mt-4">
                         <div class="col-12"><hr /></div>
                         <div class="col-12 col-md-6">
-                            <label for="pago_parcial">Abonos</label>                            
+                            <label for="pago_parcial">Abonos</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="abono_addon">$</span>
@@ -906,8 +921,10 @@
                                 <input type="hidden" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" id="debe" name="debe" />
                             </div>
                             <br />
-                            <p>El recibo de pago de la cuota inicial que se le enviará al cliente será por el monto descrito anteriormente. <br/>                            
-                            Si el monto es menor a la cuota inicial, se irá descontando con cada abono realizado.</p>
+                            <p>
+                                El recibo de pago de la cuota inicial que se le enviará al cliente será por el monto descrito anteriormente. <br />
+                                Si el monto es menor a la cuota inicial, se irá descontando con cada abono realizado.
+                            </p>
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="saldo">Saldo restante</label>
@@ -1058,11 +1075,15 @@
                 </section>
                 <!--#endregion-->
 
-                <div class="form-row mt-4">
-                    <div class="col text-center">
-                        <button type="submit" class="btn btn-lg btn-azul submitbutton">Envíar</button>
+                @if (ViewData["Warning"] == null)
+                {
+                    <div class="form-row mt-4">
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-lg btn-azul submitbutton">Envíar</button>
+                        </div>
                     </div>
-                </div>
+                }
+
 
             </form>
         </div>
@@ -1076,7 +1097,7 @@
         <script>
 
             jQuery(function ($) {
-                $("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');                
+                $("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');
             });
         </script>
     }
@@ -1133,12 +1154,12 @@
                 });
             }
             getAsesorPorAgenciaSiicon();
-            $('#Agencia').on('change', function () {                
+            $('#Agencia').on('change', function () {
                 getAsesorPorAgenciaSiicon();
             });
         </script>
     }
-        <script>
+    <script>
             jQuery(function ($) {
                 var abono = $("#abono");
                 var saldo = $("#saldo");
@@ -1148,9 +1169,9 @@
                     saldo.val(debe.val() - abono.val());
                 });
             });
-            
 
-        </script>
+
+    </script>
 }
 
 
