@@ -620,15 +620,76 @@ namespace ContratoDigital.Controllers
         /// Registra los contrataos en el Siicon en cierre comercial
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionResult<string>> RegistrarCierreComercial()
+        public async Task<ActionResult<string>> RegistrarCierreComercial(Contrato contrato)
         {
+            var user = _userManager.Users.SingleOrDefault(x => x.Id == contrato.asesor_comercial);
+            ContratoCierreComercial cierreComercial = new ContratoCierreComercial();
+            cierreComercial.PrimerNombre = contrato.primer_nombre;
+            cierreComercial.SegundoNombre = !String.IsNullOrEmpty(contrato.segundo_nombre) ? contrato.segundo_nombre : "-";
+            cierreComercial.PrimerApellido = contrato.primer_apellido;
+            cierreComercial.SegundoApellido = !String.IsNullOrEmpty(contrato.segundo_apellido) ? contrato.segundo_apellido : "-"; ;
+            cierreComercial.TipoDocumentoIdentidadId = int.Parse(contrato.tipo_documento_identidad_suscriptor);
+            cierreComercial.NumeroDocumento = contrato.documento_identidad_suscriptor.ToString();
+            cierreComercial.Contrato = contrato.numero_de_contrato;
+            cierreComercial.CodTipoBien = contrato.id_tipo_de_bien;
+            cierreComercial.TipoMedioId = contrato.ConfirmacionContratos.TipoMedio;
+            cierreComercial.MedioId = contrato.ConfirmacionContratos.Medio;
+            cierreComercial.CodAgencia = int.Parse(contrato.agencia);
+            cierreComercial.CodAsesor = contrato.ConfirmacionContratos.Asesor;
+            cierreComercial.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", contrato.ConfirmacionContratos.FechaCreacion);
+            cierreComercial.ValorBien = Convert.ToInt32(contrato.valor_bien);
+            cierreComercial.CodConcesionario = 1;
+            cierreComercial.CodMarca = contrato.id_marca;
+            cierreComercial.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", contrato.ConfirmacionContratos.FechaCierreComercial);
+            cierreComercial.CompaniaId = contrato.id_compania;
+            cierreComercial.TerceroId = user.IdSiicon;
 
-            return "";
-        }
+            string jsonToSend = "[NOTICE] JSON TO CREATE CIERRE COMERCIAL: " +
+                "Primer nombre: " + cierreComercial.PrimerNombre + "," +
+                "Segundo nombre: "+ cierreComercial.SegundoNombre + "," +
+                "Primer apellido: " + cierreComercial.PrimerApellido + "," +
+                "Segundo apellido: " + cierreComercial.SegundoApellido + "," +
+                "Tipo documento ID: " + cierreComercial.TipoDocumentoIdentidadId + "," +
+                "Numero documento:  " + cierreComercial.NumeroDocumento + "," +
+                "Contrato: " + cierreComercial.Contrato + "," +
+                "Código tipo bien: " +cierreComercial.CodTipoBien + "," +
+                "Tipo medio ID: " + cierreComercial.TipoMedioId + "," +
+                "Medio ID: " + cierreComercial.MedioId + "," +
+                "Código agencia: " + cierreComercial.CodAgencia + "," +
+                "Código asesor: " + cierreComercial.CodAsesor + "," +
+                "Fecha Adhesión: " + cierreComercial.FechaAdhesion + "," +
+                "Valor del bien: " + cierreComercial.ValorBien + "," +
+                "Cod Concesionario " + cierreComercial.CodConcesionario + "," +
+                "Código de marca: " + cierreComercial.CodMarca + "," +
+                "Fecha Cierre: " + cierreComercial.FechaCierre + "," +
+                "Compañia ID: " + cierreComercial.CompaniaId + "," +
+                "Tercero ID: " + cierreComercial.TerceroId;
+            Console.WriteLine(jsonToSend);
 
-        public async Task<ActionResult<string>> CreateContratoCierreComercial(Contrato contrato)
+            string result = service.CrearCierreComercialAsync(cierreComercial.PrimerNombre, cierreComercial.SegundoNombre,
+                cierreComercial.PrimerApellido, cierreComercial.SegundoApellido, cierreComercial.TipoDocumentoIdentidadId,
+                cierreComercial.NumeroDocumento, cierreComercial.Contrato, cierreComercial.CodTipoBien,
+                cierreComercial.TipoMedioId, cierreComercial.MedioId, cierreComercial.CodAgencia,
+                cierreComercial.CodAsesor, cierreComercial.FechaAdhesion, cierreComercial.ValorBien,
+                cierreComercial.CodConcesionario, cierreComercial.CodMarca, cierreComercial.FechaCierre,
+                cierreComercial.CompaniaId, cierreComercial.TerceroId).Result;
+
+
+            dynamic jsonResultFechaCierre = JsonConvert.DeserializeObject<dynamic>(result);
+            if(jsonResultFechaCierre.First.ElementoId!= null)
+            {
+                string value = jsonResultFechaCierre.First.ElementoId;
+                return value;
+            }
+            return "0";
+        }        
+
+        [HttpGet("GetFechaCierreComercial/{compania}")]
+        [Route("api/Freyja/GetFechaCierreComercial")]
+        public async Task<ActionResult<string>> GetFechaCierreComercial(string compania)
         {
-            return "";
+            string result = await service.SeleccionarCierreComercialCompañiaAsync(compania);
+            return result;
         }
 
         #region reports
