@@ -11,7 +11,20 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@if (ViewData["Warning"] != null)
+{
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger mb-0" role="alert">
+                        @ViewData["Warning"]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
 <section>
     <div class="container">
         <div class="row">
@@ -73,7 +86,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">Fecha de registro</div>
-                            <div class="col-12 col-md-8 text-black-65 text-uppercase">                                
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                 @String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionProspecto.FechaCreacion)
                             </div>
                         </div>
