@@ -8,11 +8,24 @@
 @model ContratoDigital.Models.Contrato
 
 @{
-   
+
     ViewData["Title"] = "Detalle del contrato de Adhesión - " + Model.numero_de_contrato;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@if (ViewData["Warning"] != null)
+{
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-danger mb-0" role="alert">
+                        @ViewData["Warning"]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
 <section>
     <div class="container">
         <div class="row">
@@ -88,6 +101,16 @@
                                     <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
                                 }
                             </div>
+                            <div class="isRegisteredCommercial">
+                                @if (Model.ConfirmacionContratos.IsRegisteredCommercial)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> Registrado en cierre comercial</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> Registro en cierre comercial pendiente</label>
+                                }
+                            </div>
                             <div>
                                 <button class="btn btn-primary" data-contrato="@Model.IdContrato" id="RefreshStatusContrato"><i class="fas fa-sync"></i> Actualizar</button>
                             </div>
@@ -109,10 +132,10 @@
                         <div class="col-12 col-md-4 font-weight-bold">Asignado a</div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @{
-                                if(Model.ConfirmacionContratos.Asesor > 0)
-                                {                                    
-                                    @ViewData["NombreAsesor"]  
-                                    @Html.Raw("<br/>") 
+                                if (Model.ConfirmacionContratos.Asesor > 0)
+                                {
+                                    @ViewData["NombreAsesor"]
+                                    @Html.Raw("<br/>")
                                     @("Código del asesor: " + Model.ConfirmacionContratos.Asesor)
                                 }
                                 else
@@ -128,6 +151,12 @@
                         <div class="col-12 col-md-4 font-weight-bold">Fecha de registro</div>
                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                             @String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaCreacion)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 font-weight-bold">Cierre Comercial</div>
+                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                            @String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaCierreComercial)
                         </div>
                     </div>
 
@@ -1193,8 +1222,8 @@
             <!-- End -->
         </div>
 
-        
-        
+
+
 
         <div class="row mt-4">
             <div class="col">
