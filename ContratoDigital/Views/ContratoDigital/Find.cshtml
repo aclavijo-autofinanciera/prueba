@@ -150,6 +150,24 @@
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Número de contrato</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.numero_de_contrato
+                                        </div>
+                                    </div>
+                                    @if (item.ConfirmacionContratos.FechaCierreComercial != null)
+                                    {
+                                        <div class="row">
+                                            <div class="col-12 col-md-4 font-weight-bold">Cierre comercial</div>
+                                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                                @item.ConfirmacionContratos.FechaCierreComercial.ToShortDateString()
+                                            </div>
+                                        </div>
+                                    }
+
+
+
+                                    <div class="row">
                                         <div class="col-12 col-md-4 font-weight-bold">Estado</div>
                                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                             @if (item.ConfirmacionContratos != null)
@@ -202,6 +220,18 @@
                                                     {
                                                         <label class="text-muted">
                                                             <i class="far fa-clock"></i> Registro en Siicon pendiente
+                                                        </label>
+                                                    }
+                                                </div>
+                                                <div>
+                                                    @if (item.ConfirmacionContratos.IsRegisteredCommercial)
+                                                    {
+                                                        <label class="text-success"><i class="fas fa-check"></i> Registrado en Cierre comercial</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="text-muted">
+                                                            <i class="far fa-clock"></i> Registro en cierre comercial pendiente
                                                         </label>
                                                     }
                                                 </div>
