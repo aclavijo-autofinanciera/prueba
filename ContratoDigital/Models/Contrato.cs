@@ -128,6 +128,7 @@ namespace ContratoDigital.Models
         public virtual DocumentoIdentidad DocumentoIdentidad { get; set; }
         public virtual List<RecibosPago> RecibosPago { get; set; }
         public virtual List<Pagos> Pagos { get; set; }
+        public virtual List<PagoManual> PagosManuales { get; set; }
     }
 }
 
