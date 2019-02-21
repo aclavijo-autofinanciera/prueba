@@ -697,6 +697,74 @@ jQuery(function ($) {
         }
     });
 
+    $(".PagoManualValidation").validate({
+        rules: {
+            id_tipo_pago: {
+                required: true,
+                maxlength: 50
+            },
+            fecha_pago: {
+                required: true,
+                maxlength: 10
+            },
+            monto_efectivo: {
+                required: true,
+                number: true,
+                maxlength: 15
+            },
+            id_cuenta_bancaria: {
+                required: true,
+                maxlength: 50
+            },
+            numero: {
+                required: true,
+                number: true,
+                maxlength: 50
+            },
+            referencia: {
+                required: true,                
+                maxlength: 50
+            },
+            id_concesionario: {
+                required: true,
+                maxlength: 50
+            }
+        },
+        messages: {
+            id_tipo_pago: {
+                required: "Este campo es requerido"
+            },
+            fecha_pago: {
+                required: "la fecha es requerida"
+            },
+            monto_efectivo: {
+                required: "Este campo es requerido",
+                number: "Este campo debe ser numérico",
+                maxlength: "Máximo 15 caracteres"
+            },
+            id_cuenta_bancaria: {
+                required: "Este campo es requerido"
+            },
+            numero: {
+                required: "Este campo es requerido",
+                number: "Este campo debe ser numérico",
+                maxlength: "Máximo 15 caracteres"
+            },
+            referencia: {
+                required: "Este campo es requerido",
+                maxlength: "Máximo 15 caracteres"
+            },
+            id_concesionario: {
+                required: "Este campo es requerido"
+            }
+        },
+        submitHandler: function (form) {
+            $(".submitbutton").attr("disabled", true);
+            form.submit();
+        }
+
+    });
+
     // Validación representante legal
     $("#isRepreentanteLegal").on("click", function () {
         $("#RepreentanteLegalSection").fadeIn("slow").removeClass("d-none");
