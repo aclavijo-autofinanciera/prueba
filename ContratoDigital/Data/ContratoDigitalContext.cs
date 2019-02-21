@@ -26,6 +26,7 @@ namespace ContratoDigital.Data
         public DbSet<UploadId> UploadId { get; set; }
         public DbSet<RecibosPago> RecibosPago { get; set; }
         public DbSet<Pagos> Pagos { get; set; }
+        public DbSet<PagoManual> PagoManual { get; set; }
         
     }
 }
