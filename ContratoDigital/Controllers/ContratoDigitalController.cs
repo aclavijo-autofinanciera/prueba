@@ -1249,53 +1249,60 @@ namespace ContratoDigital.Controllers
             return File(stream, "application/pdf", "AlgunaCosa.pdf");
         }
 
-        /*public async Task<IActionResult> RegisterSiicon(int id)
+        
+        public async Task<IActionResult> RegisterManualPay(int id)
         {
-            Status status = new Status(_context);
-            var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
-            PersonaSiicon personaSiicon = new PersonaSiicon();
-            personaSiicon.TipoPersonaId = 2;
-            personaSiicon.CiudadConstitucionId = _utilities.PadWithZeroes( status.GetCiudadSiiconId( int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5);
-            personaSiicon.FechaConstitucion = String.Format("{0:MM/dd/yyyy}",contrato.fecha_suscripcion_contrato);
-            personaSiicon.PrimerNombre = contrato.primer_nombre;
-            personaSiicon.SegundoNombre = contrato.segundo_nombre;
-            personaSiicon.PrimerApellido = contrato.primer_apellido;
-            personaSiicon.SegundoApellido = contrato.segundo_apellido;
-            personaSiicon.RazonSocial = contrato.nombre_razon_social_representante_legal;
-            personaSiicon.TipoDocumentoIdentidadId = int.Parse(contrato.tipo_documento_identidad_suscriptor);
-            personaSiicon.NumeroDocumento = contrato.documento_identidad_suscriptor.ToString();
-            personaSiicon.CiudadExpedicionId = _utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.procedencia_documento_identidad_suscriptor)).ToString(), 5);
-            personaSiicon.FechaNacimiento = String.Format("{0:MM/dd/yyyy}",contrato.fecha_nacimiento_suscriptor);
-            personaSiicon.CiudadNacimientoId = _utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5);
-            personaSiicon.SexoId = int.Parse(contrato.sexo_suscriptor);
-            personaSiicon.EstadoCivilId = int.Parse(contrato.estado_civil_suscriptor);
-            personaSiicon.Email = contrato.email_suscriptor;
-            personaSiicon.DireccionNotifiacion = contrato.direccion_domicilio_suscriptor;
-            personaSiicon.BarrioNotifiacion = contrato.direccion_domicilio_suscriptor;
-            personaSiicon.TelefonoNotifiacion = contrato.telefono_suscriptor;
-            personaSiicon.CelularNotificacion = contrato.celular_suscriptor;
-            personaSiicon.DepartamentoNotificacionId = int.Parse(status.GetDepartamentoSiiconID( int.Parse(contrato.departamento_suscriptor)));
-            personaSiicon.CiudadNotificacionId = _utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_suscriptor)).ToString(), 5);
-            personaSiicon.EmpresaLabora = contrato.empresa_empleadora_suscriptor;
-            personaSiicon.CargoLabora = contrato.cargo_suscriptor;
-            personaSiicon.DireccionLabora = contrato.direccion_empleo_suscriptor;
-            personaSiicon.BarrioLabora = contrato.direccion_empleo_suscriptor;
-            personaSiicon.TelefonoLabora = contrato.telefono_empleo_suscriptor;
-            personaSiicon.CelularOficina = contrato.celular_empleo_suscriptor;
-            personaSiicon.DepartamentoLaboraId = int.Parse(status.GetDepartamentoSiiconID(int.Parse(contrato.departamento_empleo_suscriptor)));
-            personaSiicon.CiudadLaboraId =_utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(contrato.ciudad_empleo_suscriptor)).ToString(), 5);
-            personaSiicon.IngresoMensual = (int)contrato.ingresos_mensuales_suscriptor;
-            personaSiicon.EgresoMensual = (int)contrato.egresos_mensuales_suscriptor;
-            personaSiicon.Profesion = contrato.profesion_suscriptor;
-            personaSiicon.TerceroId = Constants.GuuidUsuarioSiicon;
-            WebserviceController service = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities);
-            string result = service.CreatePersonaSiicon(personaSiicon).Result.Value;
-            ViewData["ResultWS"] = result;
+            ViewData["Pagos"] = await _context.PagoManual.Where(x=>x.IdContrato == id).ToListAsync();
+            return View(await _context.Contratos.SingleOrDefaultAsync(x=>x.IdContrato == id));
+        }
 
-            //return RedirectToAction("Details", "ContratoDigital", new { id });
-            return View();
-        }*/
+        [HttpPost]
+        public async Task<IActionResult> RegisterManualPay(IFormCollection form)
+        {
+            Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == int.Parse(form["id_contrato"]));
+            if(contrato.ConfirmacionContratos.IsPaid == false)
+            {
+                PagoManual pago = new PagoManual();
+                pago.IdContrato = int.Parse(form["id_contrato"]);
+                pago.IdTipoPago = int.Parse(form["id_tipo_pago"]);
+                pago.TipoPago = form["tipo_pago"];
 
+                DateTime fecha_pago = DateTime.Today;
+                DateTime.TryParseExact(form["fecha_pago"], "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fecha_pago);
+                pago.FechaPago = fecha_pago;
+
+                Double.TryParse(s: form["monto_efectivo"], result: out double monto_efectivo);
+                pago.Monto = monto_efectivo;
+                pago.IdCuentaBancaria = int.Parse(form["id_cuenta_bancaria"]);
+                pago.CuentaBancaria = form["cuenta_bancaria"];
+                pago.Numero = form["numero"];
+                pago.Referencia = form["referencia"];
+                pago.IdConcesionario = int.Parse(form["id_concesionario"]);
+                pago.Concesionario = form["Concesionario"];
+                _context.Add(pago);
+                await _context.SaveChangesAsync();
+
+
+                List<Pagos> pagos = _context.Pagos.Where(x => x.IdContrato == pago.IdContrato).ToList();
+                double total = 0;
+                foreach (var item in pagos)
+                {
+                    total += item.Monto;
+                }
+                List<PagoManual> pagoManual = _context.PagoManual.Where(x => x.IdContrato == pago.IdContrato).ToList();
+                foreach (var item in pagoManual)
+                {
+                    total += item.Monto;
+                }
+                if (total >= contrato.valor_primer_pago)
+                {
+                    contrato.ConfirmacionContratos.IsPaid = true;
+                    contrato.ConfirmacionContratos.FechaPago = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                }
+            }            
+            return RedirectToAction("RegisterManualPay", new { id = form["id_contrato"] });
+        }
 
         #region
         // _utilities Local Methods

@@ -177,6 +177,9 @@ namespace SiiconWebService
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarCierreComercialCompañia", ReplyAction="http://tempuri.org/IService/SeleccionarCierreComercialCompañiaResponse")]
         System.Threading.Tasks.Task<string> SeleccionarCierreComercialCompañiaAsync(string CompañiaId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/CrearContratoPago", ReplyAction="http://tempuri.org/IService/CrearContratoPagoResponse")]
+        System.Threading.Tasks.Task<string> CrearContratoPagoAsync(int TipoPagoId, System.DateTime FechaPago, int CodCuentaBancaria, long MontoPago, string Referencia, string Numero, int CodConcesionario, int ContratoId, int Contrato, string TerceroCreadorId, string CompañiaId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("dotnet-svcutil", "1.0.0.1")]
@@ -443,6 +446,11 @@ namespace SiiconWebService
         public System.Threading.Tasks.Task<string> SeleccionarCierreComercialCompañiaAsync(string CompañiaId)
         {
             return base.Channel.SeleccionarCierreComercialCompañiaAsync(CompañiaId);
+        }
+        
+        public System.Threading.Tasks.Task<string> CrearContratoPagoAsync(int TipoPagoId, System.DateTime FechaPago, int CodCuentaBancaria, long MontoPago, string Referencia, string Numero, int CodConcesionario, int ContratoId, int Contrato, string TerceroCreadorId, string CompañiaId)
+        {
+            return base.Channel.CrearContratoPagoAsync(TipoPagoId, FechaPago, CodCuentaBancaria, MontoPago, Referencia, Numero, CodConcesionario, ContratoId, Contrato, TerceroCreadorId, CompañiaId);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
