@@ -1142,6 +1142,10 @@
                                 {
                                     saldo -= item.Monto;
                                 }
+                                foreach (var item in Model.PagosManuales)
+                                {
+                                    saldo -= item.Monto;
+                                }
                             }
                             @if (saldo > 0)
                             {
@@ -1166,6 +1170,11 @@
 
                             @if (Model.RecibosPago.Count > 0)
                             {
+                                <div class="row">
+                                    <div class="col-12 col-md-4"><strong>Monto</strong></div>
+                                    <div class="col-12 col-md-4"><strong>Fecha emisión</strong></div>
+                                    <div class="col-12 col-md-4"><strong>Referencia de pago</strong></div>
+                                </div>
                                 @foreach (var item in Model.RecibosPago)
                                 {
                                     <div class="row">
@@ -1197,6 +1206,11 @@
 
                             @if (Model.RecibosPago.Count > 0)
                             {
+                                <div class="row">
+                                    <div class="col-12 col-md-4"><strong>Monto</strong></div>
+                                    <div class="col-12 col-md-4"><strong>Fecha emisión</strong></div>
+                                    <div class="col-12 col-md-4"><strong>Referencia de pago</strong></div>
+                                </div>
                                 @foreach (var item in Model.Pagos)
                                 {
                                     <div class="row">
@@ -1218,6 +1232,63 @@
                 </div>
             </div>
 
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <h4>Pagos registrados manualmente</h4>
+                    @if (Model.PagosManuales.Count > 0)
+                    {
+
+
+                        @foreach (var item in Model.PagosManuales)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-md-3">
+                                            <strong>Tipo de pago</strong><br />
+                                            @item.TipoPago
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <strong>Monto</strong><br />
+                                            @String.Format("{0:$ 0,00}", item.Monto)
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <strong>Cuenta bancaria</strong><br />
+                                            @item.CuentaBancaria
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <strong>Referencia / Autorización</strong><br />
+                                            @item.Referencia
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <strong>Fecha pago</strong><br />
+                                            @String.Format("{0:yyyy-MM-dd}", item.FechaPago)
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <strong>Número</strong><br />
+                                            @item.Numero
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <strong>Concesionario</strong><br />
+                                            @item.Concesionario
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="polymer-box">
+                            No hay pagos manuales registrados.
+                        </div>
+                    }
+
+                </div>
+            </div>
 
             <!-- End -->
         </div>
@@ -1258,6 +1329,8 @@
                                     <a class="dropdown-item" href="@Url.Action("GenerateReference", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-file-invoice-dollar"></i> Generar nuevo recibo de pago</a>
                                     <a class="dropdown-item" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Imprimir último recibo de pago</a>
                                     <a class="dropdown-item" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar último recibo de pago por correo</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("RegisterManualPay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-calculator"></i> Cargar pagos manuales no convencionales</a>
                                 </div>
                             </li>
                         </ul>
