@@ -1,4 +1,4 @@
-﻿// Write your JavaScript code.
+// Write your JavaScript code.
 jQuery(function ($) {
     AOS.init({
         'duration': 600,
@@ -57,6 +57,14 @@ jQuery(function ($) {
         yearRange: "-60:-18",
         minDate: "-60Y",
         maxDate: "-18Y"
+    });
+    $("#fecha_pago").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'dd-mm-yy',
+        //yearRange: "-60:-18",
+        //minDate: "-60Y",
+        maxDate: "-1d"
     });
       
     //Validación de ARD Numero
