@@ -304,9 +304,15 @@ namespace ContratoDigital.Controllers
             {
                 total += item.Monto;
             }
+            List<PagoManual> pagoManual = _context.PagoManual.Where(x => x.IdContrato == contrato.IdContrato).ToList();
+            foreach (var item in pagoManual)
+            {
+                total += item.Monto;
+            }
             if (total >= contrato.valor_primer_pago)
             {
                 contrato.ConfirmacionContratos.IsPaid = true;
+                contrato.ConfirmacionContratos.FechaPago = DateTime.Now;
                 await _context.SaveChangesAsync();
                 return "HTTP 200: OK";
             }
@@ -403,6 +409,7 @@ namespace ContratoDigital.Controllers
             x.ConfirmacionContratos.IsIdUploaded == true &&
             x.ConfirmacionContratos.IsPaid == true &&
             x.ConfirmacionContratos.IsRegistered == false &&
+            x.ConfirmacionContratos.IsRegisteredCommercial == true &&
             x.ConfirmacionContratos.Asesor > 0).ToListAsync();
 
             foreach (var item in contratos)
@@ -417,6 +424,7 @@ namespace ContratoDigital.Controllers
             foreach (var item in contratos)
             {
 
+                // Registro de la persona
                 var user = _userManager.Users.SingleOrDefault(x => x.Id == item.asesor_comercial);
                 PersonaSiicon persona = new PersonaSiicon();
                 persona.PrimerNombre = item.primer_nombre;
@@ -457,8 +465,7 @@ namespace ContratoDigital.Controllers
                 Console.WriteLine("[REGX PERSONA]: " + registroPersonaSiicon);
 
 
-                dynamic jsonPersona = JsonConvert.DeserializeObject<dynamic>(registroPersonaSiicon);
-                //var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == item.IdContrato);
+                dynamic jsonPersona = JsonConvert.DeserializeObject<dynamic>(registroPersonaSiicon);                
                 if (jsonPersona.First.ElementoId != null)
                 {                    
                     item.ConfirmacionContratos.IdSuscriptor = jsonPersona.First.ElementoId;
@@ -466,15 +473,15 @@ namespace ContratoDigital.Controllers
                 }
                 if (item.ConfirmacionContratos.IdSuscriptor > 0)
                 {
+                    // Registro del contrato
                     ContratoSiicon contratoSiicon = new ContratoSiicon();
                     contratoSiicon.Contrato = item.numero_de_contrato;
                     contratoSiicon.IdContrato = item.IdContrato;
                     contratoSiicon.Persona1Id = item.ConfirmacionContratos.IdSuscriptor;
                     contratoSiicon.Persona2Id = 0;
-                    contratoSiicon.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", item.Pagos.Last().FechaPago);
-                    contratoSiicon.CodAgencia = int.Parse(item.agencia);
-                    // TODO Change for actual asesor
-                    contratoSiicon.CodAsesor = item.ConfirmacionContratos.Asesor;  //222668;
+                    contratoSiicon.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaPago);
+                    contratoSiicon.CodAgencia = int.Parse(item.agencia);                    
+                    contratoSiicon.CodAsesor = item.ConfirmacionContratos.Asesor;  
                     contratoSiicon.CodConvenio = 1; // Valor Fijo
                     contratoSiicon.CodConcesionario = 1; // Valor Fijo
                     contratoSiicon.TipoMedioId = item.ConfirmacionContratos.TipoMedio;
@@ -497,14 +504,13 @@ namespace ContratoDigital.Controllers
                     contratoSiicon.CuotaNeta = Convert.ToInt32(item.primera_cuota_neta);
                     contratoSiicon.SuscriptorReferente = "000-000.0"; // Valor Fijo
                     contratoSiicon.TipoventaID = 1; // Valor Fijo. 2 en caso de venta directa en concesionario
-                    contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.Pagos.Last().FechaPago);
+                    contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaCierreComercial);
                     contratoSiicon.CompañiaID = item.id_compania;
                     contratoSiicon.TerceroId = user.IdSiicon;
 
                     string registroContratoSiicon = CreateContratoSiicon(contratoSiicon).Result.Value;
                     Console.WriteLine("[REGX CONTRATO]:" + registroContratoSiicon);
-                    dynamic jsonContrato = JsonConvert.DeserializeObject<dynamic>(registroContratoSiicon);
-                    //var contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == item.IdContrato);
+                    dynamic jsonContrato = JsonConvert.DeserializeObject<dynamic>(registroContratoSiicon);                    
                     if (jsonContrato.First.ElementoId != null)
                     {
                         if(jsonContrato.First.TipoMensajeSistemaId == 1)
@@ -517,6 +523,34 @@ namespace ContratoDigital.Controllers
                         
                     }
                 }
+
+                // registro de pagos.
+                if(item.PagosManuales.Count>0)
+                {
+                    foreach (var pago in item.PagosManuales)
+                    {
+                        PagoManualSiicon pagoSiicon = new PagoManualSiicon();
+                        pagoSiicon.CodConcesionario = pago.IdConcesionario;
+                        pagoSiicon.CodCuentaBancaria = pago.IdCuentaBancaria;
+                        pagoSiicon.CompañiaId = item.id_compania;
+                        pagoSiicon.Contrato = item.numero_de_contrato;
+                        pagoSiicon.ContratoId = item.ConfirmacionContratos.IdContratoSiicon;
+                        pagoSiicon.FechaPago = item.ConfirmacionContratos.FechaPago;
+                        pagoSiicon.monto = Convert.ToInt32(pago.Monto);
+                        pagoSiicon.Numero = pago.Numero;
+                        pagoSiicon.Referencia = pago.Referencia;
+                        pagoSiicon.TerceroGeneradorId = user.IdSiicon;
+                        pagoSiicon.TipoPagoId = pago.IdTipoPago;
+                        string result =  CreatePagoSiicon(pagoSiicon).Result.Value;
+                        
+
+
+                    }
+                    
+
+                }
+
+
             }
             //return contratos;
             return "HTTP 200: OK";
@@ -591,6 +625,20 @@ namespace ContratoDigital.Controllers
                 Console.WriteLine("[ERROR]: " + ex.TargetSite);
                 throw;
             }
+        }
+
+        public async Task<ActionResult<string>> CreatePagoSiicon(PagoManualSiicon pago)
+        {
+            string result = service.CrearContratoPagoAsync(pago.TipoPagoId, pago.FechaPago, pago.CodCuentaBancaria,
+                pago.monto, pago.Referencia, pago.Numero, pago.CodConcesionario, pago.ContratoId, pago.Contrato,
+                pago.TerceroGeneradorId, pago.CompañiaId).Result;
+            dynamic jsonResultFechaCierre = JsonConvert.DeserializeObject<dynamic>(result);
+            if (jsonResultFechaCierre.First.ElementoId != null)
+            {
+                string value = jsonResultFechaCierre.First.ElementoId;
+                return value;
+            }
+            return "0";
         }
 
         private string PagosToJson(int id)
@@ -690,6 +738,29 @@ namespace ContratoDigital.Controllers
         {
             string result = await service.SeleccionarCierreComercialCompañiaAsync(compania);
             return result;
+        }
+
+        [HttpGet("GetTiposPagos")]
+        [Route("api/Freyja/GetTiposPagos")]
+        public async Task<ActionResult<string>> GetTiposPagos()
+        {
+            return await service.SeleccionarTiposPagosAsync();
+        }
+
+        
+
+        [HttpGet("GetCuentasBancarias/{compania}")]
+        [Route("api/Freyja/GetCuentasBancarias")]
+        public async Task<ActionResult<string>> GetCuentasBancarias(string compania)
+        {
+            return await service.SeleccionarCuentasBancariasCompañiaAsync(compania);
+        }
+
+        [HttpGet("GetConcesionarios/{compania}")]
+        [Route("api/Freyja/GetConcesionarios")]
+        public async Task<ActionResult<string>> GetConcesionarios(string compania)
+        {
+            return await service.SeleccionarConcesionarioCompañiaAsync(compania);
         }
 
         #region reports
