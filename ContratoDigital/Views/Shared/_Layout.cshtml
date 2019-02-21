@@ -40,21 +40,17 @@
     <title>@ViewData["Title"] - Mi Contrato</title>
 
     <environment include="Development">
-        <link href="~/css/localfonts.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/localfonts.css"  />
         <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" crossorigin="anonymous" />
         <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/AOS/aos.css" />
         <link rel="stylesheet" href="~/css/base-1.0.3.css" />
     </environment>
-    <environment exclude="Development">
-        @*<link rel="stylesheet" href="http://www.unc.edu.ar/reforma/css/reforma-fonts.css" />
-            <link rel="stylesheet" href="https://indestructibletype-fonthosting.github.io/renner.css" type="text/css" charset="utf-8" />*@
+    <environment exclude="Development">        
         <link href="~/css/localfonts.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
-              integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
-              crossorigin="anonymous"        
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
@@ -213,7 +209,7 @@
                 crossorigin="anonymous">
         </script>        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>                
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>                
         <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script src="~/js/base-1.0.24.js" asp-append-version="true"></script>
