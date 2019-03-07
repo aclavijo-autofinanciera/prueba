@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
 using ContratoDigital.Data;
@@ -762,6 +763,70 @@ namespace ContratoDigital.Controllers
         {
             return await service.SeleccionarConcesionarioCompañiaAsync(compania);
         }
+
+        [HttpPost("RegistrarTransacciones")]
+        [Route("api/Freyja/RegistrarTransacciones")]
+        public async Task<ActionResult<string>> RegistrarTransacciones(IFormCollection form )
+        {
+            PagoTuCompra pago = new PagoTuCompra();
+            pago.codigoFactura = string.IsNullOrEmpty(form["codigoFactura"])  ? 0 : int.Parse(form["codigoFactura"]);
+            pago.valorFactura = string.IsNullOrEmpty(form["valorFactura"]) ? 0 : float.Parse(form["valorFactura"]);
+            pago.transaccionAprobada = string.IsNullOrEmpty(form["transaccionAprobada"]) ? "" : form["transaccionAprobada"].ToString();
+            pago.codigoAutorizacion = string.IsNullOrEmpty( form["codigoAutorizacion"]) ? "" : form["codigoAutorizacion"].ToString();
+            pago.firmaTuCompra = string.IsNullOrEmpty( form["firmaTuCompra"]) ? "" : form["firmaTuCompra"].ToString();
+            pago.numeroTransaccion = string.IsNullOrEmpty(form["numeroTransaccion"]) ?0: int.Parse(form["numeroTransaccion"]);
+            pago.metodoPago = string.IsNullOrEmpty(form["metodoPago"]) ? 0: int.Parse(form["metodoPago"]);
+            pago.banco = string.IsNullOrEmpty(form["banco"]) ? "" : form["banco"].ToString();
+            pago.valorBase = string.IsNullOrEmpty(form["valorBase"]) ? 0: float.Parse(form["valorBase"]);
+            pago.valorIva = string.IsNullOrEmpty(form["valorIva"]) ? 0: float.Parse(form["valorIva"]);
+            pago.valorReteiva = string.IsNullOrEmpty(form["valorReteiva"]) ?0: float.Parse(form["valorReteiva"]);
+            pago.valorReteica = string.IsNullOrEmpty(form["valorReteica"]) ?0: float.Parse(form["valorReteica"]);
+            pago.valorRetefuente = string.IsNullOrEmpty(form["valorRetefuente"]) ?0: float.Parse(form["valorRetefuente"]);
+            pago.descripcion = string.IsNullOrEmpty(form["descripcion"]) ? "" : form["descripcion"].ToString();
+            pago.descripcion2 = string.IsNullOrEmpty(form["descripcion2"])?"": form["descripcion2"].ToString();
+            pago.detalle = string.IsNullOrEmpty(form["detalle"])?"": form["detalle"].ToString();
+            DateTime fechaPago = new DateTime();
+            DateTime.TryParseExact(form["fechaPago"], "dd/MM/yyyy hh:mm:ss tt", null, System.Globalization.DateTimeStyles.None, out fechaPago);
+            pago.fechaPago = fechaPago;
+            pago.numeroTarjeta = string.IsNullOrEmpty(form["numeroTarjeta"])?"": form["numeroTarjeta"].ToString();
+            pago.numeroCuotas = string.IsNullOrEmpty(form["numeroCuotas"])?0: int.Parse(form["numeroCuotas"]);
+            pago.correoComprador = string.IsNullOrEmpty(form["correoComprador"])?"": form["correoComprador"].ToString();
+            pago.nombreComprador = string.IsNullOrEmpty(form["nombreComprador"])?"": form["nombreComprador"].ToString();
+            pago.apellidoComprador = string.IsNullOrEmpty(form["apellidoComprador"])?"": form["apellidoComprador"].ToString();
+            pago.documentoComprador = string.IsNullOrEmpty(form["documentoComprador"]) ? 0: int.Parse(form["documentoComprador"]);
+            pago.telefonoComprador = string.IsNullOrEmpty(form["telefonoComprador"])?"": form["telefonoComprador"].ToString();
+            pago.direccionComprador = string.IsNullOrEmpty(form["direccionComprador"])?"": form["direccionComprador"].ToString();
+            pago.ipComprador = string.IsNullOrEmpty(form["ipComprador"])?"": form["ipComprador"].ToString();
+            pago.ciudadComprador = string.IsNullOrEmpty(form["ciudadComprador"])?"": form["ciudadComprador"].ToString();
+            pago.paisComprador = string.IsNullOrEmpty(form["paisComprador"])?"": form["paisComprador"].ToString();
+            pago.estadoPago = string.IsNullOrEmpty(form["estadoPago"])?"": form["estadoPago"].ToString();
+            pago.razonRechazo = string.IsNullOrEmpty(form["razonRechazo"])?"": form["razonRechazo"].ToString();
+            pago.tipoTarjeta = string.IsNullOrEmpty(form["tipoTarjeta"])?"": form["tipoTarjeta"].ToString();
+            pago.categoriatarjeta = string.IsNullOrEmpty(form["categoriatarjeta"])?"": form["categoriatarjeta"].ToString();
+            pago.paisemisor = string.IsNullOrEmpty(form["paisemisor"])?"": form["paisemisor"].ToString();
+            pago.telefonoBancoemisor = string.IsNullOrEmpty(form["telefonoBancoemisor"])?"": form["telefonoBancoemisor"].ToString();
+            pago.valorComisionbancaria = string.IsNullOrEmpty(form["valorComisionBancaria"]) ?0: float.Parse(form["valorComisionBancaria"]);
+            pago.valorDepositoBanco = string.IsNullOrEmpty(form["valorDepositoBanco"]) ?0: float.Parse(form["valorDepositoBanco"]);
+            pago.bancoRecaudador = string.IsNullOrEmpty(form["bancoRecaudador"])?"": form["bancoRecaudador"].ToString();            
+            DateTime horaPago = new DateTime();
+            DateTime.TryParseExact(form["fechaPago"], "dd/MM/yyyy hh:mm:ss tt", null, System.Globalization.DateTimeStyles.None, out horaPago);
+            pago.horaPago = horaPago;
+            pago.caja = string.IsNullOrEmpty(form["caja"])?"": form["caja"].ToString();
+            pago.formaPago = string.IsNullOrEmpty(form["formaPago"])?"": form["formaPago"].ToString();
+            pago.oficina = string.IsNullOrEmpty(form["oficina"])?"": form["oficina"].ToString();
+            pago.cuentaBanco = string.IsNullOrEmpty(form["cuentaBanco"])?"": form["cuentaBanco"].ToString();
+            pago.jornada = string.IsNullOrEmpty(form["jornada"])?"": form["jornada"].ToString();
+            pago.tipoRegistro = string.IsNullOrEmpty(form["tipoRegistro"])?"": form["tipoRegistro"].ToString();
+            pago.operador = string.IsNullOrEmpty(form["operador"])?"": form["operador"].ToString();
+            pago.tipoTransaccion = string.IsNullOrEmpty(form["tipoTransacción"])?"": form["tipoTransacción"].ToString();
+            pago.descripcionTipoTransaccion = string.IsNullOrEmpty(form["descripcionTipoTransaccion"])?"": form["descripcionTipoTransaccion"].ToString();
+            pago.fechaSaldoAplicado = string.IsNullOrEmpty(form["fechaSaldoAplicado"])?"": form["fechaSaldoAplicado"].ToString();
+            pago.codBancoRecaudador = string.IsNullOrEmpty(form["codBancoRecaudador"])?"": form["codBancoRecaudador"].ToString();
+            _context.PagoTuCompra.Add(pago);
+            await _context.SaveChangesAsync();
+            return "HTTP 200 OK";
+        }
+
 
         #region reports
 
