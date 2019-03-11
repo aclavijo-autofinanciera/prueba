@@ -25,7 +25,7 @@ namespace ContratoDigital.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CargaMasiva(PlainText _plaintext)
+        public IActionResult CargaMasiva(PlainText _plaintext)
         {
             return  View();
         }

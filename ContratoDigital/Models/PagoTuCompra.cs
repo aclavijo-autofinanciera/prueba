@@ -10,29 +10,30 @@ namespace ContratoDigital.Models
     {
 
         [Key] public int IdPago { get; set; }
-        public int codigoFactura { get; set; }
-        public float valorFactura { get; set; }
+        public string codigoFactura { get; set; }
+        public string valorFactura { get; set; }
         public string transaccionAprobada { get; set; }
         public string codigoAutorizacion { get; set; }
         public string firmaTuCompra { get; set; }
-        public int numeroTransaccion { get; set; }
-        public int metodoPago { get; set; }
+        public string numeroTransaccion { get; set; }
+        public string metodoPago { get; set; }
+        public string nombreMetodo { get; set; }
         public string banco { get; set; }
-        public float valorBase { get; set; }
-        public float valorIva { get; set; }
-        public float valorReteiva { get; set; }
-        public float valorReteica { get; set; }
-        public float valorRetefuente { get; set; }
+        public string valorBase { get; set; }
+        public string valorIva { get; set; }
+        public string valorReteiva { get; set; }
+        public string valorReteica { get; set; }
+        public string valorRetefuente { get; set; }
         public string descripcion { get; set; }
         public string descripcion2 { get; set; }
         public string detalle { get; set; }
-        public DateTime fechaPago { get; set; }
+        public string fechaPago { get; set; }
         public string numeroTarjeta { get; set; }
-        public int numeroCuotas { get; set; }
+        public string numeroCuotas { get; set; }
         public string correoComprador { get; set; }
         public string nombreComprador { get; set; }
         public string apellidoComprador { get; set; }
-        public int documentoComprador { get; set; }
+        public string documentoComprador { get; set; }
         public string telefonoComprador { get; set; }
         public string direccionComprador { get; set; }
         public string ipComprador { get; set; }
@@ -44,10 +45,10 @@ namespace ContratoDigital.Models
         public string categoriatarjeta { get; set; }
         public string paisemisor { get; set; }
         public string telefonoBancoemisor { get; set; }
-        public float valorComisionbancaria{get;set;}
-        public float valorDepositoBanco { get; set; }
+        public string valorComisionbancaria {get;set;}
+        public string valorDepositoBanco { get; set; }
         public string bancoRecaudador { get; set; }
-        public DateTime horaPago { get; set; }
+        public string horaPago { get; set; }
         public string caja { get; set; }
         public string formaPago { get; set; }
         public string oficina { get; set; }
@@ -59,5 +60,15 @@ namespace ContratoDigital.Models
         public string descripcionTipoTransaccion { get; set; }
         public string fechaSaldoAplicado { get; set; }
         public string codBancoRecaudador { get; set; }
+        public string celular { get; set; }
+        public string terminaltucompra { get; set; }
+        public string nro_convenio { get; set; }
+        public string serialunicotransaccion { get; set; }
+        public string validarorcorresponsalath { get; set; }
+        public string celular_nro_convenio { get; set; }
+        public string celular_terminaltucompra { get; set; }
+        public string compania { get; set; }
     }
+
+    
 }

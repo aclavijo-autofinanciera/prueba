@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
+using System.Text;
 using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -764,68 +766,188 @@ namespace ContratoDigital.Controllers
             return await service.SeleccionarConcesionarioCompañiaAsync(compania);
         }
 
+
+        /*[AllowAnonymous]
         [HttpPost("RegistrarTransacciones")]
         [Route("api/Freyja/RegistrarTransacciones")]
-        public async Task<ActionResult<string>> RegistrarTransacciones(IFormCollection form )
+        public async Task<ActionResult<string>> RegistrarTransacciones()
+        {            
+            Console.WriteLine("[SONDA CONTENT LENGTH]" + HttpContext.Request.ContentLength);
+            Console.WriteLine("[SONDA CONTENT TYPE]" + HttpContext.Request.ContentType);
+            Console.WriteLine("[SONDA QUERY STRING]" + HttpContext.Request.QueryString.ToString());
+            Console.WriteLine("[SONDA QUERY COUNT]" + HttpContext.Request.Query.Count());
+            Console.WriteLine("[SONDA CODIGO FACTURA]" + HttpContext.Request.Form["codigoFactura"]);
+            //Console.WriteLine("[SONDA CodigoFactura]: " + jsonForm.codigoFactura);
+            //Console.WriteLine("[SONDA transaccionAprobada]: " + jsonForm.transaccionAprobada);
+            //Console.WriteLine("[SONDA valorFactura]: " + jsonForm.valorFactura);
+
+            
+
+            return "HTTP 200 OK";
+        }*/
+        
+        [AllowAnonymous]
+        [HttpPost("RegistrarTransaccionesAuto")]
+        [Route("api/Freyja/RegistrarTransaccionesAuto")]
+        public async Task<ActionResult<string>> RegistrarTransaccionesAuto()
         {
             PagoTuCompra pago = new PagoTuCompra();
-            pago.codigoFactura = string.IsNullOrEmpty(form["codigoFactura"])  ? 0 : int.Parse(form["codigoFactura"]);
-            pago.valorFactura = string.IsNullOrEmpty(form["valorFactura"]) ? 0 : float.Parse(form["valorFactura"]);
-            pago.transaccionAprobada = string.IsNullOrEmpty(form["transaccionAprobada"]) ? "" : form["transaccionAprobada"].ToString();
-            pago.codigoAutorizacion = string.IsNullOrEmpty( form["codigoAutorizacion"]) ? "" : form["codigoAutorizacion"].ToString();
-            pago.firmaTuCompra = string.IsNullOrEmpty( form["firmaTuCompra"]) ? "" : form["firmaTuCompra"].ToString();
-            pago.numeroTransaccion = string.IsNullOrEmpty(form["numeroTransaccion"]) ?0: int.Parse(form["numeroTransaccion"]);
-            pago.metodoPago = string.IsNullOrEmpty(form["metodoPago"]) ? 0: int.Parse(form["metodoPago"]);
-            pago.banco = string.IsNullOrEmpty(form["banco"]) ? "" : form["banco"].ToString();
-            pago.valorBase = string.IsNullOrEmpty(form["valorBase"]) ? 0: float.Parse(form["valorBase"]);
-            pago.valorIva = string.IsNullOrEmpty(form["valorIva"]) ? 0: float.Parse(form["valorIva"]);
-            pago.valorReteiva = string.IsNullOrEmpty(form["valorReteiva"]) ?0: float.Parse(form["valorReteiva"]);
-            pago.valorReteica = string.IsNullOrEmpty(form["valorReteica"]) ?0: float.Parse(form["valorReteica"]);
-            pago.valorRetefuente = string.IsNullOrEmpty(form["valorRetefuente"]) ?0: float.Parse(form["valorRetefuente"]);
-            pago.descripcion = string.IsNullOrEmpty(form["descripcion"]) ? "" : form["descripcion"].ToString();
-            pago.descripcion2 = string.IsNullOrEmpty(form["descripcion2"])?"": form["descripcion2"].ToString();
-            pago.detalle = string.IsNullOrEmpty(form["detalle"])?"": form["detalle"].ToString();
-            DateTime fechaPago = new DateTime();
-            DateTime.TryParseExact(form["fechaPago"], "dd/MM/yyyy hh:mm:ss tt", null, System.Globalization.DateTimeStyles.None, out fechaPago);
-            pago.fechaPago = fechaPago;
-            pago.numeroTarjeta = string.IsNullOrEmpty(form["numeroTarjeta"])?"": form["numeroTarjeta"].ToString();
-            pago.numeroCuotas = string.IsNullOrEmpty(form["numeroCuotas"])?0: int.Parse(form["numeroCuotas"]);
-            pago.correoComprador = string.IsNullOrEmpty(form["correoComprador"])?"": form["correoComprador"].ToString();
-            pago.nombreComprador = string.IsNullOrEmpty(form["nombreComprador"])?"": form["nombreComprador"].ToString();
-            pago.apellidoComprador = string.IsNullOrEmpty(form["apellidoComprador"])?"": form["apellidoComprador"].ToString();
-            pago.documentoComprador = string.IsNullOrEmpty(form["documentoComprador"]) ? 0: int.Parse(form["documentoComprador"]);
-            pago.telefonoComprador = string.IsNullOrEmpty(form["telefonoComprador"])?"": form["telefonoComprador"].ToString();
-            pago.direccionComprador = string.IsNullOrEmpty(form["direccionComprador"])?"": form["direccionComprador"].ToString();
-            pago.ipComprador = string.IsNullOrEmpty(form["ipComprador"])?"": form["ipComprador"].ToString();
-            pago.ciudadComprador = string.IsNullOrEmpty(form["ciudadComprador"])?"": form["ciudadComprador"].ToString();
-            pago.paisComprador = string.IsNullOrEmpty(form["paisComprador"])?"": form["paisComprador"].ToString();
-            pago.estadoPago = string.IsNullOrEmpty(form["estadoPago"])?"": form["estadoPago"].ToString();
-            pago.razonRechazo = string.IsNullOrEmpty(form["razonRechazo"])?"": form["razonRechazo"].ToString();
-            pago.tipoTarjeta = string.IsNullOrEmpty(form["tipoTarjeta"])?"": form["tipoTarjeta"].ToString();
-            pago.categoriatarjeta = string.IsNullOrEmpty(form["categoriatarjeta"])?"": form["categoriatarjeta"].ToString();
-            pago.paisemisor = string.IsNullOrEmpty(form["paisemisor"])?"": form["paisemisor"].ToString();
-            pago.telefonoBancoemisor = string.IsNullOrEmpty(form["telefonoBancoemisor"])?"": form["telefonoBancoemisor"].ToString();
-            pago.valorComisionbancaria = string.IsNullOrEmpty(form["valorComisionBancaria"]) ?0: float.Parse(form["valorComisionBancaria"]);
-            pago.valorDepositoBanco = string.IsNullOrEmpty(form["valorDepositoBanco"]) ?0: float.Parse(form["valorDepositoBanco"]);
-            pago.bancoRecaudador = string.IsNullOrEmpty(form["bancoRecaudador"])?"": form["bancoRecaudador"].ToString();            
-            DateTime horaPago = new DateTime();
-            DateTime.TryParseExact(form["fechaPago"], "dd/MM/yyyy hh:mm:ss tt", null, System.Globalization.DateTimeStyles.None, out horaPago);
-            pago.horaPago = horaPago;
-            pago.caja = string.IsNullOrEmpty(form["caja"])?"": form["caja"].ToString();
-            pago.formaPago = string.IsNullOrEmpty(form["formaPago"])?"": form["formaPago"].ToString();
-            pago.oficina = string.IsNullOrEmpty(form["oficina"])?"": form["oficina"].ToString();
-            pago.cuentaBanco = string.IsNullOrEmpty(form["cuentaBanco"])?"": form["cuentaBanco"].ToString();
-            pago.jornada = string.IsNullOrEmpty(form["jornada"])?"": form["jornada"].ToString();
-            pago.tipoRegistro = string.IsNullOrEmpty(form["tipoRegistro"])?"": form["tipoRegistro"].ToString();
-            pago.operador = string.IsNullOrEmpty(form["operador"])?"": form["operador"].ToString();
-            pago.tipoTransaccion = string.IsNullOrEmpty(form["tipoTransacción"])?"": form["tipoTransacción"].ToString();
-            pago.descripcionTipoTransaccion = string.IsNullOrEmpty(form["descripcionTipoTransaccion"])?"": form["descripcionTipoTransaccion"].ToString();
-            pago.fechaSaldoAplicado = string.IsNullOrEmpty(form["fechaSaldoAplicado"])?"": form["fechaSaldoAplicado"].ToString();
-            pago.codBancoRecaudador = string.IsNullOrEmpty(form["codBancoRecaudador"])?"": form["codBancoRecaudador"].ToString();
+            
+            /*StringBuilder consoleResponse = new StringBuilder();
+            consoleResponse.AppendLine("[ITERACION FORMA DE TUPAGO]:");
+            foreach (var item in HttpContext.Request.Form)
+            {
+                consoleResponse.AppendLine("[" + item.Key +  "]: " + item.Value );
+            }
+            Console.Write(consoleResponse);*/
+
+            pago.codigoFactura = string.IsNullOrEmpty(HttpContext.Request.Form["codigoFactura"]) ? "" : HttpContext.Request.Form["codigoFactura"].ToString();
+            pago.valorFactura = string.IsNullOrEmpty(HttpContext.Request.Form["valorFactura"]) ? "" : HttpContext.Request.Form["valorFactura"].ToString();
+            pago.transaccionAprobada = string.IsNullOrEmpty(HttpContext.Request.Form["transaccionAprobada"]) ? "" : HttpContext.Request.Form["transaccionAprobada"].ToString();
+            pago.codigoAutorizacion = string.IsNullOrEmpty(HttpContext.Request.Form["codigoAutorizacion"]) ? "" : HttpContext.Request.Form["codigoAutorizacion"].ToString();
+            pago.firmaTuCompra = string.IsNullOrEmpty(HttpContext.Request.Form["firmaTuCompra"]) ? "" : HttpContext.Request.Form["firmaTuCompra"].ToString();
+            pago.numeroTransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["numeroTransaccion"]) ? "" : HttpContext.Request.Form["numeroTransaccion"].ToString();
+            pago.metodoPago = string.IsNullOrEmpty(HttpContext.Request.Form["metodoPago"]) ? "" : HttpContext.Request.Form["metodoPago"].ToString();
+            pago.nombreMetodo = string.IsNullOrEmpty(HttpContext.Request.Form["nombreMetodo"]) ? "" : HttpContext.Request.Form["nombreMetodo"].ToString();
+            pago.banco = string.IsNullOrEmpty(HttpContext.Request.Form["banco"]) ? "" : HttpContext.Request.Form["banco"].ToString();
+            pago.valorBase = string.IsNullOrEmpty(HttpContext.Request.Form["valorBase"]) ? "" : HttpContext.Request.Form["valorBase"].ToString();
+            pago.valorIva = string.IsNullOrEmpty(HttpContext.Request.Form["valorIva"]) ? "" : HttpContext.Request.Form["valorIva"].ToString();
+            pago.valorReteiva = string.IsNullOrEmpty(HttpContext.Request.Form["valorReteiva"]) ? "" : HttpContext.Request.Form["valorReteiva"].ToString();
+            pago.valorReteica = string.IsNullOrEmpty(HttpContext.Request.Form["valorReteica"]) ? "" : HttpContext.Request.Form["valorReteica"].ToString();
+            pago.valorRetefuente = string.IsNullOrEmpty(HttpContext.Request.Form["valorRetefuente"]) ? "" : HttpContext.Request.Form["valorRetefuente"].ToString();
+            pago.descripcion = string.IsNullOrEmpty(HttpContext.Request.Form["descripcion"]) ? "" : HttpContext.Request.Form["descripcion"].ToString();
+            pago.descripcion2 = string.IsNullOrEmpty(HttpContext.Request.Form["descripcion2"]) ? "" : HttpContext.Request.Form["descripcion2"].ToString();
+            pago.detalle = string.IsNullOrEmpty(HttpContext.Request.Form["detalle"]) ? "" : HttpContext.Request.Form["detalle"].ToString();            
+            pago.fechaPago = string.IsNullOrEmpty(HttpContext.Request.Form["fechaPago"]) ? "" : HttpContext.Request.Form["fechaPago"].ToString(); ;
+            pago.numeroTarjeta = string.IsNullOrEmpty(HttpContext.Request.Form["numeroTarjeta"]) ? "" : HttpContext.Request.Form["numeroTarjeta"].ToString();
+            pago.numeroCuotas = string.IsNullOrEmpty(HttpContext.Request.Form["numeroCuotas"]) ? "" : HttpContext.Request.Form["numeroCuotas"].ToString();
+            pago.correoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["correoComprador"]) ? "" : HttpContext.Request.Form["correoComprador"].ToString();
+            pago.nombreComprador = string.IsNullOrEmpty(HttpContext.Request.Form["nombreComprado"]) ? "" : HttpContext.Request.Form["nombreComprado"].ToString();
+            pago.apellidoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["apellidoComprador"]) ? "" : HttpContext.Request.Form["apellidoComprador"].ToString();
+            pago.documentoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["documentoComprador"]) ? "" : HttpContext.Request.Form["documentoComprador"].ToString();
+            pago.telefonoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["telefonoComprador"]) ? "" : HttpContext.Request.Form["telefonoComprador"].ToString();
+            pago.direccionComprador = string.IsNullOrEmpty(HttpContext.Request.Form["direccionComprador"]) ? "" : HttpContext.Request.Form["direccionComprador"].ToString();
+            pago.ipComprador = string.IsNullOrEmpty(HttpContext.Request.Form["ipComprador"]) ? "" : HttpContext.Request.Form["ipComprador"].ToString();
+            pago.ciudadComprador = string.IsNullOrEmpty(HttpContext.Request.Form["ciudadComprador"]) ? "" : HttpContext.Request.Form["ciudadComprador"].ToString();
+            pago.paisComprador = string.IsNullOrEmpty(HttpContext.Request.Form["paisComprador"]) ? "" : HttpContext.Request.Form["paisComprador"].ToString();
+            pago.estadoPago = string.IsNullOrEmpty(HttpContext.Request.Form["estadoPago"]) ? "" : HttpContext.Request.Form["estadoPago"].ToString();
+            pago.razonRechazo = string.IsNullOrEmpty(HttpContext.Request.Form["razonRechazo"]) ? "" : HttpContext.Request.Form["razonRechazo"].ToString();
+            pago.tipoTarjeta = string.IsNullOrEmpty(HttpContext.Request.Form["tipoTarjeta"]) ? "" : HttpContext.Request.Form["tipoTarjeta"].ToString();
+            pago.categoriatarjeta = string.IsNullOrEmpty(HttpContext.Request.Form["categoriatarjeta"]) ? "" : HttpContext.Request.Form["categoriatarjeta"].ToString();
+            pago.paisemisor = string.IsNullOrEmpty(HttpContext.Request.Form["paisemisor"]) ? "" : HttpContext.Request.Form["paisemisor"].ToString();
+            pago.telefonoBancoemisor = string.IsNullOrEmpty(HttpContext.Request.Form["telefonoBancoemisor"]) ? "" : HttpContext.Request.Form["telefonoBancoemisor"].ToString();
+            pago.valorComisionbancaria = string.IsNullOrEmpty(HttpContext.Request.Form["valorComisionBancaria"]) ? "" : HttpContext.Request.Form["valorComisionBancaria"].ToString();
+            pago.valorDepositoBanco = string.IsNullOrEmpty(HttpContext.Request.Form["valorDepositoBanco"]) ? "" : HttpContext.Request.Form["valorDepositoBanco"].ToString();
+            pago.bancoRecaudador = string.IsNullOrEmpty(HttpContext.Request.Form["bancoRecaudador"]) ? "" : HttpContext.Request.Form["bancoRecaudador"].ToString();            
+            pago.horaPago = string.IsNullOrEmpty(HttpContext.Request.Form["horaPago"]) ? "" : HttpContext.Request.Form["horaPago"].ToString(); ;
+            pago.caja = string.IsNullOrEmpty(HttpContext.Request.Form["caja"]) ? "" : HttpContext.Request.Form["caja"].ToString();
+            pago.formaPago = string.IsNullOrEmpty(HttpContext.Request.Form["formaPago"]) ? "" : HttpContext.Request.Form["formaPago"].ToString();
+            pago.oficina = string.IsNullOrEmpty(HttpContext.Request.Form["oficina"]) ? "" : HttpContext.Request.Form["oficina"].ToString();
+            pago.cuentaBanco = string.IsNullOrEmpty(HttpContext.Request.Form["cuentaBanco"]) ? "" : HttpContext.Request.Form["cuentaBanco"].ToString();
+            pago.jornada = string.IsNullOrEmpty(HttpContext.Request.Form["jornada"]) ? "" : HttpContext.Request.Form["jornada"].ToString();
+            pago.tipoRegistro = string.IsNullOrEmpty(HttpContext.Request.Form["tipoRegistro"]) ? "" : HttpContext.Request.Form["tipoRegistro"].ToString();
+            pago.operador = string.IsNullOrEmpty(HttpContext.Request.Form["operador"]) ? "" : HttpContext.Request.Form["operador"].ToString();
+            pago.tipoTransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["tipoTransaccion"]) ? "" : HttpContext.Request.Form["tipoTransaccion"].ToString();
+            pago.descripcionTipoTransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["descripcionTipoTransaccion"]) ? "" : HttpContext.Request.Form["descripcionTipoTransaccion"].ToString();
+            pago.fechaSaldoAplicado = string.IsNullOrEmpty(HttpContext.Request.Form["fechaSaldoAplicado"]) ? "" : HttpContext.Request.Form["fechaSaldoAplicado"].ToString();
+            pago.codBancoRecaudador = string.IsNullOrEmpty(HttpContext.Request.Form["codBancoRecaudador"]) ? "" : HttpContext.Request.Form["codBancoRecaudador"].ToString();
+            pago.celular = string.IsNullOrEmpty(HttpContext.Request.Form["celular"]) ? "" : HttpContext.Request.Form["celular"].ToString();
+            pago.terminaltucompra = string.IsNullOrEmpty(HttpContext.Request.Form["terminaltucompra"]) ? "" : HttpContext.Request.Form["terminaltucompra"].ToString();
+            pago.nro_convenio = string.IsNullOrEmpty(HttpContext.Request.Form["nro_convenio"]) ? "" : HttpContext.Request.Form["nro_convenio"].ToString();
+            pago.serialunicotransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["serialunicotransaccion"]) ? "" : HttpContext.Request.Form["serialunicotransaccion"].ToString();
+            pago.validarorcorresponsalath = string.IsNullOrEmpty(HttpContext.Request.Form["validarorcorresponsalath"]) ? "" : HttpContext.Request.Form["validarorcorresponsalath"].ToString();
+
+            pago.celular_nro_convenio = string.IsNullOrEmpty(HttpContext.Request.Form["celular&nro_convenio"]) ? "" : HttpContext.Request.Form["celular&nro_convenio"].ToString();
+            pago.celular_terminaltucompra = string.IsNullOrEmpty(HttpContext.Request.Form["celular&terminaltucompra"]) ? "" : HttpContext.Request.Form["celular&terminaltucompra"].ToString();
+
+            pago.compania = Constants.GuuidAuto;
+
             _context.PagoTuCompra.Add(pago);
             await _context.SaveChangesAsync();
             return "HTTP 200 OK";
         }
+
+        [AllowAnonymous]
+        [HttpPost("RegistrarTransaccionesElectro")]
+        [Route("api/Freyja/RegistrarTransaccionesElectro")]
+        public async Task<ActionResult<string>> RegistrarTransaccionesElectro()
+        {
+            PagoTuCompra pago = new PagoTuCompra();
+
+            /*StringBuilder consoleResponse = new StringBuilder();
+            consoleResponse.AppendLine("[ITERACION FORMA DE TUPAGO]:");
+            foreach (var item in HttpContext.Request.Form)
+            {
+                consoleResponse.AppendLine("[" + item.Key +  "]: " + item.Value );
+            }
+            Console.Write(consoleResponse);*/
+
+            pago.codigoFactura = string.IsNullOrEmpty(HttpContext.Request.Form["codigoFactura"]) ? "" : HttpContext.Request.Form["codigoFactura"].ToString();
+            pago.valorFactura = string.IsNullOrEmpty(HttpContext.Request.Form["valorFactura"]) ? "" : HttpContext.Request.Form["valorFactura"].ToString();
+            pago.transaccionAprobada = string.IsNullOrEmpty(HttpContext.Request.Form["transaccionAprobada"]) ? "" : HttpContext.Request.Form["transaccionAprobada"].ToString();
+            pago.codigoAutorizacion = string.IsNullOrEmpty(HttpContext.Request.Form["codigoAutorizacion"]) ? "" : HttpContext.Request.Form["codigoAutorizacion"].ToString();
+            pago.firmaTuCompra = string.IsNullOrEmpty(HttpContext.Request.Form["firmaTuCompra"]) ? "" : HttpContext.Request.Form["firmaTuCompra"].ToString();
+            pago.numeroTransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["numeroTransaccion"]) ? "" : HttpContext.Request.Form["numeroTransaccion"].ToString();
+            pago.metodoPago = string.IsNullOrEmpty(HttpContext.Request.Form["metodoPago"]) ? "" : HttpContext.Request.Form["metodoPago"].ToString();
+            pago.nombreMetodo = string.IsNullOrEmpty(HttpContext.Request.Form["nombreMetodo"]) ? "" : HttpContext.Request.Form["nombreMetodo"].ToString();
+            pago.banco = string.IsNullOrEmpty(HttpContext.Request.Form["banco"]) ? "" : HttpContext.Request.Form["banco"].ToString();
+            pago.valorBase = string.IsNullOrEmpty(HttpContext.Request.Form["valorBase"]) ? "" : HttpContext.Request.Form["valorBase"].ToString();
+            pago.valorIva = string.IsNullOrEmpty(HttpContext.Request.Form["valorIva"]) ? "" : HttpContext.Request.Form["valorIva"].ToString();
+            pago.valorReteiva = string.IsNullOrEmpty(HttpContext.Request.Form["valorReteiva"]) ? "" : HttpContext.Request.Form["valorReteiva"].ToString();
+            pago.valorReteica = string.IsNullOrEmpty(HttpContext.Request.Form["valorReteica"]) ? "" : HttpContext.Request.Form["valorReteica"].ToString();
+            pago.valorRetefuente = string.IsNullOrEmpty(HttpContext.Request.Form["valorRetefuente"]) ? "" : HttpContext.Request.Form["valorRetefuente"].ToString();
+            pago.descripcion = string.IsNullOrEmpty(HttpContext.Request.Form["descripcion"]) ? "" : HttpContext.Request.Form["descripcion"].ToString();
+            pago.descripcion2 = string.IsNullOrEmpty(HttpContext.Request.Form["descripcion2"]) ? "" : HttpContext.Request.Form["descripcion2"].ToString();
+            pago.detalle = string.IsNullOrEmpty(HttpContext.Request.Form["detalle"]) ? "" : HttpContext.Request.Form["detalle"].ToString();
+            pago.fechaPago = string.IsNullOrEmpty(HttpContext.Request.Form["fechaPago"]) ? "" : HttpContext.Request.Form["fechaPago"].ToString(); ;
+            pago.numeroTarjeta = string.IsNullOrEmpty(HttpContext.Request.Form["numeroTarjeta"]) ? "" : HttpContext.Request.Form["numeroTarjeta"].ToString();
+            pago.numeroCuotas = string.IsNullOrEmpty(HttpContext.Request.Form["numeroCuotas"]) ? "" : HttpContext.Request.Form["numeroCuotas"].ToString();
+            pago.correoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["correoComprador"]) ? "" : HttpContext.Request.Form["correoComprador"].ToString();
+            pago.nombreComprador = string.IsNullOrEmpty(HttpContext.Request.Form["nombreComprado"]) ? "" : HttpContext.Request.Form["nombreComprado"].ToString();
+            pago.apellidoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["apellidoComprador"]) ? "" : HttpContext.Request.Form["apellidoComprador"].ToString();
+            pago.documentoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["documentoComprador"]) ? "" : HttpContext.Request.Form["documentoComprador"].ToString();
+            pago.telefonoComprador = string.IsNullOrEmpty(HttpContext.Request.Form["telefonoComprador"]) ? "" : HttpContext.Request.Form["telefonoComprador"].ToString();
+            pago.direccionComprador = string.IsNullOrEmpty(HttpContext.Request.Form["direccionComprador"]) ? "" : HttpContext.Request.Form["direccionComprador"].ToString();
+            pago.ipComprador = string.IsNullOrEmpty(HttpContext.Request.Form["ipComprador"]) ? "" : HttpContext.Request.Form["ipComprador"].ToString();
+            pago.ciudadComprador = string.IsNullOrEmpty(HttpContext.Request.Form["ciudadComprador"]) ? "" : HttpContext.Request.Form["ciudadComprador"].ToString();
+            pago.paisComprador = string.IsNullOrEmpty(HttpContext.Request.Form["paisComprador"]) ? "" : HttpContext.Request.Form["paisComprador"].ToString();
+            pago.estadoPago = string.IsNullOrEmpty(HttpContext.Request.Form["estadoPago"]) ? "" : HttpContext.Request.Form["estadoPago"].ToString();
+            pago.razonRechazo = string.IsNullOrEmpty(HttpContext.Request.Form["razonRechazo"]) ? "" : HttpContext.Request.Form["razonRechazo"].ToString();
+            pago.tipoTarjeta = string.IsNullOrEmpty(HttpContext.Request.Form["tipoTarjeta"]) ? "" : HttpContext.Request.Form["tipoTarjeta"].ToString();
+            pago.categoriatarjeta = string.IsNullOrEmpty(HttpContext.Request.Form["categoriatarjeta"]) ? "" : HttpContext.Request.Form["categoriatarjeta"].ToString();
+            pago.paisemisor = string.IsNullOrEmpty(HttpContext.Request.Form["paisemisor"]) ? "" : HttpContext.Request.Form["paisemisor"].ToString();
+            pago.telefonoBancoemisor = string.IsNullOrEmpty(HttpContext.Request.Form["telefonoBancoemisor"]) ? "" : HttpContext.Request.Form["telefonoBancoemisor"].ToString();
+            pago.valorComisionbancaria = string.IsNullOrEmpty(HttpContext.Request.Form["valorComisionBancaria"]) ? "" : HttpContext.Request.Form["valorComisionBancaria"].ToString();
+            pago.valorDepositoBanco = string.IsNullOrEmpty(HttpContext.Request.Form["valorDepositoBanco"]) ? "" : HttpContext.Request.Form["valorDepositoBanco"].ToString();
+            pago.bancoRecaudador = string.IsNullOrEmpty(HttpContext.Request.Form["bancoRecaudador"]) ? "" : HttpContext.Request.Form["bancoRecaudador"].ToString();
+            pago.horaPago = string.IsNullOrEmpty(HttpContext.Request.Form["horaPago"]) ? "" : HttpContext.Request.Form["horaPago"].ToString(); ;
+            pago.caja = string.IsNullOrEmpty(HttpContext.Request.Form["caja"]) ? "" : HttpContext.Request.Form["caja"].ToString();
+            pago.formaPago = string.IsNullOrEmpty(HttpContext.Request.Form["formaPago"]) ? "" : HttpContext.Request.Form["formaPago"].ToString();
+            pago.oficina = string.IsNullOrEmpty(HttpContext.Request.Form["oficina"]) ? "" : HttpContext.Request.Form["oficina"].ToString();
+            pago.cuentaBanco = string.IsNullOrEmpty(HttpContext.Request.Form["cuentaBanco"]) ? "" : HttpContext.Request.Form["cuentaBanco"].ToString();
+            pago.jornada = string.IsNullOrEmpty(HttpContext.Request.Form["jornada"]) ? "" : HttpContext.Request.Form["jornada"].ToString();
+            pago.tipoRegistro = string.IsNullOrEmpty(HttpContext.Request.Form["tipoRegistro"]) ? "" : HttpContext.Request.Form["tipoRegistro"].ToString();
+            pago.operador = string.IsNullOrEmpty(HttpContext.Request.Form["operador"]) ? "" : HttpContext.Request.Form["operador"].ToString();
+            pago.tipoTransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["tipoTransaccion"]) ? "" : HttpContext.Request.Form["tipoTransaccion"].ToString();
+            pago.descripcionTipoTransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["descripcionTipoTransaccion"]) ? "" : HttpContext.Request.Form["descripcionTipoTransaccion"].ToString();
+            pago.fechaSaldoAplicado = string.IsNullOrEmpty(HttpContext.Request.Form["fechaSaldoAplicado"]) ? "" : HttpContext.Request.Form["fechaSaldoAplicado"].ToString();
+            pago.codBancoRecaudador = string.IsNullOrEmpty(HttpContext.Request.Form["codBancoRecaudador"]) ? "" : HttpContext.Request.Form["codBancoRecaudador"].ToString();
+            pago.celular = string.IsNullOrEmpty(HttpContext.Request.Form["celular"]) ? "" : HttpContext.Request.Form["celular"].ToString();
+            pago.terminaltucompra = string.IsNullOrEmpty(HttpContext.Request.Form["terminaltucompra"]) ? "" : HttpContext.Request.Form["terminaltucompra"].ToString();
+            pago.nro_convenio = string.IsNullOrEmpty(HttpContext.Request.Form["nro_convenio"]) ? "" : HttpContext.Request.Form["nro_convenio"].ToString();
+            pago.serialunicotransaccion = string.IsNullOrEmpty(HttpContext.Request.Form["serialunicotransaccion"]) ? "" : HttpContext.Request.Form["serialunicotransaccion"].ToString();
+            pago.validarorcorresponsalath = string.IsNullOrEmpty(HttpContext.Request.Form["validarorcorresponsalath"]) ? "" : HttpContext.Request.Form["validarorcorresponsalath"].ToString();
+
+            pago.celular_nro_convenio = string.IsNullOrEmpty(HttpContext.Request.Form["celular&nro_convenio"]) ? "" : HttpContext.Request.Form["celular&nro_convenio"].ToString();
+            pago.celular_terminaltucompra = string.IsNullOrEmpty(HttpContext.Request.Form["celular&terminaltucompra"]) ? "" : HttpContext.Request.Form["celular&terminaltucompra"].ToString();
+
+            pago.compania = Constants.GuuidElectro;
+
+            _context.PagoTuCompra.Add(pago);
+            await _context.SaveChangesAsync();
+            return "HTTP 200 OK";
+        }
+
 
 
         #region reports
