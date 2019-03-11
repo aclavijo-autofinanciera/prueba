@@ -36,6 +36,12 @@
         }
         else
         {
+            tipoBien.empty();
+            marca.empty();
+            planAhorro.empty();
+            tipoCalculo.empty();
+            agencia.empty();
+            agencia.append("<option value=\"\">Selecciona una opción</option>");
             $.ajax({
                 type: "GET",
                 url: "/api/Freyja/GetAgencias/" + userIdSiicon + "/" + compania.val(),
@@ -43,8 +49,6 @@
                 dataType: "json",
                 success: function (data) {
                     try {
-                        agencia.empty();
-                        agencia.append("<option value=\"\">Selecciona una opción</option>");
                         $.each(data, function (i, item) {
                             var rows = "<option value=\"" + item.CodAgencia + "\" >" + item.Agencia + " </option>";
                             agencia.append(rows);
