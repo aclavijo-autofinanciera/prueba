@@ -6,24 +6,47 @@
 Sistema para la generación y administración de contratos digitales de Autofinanciera.
 
 #### Instalación
-Visual Studio 2017 Community Edition (15.7.4)
-
-ASP.NET Core 2.1.1 con SDK 2.1 (311)
-
+Visual Studio 2017 Community Edition (15.9.8)
+ASP.NET Core 2.1.5 con SDK 2.1 (400)
 C# 7.0
-
 HTML5, CSS3, Javascript
+CentOS 7.4 x64
+PHP 7.2
+MariaDB 10.3
+SQL Server 2017 x64
+Kestrel Server 2.1
+Nginx 10.3
 
-Incluir los pasos de instalaciones y despligue en el servidor de linux
 
 ##### Librerias
-+ jQuery 3.1.1
-+ Bootstrap 4.1.1
-+ iTextt 7.0 
-+ FontAwesome 5.0.6
++ jQuery 3.3.1
++ Bootstrap 4.3.1
++ iTextt 7.1.3 
++ FontAwesome 5.3.6
++ AOS 1.8.6
++ jQuery Validation
++ jQuery UI
++ Mailkit 2.0.6
++ Newtonsoft Json 11.0.2
 
 
 #### Versiones
+
+##### 0.1.9.7 (2019-03-11)
++ Registro de pagos automatizados de tu compra.
++ Actualización del modelo de datos
+
+##### 0.1.8.81 (2019-03-08)
++ Minor bug fixes.
++ Limpieza en cascada del formulario de la liquidación.
++ Actualización de la vista de detalle y la vista de indexación del contrato, conteniendo datos extra, la definición de las ciudades y departamentos, y el estado del contrato como tal.
++ Actualización de vista resumen con los pagos manuales, automáticos y bancarios, realizando la sumatoria en cada caso individual.
++ Modificación de las reglas de validación: no se pueden tener dos contratos abiertos al mismo tiempo hasta que el último de ellos no haya terminado la validación y se encuentre en estado cerrado.
++ Un prospecto puede tener tantos contratos como sea posible.
++ Limitación de las reglas de validación y continuación del contrato.
++ Modificación de forma de los PDFs.
++ Inclusión de generación de pagos para promociones.
++ Registro ordenado de los pagos manuales directamente con el contrato completo.
 
 ##### 0.1.6 (2018-08-29)
 + Conexión con SIICON, envío de personas.
