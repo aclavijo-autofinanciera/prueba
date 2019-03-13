@@ -36,12 +36,22 @@
         }
         else
         {
-            tipoBien.empty();
-            marca.empty();
-            planAhorro.empty();
-            tipoCalculo.empty();
             agencia.empty();
             agencia.append("<option value=\"\">Selecciona una opción</option>");
+
+            tipoBien.empty();
+            tipoBien.append("<option value=\"\">Selecciona una opción</option>");
+
+            marca.empty();
+            marca.append("<option value=\"\">Selecciona una opción</option>");
+
+            planAhorro.empty();
+            planAhorro.append("<option value=\"\">Selecciona una opción</option>");
+
+            tipoCalculo.empty();
+            tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
+
+            
             $.ajax({
                 type: "GET",
                 url: "/api/Freyja/GetAgencias/" + userIdSiicon + "/" + compania.val(),
@@ -92,6 +102,19 @@
      * Al seleccionar una agencia se asignan los tipos de bien posibles
      */
     agencia.on('change', function () {
+        tipoBien.empty();
+        tipoBien.append("<option value=\"\">Selecciona una opción</option>");
+
+        marca.empty();
+        marca.append("<option value=\"\">Selecciona una opción</option>");
+
+        planAhorro.empty();
+        planAhorro.append("<option value=\"\">Selecciona una opción</option>");
+
+        tipoCalculo.empty();
+        tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
+
+        
         $('#AgenciaDescripcion').val(agencia.find(':selected').text());
         $.ajax({
             type: "GET",
@@ -220,6 +243,17 @@
      * Al seleccionar un tipo de bien se asignan las marcas posibles.
      * */
     tipoBien.on('change', function () {
+
+        marca.empty();
+        marca.append("<option value=\"\">Selecciona una opción</option>");
+
+        planAhorro.empty();
+        planAhorro.append("<option value=\"\">Selecciona una opción</option>");
+
+        tipoCalculo.empty();
+        tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
+
+        
         //Descripción del tipo de bien como tal
         $('#descripcionTipoBien').val(tipoBien.find(':selected').text());
         $.ajax({
@@ -262,6 +296,13 @@
      * Al seleccionar marca, se asignan los posibles planes de ahorro
      * */
     marca.on('change', function () {
+        planAhorro.empty();
+        planAhorro.append("<option value=\"\">Selecciona una opción</option>");
+
+        tipoCalculo.empty();
+        tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
+
+        
         $('#descripcionMarca').val(marca.find(':selected').text());
         $.ajax({
             type: "GET",
@@ -303,6 +344,12 @@
      * Al seleccionar el plan de ahorro se hace el cálculo total del bien.
      * */
     planAhorro.on('change', function () {
+
+        tipoCalculo.empty();
+        tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
+
+        
+
         $.ajax({
             type: "GET",
             url: "/api/Freyja/GetBienesParametros/" + compania.find(":selected").val() + "/" + tipoBien.find(":selected").val() + "/" + planAhorro.find(":selected").data("valorbien") + "/0",
@@ -340,7 +387,12 @@
      * Selección de tipo de medio
      * al seleccionar, se llenan los tipos de medio por agencia
      * */
-    tipoMedio.on("change", function () {       
+    tipoMedio.on("change", function () {  
+
+
+        tipoMedioAgencia.empty();
+        tipoMedioAgencia.append("<option value=\"\">Selecciona una opción</option>");
+
         $.ajax({
             type: "GET",
             url: "/api/Freyja/GetMedioAgencia/" + compania.val() + "/" + tipoMedio.val() + "/" + agencia.val(),
