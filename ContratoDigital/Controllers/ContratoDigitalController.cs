@@ -181,7 +181,7 @@ namespace ContratoDigital.Controllers
 
             await _context.SaveChangesAsync();
 
-            MemoryStream stream = new MemoryStream();
+            /*MemoryStream stream = new MemoryStream();
             string src = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
@@ -226,7 +226,7 @@ namespace ContratoDigital.Controllers
             pdfForm.FlattenFields();
             pdf.Close();
             stream.Flush();
-            stream.Position = 0;
+            stream.Position = 0;*/
 
             
             
@@ -298,7 +298,7 @@ namespace ContratoDigital.Controllers
                 _utilities.GetTemplate(srcTemplate),
                 canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
             
-            emailService.Send(emailMessage, stream, Constants.ContratoPDF);            
+            emailService.Send(emailMessage);            
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
 
@@ -739,11 +739,7 @@ namespace ContratoDigital.Controllers
                 await _context.SaveChangesAsync();
                 ViewData["IsConfirmed"] = true;
 
-                
-
-
                 MemoryStream stream = new MemoryStream();
-
                 
                 string src = "";
                 if (contrato.id_compania.Equals(Constants.GuuidElectro))
@@ -780,7 +776,7 @@ namespace ContratoDigital.Controllers
                     {
                         new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
                     };
-                        emailMessage.ToAddresses = new List<EmailAddress>()
+                    emailMessage.ToAddresses = new List<EmailAddress>()
                     {
                         new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                     };
