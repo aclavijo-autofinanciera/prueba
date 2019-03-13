@@ -7,8 +7,8 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 #### Instalación
 Visual Studio 2017 Community Edition (15.9.8)
-ASP.NET Core 2.1.5 con SDK 2.1 (400)
-C# 7.0
+.NET Core 2.2.3 con SDK 2.2.105
+C# 7.3
 HTML5, CSS3, Javascript
 CentOS 7.4 x64
 PHP 7.2
@@ -21,12 +21,12 @@ Nginx 10.3
 ##### Librerias
 + jQuery 3.3.1
 + Bootstrap 4.3.1
-+ iTextt 7.1.3 
++ iTextt 7.1.5 
 + FontAwesome 5.3.6
 + AOS 1.8.6
 + jQuery Validation
 + jQuery UI
-+ Mailkit 2.0.6
++ Mailkit 2.1.3
 + Newtonsoft Json 11.0.2
 
 
