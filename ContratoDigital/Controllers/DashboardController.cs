@@ -22,13 +22,15 @@ namespace ContratoDigital.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IEmailConfiguration _emailConfiguration;
         private readonly Utilities _utilities;
-        public DashboardController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, Utilities utilities, UserManager<ContratoDigitalUser> userManager)
+        private readonly ICanonicalUrlConfiguration _canonicalUrlConfiguration;
+        public DashboardController(IHostingEnvironment hostingEnvironment, ContratoDigitalContext context, IEmailConfiguration emailConfiguration, Utilities utilities, UserManager<ContratoDigitalUser> userManager, ICanonicalUrlConfiguration canonicalUrlConfiguration)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _emailConfiguration = emailConfiguration;
             _userManager = userManager;
             _utilities = utilities;
+            _canonicalUrlConfiguration = canonicalUrlConfiguration;
 
         }
 
@@ -101,7 +103,7 @@ namespace ContratoDigital.Controllers
             user.Agencia = agencia;
             user.DescripcionAgencia = form["DescripcionAgencia"];
 
-            WebserviceController service = new WebserviceController(_context, _emailConfiguration,_hostingEnvironment, _utilities, _userManager);
+            WebserviceController service = new WebserviceController(_context, _emailConfiguration,_hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             string resultSiicon = service.GetSiiconUserId(user.Cedula).Result.Value;            
             string resultAsesor = service.GetAsesorId(user.Cedula).Result.Value;
 

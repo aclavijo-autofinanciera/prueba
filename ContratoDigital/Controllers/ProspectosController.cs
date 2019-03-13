@@ -333,7 +333,7 @@ namespace ContratoDigital.Controllers
             var prospectos = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == id);
             Status status = new Status(_context);
 
-            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             DateTime fechaCierre = new DateTime();
             dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(prospectos.IdCompania).Result.Value);
             if (jsonFechaCierre.First.FechaCierre != null)
