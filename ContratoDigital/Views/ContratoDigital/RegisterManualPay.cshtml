@@ -300,7 +300,7 @@
                     </div>
 
                     <div class="form-row mt-4">
-                        <a class="btn btn-lg btn-outline-primary mx-auto" href="@Url.Action("Details", "ContratoDigital", new {id = Model.IdContrato})"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                        <a class="btn btn-sm btn-outline-primary" href="@Url.Action("Details", "ContratoDigital", new {id = Model.IdContrato})"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                         @if (Model.ConfirmacionContratos.IsPaid == false)
                         {
                             <input type="submit" class="btn btn-azul btn-lg mx-auto submitbutton" value="Registrar" />
