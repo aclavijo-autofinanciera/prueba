@@ -19,11 +19,14 @@ namespace ContratoDigital.Models
         public bool IsVerified { get; set; }
         public bool IsRegistered { get; set; }
         public bool IsRegisteredCommercial { get; set; }
+        public bool IsContractReceived { get; set; }
+
         public DateTime FechaVerificacion { get; set; }
         public DateTime FechaAceptacion { get; set; }
         public DateTime FechaPago { get; set; }
         public DateTime FechaReferenciaPago { get; set; }
         public DateTime FechaRegistro { get; set; }
+        public DateTime FechaContratoRecibido { get; set; }
 
         public int TipoMedio { get; set; }
         public string DescripcionTipoMedio { get; set; }
