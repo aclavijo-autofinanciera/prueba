@@ -92,7 +92,7 @@ namespace ContratoDigital.Controllers
                 return RedirectToAction("Find", "Prospectos", new { errorid = 1 });
             }
             DateTime fechaCierre = new DateTime();
-            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(prospecto.IdCompania).Result.Value);
             if (jsonFechaCierre.First.FechaCierre != null)
             {
@@ -109,7 +109,7 @@ namespace ContratoDigital.Controllers
         [HttpPost]
         public async Task<IActionResult> Fill(IFormCollection form)
         {
-            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             DateTime fechaCierre = new DateTime();
             Contrato contrato = _utilities.FillContrato(form);
 
@@ -180,55 +180,6 @@ namespace ContratoDigital.Controllers
             _context.RecibosPago.Add(reciboPago);
 
             await _context.SaveChangesAsync();
-
-            /*MemoryStream stream = new MemoryStream();
-            string src = "";
-            if (contrato.id_compania.Equals(Constants.GuuidElectro))
-            {
-                switch (contrato.marca_exclusiva_bien)
-                {
-                    case "YAMAHA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoMotoMas;
-                        break;
-                    default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoElectro;
-                        break;
-                }
-            }
-            else
-            {
-                switch (contrato.marca_exclusiva_bien)
-                {
-                    case "KIA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoKia;
-                        break;
-                    case "HYUNDAI":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" +  Constants.ContratoAutoKoreana;
-                        break;
-                    case "VOLKSWAGEN":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoColWager;
-                        break;
-
-                    default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAuto;
-                        break;
-                }
-            }
-            PdfWriter pdfwriter = new PdfWriter(stream);
-            PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
-            pdfwriter.SetCloseStream(false);
-
-            PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
-            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
-
-            _utilities.FillPdf(fields, contrato);
-
-            pdfForm.FlattenFields();
-            pdf.Close();
-            stream.Flush();
-            stream.Position = 0;*/
-
-            
             
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
@@ -307,7 +258,7 @@ namespace ContratoDigital.Controllers
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             
             Status status = new Status(_context);
-            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             if (contrato.ConfirmacionContratos.Asesor != 0)
             {                
                 ViewData["NombreAsesor"] = webservice.GetNombreAsesor(contrato.id_compania, int.Parse(contrato.agencia), contrato.ConfirmacionContratos.Asesor).Result.Value;
@@ -728,7 +679,7 @@ namespace ContratoDigital.Controllers
                 confirmacionContrato.FechaAceptacion = DateTime.Now;
                 confirmacionContrato.FechaReferenciaPago = DateTime.Now;
 
-                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
                 string cierreResult = webservice.RegistrarCierreComercial(contrato).Result.Value;
                 confirmacionContrato.IdCierreComercial = int.Parse(cierreResult);
                 if(confirmacionContrato.IdCierreComercial > 0)
@@ -851,6 +802,33 @@ namespace ContratoDigital.Controllers
             return View();
         }
 
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmarContrato(string guuid, int id)
+        {
+            ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == confirmacionContrato.IdContrato);
+            //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
+            //WebserviceController webservice = new WebserviceController(_context,_emailConfiguration,_hostingEnvironment, _utilities, _userManager);
+            //string referenciaPago = webservice.GenerarReferenciaPago(confirmacionContrato.Contrato.id_compania, confirmacionContrato.Contrato.documento_identidad_suscriptor.ToString(), confirmacionContrato.Contrato.valor_primer_pago, confirmacionContrato.IdContrato).Result.Value;
+            //dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
+            if (confirmacionContrato.Guuid.Equals(guuid))
+            {
+                confirmacionContrato.IsContractReceived = true;
+                confirmacionContrato.FechaContratoRecibido = DateTime.Now;
+                
+                await _context.SaveChangesAsync();
+                ViewData["IsConfirmed"] = true;                
+
+            }
+            else
+            {
+                ViewData["IsConfirmed"] = false;
+            }
+
+            return View();
+        }
+
         public async Task<IActionResult> Pay(int id)
         {
             MemoryStream stream = new MemoryStream();
@@ -895,7 +873,7 @@ namespace ContratoDigital.Controllers
             Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == int.Parse(form["idcontrato"]));
             if(contrato != null)
             {
-                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
                 string referenciaPago = webservice.GenerarReferenciaPago(contrato.id_compania, contrato.documento_identidad_suscriptor.ToString(), double.Parse(form["abono"]), contrato.IdContrato).Result.Value;
                 dynamic json = JsonConvert.DeserializeObject<dynamic>(referenciaPago);
 
