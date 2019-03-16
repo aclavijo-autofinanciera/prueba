@@ -575,133 +575,126 @@ namespace ContratoDigital.Controllers
 
         public async Task SendContract(Contrato contrato)
         {
-            try
+            MemoryStream stream = new MemoryStream();
+            string src = "";
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
-                MemoryStream stream = new MemoryStream();
-                string src = "";
-                if (contrato.id_compania.Equals(Constants.GuuidElectro))
+                switch (contrato.marca_exclusiva_bien)
                 {
-                    switch (contrato.marca_exclusiva_bien)
-                    {
-                        case "YAMAHA":
-                            src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoMotoMas;
-                            break;
-                        default:
-                            src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoElectro;
-                            break;
-                    }
+                    case "YAMAHA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoMotoMas;
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoElectro;
+                        break;
                 }
-                else
-                {
-                    switch (contrato.marca_exclusiva_bien)
-                    {
-                        case "KIA":
-                            src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoKia;
-                            break;
-                        case "HYUNDAI":
-                            src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAutoKoreana;
-                            break;
-                        case "VOLKSWAGEN":
-                            src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoColWager;
-                            break;
-
-                        default:
-                            src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAuto;
-                            break;
-                    }
-                }
-                PdfWriter pdfwriter = new PdfWriter(stream);
-                PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
-                pdfwriter.SetCloseStream(false);
-
-                PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
-                IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
-
-                _utilities.FillPdf(fields, contrato);
-
-                pdfForm.FlattenFields();
-                pdf.Close();
-                stream.Flush();
-                stream.Position = 0;
-
-
-
-                EmailService emailService = new EmailService(_emailConfiguration);
-                EmailMessage emailMessage = new EmailMessage();
-                CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
-
-
-                string srcTemplate = "";
-                if (contrato.id_compania.Equals(Constants.GuuidElectro))
-                {
-                    emailMessage.FromAddresses = new List<EmailAddress>()
-                {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address="tienda@autofinanciera.com.co"}
-                };
-                    emailMessage.ToAddresses = new List<EmailAddress>()
-                {
-                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
-                };
-                    emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
-                    switch (contrato.marca_exclusiva_bien)
-                    {
-                        case "YAMAHA":
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoMotoMas.html";
-                            break;
-                        case "AUTECO - BAJAJ":
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoBajaj.html";
-                            break;
-                        case "AUTECO - KAWASAKI":
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKawasaki.html";
-                            break;
-                        case "AUTECO - KTM":
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKtm.html";
-                            break;
-                        default:
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoElectroplan.html";
-                            break;
-                    }
-                }
-                else
-                {
-                    emailMessage.FromAddresses = new List<EmailAddress>()
-                {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
-                };
-                    emailMessage.ToAddresses = new List<EmailAddress>()
-                {
-                    new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
-                };
-                    emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
-                    switch (contrato.marca_exclusiva_bien)
-                    {
-                        case "KIA":
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoKiaPlan.html";
-                            break;
-                        case "HYUNDAI":
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutokoreana.html";
-                            break;
-                        case "VOLKSWAGEN":
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutofinanciera.html";
-                            break;
-                        default:
-                            srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/Contrato/ContratoAutofinanciera.html";
-                            break;
-                    }
-                }
-
-                emailMessage.Content = String.Format(
-                    _utilities.GetTemplate(srcTemplate),
-                    canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/confirmarcorreo/?guuid=" + contrato.ConfirmacionContratos.Guuid + "&id=" + contrato.ConfirmacionContratos.Id);
-
-                emailService.Send(emailMessage, stream, Constants.ContratoPDF);
-                return "HTTP 200 OK";
-
             }
-            catch(Exception ex)
+            else
             {
-                return "HTTP 503: " + ex.Message;
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoKia;
+                        break;
+                    case "HYUNDAI":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAutoKoreana;
+                        break;
+                    case "VOLKSWAGEN":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoColWager;
+                        break;
+
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAuto;
+                        break;
+                }
             }
+            PdfWriter pdfwriter = new PdfWriter(stream);
+            PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
+            pdfwriter.SetCloseStream(false);
+
+            PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
+            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
+
+            _utilities.FillPdf(fields, contrato);
+
+            pdfForm.FlattenFields();
+            pdf.Close();
+            stream.Flush();
+            stream.Position = 0;
+
+
+
+            EmailService emailService = new EmailService(_emailConfiguration);
+            EmailMessage emailMessage = new EmailMessage();
+            CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
+
+
+            string srcTemplate = "";
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
+            {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = "Mi Contrato Electroplan", Address="tienda@autofinanciera.com.co"}
+            };
+                emailMessage.ToAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+            };
+                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoMotoMas.html";
+                        break;
+                    case "AUTECO - BAJAJ":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoBajaj.html";
+                        break;
+                    case "AUTECO - KAWASAKI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoKawasaki.html";
+                        break;
+                    case "AUTECO - KTM":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoKtm.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoElectroplan.html";
+                        break;
+                }
+            }
+            else
+            {
+                emailMessage.FromAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
+            };
+                emailMessage.ToAddresses = new List<EmailAddress>()
+            {
+                new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
+            };
+                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
+                switch (contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoKiaPlan.html";
+                        break;
+                    case "HYUNDAI":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoAutokoreana.html";
+                        break;
+                    case "VOLKSWAGEN":
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoAutofinanciera.html";
+                        break;
+                    default:
+                        srcTemplate = _hostingEnvironment.WebRootPath + "/emailtemplates/ConfirmacionContrato/ContratoAutofinanciera.html";
+                        break;
+                }
+            }
+
+            emailMessage.Content = String.Format(
+                _utilities.GetTemplate(srcTemplate),
+                canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/confirmarcontrato/?guuid=" + contrato.ConfirmacionContratos.Guuid + "&id=" + contrato.ConfirmacionContratos.Id);
+
+            emailService.Send(emailMessage, stream, Constants.ContratoPDF);
+                
+
         }
 
         private string PagosToJson(int id)
