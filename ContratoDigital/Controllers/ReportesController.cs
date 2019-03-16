@@ -59,7 +59,7 @@ namespace ContratoDigital.Controllers
             Status status = new Status(_context);
             if (contrato.ConfirmacionContratos.Asesor != 0)
             {
-                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager);
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager,_canonicalUrlConfiguration);
                 ViewData["NombreAsesor"] = webservice.GetNombreAsesor(contrato.id_compania, int.Parse(contrato.agencia), contrato.ConfirmacionContratos.Asesor).Result.Value;
             }
 
