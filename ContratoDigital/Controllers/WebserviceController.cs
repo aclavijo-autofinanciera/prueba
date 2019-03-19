@@ -489,6 +489,9 @@ namespace ContratoDigital.Controllers
         }
 
 
+        
+
+
 
         public async Task<ActionResult<string>> CreatePersonaSiicon(PersonaSiicon persona)
         {
@@ -914,9 +917,18 @@ namespace ContratoDigital.Controllers
             pago.celular_terminaltucompra = string.IsNullOrEmpty(HttpContext.Request.Form["celular&terminaltucompra"]) ? "" : HttpContext.Request.Form["celular&terminaltucompra"].ToString();
 
             pago.compania = Constants.GuuidAuto;
+            pago.fechaDeRegistro = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
+            pago.registradoEnSiicon = false;
+            pago.fechaRegistroSiicon = "";
 
             _context.PagoTuCompra.Add(pago);
             await _context.SaveChangesAsync();
+            if (RegistrarTransaccion(pago).Result.Value == "HTTP 200 OK")
+            {
+                pago.fechaRegistroSiicon = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
+                pago.registradoEnSiicon = true;
+                await _context.SaveChangesAsync();
+            }
             return "HTTP 200 OK";
         }
 
@@ -995,13 +1007,36 @@ namespace ContratoDigital.Controllers
             pago.celular_terminaltucompra = string.IsNullOrEmpty(HttpContext.Request.Form["celular&terminaltucompra"]) ? "" : HttpContext.Request.Form["celular&terminaltucompra"].ToString();
 
             pago.compania = Constants.GuuidElectro;
+            pago.fechaDeRegistro = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
+            pago.registradoEnSiicon = false;
+            pago.fechaRegistroSiicon = "";
 
             _context.PagoTuCompra.Add(pago);
             await _context.SaveChangesAsync();
+            if(RegistrarTransaccion(pago).Result.Value == "HTTP 200 OK")
+            {
+                pago.fechaRegistroSiicon = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
+                pago.registradoEnSiicon = true;
+                await _context.SaveChangesAsync();
+            }
             return "HTTP 200 OK";
         }
 
-
+        public async Task<ActionResult<string>> RegistrarTransaccion(PagoTuCompra pago)
+        {
+            string result = service.RegistrarPagoTuCompraAsync(pago.codigoFactura, pago.valorFactura, pago.transaccionAprobada,
+                pago.codigoAutorizacion, pago.firmaTuCompra, pago.numeroTransaccion, pago.metodoPago, pago.nombreMetodo, pago.banco,
+                pago.valorBase, pago.valorIva, pago.valorReteiva, pago.valorReteica, pago.valorRetefuente, pago.descripcion,
+                pago.descripcion2, pago.detalle, pago.fechaPago, pago.numeroTarjeta, pago.numeroCuotas, pago.correoComprador,
+                pago.nombreComprador, pago.apellidoComprador, pago.documentoComprador, pago.telefonoComprador, pago.direccionComprador,
+                pago.ipComprador, pago.ciudadComprador, pago.paisComprador, pago.estadoPago, pago.razonRechazo, pago.tipoTarjeta,
+                pago.categoriatarjeta, pago.paisemisor, pago.telefonoBancoemisor, pago.valorComisionbancaria, pago.valorDepositoBanco,
+                pago.bancoRecaudador, pago.horaPago, pago.caja, pago.formaPago, pago.oficina, pago.cuentaBanco, pago.jornada,
+                pago.tipoRegistro, pago.operador, pago.tipoTransaccion, pago.descripcionTipoTransaccion, pago.fechaSaldoAplicado,
+                pago.codBancoRecaudador, pago.celular_terminaltucompra, pago.celular_nro_convenio, pago.celular, pago.terminaltucompra,
+                pago.nro_convenio, pago.serialunicotransaccion, pago.validarorcorresponsalath, pago.compania).Result;            
+                return "HTTP 200 OK";
+        }
 
         #region reports
 
