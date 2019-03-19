@@ -51,7 +51,8 @@ namespace ContratoDigital
             services.AddTransient<ICanonicalUrlService, CanonicalUrlService>();
             //services.AddSingleton<IHostedService, DailyJobs>();
             //services.AddHostedService<DailyJobs>();
-            services.AddTransient<IHostedService, DailyJobs>();
+            services.AddTransient<IHostedService, JobRegistrarContratos>();
+            //services.AddTransient<IHostedService, JobRegistrarTransacciones>();
 
 
             services.AddSession();
