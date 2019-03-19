@@ -9,21 +9,22 @@ using System.Threading.Tasks;
 
 namespace ContratoDigital
 {
-    internal class DailyJobs : IHostedService, IDisposable
+    
+    internal class JobRegistrarTransacciones : IHostedService, IDisposable
     {
         private Timer _timer;
         private readonly ICanonicalUrlConfiguration _canonicalUrlConfiguration;
 
-        public DailyJobs(ICanonicalUrlConfiguration canonicalUrlConfiguration)
+        public JobRegistrarTransacciones(ICanonicalUrlConfiguration canonicalUrlConfiguration)
         {
             _canonicalUrlConfiguration = canonicalUrlConfiguration;
         }
 
-        
+
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(RegisterSiiconContracts, null, TimeSpan.Zero, TimeSpan.FromHours(6));
+            _timer = new Timer(RegisterSiiconContracts, null, TimeSpan.Zero, TimeSpan.FromMinutes(5));
             return Task.CompletedTask;
             //throw new NotImplementedException();
         }
@@ -32,13 +33,12 @@ namespace ContratoDigital
         {
             using (var client = new HttpClient())
             {
-                CanonicalUrlService urlService = new CanonicalUrlService(_canonicalUrlConfiguration);                
-                //var result = client.GetStringAsync("http://localhost:53036/api/Freyja/Getcompanias").Result;                
-                var result = client.GetStringAsync(urlService.GetCanonicalUrl() + "api/Freyja/RegistrarContratos").Result;                
+                CanonicalUrlService urlService = new CanonicalUrlService(_canonicalUrlConfiguration);
+                var result = client.GetStringAsync(urlService.GetCanonicalUrl() + "api/Freyja/RegistrarTransacciones").Result;
             }
         }
 
-       
+
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
