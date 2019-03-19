@@ -68,6 +68,10 @@ namespace ContratoDigital.Models
         public string celular_nro_convenio { get; set; }
         public string celular_terminaltucompra { get; set; }
         public string compania { get; set; }
+
+        public string fechaDeRegistro { get; set; }
+        public bool registradoEnSiicon { get; set; }
+        public string fechaRegistroSiicon { get; set; }
     }
 
     
