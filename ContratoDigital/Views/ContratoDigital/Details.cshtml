@@ -26,6 +26,8 @@
         </div>
     </section>
 }
+@if (Model.ConfirmacionContratos != null)
+{
 <section>
     <div class="container">
         <div class="row">
@@ -75,7 +77,7 @@
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
 
                                 }
                             </div>
@@ -193,7 +195,7 @@
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <a href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Actualizar documento</a>
+                                <a href="@Url.Action("UploadId", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Actualizar documento</a>
                                 <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar actualización de documento</a>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentoModal" data-fetched="false" data-idcontrato="@Model.IdContrato" id="showDocs">
                                     Ver documentos
@@ -208,7 +210,7 @@
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <a href="@Url.Action("UploadId","ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Adjuntar cédula</a>
+                                <a href="@Url.Action("UploadId", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Adjuntar cédula</a>
                                 <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar adjunto de documento</a>
                             </div>
                         </div>
@@ -1301,7 +1303,7 @@
                 <hr />
 
                 <nav class="navbar navbar-expand-lg navbar-dark bg-azul">
-                    <a class="navbar-brand" href="@Url.Action("Details", "Prospectos", new { id=Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                    <a class="navbar-brand" href="@Url.Action("Details", "Prospectos", new { id = Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -1311,16 +1313,20 @@
                             @if (Model.ConfirmacionContratos.IsAccepted == false)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Edit", "ContratoDigital", new {id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
+                                    <a class="nav-link" href="@Url.Action("Edit", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
                                 </li>
                             }
 
-                            <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
-                            </li>
+                            @if (Model.ConfirmacionContratos.IsRegistered)
+                            {
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
+                                </li>
+                            }
+                            
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="@Url.Action("Index", "Prospectos")" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-receipt"></i> Recibo
@@ -1342,4 +1348,30 @@
         </div>
     </div>
 </section>
+}
+else
+{
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                        <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                            Detalle de contrato @Model.numero_de_contrato
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="polymer-box">
+                        <h3>El contrato que está intentando cargar posee errores de nulicidad. Comuniquese con el administrador</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
 
