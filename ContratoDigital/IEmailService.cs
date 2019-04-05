@@ -58,6 +58,38 @@ namespace ContratoDigital
         }
 
         /// <summary>
+        /// Servicio de envíos de correos electrónicos.
+        /// </summary>
+        /// <param name="emailMessage"></param>
+        /// <param name="stream">Stream del Attachment PDF</param>
+        public void Send(EmailMessage emailMessage, MemoryStream stream, MemoryStream second_stream, string tituloPdf)
+        {
+            var message = new MimeMessage();
+            message.To.AddRange(emailMessage.ToAddresses.Select(x => new MailboxAddress(x.Name, x.Address)));
+            message.From.AddRange(emailMessage.FromAddresses.Select(x => new MailboxAddress(x.Name, x.Address)));
+
+            message.Subject = emailMessage.Subject;
+            var builder = new BodyBuilder();
+            builder.HtmlBody = emailMessage.Content;
+            builder.Attachments.Add("[MiContrato] " + DateTime.Now.ToString("yyyy-MM-dd-") + tituloPdf + ".pdf", stream.ToArray(), new ContentType("application", "pdf"));
+            builder.Attachments.Add("manualdelsuscriptor.pdf", second_stream, new ContentType("application", "pdf"));
+            message.Body = builder.ToMessageBody();
+            using (var emailClient = new SmtpClient())
+            {                
+                emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, MailKit.Security.SecureSocketOptions.None);
+                emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
+                emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
+                emailClient.Send(message);
+                emailClient.Disconnect(true);
+
+            }
+        }
+
+
+
+
+
+        /// <summary>
         /// Servicio de envío de correos electrónicos
         /// </summary>
         /// <param name="emailMessage">Correo sencillo</param>
