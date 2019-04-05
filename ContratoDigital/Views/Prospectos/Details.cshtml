@@ -397,9 +397,20 @@
                                     <li class="nav-item ">
                                         <a class="nav-link" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
                                     </li>
-                                    <li class="nav-item ">
-                                        <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
-                                    </li>
+                                    @if (Model.Contratos.Count == 0)
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
+                                        </li>
+                                    }
+                                    else if (Model.Contratos.Count > 0 && Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
+                                    {
+                                        <li class="nav-item ">
+                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
+                                        </li>
+                                    }
+
+
                                 }
                             </ul>
 
