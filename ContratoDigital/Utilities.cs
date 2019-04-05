@@ -695,7 +695,7 @@ namespace ContratoDigital
             toSet.SetValue(String.Format("$ {0:0,0}", contrato.RecibosPago.Last().Monto));
 
             fields.TryGetValue("PagoOportuno", out toSet);
-            toSet.SetValue(string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(3))));
+            toSet.SetValue(string.Format("{0:dd-MM-yyyy}", (DateTime.Now.AddDays(15))));
 
             fields.TryGetValue("FechaGeneracion", out toSet);
             toSet.SetValue(string.Format("{0:dd-MM-yyyy}", (DateTime.Now)));
@@ -1566,7 +1566,11 @@ namespace ContratoDigital
         public const string ReciboAuto = "recibo/2019-01-11-recibo_auto_v-3.1.pdf";
         public const string ReciboElectro = "recibo/2019-01-11-recibo_electro_v-3.1.pdf";
 
+        public const string ManualSuscriptorAuto = "manualsuscripcion/2018-10-22-manual-suscriptor-autofinanciera.pdf";
+        public const string ManualSuscriptorElectro = "manualsuscripcion/2018-10-22-manual-suscriptor-electro.pdf";
 
+        public const string CesionAuto = "cesion/2019-04-04-V-1.0_aceleraton_auto.pdf";
+        public const string CesionElectro = "cesion/2019-04-04-V-1.0_aceleraton_electro.pdf";
 
         public enum Estados
         {
