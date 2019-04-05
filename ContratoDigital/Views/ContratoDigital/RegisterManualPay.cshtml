@@ -246,10 +246,11 @@
                 </div>
             </div>
             <div class="col-12">
+                <div class="alertMessage p-2"></div>
                 <form method="post" class="PagoManualValidation bootstrapValidation" autocomplete="off">
                     <input type="hidden" name="compania" id="compania" value="@Model.id_compania" />
                     <input type="hidden" name="id_contrato" id="id_contrato" value="@Model.IdContrato" />
-
+                    
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
                             <label for="id_tipo_pago">Tipo de pago</label>
