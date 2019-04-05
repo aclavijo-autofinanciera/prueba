@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Contrato>
+﻿@model PaginatedList<Contrato>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -89,22 +89,23 @@
                             @item.numero_de_contrato
                         </div>
                     </div>
-
-                    @if (item.ConfirmacionContratos.FechaCierreComercial != null)
+                    @if (item.ConfirmacionContratos != null)
                     {
-                        <div class="row">
-                            <div class="col-12 col-md-4 font-weight-bold">Cierre comercial</div>
-                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                @item.ConfirmacionContratos.FechaCierreComercial.ToShortDateString()
-                            </div>
-                        </div>
-                    }
 
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Estado</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @if (item.ConfirmacionContratos != null)
-                            {
+                        @if (item.ConfirmacionContratos.FechaCierreComercial != null)
+                        {
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Cierre comercial</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.ConfirmacionContratos.FechaCierreComercial.ToShortDateString()
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="col-12 col-md-4 font-weight-bold">Estado</div>
+                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
+
                                 <div>
 
                                     @if (item.ConfirmacionContratos.IsAccepted)
@@ -169,14 +170,27 @@
                                         </label>
                                     }
                                 </div>
-                            }
 
+
+                            </div>
                         </div>
-                    </div>
-
+                    }
                 </div>
 
                     }
+                     
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled btn-outline-primary" : "btn-primary";
+                    var nextDisabled = !Model.HasNextPage ? "disabled btn-outline-primary" : "btn-primary";
+                    
+                    <div class="row mt-3 justify-content-center">
+                        <div class="col-2">
+                            <a href="@Url.Action("FindAll", "ContratoDigital", new {pageNumber = Model.PageIndex -1})" class="btn  @prevDisabled"><i class="fas fa-chevron-left"></i> Anterior</a>
+                            
+                        </div>
+                        <div class="col-2">
+                        <a href="@Url.Action("FindAll", "ContratoDigital", new {pageNumber = Model.PageIndex +1})" class="btn  @nextDisabled">Siguiente <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
                 }
 
             </div>
