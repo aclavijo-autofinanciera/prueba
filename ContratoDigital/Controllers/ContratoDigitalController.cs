@@ -13,12 +13,7 @@ using ContratoDigital.Models;
 using iText.Forms;
 using iText.Forms.Fields;
 using iText.Kernel.Pdf;
-using iText.Barcodes;
-using iText.Layout.Element;
 using ContratoDigital.Data;
-using SiiconWebService;
-using iText.Kernel.Colors;
-using iText.Layout;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using ContratoDigital.Areas.Identity.Data;
@@ -59,25 +54,25 @@ namespace ContratoDigital.Controllers
                 .OrderByDescending(x => x.IdContrato).ToListAsync());
         }
 
-        public async Task<IActionResult> FindAll()
+        public async Task<IActionResult> FindAll(int? pageNumber)
         {
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
                 return RedirectToAction("AccessDenied", "Identity/Account");
             }
-            return View(await _context.Contratos                
-                .OrderByDescending(x => x.IdContrato).ToListAsync());
+            var contratos = _context.Contratos.OrderByDescending(x => x.IdContrato);
+            return View(await PaginatedList<Contrato>.CreateAsync(contratos, pageNumber ?? 1, 10));
         }
 
         public IActionResult Fill(int id)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == id);
-            if(prospecto.ConfirmacionProspecto.IsConfirmed == false)
+            if(prospecto.ConfirmacionProspecto.IsConfirmed == false || prospecto.Contratos.Last().ConfirmacionContratos.IsRegistered == false)
             {
                 return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
-            }
-            Contrato numeroContrato = _context.Contratos.OrderBy(x => x.numero_de_contrato).LastOrDefault();
+            }            
+            /*Contrato numeroContrato = _context.Contratos.OrderBy(x => x.numero_de_contrato).LastOrDefault();
             if(numeroContrato == null )
             {
                 ViewData["NumeroContrato"] = 8100000;
@@ -85,7 +80,7 @@ namespace ContratoDigital.Controllers
             else
             {
                 ViewData["NumeroContrato"] = numeroContrato.numero_de_contrato + 1;
-            }
+            }*/
             GetStatusList();
             if (prospecto == null)
             {
@@ -109,6 +104,11 @@ namespace ContratoDigital.Controllers
         [HttpPost]
         public async Task<IActionResult> Fill(IFormCollection form)
         {
+            var prospecto = await _context.Prospectos.SingleOrDefaultAsync(x => x.IdProspecto == int.Parse(form["IdProspecto"]));
+            if (prospecto.Contratos.Count>0 && prospecto.Contratos.Last().ConfirmacionContratos.IsRegistered == false)
+            {
+                return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
+            }
             WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             DateTime fechaCierre = new DateTime();
             Contrato contrato = _utilities.FillContrato(form);
@@ -256,43 +256,46 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Details(int id)
         {
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
-            
-            Status status = new Status(_context);
-            WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
-            if (contrato.ConfirmacionContratos.Asesor != 0)
-            {                
-                ViewData["NombreAsesor"] = webservice.GetNombreAsesor(contrato.id_compania, int.Parse(contrato.agencia), contrato.ConfirmacionContratos.Asesor).Result.Value;
-            }            
 
-            ViewData["TipoIdentificacionSuscriptor"] = status.GetStatusName(int.Parse(contrato.tipo_documento_identidad_suscriptor));
-            ViewData["ProcedenciaIdentificacion"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor));
-            ViewData["SexoSuscriptor"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor));
-            ViewData["EstadoCivilSuscriptor"] = status.GetStatusName(int.Parse(contrato.estado_civil_suscriptor));
-            ViewData["DepartamentoSuscriptor"] = status.GetStatusName(int.Parse(contrato.departamento_suscriptor));
-            ViewData["CiudadSuscriptor"] = status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor));
-            ViewData["DepartamentoLaboralSuscriptor"] = status.GetStatusName(int.Parse(contrato.departamento_empleo_suscriptor));
-            ViewData["CiudadLaboralSuscriptor"] = status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor));
-            if (!string.IsNullOrEmpty( contrato.tipo_documento_representante_legal))
+            if (contrato.ConfirmacionContratos != null)
             {
-                ViewData["TipoIdentificacionLegal"] = status.GetStatusName(int.Parse(contrato.tipo_documento_representante_legal));
-            }
-            
-            if(contrato.documento_identidad_suscriptor_conjunto> 0)
-            {
-                ViewData["TipoIdentificacionSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.tipo_identidad_suscriptor_conjunto));
-                ViewData["SexoSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor_conjunto));
-                ViewData["EstadoCivilSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.estado_civil_suscriptor_conjunto));
-                ViewData["DepartamentoSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.departamento_suscriptor_conjunto));
-                ViewData["CiudadSuscriptorConjunto"] = status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor_conjunto));
-                ViewData["DepartamentoLaboralSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.departamento_empleo_suscriptor_conjunto ));
-                ViewData["CiudadLaboralSuscriptorConjunto"] = status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor_conjunto));
-                if (!string.IsNullOrEmpty(contrato.tipo_identidad_representante_legal_suscriptor_conjunto))
+                Status status = new Status(_context);
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
+                if (contrato.ConfirmacionContratos.Asesor != 0)
                 {
-                    ViewData["TipoIdentificacionLegalConjunto"] = status.GetStatusName(int.Parse(contrato.tipo_identidad_representante_legal_suscriptor_conjunto));
+                    ViewData["NombreAsesor"] = webservice.GetNombreAsesor(contrato.id_compania, int.Parse(contrato.agencia), contrato.ConfirmacionContratos.Asesor).Result.Value;
                 }
 
+                ViewData["TipoIdentificacionSuscriptor"] = status.GetStatusName(int.Parse(contrato.tipo_documento_identidad_suscriptor));
+                ViewData["ProcedenciaIdentificacion"] = status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor));
+                ViewData["SexoSuscriptor"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor));
+                ViewData["EstadoCivilSuscriptor"] = status.GetStatusName(int.Parse(contrato.estado_civil_suscriptor));
+                ViewData["DepartamentoSuscriptor"] = status.GetStatusName(int.Parse(contrato.departamento_suscriptor));
+                ViewData["CiudadSuscriptor"] = status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor));
+                ViewData["DepartamentoLaboralSuscriptor"] = status.GetStatusName(int.Parse(contrato.departamento_empleo_suscriptor));
+                ViewData["CiudadLaboralSuscriptor"] = status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor));
+                if (!string.IsNullOrEmpty(contrato.tipo_documento_representante_legal))
+                {
+                    ViewData["TipoIdentificacionLegal"] = status.GetStatusName(int.Parse(contrato.tipo_documento_representante_legal));
+                }
+
+                if (contrato.documento_identidad_suscriptor_conjunto > 0)
+                {
+                    ViewData["TipoIdentificacionSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.tipo_identidad_suscriptor_conjunto));
+                    ViewData["SexoSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.sexo_suscriptor_conjunto));
+                    ViewData["EstadoCivilSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.estado_civil_suscriptor_conjunto));
+                    ViewData["DepartamentoSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.departamento_suscriptor_conjunto));
+                    ViewData["CiudadSuscriptorConjunto"] = status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor_conjunto));
+                    ViewData["DepartamentoLaboralSuscriptorConjunto"] = status.GetStatusName(int.Parse(contrato.departamento_empleo_suscriptor_conjunto));
+                    ViewData["CiudadLaboralSuscriptorConjunto"] = status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor_conjunto));
+                    if (!string.IsNullOrEmpty(contrato.tipo_identidad_representante_legal_suscriptor_conjunto))
+                    {
+                        ViewData["TipoIdentificacionLegalConjunto"] = status.GetStatusName(int.Parse(contrato.tipo_identidad_representante_legal_suscriptor_conjunto));
+                    }
+
+                }
+                ViewData["Estado"] = status.GetStatusName(contrato.ConfirmacionContratos.IdEstado); 
             }
-            ViewData["Estado"] = status.GetStatusName(contrato.ConfirmacionContratos.IdEstado);
             return View(contrato);
         }
 
@@ -861,7 +864,7 @@ namespace ContratoDigital.Controllers
 
         public async Task<IActionResult> GenerateReference(int id)
         {
-            Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
             Status status = new Status(_context);
             ViewData["TipoIdentificacionSuscriptor"] = status.GetStatusName(int.Parse(contrato.tipo_documento_identidad_suscriptor));
             return View(contrato);            
