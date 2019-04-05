@@ -579,6 +579,7 @@ namespace ContratoDigital.Controllers
         public async Task SendContract(Contrato contrato)
         {
             MemoryStream stream = new MemoryStream();
+            MemoryStream second_stream = new MemoryStream();
             string src = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
@@ -625,6 +626,8 @@ namespace ContratoDigital.Controllers
             stream.Flush();
             stream.Position = 0;
 
+           
+
 
 
             EmailService emailService = new EmailService(_emailConfiguration);
@@ -633,16 +636,18 @@ namespace ContratoDigital.Controllers
 
 
             string srcTemplate = "";
+            string srcManual = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
+                srcManual = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ManualSuscriptorElectro;
                 emailMessage.FromAddresses = new List<EmailAddress>()
-            {
+                {
                 new EmailAddress{Name = "Mi Contrato Electroplan", Address="tienda@autofinanciera.com.co"}
-            };
+                };
                 emailMessage.ToAddresses = new List<EmailAddress>()
-            {
+                {
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
-            };
+                };
                 emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -665,14 +670,15 @@ namespace ContratoDigital.Controllers
             }
             else
             {
+                srcManual = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ManualSuscriptorAuto;
                 emailMessage.FromAddresses = new List<EmailAddress>()
-            {
+                {
                 new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
-            };
+                };
                 emailMessage.ToAddresses = new List<EmailAddress>()
-            {
+                {
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
-            };
+                };
                 emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
@@ -695,7 +701,18 @@ namespace ContratoDigital.Controllers
                 _utilities.GetTemplate(srcTemplate),
                 canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/confirmarcontrato/?guuid=" + contrato.ConfirmacionContratos.Guuid + "&id=" + contrato.ConfirmacionContratos.Id);
 
-            emailService.Send(emailMessage, stream, Constants.ContratoPDF);
+
+            PdfWriter _pdfwriter = new PdfWriter(second_stream);
+            PdfDocument _pdf = new PdfDocument(new PdfReader(srcManual), _pdfwriter);
+            _pdfwriter.SetCloseStream(false);
+
+
+            _pdf.Close();
+            second_stream.Flush();
+            second_stream.Position = 0;
+
+
+            emailService.Send(emailMessage, stream, second_stream, Constants.ContratoPDF);
                 
 
         }
@@ -1036,6 +1053,15 @@ namespace ContratoDigital.Controllers
                 pago.codBancoRecaudador, pago.celular_terminaltucompra, pago.celular_nro_convenio, pago.celular, pago.terminaltucompra,
                 pago.nro_convenio, pago.serialunicotransaccion, pago.validarorcorresponsalath, pago.compania).Result;            
                 return "HTTP 200 OK";
+        }
+
+        [HttpGet("RegistrarNumeroTransaccion/{numero}/{cuenta}")]
+        [Route("api/Freyja/ChequearNumeroTransaccion")]
+        public async Task<ActionResult<string>> ChequearNumeroTransaccion(string numero, int cuenta)
+        {
+            var result = await _context.PagoManual.CountAsync(x => x.Numero == numero && x.IdCuentaBancaria == cuenta);
+            return result > 0 ? "true" : "false";
+            
         }
 
         #region reports
