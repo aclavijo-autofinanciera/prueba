@@ -57,25 +57,42 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Changelog - Registro de cambios en el aplicativo</h3>
+                    <h4>2019-04-05 v-0.1.9.10</h4>
+                    <ul>
+                        <li>Limitación y comprobación de registro de pagos manuales a valores repetidos.</li>
+                        <li>Limitación a tamaño de la cédula.</li>
+                        <li>Conversión automática a 0 en los campos correspondientes al ingreso y egreso.</li>
+                        <li>Limitación de creación y registro de contratos nuevos, mientras el último contrato no esté pagado y registrado en Siicon.</li>
+                        <li>Limitación de generación o envío por correo dle contrato mientras el contrato no haya sido registrado en Siicon.</li>
+                    </ul>
+                    
+                    <h4>2019-03-18 V-0.1.9.9</h4>
+                    <ul>
+                        <li>Corrección de PDF.</li>
+                        <li>FREEZEE.</li>
+                    </ul>
                     <h4>2019-03-11 V-0.1.9.7</h4>
                     <ul>
                         <li>Registro de pagos automatizados de tu compra.</li>
                         <li>Actualización dl modelo de datos</li>
                     </ul>
-                    
                     <h4>2019-03-08 V-0.1.8.81</h4>
                     <ul>
                         <li>Minor bug fixes.</li>
-                        <li>Limpieza en cascada del formulario de la liquidación.</li>                        
-                        
-                        <li>Actualización de la vista de detalle y la vista de indexación del contrato, conteniendo
+                        <li>Limpieza en cascada del formulario de la liquidación.</li>
+
+                        <li>
+                            Actualización de la vista de detalle y la vista de indexación del contrato, conteniendo
                             datos extra, la definición de las ciudades y departamentos, y el estado del contrato como tal.
                         </li>
-                        <li>Actualización de vista resumen con los pagos manuales, automáticos y bancarios, realizando la sumatoria
+                        <li>
+                            Actualización de vista resumen con los pagos manuales, automáticos y bancarios, realizando la sumatoria
                             en cada caso individual.
                         </li>
-                        <li>Modificación de las reglas de validación: no se pueden tener dos contratos abiertos al mismo tiempo
-                        hasta que el último de ellos no haya terminado la validación y se encuentre en estado cerrado.</li>
+                        <li>
+                            Modificación de las reglas de validación: no se pueden tener dos contratos abiertos al mismo tiempo
+                            hasta que el último de ellos no haya terminado la validación y se encuentre en estado cerrado.
+                        </li>
                         <li>Un prospecto puede tener tantos contratos como sea posible.</li>
                         <li>Limitación de las reglas de validación y continuación del contrato.</li>
                         <li>Modificación de forma de los PDFs.</li>

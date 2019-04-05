@@ -6,7 +6,7 @@
 Sistema para la generación y administración de contratos digitales de Autofinanciera.
 
 #### Instalación
-Visual Studio 2017 Community Edition (15.9.8)
+Visual Studio 2019 Community Edition (16.0)
 .NET Core 2.2.3 con SDK 2.2.105
 C# 7.3
 HTML5, CSS3, Javascript
@@ -31,6 +31,17 @@ Nginx 10.3
 
 
 #### Versiones
+
+##### 0.1.9.10 (2019-03-18)
++ Limitación y comprobación de registro de pagos manuales a valores repetidos.
++ Limitación a tamaño de la cédula.
++ Conversión automática a 0 en los campos correspondientes al ingreso y egreso.
++ Limitación de creación y registro de contratos nuevos, mientras el último contrato no esté pagado y registrado en Siicon.
++ Limitación de generación o envío por correo dle contrato mientras el contrato no haya sido registrado en Siicon.
+
+##### 0.1.9.9 (2019-03-18)
++ Corrección de PDFs
++ FREEZEE.
 
 ##### 0.1.9.7 (2019-03-11)
 + Registro de pagos automatizados de tu compra.
