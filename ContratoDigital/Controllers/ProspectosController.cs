@@ -386,15 +386,15 @@ namespace ContratoDigital.Controllers
             return View();
         }
 
-        public async Task<IActionResult> FindAll()
+        public async Task<IActionResult> FindAll(int? pageNumber)
         {
             bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
             if (!isAdmin)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
-            return View(await _context.Prospectos
-                .OrderByDescending(x => x.IdProspecto).ToListAsync());
+            var prospectos = _context.Prospectos.OrderByDescending(x => x.IdProspecto);
+            return View(await PaginatedList<Prospecto>.CreateAsync(prospectos, pageNumber ?? 1, 10));
         }
 
         [HttpPost]
