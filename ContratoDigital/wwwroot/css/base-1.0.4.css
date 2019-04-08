@@ -21,7 +21,7 @@
 }
 
 body {
-    font-family: 'Renner*', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 a {
@@ -55,8 +55,8 @@ a > h1, h2, h3, h4, h5:hover {
     text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {    
-    font-family: 'Reforma2018', sans-serif;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif;
 }
 
 article img {
