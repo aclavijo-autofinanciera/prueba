@@ -208,8 +208,54 @@ jQuery(function ($) {
             }
         },
         submitHandler: function (form) { // <- pass 'form' argument in
-            $(".submitbutton").attr("disabled", true);
-            form.submit(); // <- use 'form' argument here.
+            $(".submitbutton").attr("disabled", true);            
+            $.ajax({
+                type: "GET",
+                url: "/api/Freyja/verificarcedulaprospecto/" + $('#NumeroDocumento').val(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    try {
+                        if (data === true) {
+                            $(".submitbutton").removeAttr("disabled").attr("enabled", true);
+                            $(".alertMessage").html('<div class="alert alert-danger mb-0" role="alert">El número de documento ya ha sido registrado. Verifique los valores ingresados</div>');
+                            //$(".alertMessage").get(0).scrollIntoView();
+                            $("html,body").animate({
+                                scrollTop: $(".alertMessage").offset().top
+                            });
+                        } else {
+                            form.submit();
+                        }
+
+                    } catch (e) {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                        $(this).addClass('fa-spin');
+                    }
+                },
+                failure: function (data) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).removeClass('fa-spin');
+                },
+                error: function (data) {
+                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                    $(this).removeClass('fa-spin');
+                }
+            });
         }
     });
 
@@ -764,7 +810,8 @@ jQuery(function ($) {
                 required: "Este campo es requerido"
             }
         },
-        submitHandler: function (form) {
+        submitHandler: function (form)
+        {
             $(".submitbutton").attr("disabled", true);
             $.ajax({
                 type: "GET",
@@ -775,8 +822,10 @@ jQuery(function ($) {
                     try {
                         if (data === true) {
                             $(".submitbutton").removeAttr("disabled").attr("enabled", true);
-                            $(".alertMessage").html('<div class="alert alert-danger mb-0" role="alert">El registro ya existe. Verifique los valores ingresados</div>')
-                                .focus();
+                            $(".alertMessage").html('<div class="alert alert-danger mb-0" role="alert">El registro ya existe. Verifique los valores ingresados</div>');
+                            $("html,body").animate({
+                                scrollTop: $(".alertMessage").offset().top
+                            });
                         } else {
                             form.submit();
                         }

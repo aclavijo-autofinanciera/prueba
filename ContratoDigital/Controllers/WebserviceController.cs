@@ -1062,6 +1062,13 @@ namespace ContratoDigital.Controllers
             
         }
 
+        [HttpGet("VerificarCedulaProspecto/{cedula}")]
+        [Route("api/Freyja/VerificarCedulaProspecto")]
+        public async Task<ActionResult<string>> VerificarCedulaProspecto(int cedula)
+        {
+            return _context.Prospectos.Count(x => x.NumeroDocumento == cedula) > 0 ? "true" : "false";
+        }
+
         #region reports
 
         [HttpGet("GetReporteContratos")]

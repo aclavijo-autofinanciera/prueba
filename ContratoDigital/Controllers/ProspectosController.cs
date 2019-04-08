@@ -106,6 +106,11 @@ namespace ContratoDigital.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(IFormCollection form)
         {
+            int.TryParse(s: form["NumeroDocumento"], result: out int documentoIdentidad);
+            if (documentoIdentidad == 0 || _context.Prospectos.Count(x=>x.NumeroDocumento == documentoIdentidad) > 0)
+            {
+                return RedirectToAction("Create");
+            }
             Prospecto prospecto = _utilities.FillProspecto(form);
             _context.Prospectos.Add(prospecto);
             await _context.SaveChangesAsync();

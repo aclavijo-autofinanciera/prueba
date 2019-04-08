@@ -33,7 +33,11 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
-## 0.1.9.10 (2019-04-08)
+## 0.1.9.12 (2019-04-08)
+### Feature
++ Unicidad de número de cédula a nivel de prospectos.
+
+## 0.1.9.11 (2019-04-08)
 ### Bugfixes
 + Límite de acceso para la lógica matemática que redirecciona en caso de:
   + Intentar generar un contrato sin que el prospecto tenga la confirmación  de tratamiento de datos.
