@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
-using ContratoDigital.Controllers;
 using ContratoDigital.Data;
 using ContratoDigital.Models;
-using iText.Barcodes;
-using iText.Forms;
 using iText.Forms.Fields;
-using iText.Kernel.Colors;
-using iText.Kernel.Pdf;
-using iText.Layout.Element;
-using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using MimeKit;
-using MimeKit.Text;
 using Newtonsoft.Json;
 using SiiconWebService;
 
@@ -649,11 +637,14 @@ namespace ContratoDigital
             fields.TryGetValue("Celular", out toSet);
             toSet.SetValue(contrato.celular_suscriptor);
 
-            fields.TryGetValue("Email", out toSet);
-            toSet.SetValue(contrato.email_suscriptor);
+            //fields.TryGetValue("Email", out toSet);
+            //toSet.SetValue(contrato.email_suscriptor);
 
             fields.TryGetValue("ReferenciaPago", out toSet);
             toSet.SetValue(contrato.RecibosPago.Last().ReferenciaSiicon);
+
+            fields.TryGetValue("ReferenciaPagoBancolombia", out toSet);
+            toSet.SetValue("0" + contrato.RecibosPago.Last().ReferenciaSiicon);
 
             fields.TryGetValue("NumeroContrato", out toSet);
             toSet.SetValue(contrato.numero_de_contrato.ToString());
@@ -787,7 +778,7 @@ namespace ContratoDigital
             Contrato contrato = new Contrato();
             // Suscriptor
             contrato.IdProspecto = int.Parse(form["IdProspecto"]);
-            contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
+            //contrato.numero_de_contrato = int.Parse(form["numero_de_contrato"]);
             contrato.primer_nombre = form["primer_nombre"].ToString().ToUpper();
             contrato.segundo_nombre = form["segundo_nombre"].ToString().ToUpper();
             contrato.primer_apellido = form["primer_apellido"].ToString().ToUpper();
@@ -1563,8 +1554,8 @@ namespace ContratoDigital
         public const string CotizacionAuto = "cotizacion/2018-09-14-Cotizacion_auto_v-2.0.pdf";
         public const string CotizacionElectro = "cotizacion/2018-09-14-Cotizacion_electro_v-2.0.pdf";
 
-        public const string ReciboAuto = "recibo/2019-01-11-recibo_auto_v-3.1.pdf";
-        public const string ReciboElectro = "recibo/2019-01-11-recibo_electro_v-3.1.pdf";
+        public const string ReciboAuto = "recibo/2019-04-06-V-3.2_recibo_auto.pdf";
+        public const string ReciboElectro = "recibo/2019-04-06-V-3.2_recibo_electro.pdf";
 
         public const string ManualSuscriptorAuto = "manualsuscripcion/2018-10-22-manual-suscriptor-autofinanciera.pdf";
         public const string ManualSuscriptorElectro = "manualsuscripcion/2018-10-22-manual-suscriptor-electro.pdf";
