@@ -57,7 +57,44 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Changelog - Registro de cambios en el aplicativo</h3>
+
+                    <h4>2019-04-05 V-0.1.9.11</h4>                    
+                    <h5>BugFixes:</h5>
+                    <ul>
+                        <li>
+                            Límite de acceso para la lógica matemática que redirecciona en caso de:
+                            <ul>
+                                <li>
+                                    Intentar generar un contrato sin que el prospecto tenga la confirmación
+                                    de tratamiento de datos.
+                                </li>
+                                <li>
+                                    Intentar generar un contrato sin que el último esté debidamente pagado y
+                                    registrado en el Siicon.
+                                </li>
+                                <li>
+                                    Validar que al intentar generar un contrato, este sea el primero, si no lo es, validar que el
+                                    último contrato registrado se encuentre cerrado (pagado, registrado en Siicon).
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Se agrega el estado del contrato en la vista de detalle del prospecto.</li>
+                        <li>
+                            Se agrega el estado de la confirmación de recepción del contrato en la vida de
+                            detalle del contrato.
+                        </li>
+                    </ul>
+                    <h5>Feature:</h5>
+                    <ul>
+                        <li>
+                            Los recibos emiten ahora dos referencias, una específica para Bancolombi y otra para el resto
+                            de los medios de pago.
+                        </li>
+                        <li>Actualización de arte: toda la tipografía se convierte a Lato (Regular y Bold, normal y oblicua)</li>
+                    </ul>
+                    <hr />
                     <h4>2019-04-05 v-0.1.9.10</h4>
+                    <h5>Bugfixes:</h5>
                     <ul>
                         <li>Limitación y comprobación de registro de pagos manuales a valores repetidos.</li>
                         <li>Limitación a tamaño de la cédula.</li>
@@ -65,20 +102,24 @@
                         <li>Limitación de creación y registro de contratos nuevos, mientras el último contrato no esté pagado y registrado en Siicon.</li>
                         <li>Limitación de generación o envío por correo dle contrato mientras el contrato no haya sido registrado en Siicon.</li>
                     </ul>
-                    
+                    <hr />
                     <h4>2019-03-18 V-0.1.9.9</h4>
+                    <h5>Bugfixes:</h5>
                     <ul>
                         <li>Corrección de PDF.</li>
                         <li>FREEZEE.</li>
                     </ul>
+                    <hr />
                     <h4>2019-03-11 V-0.1.9.7</h4>
+                    <h5>Features:</h5>
                     <ul>
                         <li>Registro de pagos automatizados de tu compra.</li>
                         <li>Actualización dl modelo de datos</li>
                     </ul>
+                    <hr />
                     <h4>2019-03-08 V-0.1.8.81</h4>
+                    <h5>Minor bug fixes:</h5>
                     <ul>
-                        <li>Minor bug fixes.</li>
                         <li>Limpieza en cascada del formulario de la liquidación.</li>
 
                         <li>
@@ -99,16 +140,17 @@
                         <li>Inclusión de generación de pagos para promociones.</li>
                         <li>Registro ordenado de los pagos manuales directamente con el contrato completo.</li>
                     </ul>
-
+                    <hr />
                     <h4>2019-02-18 V-0.1.8.80</h4>
+                    <h5>Minor bug fixes:</h5>
                     <ul>
-                        <li>Minor bug fixes.</li>
                         <li>Actualización de scripts de Framework.</li>
                         <li>Actualización de modelos de datos.</li>
                     </ul>
 
-
+                    <hr />
                     <h4>2019-02-01 V-0.1.8.76</h4>
+                    <h5>Bugfixes:</h5>
                     <ul>
                         <li>Una vez aceptadas las condiciones del contrato, el contrato se registra en cierre comercial automáticamente.</li>
                         <li>Registro de pagos manuales no convencionales.</li>
