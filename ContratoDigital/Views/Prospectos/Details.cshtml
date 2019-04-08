@@ -439,6 +439,7 @@
                                 <th>Bien</th>
                                 <th>Valor del bien</th>
                                 <th>Pagado</th>
+                                <th>Registrado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -455,7 +456,28 @@
                                     <td>@String.Format("{0:dd-MM-yyyy}", item.fecha_suscripcion_contrato)</td>
                                     <td>@item.descripcion_bien</td>
                                     <td>@String.Format("$ {0:0,0.00}", item.valor_bien)</td>
-                                    <td>No</td>
+                                    <td>
+                                        @if (item.ConfirmacionContratos.IsPaid)
+                                        {
+
+                                            <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="text-muted"><i class="far fa-clock"></i> Por pagar</label>
+
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.ConfirmacionContratos.IsRegistered)
+                                        {
+                                            <label class="text-success"><i class="fas fa-check"></i> Registrado Siicon</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
+                                        }
+                                    </td>
                                 </tr>
                             }
                         </tbody>
