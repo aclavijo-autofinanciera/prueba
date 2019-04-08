@@ -33,6 +33,10 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 0.1.9.13 (2019-04-08)
+### Bugfix
++ Corrección del botón de reenvío de condiciones del contrato.
+
 ## 0.1.9.12 (2019-04-08)
 ### Feature
 + Unicidad de número de cédula a nivel de prospectos.

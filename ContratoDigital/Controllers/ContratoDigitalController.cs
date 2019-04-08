@@ -414,7 +414,7 @@ namespace ContratoDigital.Controllers
 
         public IActionResult EmailContract(int id)
         {
-            MemoryStream stream = new MemoryStream();
+            //MemoryStream stream = new MemoryStream();
             Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == id);
             ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.IdContrato == id);
             if(confirmacionContrato == null)
@@ -428,7 +428,7 @@ namespace ContratoDigital.Controllers
                     IsPaid = false
                 };
             }            
-            string src = "";
+            /*string src = "";
             if (contrato.id_compania.Equals(Constants.GuuidElectro))
             {
                 switch (contrato.marca_exclusiva_bien)
@@ -476,7 +476,7 @@ namespace ContratoDigital.Controllers
             pdfForm.FlattenFields();
             pdf.Close();
             stream.Flush();
-            stream.Position = 0;
+            stream.Position = 0;*/
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
             CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
@@ -547,7 +547,7 @@ namespace ContratoDigital.Controllers
 
             try
             {
-                emailService.Send(emailMessage, stream, Constants.ContratoPDF);
+                emailService.Send(emailMessage);
                 TempData["EmailResult"] = "Success";
             }
             catch (Exception ex)
