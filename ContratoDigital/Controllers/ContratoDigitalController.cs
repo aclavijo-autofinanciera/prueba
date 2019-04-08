@@ -68,10 +68,17 @@ namespace ContratoDigital.Controllers
         public IActionResult Fill(int id)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == id);
-            if(prospecto.ConfirmacionProspecto.IsConfirmed == false || prospecto.Contratos.Last().ConfirmacionContratos.IsRegistered == false)
+            if(!prospecto.ConfirmacionProspecto.IsConfirmed)
             {
                 return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
-            }            
+            }
+            if(prospecto.Contratos.Count > 0)
+            {
+                if(!prospecto.Contratos.Last().ConfirmacionContratos.IsRegistered)
+                {
+                    return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
+                }
+            }
             /*Contrato numeroContrato = _context.Contratos.OrderBy(x => x.numero_de_contrato).LastOrDefault();
             if(numeroContrato == null )
             {
