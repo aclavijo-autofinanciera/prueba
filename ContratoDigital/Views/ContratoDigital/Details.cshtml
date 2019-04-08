@@ -113,6 +113,16 @@
                                     <label class="text-muted"><i class="far fa-clock"></i> Registro en cierre comercial pendiente</label>
                                 }
                             </div>
+                            <div class="isRegisteredCommercial">
+                                @if (Model.ConfirmacionContratos.IsContractReceived)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> Contrato recibido por el cliente</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> Confirmación de recepción.</label>
+                                }
+                            </div>
                             <div>
                                 <button class="btn btn-primary" data-contrato="@Model.IdContrato" id="RefreshStatusContrato"><i class="fas fa-sync"></i> Actualizar</button>
                             </div>
