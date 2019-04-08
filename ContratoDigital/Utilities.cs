@@ -1554,8 +1554,8 @@ namespace ContratoDigital
         public const string CotizacionAuto = "cotizacion/2018-09-14-Cotizacion_auto_v-2.0.pdf";
         public const string CotizacionElectro = "cotizacion/2018-09-14-Cotizacion_electro_v-2.0.pdf";
 
-        public const string ReciboAuto = "recibo/2019-04-06-V-3.2_recibo_auto.pdf";
-        public const string ReciboElectro = "recibo/2019-04-06-V-3.2_recibo_electro.pdf";
+        public const string ReciboAuto = "recibo/2019-04-08-V-3.3_recibo_auto.pdf";
+        public const string ReciboElectro = "recibo/2019-04-08-V-3.3_recibo_electro.pdf";
 
         public const string ManualSuscriptorAuto = "manualsuscripcion/2018-10-22-manual-suscriptor-autofinanciera.pdf";
         public const string ManualSuscriptorElectro = "manualsuscripcion/2018-10-22-manual-suscriptor-electro.pdf";
