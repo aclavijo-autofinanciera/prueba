@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Formatting;
-using System.Text;
 using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
 using ContratoDigital.Data;
