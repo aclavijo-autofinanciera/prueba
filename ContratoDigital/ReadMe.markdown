@@ -33,6 +33,14 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 0.1.9.14 (2019-04-09)
+### Minor Bugfixes
++ Reconstrucción del botón de actualización de estado del contrato.
++ Texto de la confirmación de recepción de ampliado siendo más específico.
++ Corrección de validación en la edición del prospecto.
++ Corrección de redireccionamiento al editar un prospecto desde la búsqueda discriminada.
++ Se oculta la emisión de recibos una vez pagado en su totalidad.
+
 ## 0.1.9.13 (2019-04-08)
 ### Bugfix
 + Corrección del botón de reenvío de condiciones del contrato.

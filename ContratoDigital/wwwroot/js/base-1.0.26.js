@@ -259,6 +259,143 @@ jQuery(function ($) {
         }
     });
 
+    // Validación de prospectos al editar
+    $(".ProspectoValidationEdit").validate({
+        rules: {
+            // Prospecto 
+            PrimerNombre: {
+                required: true,
+                alphabetical: true,
+                maxlength: 50
+            },
+            SegundoNombre: {
+                alphabetical: true,
+                maxlength: 50
+            },
+            PrimerApellido: {
+                required: true,
+                alphabetical: true,
+                maxlength: 50
+            },
+            SegundoApellido: {
+                alphabetical: true,
+                maxlength: 50
+            },
+            TipoDocumentoIdentidad: {
+                required: true,
+                maxlength: 10
+            },
+            NumeroDocumento: {
+                required: true,
+                digits: true,
+                minlength: 6,
+                maxlength: 10,
+                max: 1500000000
+            },
+            Telefono: {
+                required: true,
+                minlength: 7,
+                digits: true,
+                maxlength: 200
+            },
+            Celular: {
+                required: true,
+                minlength: 7,
+                digits: true,
+                maxlength: 200
+            },
+            Email: {
+                required: true,
+                email: true,
+                maxlength: 200
+            },
+            TipoMedio: {
+                required: true,
+                maxlength: 10
+            },
+            TipoMedioAgencia: {
+                required: true,
+                maxlength: 10
+            },
+            TipoCliente: {
+                required: true,
+                maxlength: 10
+            },
+            asesores: {
+                required: true
+            }
+
+        },
+        messages: {
+            // Prospecto 
+            PrimerNombre: {
+                required: "Este campo es requerido",
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
+            },
+            SegundoNombre: {
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
+            },
+            PrimerApellido: {
+                required: "Este campo es requerido",
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
+            },
+            SegundoApellido: {
+                alphabetical: "Este campo debe ser alfabético",
+                maxlength: "Este campo no debe ser mayor a 50 caracteres"
+            },
+            TipoDocumentoIdentidad: {
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
+            },
+            NumeroDocumento: {
+                required: "Este campo es requerido",
+                digits: "Este campo debe ser numérico",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres",
+                max: "el documento de identidad no puede ser mayor a 1500000000"
+            },
+            Telefono: {
+                required: "Este campo es requerido",
+                minlength: "Debe ingresar un teléfono válido",
+                digits: "Debe ingresar un teléfono válido",
+                maxlength: "Este campo no debe ser mayor a 200 caracteres"
+            },
+            Celular: {
+                required: "Este campo es requerido",
+                minlength: "Debe ingresar un teléfono válido",
+                digits: "Debe ingresar un teléfono válido",
+                maxlength: "Este campo no debe ser mayor a 200 caracteres"
+            },
+            Email: {
+                required: "Este campo es requerido",
+                email: "Este cmapo debe ser un correo válido",
+                maxlength: "Este campo no debe ser mayor a 200 caracteres"
+            },
+            TipoMedio: {
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
+            },
+            TipoMedioAgencia: {
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
+            },
+            TipoCliente: {
+                required: "Este campo es requerido",
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
+            },
+            asesores: {
+                required: "Este campo es requerido"
+            }
+        },
+        submitHandler: function (form) { // <- pass 'form' argument in
+            $(".submitbutton").attr("disabled", true);
+            form.submit();
+            
+        }
+    });
+
     // Validación de Contrato digital PDF:
     $(".ContratoValidation").validate({
         rules: {

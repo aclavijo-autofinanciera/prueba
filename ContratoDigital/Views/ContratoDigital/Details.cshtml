@@ -120,7 +120,7 @@
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Confirmación de recepción.</label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Confirmación de recepción del contrato.</label>
                                 }
                             </div>
                             <div>
@@ -1336,19 +1336,22 @@
                                     <a class="nav-link" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
                                 </li>
                             }
-                            
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="@Url.Action("Index", "Prospectos")" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-receipt"></i> Recibo
-                                </a>
-                                <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
-                                    <a class="dropdown-item" href="@Url.Action("GenerateReference", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-file-invoice-dollar"></i> Generar nuevo recibo de pago</a>
-                                    <a class="dropdown-item" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Imprimir último recibo de pago</a>
-                                    <a class="dropdown-item" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar último recibo de pago por correo</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="@Url.Action("RegisterManualPay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-calculator"></i> Cargar pagos manuales no convencionales</a>
-                                </div>
-                            </li>
+                            @if (!Model.ConfirmacionContratos.IsPaid)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="@Url.Action("Index", "Prospectos")" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-receipt"></i> Recibo
+                                    </a>
+                                    <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
+                                        <a class="dropdown-item" href="@Url.Action("GenerateReference", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-file-invoice-dollar"></i> Generar nuevo recibo de pago</a>
+                                        <a class="dropdown-item" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Imprimir último recibo de pago</a>
+                                        <a class="dropdown-item" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar último recibo de pago por correo</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="@Url.Action("RegisterManualPay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-calculator"></i> Cargar pagos manuales no convencionales</a>
+                                    </div>
+                                </li>
+                            }
+
                         </ul>
 
                     </div>
