@@ -917,7 +917,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="abono_addon">$</span>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="abono" aria-describedby="abono_addon" id="abono" name="abono" placeholder="0.00" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" />
+                                <input type="text" class="form-control form-control-lg" aria-label="abono" aria-describedby="abono_addon" id="abono" name="abono" placeholder="0.00" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" required autocomplete="off" />
                                 <input type="hidden" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" id="debe" name="debe" />
                             </div>
                             <br />

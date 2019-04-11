@@ -20,7 +20,7 @@
             <!-- Begin -->
             <div class="col-12 col-md-8 error-area"></div>
 
-            <form method="post" class="bootstrapValidation" autocomplete="off">
+            <form method="post" class="GenerateReferenceValidation bootstrapValidation" autocomplete="off">
                 <input type="hidden" value="@Model.IdContrato" name="idcontrato" id="idcontrato" />
 
                 <div class="col-12 col-md-8">
@@ -77,7 +77,7 @@
                                 {
                                     <label class="text-success"><i class="fas fa-check"></i> @string.Format("{0:0,0.00}", saldo)</label>
                                 }
-
+                                <input type="hidden" id="saldorestante" name="saldorestante" value="@saldo" />
                             </div>
                         </div>
                     </div>

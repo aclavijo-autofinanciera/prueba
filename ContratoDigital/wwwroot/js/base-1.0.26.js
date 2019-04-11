@@ -665,6 +665,11 @@ jQuery(function ($) {
             },
             asesores: {
                 required: true
+            },
+            abono: {
+                required:true,
+                digits: true,
+                max: $('#abono').val()
             }
         },
         messages: {
@@ -878,6 +883,11 @@ jQuery(function ($) {
             },
             asesores: {
                 required: "Este campo es requerido"
+            },
+            abono: {
+                required: "Este campo es requerido",
+                digits: "El valor ingresado debe ser un número entero",
+                max: "El valor ingresado no puede ser mayor que la cuota inicial"
             }
         },
         submitHandler: function (form) {
@@ -998,6 +1008,31 @@ jQuery(function ($) {
             });
             
             
+        }
+
+    });
+
+
+    $(".GenerateReferenceValidation").validate({
+        rules: {            
+            abono: {
+                required: true,
+                number: true,
+                maxlength: 15,
+                max: $('#saldorestante').val()
+            }
+        },
+        messages: {            
+            abono: {
+                required: "Este campo es requerido",
+                number: "Este campo debe ser numérico",
+                maxlength: "Máximo 15 caracteres",
+                max: "El valor ingresado no pude ser mayor al saldo restante"
+            }
+        },
+        submitHandler: function (form) {
+            $(".submitbutton").attr("disabled", true);
+            form.submit();
         }
 
     });
