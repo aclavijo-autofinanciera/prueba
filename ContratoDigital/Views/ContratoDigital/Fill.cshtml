@@ -3,14 +3,12 @@
 @inject SignInManager<ContratoDigitalUser> SignInManager
 @inject UserManager<ContratoDigitalUser> UserManager
 @inject RoleManager<IdentityRole> RoleManager
-@{
-    //var userID = UserManager.GetUserId(User);
+@{    
     var user = UserManager.Users.SingleOrDefault(x => x.Id == UserManager.GetUserId(User));
 }
 @model ContratoDigital.Models.Prospecto
 @{
-    /*Random rnd = new Random();
-    var contrato = rnd.Next(8000000, 8999999);*/
+    
     ViewData["Title"] = "Contrato Digital";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var tipoidentidad = (IQueryable<Estado>)ViewData["TipoIdentidad"];
@@ -57,11 +55,7 @@
                     <div class="col-12 col-sm-12 col-md-4 ">
                         <h1>Contrato Digital</h1>
                         <h5>Hoja de datos del contrato de adhesión</h5>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4">
-                        @*<label for="numero_de_contrato">Número de contrato</label>
-        <input type="text" id="numero_de_contrato" name="numero_de_contrato" readonly class="text-center form-control-plaintext form-control-lg azul font-weight-bold t-3" value="@ViewData["NumeroContrato"]" required autocomplete="off" />*@
-                    </div>
+                    </div>                    
                 </div>
                 <!--#region suscriptor-->
                 <section>
@@ -919,6 +913,7 @@
                                 </div>
                                 <input type="text" class="form-control form-control-lg" aria-label="abono" aria-describedby="abono_addon" id="abono" name="abono" placeholder="0.00" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" required autocomplete="off" />
                                 <input type="hidden" value="@String.Format("{0:0}",Model.ValorTotalPrimerPago)" id="debe" name="debe" />
+                                <input type="hidden" value="@Model.ValorTotalPrimerPago" id="saldoRestante" name="saldoRestante" />
                             </div>
                             <br />
                             <p>

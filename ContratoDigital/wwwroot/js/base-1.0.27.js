@@ -396,7 +396,7 @@ jQuery(function ($) {
             
         }
     });
-
+    
     // Validación de Contrato digital PDF:
     $(".ContratoValidation").validate({
         rules: {
@@ -670,7 +670,7 @@ jQuery(function ($) {
             abono: {
                 required:true,
                 digits: true,
-                max: $('#abono').val()
+                max: Number($('#saldoRestante').val())
             }
         },
         messages: {
@@ -1020,7 +1020,7 @@ jQuery(function ($) {
                 required: true,
                 number: true,
                 maxlength: 15,
-                max: $('#saldorestante').val()
+                max: Number($('#saldorestante').val())
             }
         },
         messages: {            
