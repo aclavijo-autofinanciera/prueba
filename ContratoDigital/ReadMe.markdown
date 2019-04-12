@@ -69,7 +69,7 @@ Sistema para la generación y administración de contratos digitales de Autofina
 + Limitación a tamaño de la cédula.
 + Conversión automática a 0 en los campos correspondientes al ingreso y egreso.
 + Limitación de creación y registro de contratos nuevos, mientras el último contrato no esté pagado y registrado en Siicon.
-+ Limitación de generación o envío por correo dle contrato mientras el contrato no haya sido registrado en Siicon.
++ Limitación de generación o envío por correo del contrato mientras el contrato no haya sido registrado en Siicon.
 
 ## 0.1.9.9 (2019-03-18)
 ### Bugfixes

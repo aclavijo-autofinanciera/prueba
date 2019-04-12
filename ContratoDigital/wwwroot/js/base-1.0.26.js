@@ -171,7 +171,8 @@ jQuery(function ($) {
             NumeroDocumento: {
                 required: "Este campo es requerido",
                 digits: "Este campo debe ser numérico",
-                maxlength: "Este campo no debe ser mayor a 10 caracteres",
+                minlength: "Este campo debe tener al menos 6 digitos",
+                maxlength: "Este campo no debe ser mayor a 10 digitos",
                 max: "el documento de identidad no puede ser mayor a 1500000000"
             },
             Telefono: {

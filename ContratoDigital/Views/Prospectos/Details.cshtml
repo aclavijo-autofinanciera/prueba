@@ -400,13 +400,13 @@
                                     @if (Model.Contratos.Count == 0)
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
+                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar nuevo contrato</a>
                                         </li>
                                     }
                                     else if (Model.Contratos.Count > 0 && Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Rellenar contrato</a>
+                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar nuevo contrato</a>
                                         </li>
                                     }
 
