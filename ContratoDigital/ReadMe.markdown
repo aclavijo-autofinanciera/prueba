@@ -33,6 +33,12 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 0.19.16 (2019-04-12)
+###Features
++ El campo de correo se hace solo lectura para evitar que el autocompletar de google chrome lo modifique.
+
+
+
 ## 0.19.15 (2019-04-11)
 ###Features
 + Se limita el valor del abono y la generación referencia al saldo restante.
