@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ContratoDigital
 {
-    internal class JobRegistrarContratos : IHostedService, IDisposable
+    internal class JobRegistrarContratos : IHostedService
     {
         private Timer _timer;
         private readonly ICanonicalUrlConfiguration _canonicalUrlConfiguration;
@@ -23,17 +23,33 @@ namespace ContratoDigital
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(RegisterSiiconContracts, null, TimeSpan.Zero, TimeSpan.FromHours(6));
+            try
+            {
+                _timer = new Timer(RegisterSiiconContracts, null, TimeSpan.Zero, TimeSpan.FromHours(6));                
+                //throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[EXCEPTION STARTASYNC]: " + ex.Message);
+                Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);
+            }
             return Task.CompletedTask;
-            //throw new NotImplementedException();
         }
 
         private void RegisterSiiconContracts(object state)
         {
-            using (var client = new HttpClient())
+            try
             {
-                CanonicalUrlService urlService = new CanonicalUrlService(_canonicalUrlConfiguration);                                
-                var result = client.GetStringAsync(urlService.GetCanonicalUrl() + "api/Freyja/RegistrarContratos").Result;                
+                using (var client = new HttpClient())
+                {
+                    CanonicalUrlService urlService = new CanonicalUrlService(_canonicalUrlConfiguration);
+                    var result = client.GetStringAsync(urlService.GetCanonicalUrl() + "api/Freyja/RegistrarContratos").Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[EXCEPTION REGISTERCONTRACTS]: " + ex.Message);
+                Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);
             }
         }
 
@@ -44,9 +60,10 @@ namespace ContratoDigital
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
-        public void Dispose()
+
+        /*public void Dispose()
         {
             _timer?.Dispose();
-        }
+        }*/
     }
 }
