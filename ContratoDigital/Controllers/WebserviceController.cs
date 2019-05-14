@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SiiconWebService;
+using SiiconTest;
 
 namespace ContratoDigital.Controllers
 {
@@ -24,7 +25,14 @@ namespace ContratoDigital.Controllers
     [ApiController]
     public class WebserviceController : ControllerBase
     {
-        ServiceClient service = new ServiceClient();
+
+        #if (DEBUG)       
+                SiiconTest.ServiceClient service = new SiiconTest.ServiceClient();  
+        #else
+                SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
+        #endif
+
+          
         private readonly ContratoDigitalContext _context;
         private readonly IEmailConfiguration _emailConfiguration;
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -32,13 +40,18 @@ namespace ContratoDigital.Controllers
         private readonly UserManager<ContratoDigitalUser> _userManager;
         private readonly ICanonicalUrlConfiguration _canonicalUrlConfiguration;
         public WebserviceController(ContratoDigitalContext context, IEmailConfiguration emailConfiguration, IHostingEnvironment hostingEnvironment, Utilities utilites, UserManager<ContratoDigitalUser> userManager, ICanonicalUrlConfiguration canonicalUrlConfiguration)
-        {
+        {            
             _context = context;
             _emailConfiguration = emailConfiguration;
             _utilities = utilites;
             _hostingEnvironment = hostingEnvironment;
             _userManager = userManager;
             _canonicalUrlConfiguration = canonicalUrlConfiguration;
+#if DEBUG
+            Console.WriteLine("[DEBUG]");
+#else
+            Console.WriteLine("[PRODUCTION]");
+#endif
         }
 
 
@@ -342,6 +355,7 @@ namespace ContratoDigital.Controllers
             x.ConfirmacionContratos.IsRegistered == false &&
             x.ConfirmacionContratos.IsRegisteredCommercial == true &&
             x.ConfirmacionContratos.Asesor > 0).ToListAsync();
+            
 
             foreach (var item in contratos)
             {
@@ -354,104 +368,119 @@ namespace ContratoDigital.Controllers
 
             foreach (var item in contratos)
             {
-
-                // Registro de la persona
                 var user = _userManager.Users.SingleOrDefault(x => x.Id == item.asesor_comercial);
-                PersonaSiicon persona = new PersonaSiicon();
-                persona.PrimerNombre = item.primer_nombre;
-                persona.SegundoNombre = item.segundo_nombre;
-                persona.PrimerApellido = item.primer_apellido;
-                persona.SegundoApellido = item.segundo_apellido;
-                persona.TipoDocumentoIdentidad = status.GetStatusSiiconId(int.Parse(item.tipo_documento_identidad_suscriptor));
-                persona.NumeroDocumento = item.documento_identidad_suscriptor.ToString();
-                persona.CiudadExpedicionId = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.procedencia_documento_identidad_suscriptor)).ToString(), 5);
-                persona.FechaNacimiento = String.Format("{0:MM'/'dd'/'yyyy}", item.fecha_nacimiento_suscriptor);
-                persona.CiudadNacimientoID = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString(), 5);
-                persona.SexoId = status.GetStatusSiiconId(int.Parse(item.sexo_suscriptor));
-                persona.EstadoCivilId = status.GetStatusSiiconId(int.Parse(item.estado_civil_suscriptor));
-                persona.Email = item.email_suscriptor;
-                persona.DireccionNotificacion = item.direccion_domicilio_suscriptor;
-                persona.BarrioNotificacion = item.direccion_domicilio_suscriptor;
-                persona.TelefonoNotificacion = item.telefono_suscriptor;
-                persona.CelularNotificacion = item.celular_suscriptor;
-                persona.DepartamentoNotificacionId = utilities.PadWithZeroes(status.GetStatusSiiconId(int.Parse(item.departamento_suscriptor)).ToString(), 2);
-                persona.CiudadNotificacionId = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString(), 5);
-                persona.EmpresaLabora = item.empresa_empleadora_suscriptor;
-                persona.CargoLabora = item.cargo_suscriptor;
-                persona.DireccionLabora = item.direccion_empleo_suscriptor;
-                persona.BarrioLabora = item.direccion_empleo_suscriptor;
-                persona.TelefonoLabora = item.telefono_empleo_suscriptor;
-                persona.CelularOficina = item.celular_empleo_suscriptor;
-                persona.DepartamentoLaboraId = utilities.PadWithZeroes(status.GetStatusSiiconId(int.Parse(item.departamento_empleo_suscriptor)).ToString(), 5);
-                persona.CiudadLaboraId = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.ciudad_empleo_suscriptor)).ToString(), 5);
-                persona.IngresoMensual = Convert.ToInt32(item.ingresos_mensuales_suscriptor);
-                persona.EgresoMensual = Convert.ToInt32(item.egresos_mensuales_suscriptor);
-                persona.Profesion = item.profesion_suscriptor;
+                try
+                {
+                    // Registro de la persona                    
+                    PersonaSiicon persona = new PersonaSiicon();
+                    persona.PrimerNombre = item.primer_nombre;
+                    persona.SegundoNombre = item.segundo_nombre;
+                    persona.PrimerApellido = item.primer_apellido;
+                    persona.SegundoApellido = item.segundo_apellido;
+                    persona.TipoDocumentoIdentidad = status.GetStatusSiiconId(int.Parse(item.tipo_documento_identidad_suscriptor));
+                    persona.NumeroDocumento = item.documento_identidad_suscriptor.ToString();
+                    persona.CiudadExpedicionId = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.procedencia_documento_identidad_suscriptor)).ToString(), 5);
+                    persona.FechaNacimiento = String.Format("{0:MM'/'dd'/'yyyy}", item.fecha_nacimiento_suscriptor);
+                    persona.CiudadNacimientoID = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString(), 5);
+                    persona.SexoId = status.GetStatusSiiconId(int.Parse(item.sexo_suscriptor));
+                    persona.EstadoCivilId = status.GetStatusSiiconId(int.Parse(item.estado_civil_suscriptor));
+                    persona.Email = item.email_suscriptor;
+                    persona.DireccionNotificacion = item.direccion_domicilio_suscriptor;
+                    persona.BarrioNotificacion = item.direccion_domicilio_suscriptor;
+                    persona.TelefonoNotificacion = item.telefono_suscriptor;
+                    persona.CelularNotificacion = item.celular_suscriptor;
+                    persona.DepartamentoNotificacionId = utilities.PadWithZeroes(status.GetStatusSiiconId(int.Parse(item.departamento_suscriptor)).ToString(), 2);
+                    persona.CiudadNotificacionId = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.ciudad_suscriptor)).ToString(), 5);
+                    persona.EmpresaLabora = item.empresa_empleadora_suscriptor;
+                    persona.CargoLabora = item.cargo_suscriptor;
+                    persona.DireccionLabora = item.direccion_empleo_suscriptor;
+                    persona.BarrioLabora = item.direccion_empleo_suscriptor;
+                    persona.TelefonoLabora = item.telefono_empleo_suscriptor;
+                    persona.CelularOficina = item.celular_empleo_suscriptor;
+                    persona.DepartamentoLaboraId = utilities.PadWithZeroes(status.GetStatusSiiconId(int.Parse(item.departamento_empleo_suscriptor)).ToString(), 5);
+                    persona.CiudadLaboraId = utilities.PadWithZeroes(status.GetCiudadSiiconId(int.Parse(item.ciudad_empleo_suscriptor)).ToString(), 5);
+                    persona.IngresoMensual = Convert.ToInt32(item.ingresos_mensuales_suscriptor);
+                    persona.EgresoMensual = Convert.ToInt32(item.egresos_mensuales_suscriptor);
+                    persona.Profesion = item.profesion_suscriptor;
+                    persona.TerceroId = user.IdSiicon;
 
-                persona.TerceroId = user.IdSiicon;
+                    string registroPersonaSiicon = CreatePersonaSiicon(persona).Result.Value;
+                    Console.WriteLine("[REGX PERSONA]: " + registroPersonaSiicon);
 
 
-
-                string registroPersonaSiicon = CreatePersonaSiicon(persona).Result.Value;
-                Console.WriteLine("[REGX PERSONA]: " + registroPersonaSiicon);
-
-
-                dynamic jsonPersona = JsonConvert.DeserializeObject<dynamic>(registroPersonaSiicon);                
-                if (jsonPersona.First.ElementoId != null)
-                {                    
-                    item.ConfirmacionContratos.IdSuscriptor = jsonPersona.First.ElementoId;
-                    await _context.SaveChangesAsync();
+                    dynamic jsonPersona = JsonConvert.DeserializeObject<dynamic>(registroPersonaSiicon);
+                    if (jsonPersona.First.ElementoId != null)
+                    {
+                        item.ConfirmacionContratos.IdSuscriptor = jsonPersona.First.ElementoId;
+                        await _context.SaveChangesAsync();
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("[EXCEPTION PERSONE REGISTER]: IDCONTRATO: " + item.IdContrato + " [Mensaje Excepción]" + ex.Message);
+                    Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);                    
+                }
+
+
+
                 if (item.ConfirmacionContratos.IdSuscriptor > 0)
                 {
-                    // Registro del contrato
-                    ContratoSiicon contratoSiicon = new ContratoSiicon();
-                    contratoSiicon.Contrato = item.numero_de_contrato;
-                    contratoSiicon.IdContrato = item.IdContrato;
-                    contratoSiicon.Persona1Id = item.ConfirmacionContratos.IdSuscriptor;
-                    contratoSiicon.Persona2Id = 0;
-                    contratoSiicon.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaPago);
-                    contratoSiicon.CodAgencia = int.Parse(item.agencia);                    
-                    contratoSiicon.CodAsesor = item.ConfirmacionContratos.Asesor;  
-                    contratoSiicon.CodConvenio = 1; // Valor Fijo
-                    contratoSiicon.CodConcesionario = 1; // Valor Fijo
-                    contratoSiicon.TipoMedioId = item.ConfirmacionContratos.TipoMedio;
-                    contratoSiicon.MedioId = item.ConfirmacionContratos.Medio;
-                    contratoSiicon.MedioFechaID = item.id_fecha_medio;
-                    contratoSiicon.CodTipoBien = item.id_tipo_de_bien;
-                    contratoSiicon.BienId = int.Parse(item.codigo_bien);
-                    contratoSiicon.ValorBien = Convert.ToInt32(item.valor_bien);
-                    contratoSiicon.CodMarca = item.id_marca;
-                    contratoSiicon.TipoBienParametroId = item.id_tipo_bien_parametro;
-                    contratoSiicon.PorcentajeInscripcion = (float)item.porcentaje_cuota_ingreso;
-                    contratoSiicon.PorcentajeAdministracion = (float)item.porcentaje_administracion;
-                    contratoSiicon.DescuentoId = 2; // Valor fijo
-                    contratoSiicon.PorcentajeDescuento = 0; // Valor Fijo
-                    contratoSiicon.MontoInscripcion = Convert.ToInt32(item.cuota_ingreso);
-                    contratoSiicon.MontoInscripcionIVA = Convert.ToInt32(item.iva_cuota_ingreso);
-                    contratoSiicon.plazo = int.Parse(item.plazo_bien);
-                    contratoSiicon.MontoAdministracion = Convert.ToInt32(item.administracion);
-                    contratoSiicon.MontoAdministracionIVA = Convert.ToInt32(item.iva_administracion);
-                    contratoSiicon.CuotaNeta = Convert.ToInt32(item.primera_cuota_neta);
-                    contratoSiicon.SuscriptorReferente = "000-000.0"; // Valor Fijo
-                    contratoSiicon.TipoventaID = 1; // Valor Fijo. 2 en caso de venta directa en concesionario
-                    contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaCierreComercial);
-                    contratoSiicon.CompañiaID = item.id_compania;
-                    contratoSiicon.TerceroId = user.IdSiicon;
-
-                    string registroContratoSiicon = CreateContratoSiicon(contratoSiicon).Result.Value;
-                    Console.WriteLine("[REGX CONTRATO]:" + registroContratoSiicon);
-                    dynamic jsonContrato = JsonConvert.DeserializeObject<dynamic>(registroContratoSiicon);                    
-                    if (jsonContrato.First.ElementoId != null)
+                    try
                     {
-                        if(jsonContrato.First.TipoMensajeSistemaId == 1)
+                        // Registro del contrato                        
+                        ContratoSiicon contratoSiicon = new ContratoSiicon();
+                        contratoSiicon.Contrato = item.numero_de_contrato;
+                        contratoSiicon.IdContrato = item.IdContrato;
+                        contratoSiicon.Persona1Id = item.ConfirmacionContratos.IdSuscriptor;
+                        contratoSiicon.Persona2Id = 0;
+                        contratoSiicon.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaPago);
+                        contratoSiicon.CodAgencia = int.Parse(item.agencia);
+                        contratoSiicon.CodAsesor = item.ConfirmacionContratos.Asesor;
+                        contratoSiicon.CodConvenio = 1; // Valor Fijo
+                        contratoSiicon.CodConcesionario = 1; // Valor Fijo
+                        contratoSiicon.TipoMedioId = item.ConfirmacionContratos.TipoMedio;
+                        contratoSiicon.MedioId = item.ConfirmacionContratos.Medio;
+                        contratoSiicon.MedioFechaID = item.id_fecha_medio;
+                        contratoSiicon.CodTipoBien = item.id_tipo_de_bien;
+                        contratoSiicon.BienId = int.Parse(item.codigo_bien);
+                        contratoSiicon.ValorBien = Convert.ToInt32(item.valor_bien);
+                        contratoSiicon.CodMarca = item.id_marca;
+                        contratoSiicon.TipoBienParametroId = item.id_tipo_bien_parametro;
+                        contratoSiicon.PorcentajeInscripcion = (float)item.porcentaje_cuota_ingreso;
+                        contratoSiicon.PorcentajeAdministracion = (float)item.porcentaje_administracion;
+                        contratoSiicon.DescuentoId = 2; // Valor fijo
+                        contratoSiicon.PorcentajeDescuento = 0; // Valor Fijo
+                        contratoSiicon.MontoInscripcion = Convert.ToInt32(item.cuota_ingreso);
+                        contratoSiicon.MontoInscripcionIVA = Convert.ToInt32(item.iva_cuota_ingreso);
+                        contratoSiicon.plazo = int.Parse(item.plazo_bien);
+                        contratoSiicon.MontoAdministracion = Convert.ToInt32(item.administracion);
+                        contratoSiicon.MontoAdministracionIVA = Convert.ToInt32(item.iva_administracion);
+                        contratoSiicon.CuotaNeta = Convert.ToInt32(item.primera_cuota_neta);
+                        contratoSiicon.SuscriptorReferente = "000-000.0"; // Valor Fijo
+                        contratoSiicon.TipoventaID = 1; // Valor Fijo. 2 en caso de venta directa en concesionario
+                        contratoSiicon.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", item.ConfirmacionContratos.FechaCierreComercial);
+                        contratoSiicon.CompañiaID = item.id_compania;
+                        contratoSiicon.TerceroId = user.IdSiicon;
+
+                        string registroContratoSiicon = CreateContratoSiicon(contratoSiicon).Result.Value;
+                        Console.WriteLine("[REGX CONTRATO]:" + registroContratoSiicon);
+                        dynamic jsonContrato = JsonConvert.DeserializeObject<dynamic>(registroContratoSiicon);
+                        if (jsonContrato.First.ElementoId != null)
                         {
-                            item.ConfirmacionContratos.IdContratoSiicon = jsonContrato.First.ElementoId;
-                            item.ConfirmacionContratos.FechaRegistro = DateTime.Now;
-                            item.ConfirmacionContratos.IsRegistered = true;
-                            await _context.SaveChangesAsync();
+                            if (jsonContrato.First.TipoMensajeSistemaId == 1)
+                            {
+                                item.ConfirmacionContratos.IdContratoSiicon = jsonContrato.First.ElementoId;
+                                item.ConfirmacionContratos.FechaRegistro = DateTime.Now;
+                                item.ConfirmacionContratos.IsRegistered = true;
+                                await _context.SaveChangesAsync();
+                            }
+
                         }
-                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("[EXCEPTION CONTRACT REGISTER]: IDCONTRATO: " + item.IdContrato + " [Mensaje Excepción]" + ex.Message);
+                        Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);
                     }
                 }
 
@@ -460,19 +489,27 @@ namespace ContratoDigital.Controllers
                 {
                     foreach (var pago in item.PagosManuales)
                     {
-                        PagoManualSiicon pagoSiicon = new PagoManualSiicon();
-                        pagoSiicon.CodConcesionario = pago.IdConcesionario;
-                        pagoSiicon.CodCuentaBancaria = pago.IdCuentaBancaria;
-                        pagoSiicon.CompañiaId = item.id_compania;
-                        pagoSiicon.Contrato = item.numero_de_contrato;
-                        pagoSiicon.ContratoId = item.ConfirmacionContratos.IdContratoSiicon;
-                        pagoSiicon.FechaPago = item.ConfirmacionContratos.FechaPago;
-                        pagoSiicon.monto = Convert.ToInt32(pago.Monto);
-                        pagoSiicon.Numero = pago.Numero;
-                        pagoSiicon.Referencia = pago.Referencia;
-                        pagoSiicon.TerceroGeneradorId = user.IdSiicon;
-                        pagoSiicon.TipoPagoId = pago.IdTipoPago;
-                        string result =  CreatePagoSiicon(pagoSiicon).Result.Value;
+                        try
+                        {
+                            PagoManualSiicon pagoSiicon = new PagoManualSiicon();
+                            pagoSiicon.CodConcesionario = pago.IdConcesionario;
+                            pagoSiicon.CodCuentaBancaria = pago.IdCuentaBancaria;
+                            pagoSiicon.CompañiaId = item.id_compania;
+                            pagoSiicon.Contrato = item.numero_de_contrato;
+                            pagoSiicon.ContratoId = item.ConfirmacionContratos.IdContratoSiicon;
+                            pagoSiicon.FechaPago = item.ConfirmacionContratos.FechaPago;
+                            pagoSiicon.monto = Convert.ToInt32(pago.Monto);
+                            pagoSiicon.Numero = pago.Numero;
+                            pagoSiicon.Referencia = pago.Referencia;
+                            pagoSiicon.TerceroGeneradorId = user.IdSiicon;
+                            pagoSiicon.TipoPagoId = pago.IdTipoPago;
+                            string result = CreatePagoSiicon(pagoSiicon).Result.Value;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("[EXCEPTION PAGO REGISTER]: IDCONTRATO: " + item.ConfirmacionContratos.IdContratoSiicon + " [Mensaje Excepción]" + ex.Message);
+                            Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);
+                        }
                     }
                 }
             }
@@ -480,7 +517,15 @@ namespace ContratoDigital.Controllers
             
             foreach (var item in contratos)
             {
-                await SendContract(item);                
+                try
+                {
+                    await SendContract(item);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("[EXCEPTION]: EMAIL SEND: " + item.ConfirmacionContratos.IdContratoSiicon +" [Mensaje Excepción]" + ex.Message);
+                    Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);
+                }
             }
 
             return "HTTP 200 OK";
@@ -1069,7 +1114,7 @@ namespace ContratoDigital.Controllers
             return _context.Prospectos.Count(x => x.NumeroDocumento == cedula) > 0 ? "true" : "false";
         }
 
-        #region reports
+#region reports
 
         [HttpGet("GetReporteContratos")]
         public async Task<ActionResult<string>> GetReporteContratos()
@@ -1184,9 +1229,9 @@ namespace ContratoDigital.Controllers
             return result + "}";
         }
 
-        #endregion
+#endregion
 
-        #region UnitTesting
+#region UnitTesting
         
         /*[HttpGet("CheckPagosJson/{id}")]
         [Route("api/Freyja/CheckPagosJson")]
@@ -1195,7 +1240,7 @@ namespace ContratoDigital.Controllers
             return PagosToJson(id);
         }*/
         
-        #endregion
+#endregion
 
     }
 }
