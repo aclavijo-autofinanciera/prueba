@@ -7,12 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SiiconWebService
+namespace SiiconTest
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30310-0943")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SiiconWebService.IService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SiiconTest.IService")]
     public interface IService
     {
         
@@ -247,13 +247,13 @@ namespace SiiconWebService
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30310-0943")]
-    public interface IServiceChannel : SiiconWebService.IService, System.ServiceModel.IClientChannel
+    public interface IServiceChannel : SiiconTest.IService, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30310-0943")]
-    public partial class ServiceClient : System.ServiceModel.ClientBase<SiiconWebService.IService>, SiiconWebService.IService
+    public partial class ServiceClient : System.ServiceModel.ClientBase<SiiconTest.IService>, SiiconTest.IService
     {
         
         /// <summary>
@@ -613,7 +613,7 @@ namespace SiiconWebService
         {
             if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IService))
             {
-                return new System.ServiceModel.EndpointAddress("http://wstienda.autofinanciera.com.co/Service.svc");
+                return new System.ServiceModel.EndpointAddress("http://wstienda2.autofinanciera.com.co/Service.svc");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
