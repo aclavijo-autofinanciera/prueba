@@ -64,6 +64,7 @@
     <Folder Include="Areas\Identity\Services\" />
     <Folder Include="wwwroot\emailtemplates\Cotizacion\" />
     <Folder Include="wwwroot\emailtemplates\Contrato\" />
+    <Folder Include="wwwroot\pdf\reportes\" />
   </ItemGroup>
 
   <ItemGroup>
