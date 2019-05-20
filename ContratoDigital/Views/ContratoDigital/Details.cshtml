@@ -70,6 +70,16 @@
                                     <label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
                                 }
                             </div>
+                            <div class="isRegisteredCommercial">
+                                @if (Model.ConfirmacionContratos.IsRegisteredCommercial)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> Registrado en cierre comercial</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> Registro en cierre comercial pendiente</label>
+                                }
+                            </div>
                             <div class="isIdUploaded">
                                 @if (Model.ConfirmacionContratos.IsIdUploaded)
                                 {
@@ -103,17 +113,8 @@
                                     <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
                                 }
                             </div>
-                            <div class="isRegisteredCommercial">
-                                @if (Model.ConfirmacionContratos.IsRegisteredCommercial)
-                                {
-                                    <label class="text-success"><i class="fas fa-check"></i> Registrado en cierre comercial</label>
-                                }
-                                else
-                                {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Registro en cierre comercial pendiente</label>
-                                }
-                            </div>
-                            <div class="isRegisteredCommercial">
+
+                            <div class="isContractReceived">
                                 @if (Model.ConfirmacionContratos.IsContractReceived)
                                 {
                                     <label class="text-success"><i class="fas fa-check"></i> Contrato recibido por el cliente</label>
