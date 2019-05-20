@@ -231,6 +231,9 @@ namespace ContratoDigital.Controllers
                 contrato.IsIdUploaded = contratoDummy.IsIdUploaded;
                 contrato.IsPaid = contratoDummy.IsPaid;
                 contrato.IsRegistered = contratoDummy.IsRegistered;
+                contrato.IsRegisteredCommercial = contratoDummy.IsRegisteredCommercial;
+                contrato.IsContractReceived = contratoDummy.IsContractReceived;
+
                 contrato.FechaAceptacion = contratoDummy.FechaAceptacion;
                 contrato.FechaPago = contratoDummy.FechaPago;
                 contrato.FechaVerificacion = contratoDummy.FechaVerificacion;
@@ -1226,6 +1229,61 @@ namespace ContratoDigital.Controllers
             result += "]";           
             
 
+            return result + "}";
+        }
+
+        [HttpGet("GetReporteLegal/{value}")]
+        [Route("GetReporteLegal")]
+        public async Task<ActionResult<string>> GetReporteLegal(int value)
+        {
+            Utilities utilities = new Utilities(_context, _userManager);
+            string result = "{";
+            // Contratos
+
+
+            var contratos = _context.Contratos.Take(20); //_context.Contratos.Where(x => x.numero_de_contrato == value || x.documento_identidad_suscriptor == value);
+            result += "\"resultado\": " + contratos.Count();
+            if (contratos.Count()>0)
+            {
+                result += ",\"Contratos\":[";
+                int count = contratos.Count();
+                int countKey = 1;
+                foreach (var item in contratos)
+                {
+
+                    result += "{" + utilities.BuildJsonItem("Nombre", item.primer_nombre + " " + item.segundo_nombre + " " + item.primer_apellido + " " + item.segundo_apellido) + ",";
+                    result += "\"NumeroDocumento\":\"" + item.tipo_documento_identidad_suscriptor + "-" + item.documento_identidad_suscriptor + "\",";
+                    result += "\"NumeroContrato\": \"" + item.numero_de_contrato + "\",";
+                    result += "\"Agencia\": \"" + item.ConfirmacionContratos.DescripcionAgencia + "\",";
+                    result += "\"TipoDeBien\": \"" + item.tipo_de_bien + "\",";
+                    result += "\"MarcaExclusiva\": \"" + item.marca_exclusiva_bien + "\",";
+                    result += "\"DetallesBien\": \"" + item.detalles_bien + "\",";
+                    result += "\"Plazo\": \"" + item.plazo_bien + "\",";
+                    result += "\"TipoCuota\": \"" + item.cuota_bien + "\",";
+                    result += "\"CuotaIngreso\": \"" + item.cuota_ingreso + "\",";
+                    result += "\"PrimeraCuotaNeta\": \"" + item.primera_cuota_neta + "\",";
+                    result += "\"Administracion\": \"" + item.administracion + "\",";
+                    result += "\"TotalCuotaBruta\": \"" + item.total_cuota_bruta + "\",";
+                    result += "\"ValorCuotaPrimerPago\": \"" + item.valor_primer_pago + "\",";
+                    result += "\"FechaRegistroContrato\": \"" + item.ConfirmacionContratos.FechaCreacion + "\",";
+                    result += "\"FechaAceptacionHabeasData\": \"" + item.Prospecto.ConfirmacionProspecto.FechaConfirmacion + "\",";
+                    result += "\"FechaAceptacionCondiciones\": \"" + item.ConfirmacionContratos.FechaAceptacion + "\",";
+                    //result += "\"FechaUltimoPago\": \"" + item.Pagos.Last().FechaPago + "\",";
+                    result += "\"FechaRecepcionContrato\": \"" + item.ConfirmacionContratos.FechaContratoRecibido + "\",";
+                    result += "\"RegistradoPor\": \"" + item.ConfirmacionContratos.UserId + "\",";
+                    result += "\"AsignadoA\": \"" + item.ConfirmacionContratos.Asesor + "\"";
+                  
+
+                    
+                    result += "}";
+                    if (countKey < count)
+                    {
+                        result += ",";
+                        countKey++;
+                    }
+                }
+                result += "]";
+            }
             return result + "}";
         }
 
