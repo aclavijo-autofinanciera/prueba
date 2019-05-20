@@ -1514,6 +1514,17 @@ namespace ContratoDigital
         {   
             return "{\"Titulo\": \"" + titulo + "\",\"Valor\": " + valor + "}";
         }
+
+        /// <summary>
+        /// Construye el contenido de un elemento de una secuencia de Json de un solo elemento
+        /// </summary>
+        /// <param name="titulo">El título del campo</param>
+        /// <param name="valor">El valor explicito a incluir</param>
+        /// <returns>Un string formateado con json</returns>
+        public string BuildJsonItem(string titulo, string valor)
+        {
+            return "\""+ titulo + "\": \"" + valor + "\"";
+        }
     }
 
     static public class Constants
