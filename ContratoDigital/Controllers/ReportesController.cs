@@ -47,6 +47,11 @@ namespace ContratoDigital.Controllers
             return View();
         }
 
+        public IActionResult ReporteLegal()
+        {
+            return View();
+        }
+
         public IActionResult ARDNumeroContrato()
         {
             return View();
