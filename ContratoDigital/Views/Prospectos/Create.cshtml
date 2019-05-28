@@ -8,397 +8,396 @@
     ViewData["Title"] = "Registrar prospecto";
     List<Estado> estados = ViewData["TipoIdentidadList"] as List<Estado>;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    bool IsAsesor = await UserManager.IsInRoleAsync(user, "Asesor");    
 }
 
-<section class="">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
-                    <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
-                        Registrar prospecto
-                    </h1>
+    <section class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                        <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                            Registrar prospecto
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="alertMessage p-2"></div>
+                    <form method="post" class="ProspectoValidation bootstrapValidation" autocomplete="off">
+
+                        <div class="form-row mt-4">
+                            <div class="col-6 col-md-3">
+                                <label for="PrimerNombre">Primer nombre</label>
+                                <input type="text" id="PrimerNombre" name="PrimerNombre" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <label for="SegundoNombre">Segundo nombre</label>
+                                <input type="text" id="SegundoNombre" name="SegundoNombre" class="form-control form-control-lg text-uppercase" autocomplete="off" />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <label for="PrimerApellido">Primer apellido</label>
+                                <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <label for="SegundoApellido">Segundo apellido</label>
+                                <input type="text" id="SegundoApellido" name="SegundoApellido" class="form-control form-control-lg text-uppercase" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col-12 col-md-6">
+                                <label for="TipoDocumentoIdentidad">Tipo de documento</label>
+
+                                <select id="TipoDocumentoIdentidad" name="TipoDocumentoIdentidad" class="form-control form-control-lg" required autocomplete="off" autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                    @foreach (var item in estados)
+                                    {
+                                        <option value="@item.IdEstado">@item.Descripcion</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="NumeroDocumento">Número documento identidad</label>
+                                <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col-12 col-md-6">
+                                <label for="Telefono">Teléfono</label>
+                                <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="Celular">Celular</label>
+                                <input type="text" id="Celular" name="Celular" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <label for="Email">Email</label>
+                                <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col-12">
+                                <div class="bg-azul p-3 mb-2 text-white text-center">
+                                    <h5 class="mb-0">Referencia</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-2 error-area"></div>
+
+                        <div class="form-row mt-4">
+                            <div class="col-12 col-md-4">
+                                <label for="bien">Seleccione compañía</label>
+                                <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off" required>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
+                                    <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
+                                </select>
+                                <input type="hidden" name="compania" id="compania" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="">Agencia</label>
+                                <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly disabled required autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                </select>
+                                <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="tipodeBien">Seleccione un tipo de bien</label>
+                                <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly disabled required autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                </select>
+                                <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="marca">Seleccione una marca</label>
+                                <select class="form-control form-control-lg" id="marca" name="marca" readonly disabled required autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                </select>
+                                <input type="hidden" name="descripcionMarca" id="descripcionMarca" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="planDeAhorro">Seleccione un plan de ahorro</label>
+                                <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly disabled required autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="tipoCalculo">Seleccione una cuota</label>
+                                <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly required autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                </select>
+                                <input type="hidden" name="descripcionTipoCalculo" id="descripcionTipoCalculo" />
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label for="">Tipo de medio</label>
+                                <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly disabled required autocomplete="off"></select>
+                                <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="">Agencia Medio</label>
+                                <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly disabled required autocomplete="off"></select>
+                                <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" />
+                                <input type="hidden" name="tipoBienParametroId" id="tipoBienParametroId" />
+                                <input type="hidden" name="medioFechaId" id="medioFechaId" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label>Tipo de cliente</label>
+                                <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente" required autocomplete="off">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="0">Nuevo cliente</option>
+                                    <option value="1">Cliente antiguo</option>
+                                    <option value="2">Persona jurídicia</option>
+                                </select>
+                                <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" />
+
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label>Asesor</label>
+                                <select class="form-control form-control-lg" id="asesores" name="asesores" required>                                    
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form-row mt-4">
+                            <div class="col-12 col-md-4">
+                                <label for="DescripcionDelBien">Descripción</label>
+                                <input type="text" id="DescripcionDelBien" name="DescripcionDelBien" class="form-control form-control-lg text-uppercase" required readonly />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="costo_del_bien">Costo del bien</label>
+                                <input type="text" class="form-control form-control-lg" id="costo_del_bien" name="costo_del_bien" readonly required />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="costo_del_bien">Detalle</label>
+                                <input type="text" class="form-control form-control-lg text-uppercase" id="detalle" name="detalle" required autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col-12 col-md-3">
+                                <label>Porcentaje inscripción</label>
+                                <input type="text" class="form-control form-control-lg porcentajeInscripcion" id="porcentajeInscripcion" name="porcentajeInscripcion" readonly />
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label>Porcentaje Administracion</label>
+                                <input type="text" class="form-control form-control-lg porcentajeAdministracion" id="porcentajeAdministracion" name="porcentajeAdministracion" readonly />
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label>I.V.A.</label>
+                                <input type="text" class="form-control form-control-lg porcentajeIva" id="porcentajeIva" name="porcentajeIva" readonly />
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="plazo_bien">Plazo</label>
+                                <input type="text" class="form-control form-control-lg plazo" id="plazo_bien" name="plazo_bien" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <span class="badge badge-azul">1</span>
+                                <label for="cuota_ingreso">Cuota de ingreso (<label class="porcentajeInscripcion"></label>% sobre el valor del bien)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="cuota_ingreso_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="cuota_ingreso" aria-describedby="cuota_ingreso_addon" id="cuota_ingreso" name="cuota_ingreso" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span class="badge badge-azul">5</span>
+                                <label for="administracion">Administración (<label class="porcentajeAdministracion"></label>% sobre cuota neta)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="administracion_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="administracion" aria-describedby="administracion_addon" id="administracion" name="administracion" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <span class="badge badge-azul">2</span>
+                                <label for="iva_cuota_ingreso">I.V.A. sobre la cuota de ingreso (<label class="porcentajeIva"></label>%)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg " aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" name="iva_cuota_ingreso" id="iva_cuota_ingreso" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span class="badge badge-azul">6</span>
+                                <label for="iva_administracion">I.V.A. sobre la administración (<label class="porcentajeIva"></label>%)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="iva_administracion_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg " aria-label="iva_administracion" aria-describedby="iva_administracion_addon" id="iva_administracion" name="iva_administracion" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <span class="badge badge-azul">3</span>
+                                <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class=" badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-labelledby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span class="badge badge-azul">7</span>
+                                <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="total_cuota_bruta" aria-describedby="total_cuota_bruta_addon" id="total_cuota_bruta" name="total_cuota_bruta" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col">
+                                <span class="badge badge-azul">4</span>
+                                <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="primera_cuota_neta_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span class="badge badge-azul">8</span>
+                                <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="valor_primer_pago_addon">$</span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" aria-label="valor_primer_pago" aria-describedby="valor_primer_pago_addon" id="valor_primer_pago" name="valor_primer_pago" placeholder="0.00" readonly required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col-12">
+                                <section id="legaleseAuto" class="d-none">
+                                    @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesAuto.cshtml")
+                                </section>
+                                <section id="legaleseElectro" class="d-none">
+                                    @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesElectro.cshtml")
+                                </section>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col-4">
+                                <label for=""></label>
+                            </div>
+                            <div class="col-12">
+                                <label for="observaciones">Observaciones</label>
+                                <textarea id="observaciones" name="observaciones" rows="4" class="form-control form-control-lg"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-row mt-4">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-azul submitbutton"><i class="far fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+
+
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="alertMessage p-2"></div>
-                <form method="post" class="ProspectoValidation bootstrapValidation" autocomplete="off">
+    </section>
 
-                    <div class="form-row mt-4">
-                        <div class="col-6 col-md-3">
-                            <label for="PrimerNombre">Primer nombre</label>
-                            <input type="text" id="PrimerNombre" name="PrimerNombre" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <label for="SegundoNombre">Segundo nombre</label>
-                            <input type="text" id="SegundoNombre" name="SegundoNombre" class="form-control form-control-lg text-uppercase" autocomplete="off" />
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <label for="PrimerApellido">Primer apellido</label>
-                            <input type="text" id="PrimerApellido" name="PrimerApellido" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <label for="SegundoApellido">Segundo apellido</label>
-                            <input type="text" id="SegundoApellido" name="SegundoApellido" class="form-control form-control-lg text-uppercase" autocomplete="off" />
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-6">
-                            <label for="TipoDocumentoIdentidad">Tipo de documento</label>
-
-                            <select id="TipoDocumentoIdentidad" name="TipoDocumentoIdentidad" class="form-control form-control-lg" required autocomplete="off" autocomplete="off">
-                                <option value="">Seleccione una opción</option>
-                                @foreach (var item in estados)
-                                {
-                                    <option value="@item.IdEstado">@item.Descripcion</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="NumeroDocumento">Número documento identidad</label>
-                            <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-6">
-                            <label for="Telefono">Teléfono</label>
-                            <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="Celular">Celular</label>
-                            <input type="text" id="Celular" name="Celular" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col">
-                            <label for="Email">Email</label>
-                            <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12">
-                            <div class="bg-azul p-3 mb-2 text-white text-center">
-                                <h5 class="mb-0">Referencia</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row mt-2 error-area"></div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-4">
-                            <label for="bien">Seleccione compañía</label>
-                            <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off" required>
-                                <option value="">Seleccione una opción</option>
-                                <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
-                                <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
-                            </select>
-                            <input type="hidden" name="compania" id="compania" />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="">Agencia</label>
-                            <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly disabled required autocomplete="off">
-                                <option value="">Seleccione una opción</option>
-                            </select>
-                            <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="tipodeBien">Seleccione un tipo de bien</label>
-                            <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly disabled required autocomplete="off">
-                                <option value="">Seleccione una opción</option>
-                            </select>
-                            <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="marca">Seleccione una marca</label>
-                            <select class="form-control form-control-lg" id="marca" name="marca" readonly disabled required autocomplete="off">
-                                <option value="">Seleccione una opción</option>
-                            </select>
-                            <input type="hidden" name="descripcionMarca" id="descripcionMarca" />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="planDeAhorro">Seleccione un plan de ahorro</label>
-                            <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly disabled required autocomplete="off">
-                                <option value="">Seleccione una opción</option>
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="tipoCalculo">Seleccione una cuota</label>
-                            <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly required autocomplete="off">
-                                <option value="">Seleccione una opción</option>
-                            </select>
-                            <input type="hidden" name="descripcionTipoCalculo" id="descripcionTipoCalculo" />
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <label for="">Tipo de medio</label>
-                            <select class="form-control form-control-lg" id="TipoMedio" name="TipoMedio" readonly disabled required autocomplete="off"></select>
-                            <input type="hidden" name="TipoMedioDescripcion" id="TipoMedioDescripcion" />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="">Agencia Medio</label>
-                            <select class="form-control form-control-lg" id="TipoMedioAgencia" name="TipoMedioAgencia" readonly disabled required autocomplete="off"></select>
-                            <input type="hidden" name="TipoMedioAgenciaDescripcion" id="TipoMedioAgenciaDescripcion" />
-                            <input type="hidden" name="tipoBienParametroId" id="tipoBienParametroId" />
-                            <input type="hidden" name="medioFechaId" id="medioFechaId" />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label>Tipo de cliente</label>
-                            <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente" required autocomplete="off">
-                                <option value="">Seleccione una opción</option>
-                                <option value="0">Nuevo cliente</option>
-                                <option value="1">Cliente antiguo</option>
-                                <option value="2">Persona jurídicia</option>
-                            </select>
-                            <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" />
-
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label>Asesor</label>
-                            <select class="form-control form-control-lg" id="asesores" name="asesores" required>
-                                <option>seleccione una opción</option>
-                            </select>
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-4">
-                            <label for="DescripcionDelBien">Descripción</label>
-                            <input type="text" id="DescripcionDelBien" name="DescripcionDelBien" class="form-control form-control-lg text-uppercase" required readonly />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="costo_del_bien">Costo del bien</label>
-                            <input type="text" class="form-control form-control-lg" id="costo_del_bien" name="costo_del_bien" readonly required />
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="costo_del_bien">Detalle</label>
-                            <input type="text" class="form-control form-control-lg text-uppercase" id="detalle" name="detalle" required autocomplete="off" />
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12 col-md-3">
-                            <label>Porcentaje inscripción</label>
-                            <input type="text" class="form-control form-control-lg porcentajeInscripcion" id="porcentajeInscripcion" name="porcentajeInscripcion" readonly />
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <label>Porcentaje Administracion</label>
-                            <input type="text" class="form-control form-control-lg porcentajeAdministracion" id="porcentajeAdministracion" name="porcentajeAdministracion" readonly />
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <label>I.V.A.</label>
-                            <input type="text" class="form-control form-control-lg porcentajeIva" id="porcentajeIva" name="porcentajeIva" readonly />
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <label for="plazo_bien">Plazo</label>
-                            <input type="text" class="form-control form-control-lg plazo" id="plazo_bien" name="plazo_bien" readonly />
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col">
-                            <span class="badge badge-azul">1</span>
-                            <label for="cuota_ingreso">Cuota de ingreso (<label class="porcentajeInscripcion"></label>% sobre el valor del bien)</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="cuota_ingreso_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="cuota_ingreso" aria-describedby="cuota_ingreso_addon" id="cuota_ingreso" name="cuota_ingreso" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <span class="badge badge-azul">5</span>
-                            <label for="administracion">Administración (<label class="porcentajeAdministracion"></label>% sobre cuota neta)</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="administracion_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="administracion" aria-describedby="administracion_addon" id="administracion" name="administracion" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col">
-                            <span class="badge badge-azul">2</span>
-                            <label for="iva_cuota_ingreso">I.V.A. sobre la cuota de ingreso (<label class="porcentajeIva"></label>%)</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="iva_cuota_ingreso_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg " aria-label="iva_cuota_ingreso" aria-describedby="iva_cuota_ingreso_addon" name="iva_cuota_ingreso" id="iva_cuota_ingreso" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <span class="badge badge-azul">6</span>
-                            <label for="iva_administracion">I.V.A. sobre la administración (<label class="porcentajeIva"></label>%)</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="iva_administracion_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg " aria-label="iva_administracion" aria-describedby="iva_administracion_addon" id="iva_administracion" name="iva_administracion" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-row mt-4">
-                        <div class="col">
-                            <span class="badge badge-azul">3</span>
-                            <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class=" badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_ingreso" aria-labelledby="total_cuota_ingreso_addon" id="total_cuota_ingreso" name="total_cuota_ingreso" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <span class="badge badge-azul">7</span>
-                            <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="total_cuota_bruta" aria-describedby="total_cuota_bruta_addon" id="total_cuota_bruta" name="total_cuota_bruta" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col">
-                            <span class="badge badge-azul">4</span>
-                            <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="primera_cuota_neta_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="primera_cuota_neta" aria-describedby="primera_cuota_neta_addon" id="primera_cuota_neta" name="primera_cuota_neta" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <span class="badge badge-azul">8</span>
-                            <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="valor_primer_pago_addon">$</span>
-                                </div>
-                                <input type="text" class="form-control form-control-lg" aria-label="valor_primer_pago" aria-describedby="valor_primer_pago_addon" id="valor_primer_pago" name="valor_primer_pago" placeholder="0.00" readonly required />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-12">
-                            <section id="legaleseAuto" class="d-none">
-                                @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesAuto.cshtml")
-                            </section>
-                            <section id="legaleseElectro" class="d-none">
-                                @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesElectro.cshtml")
-                            </section>
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col-4">
-                            <label for=""></label>
-                        </div>
-                        <div class="col-12">
-                            <label for="observaciones">Observaciones</label>
-                            <textarea id="observaciones" name="observaciones" rows="4" class="form-control form-control-lg"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-row mt-4">
-                        <div class="col text-center">
-                            <button type="submit" class="btn btn-azul submitbutton"><i class="far fa-save"></i> Guardar</button>
-                        </div>
-                    </div>
-
-
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-@section Scripts
-    {
-    @{bool IsAsesor = await UserManager.IsInRoleAsync(user, "Asesor"); }
-    @if (IsAsesor)
-    {
-        <script>
-
-            jQuery(function ($) {
-                $("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');
-            });
-        </script>
-    }
-    else
-    {
-        <script>
-            function getAsesorPorAgenciaSiicon() {
+    @section Scripts
+    {        
+        @if (IsAsesor)
+        {
+            <script>
                 jQuery(function ($) {
+                    $("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');
+                    $("#asesores").attr("readonly","readonly");                    
+                });
+            </script>
+        }
+        else
+        {
+            <script>
+                function getAsesorPorAgenciaSiicon() {
+                    jQuery(function ($) {
 
-                    $.ajax({
-                        type: "GET",
-                        url: "/api/Freyja/GetAsesoresPorAgenciaSiicon/" + $('#idcompania').val() + "/" + $('#Agencia').val(),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            try {
-                                var asesores = $('#asesores');
-                                asesores.empty();
-                                asesores.append("<option value=\"\">Selecciona una opción</option>"); //<option value=\"todos\">Seleccionar todos</option>");
-                                $.each(data, function (i, item) {
-                                    var rows = "<option value=\"" + item.CodAsesor + "\" >" + item.Asesor + " </option>";
-                                    asesores.append(rows);
-                                });
-                                asesores.removeAttr("readonly disabled");
-                            } catch (e) {
+                        $.ajax({
+                            type: "GET",
+                            url: "/api/Freyja/GetAsesoresPorAgenciaSiicon/" + $('#idcompania').val() + "/" + $('#Agencia').val(),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                try {
+                                    var asesores = $('#asesores');
+                                    asesores.empty();
+                                    asesores.append("<option value=\"\">Selecciona una opción</option>"); //<option value=\"todos\">Seleccionar todos</option>");
+                                    $.each(data, function (i, item) {
+                                        var rows = "<option value=\"" + item.CodAsesor + "\" >" + item.Asesor + " </option>";
+                                        asesores.append(rows);
+                                    });
+                                    asesores.removeAttr("readonly disabled");
+                                } catch (e) {
+                                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                        '<span aria-hidden="true">&times;</span>' +
+                                        '</button>' +
+                                        '</div >');
+                                    $(this).addClass('fa-spin');
+                                }
+                            },
+                            failure: function (data) {
                                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                                     '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
                                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                                     '<span aria-hidden="true">&times;</span>' +
                                     '</button>' +
                                     '</div >');
-                                $(this).addClass('fa-spin');
+                                $(this).removeClass('fa-spin');
+                            },
+                            error: function (data) {
+                                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                    '<span aria-hidden="true">&times;</span>' +
+                                    '</button>' +
+                                    '</div >');
+                                $(this).removeClass('fa-spin');
                             }
-                        },
-                        failure: function (data) {
-                            $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                                '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                                '<span aria-hidden="true">&times;</span>' +
-                                '</button>' +
-                                '</div >');
-                            $(this).removeClass('fa-spin');
-                        },
-                        error: function (data) {
-                            $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                                '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                                '<span aria-hidden="true">&times;</span>' +
-                                '</button>' +
-                                '</div >');
-                            $(this).removeClass('fa-spin');
-                        }
+                        });
                     });
+                }
+                $('#Agencia').on('change', function () {
+                    getAsesorPorAgenciaSiicon();
                 });
-            }            
-            $('#Agencia').on('change', function () {
-                getAsesorPorAgenciaSiicon();
-            });
-        </script>
-    }    
-}
+            </script>
+        }
+    }
 
 

@@ -33,14 +33,31 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 0.1.9.26 (2019-05-28)
+### Features
++ Se bloquea el elemento de selección simple para los asesores, solo puedan seleccionarse a si mismos.
+
+## 0.1.9.25 (2019-05-27)
+### Features
++ Se bloquea el elemento de selección simple para los asesores, solo puedan seleccionarse a si mismos.
+
+## 0.1.9.23 (2019-04-16)
+### Features
++ Reporte legal.
++ Separation of Concerns para todos los archivos de JS.
+### Bugfixes
++ Corrección del botón de actualizar la vista de detalles.
++ Corrección de la etiqueta de creación y registro de contrato nuevo, cambiando el verbo a Diligenciar.
+
+
 ## 0.1.9.16 (2019-04-12)
-###Features
+### Features
 + El campo de correo se hace solo lectura para evitar que el autocompletar de google chrome lo modifique.
 
 
 
 ## 0.1.9.15 (2019-04-11)
-###Features
+### Features
 + Se limita el valor del abono y la generación referencia al saldo restante.
 
 ## 0.1.9.14 (2019-04-09)

@@ -751,8 +751,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label>Asesor</label>
-                            <select class="form-control form-control-lg" id="asesores" name="asesores" required>
-                                <option>seleccione una opción</option>
+                            <select class="form-control form-control-lg" id="asesores" name="asesores" required>                                
                             </select>
                         </div>
                     </div>
@@ -1093,6 +1092,7 @@
 
             jQuery(function ($) {
                 $("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');
+                $("#asesores").attr("readonly","readonly");
             });
         </script>
     }
