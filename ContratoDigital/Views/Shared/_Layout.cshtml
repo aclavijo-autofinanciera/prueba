@@ -101,9 +101,7 @@
                                     </a>
                                     <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
                                         <a class="dropdown-item" href="@Url.Action("Index", "ContratoDigital")">Mis últimos contratos</a>
-                                        <a class="dropdown-item" href="@Url.Action("Find", "ContratoDigital")">Buscar contratos</a>
-                                        <a class="dropdown-item" href="@Url.Action("ListByStatus", "ContratoDigital")">Contratos pendientes</a>
-                                        <a class="dropdown-item" href="@Url.Action("ListClosed", "ContratoDigital")">Contratos cerrados</a>
+                                        <a class="dropdown-item" href="@Url.Action("Find", "ContratoDigital")">Buscar contratos</a>                                        
 
                                         @if (await UserManager.IsInRoleAsync(user, "Administrador"))
                                         {
