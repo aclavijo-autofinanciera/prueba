@@ -190,52 +190,8 @@
                     '</div >');
                 $(this).removeClass('fa-spin');
             }
-        });
-
-        $.ajax({
-            type: "GET",
-            url: "/api/Freyja/GetAsesoresPorAgencia/" + agencia.val(),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                try {
-                    var asesores = $('#asesores');
-                    asesores.empty();
-                    asesores.append("<option value=\"\">Selecciona una opción</option><option value=\"todos\">Seleccionar todos</option>");
-                    $.each(data, function (i, item) {
-                        var rows = "<option value=\"" + item.id + "\" >" + item.nombre + " " + item.apellido + " </option>";
-                        asesores.append(rows);
-                    });
-                    asesores.removeAttr("readonly disabled");
-                } catch (e) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).addClass('fa-spin');
-                }
-            },
-            failure: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-                $(this).removeClass('fa-spin');
-            },
-            error: function (data) {
-                $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '</div >');
-                $(this).removeClass('fa-spin');
-            }
-        });
+        });        
+                
     }); // End Agencia Select
 
     /**
