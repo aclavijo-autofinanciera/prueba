@@ -107,10 +107,11 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Create(IFormCollection form)
         {
             int.TryParse(s: form["NumeroDocumento"], result: out int documentoIdentidad);
-            if (documentoIdentidad == 0 || _context.Prospectos.Count(x=>x.NumeroDocumento == documentoIdentidad) > 0)
+            if (documentoIdentidad == 0 || _context.Prospectos.Count(x => x.NumeroDocumento == documentoIdentidad) > 0 || _context.Prospectos.Count(x => x.Email == form["email"].ToString().ToUpper()) > 0)
             {
-                return RedirectToAction("Create");
-            }
+                return RedirectToAction("Create", new { e = (int)Constants.ErrorList.CedulaCorreoDuplicado});
+            }            
+
             Prospecto prospecto = _utilities.FillProspecto(form);
             _context.Prospectos.Add(prospecto);
             await _context.SaveChangesAsync();

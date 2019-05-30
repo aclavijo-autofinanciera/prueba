@@ -1608,6 +1608,11 @@ namespace ContratoDigital
             Anulado = 66,
             Suspendido = 67
         }
+
+        public enum ErrorList
+        {
+            CedulaCorreoDuplicado = 666001
+        }
     }
 
     public class Status

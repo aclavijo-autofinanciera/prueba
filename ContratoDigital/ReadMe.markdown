@@ -33,6 +33,22 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+
+## 0.19.27 (2019-05-30)
+### Feature
+#### Duplicidad de datos del prospecto
+
++ Al salvar el prospecto se valida que:
+  + Número de documento no sea igual a cero.
+  + Número de documento no haya sido registrado previamente.
+  + Correo electrónico no haya sido registrado previamente.
++ Al cargar la visa de creación de prospectos, se limpian todos los 
+ campos de texto, y se vacían todos los campos de selección múltiple, 
+ de forma tal que falle la validación del formulario y haya que 
+ rellenar todos los campos requeridos nuevamente, evitando así 
+ duplicida de datos o reenvío del DOM lleno.
+
+
 ## 0.1.9.26 (2019-05-28)
 ### Features
 + Se bloquea el elemento de selección simple para los asesores, solo puedan seleccionarse a si mismos.

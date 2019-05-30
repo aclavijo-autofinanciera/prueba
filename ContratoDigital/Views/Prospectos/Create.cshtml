@@ -8,7 +8,7 @@
     ViewData["Title"] = "Registrar prospecto";
     List<Estado> estados = ViewData["TipoIdentidadList"] as List<Estado>;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    bool IsAsesor = await UserManager.IsInRoleAsync(user, "Asesor");    
+    bool IsAsesor = await UserManager.IsInRoleAsync(user, "Asesor");
 }
 
     <section class="">
@@ -24,9 +24,21 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="alertMessage p-2"></div>
+                    <div class="alertMessage p-2">
+                        @{ 
+                            Microsoft.Extensions.Primitives.StringValues queryVal;
+                            if (Context.Request.Query.TryGetValue("e", out queryVal) && queryVal.FirstOrDefault() == "666001")
+                            {
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Su solicitud no se puede procesar:</strong> El número de documento o el correo electrónico ya se encuentran registrados.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                        }
+                    </div>
                     <form method="post" class="ProspectoValidation bootstrapValidation" autocomplete="off">
-
                         <div class="form-row mt-4">
                             <div class="col-6 col-md-3">
                                 <label for="PrimerNombre">Primer nombre</label>
@@ -332,6 +344,14 @@
 
     @section Scripts
     {        
+        <script>
+            $('#PrimerNombre, #SegundoNombrem, #PrimerApellido, #SegundoApellido, #NumeroDocumento, #Telefono, #Celular, #email, #observaciones').val('');
+            var selects = $('#Agencia, #tipodeBien, #marca, #planDeAhorro, #tipoCalculo, #TipoMedio, #TipoMedioAgencia, #asesores ');
+            selects.empty();
+            selects.append('"<option value=\"\">Selecciona una opción</option>"');
+            selects.attr("readonly", "readonly");
+        </script>        
+
         @if (IsAsesor)
         {
             <script>
