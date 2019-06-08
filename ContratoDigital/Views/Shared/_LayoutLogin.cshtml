@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" >
 <head>
     <meta name="robots" content="index,follow">
@@ -28,28 +27,15 @@
     <meta name="msapplication-square310x310logo" content="~/mstile-310x310.png" />
 
     <meta name="keywords" content="">
-    <title>@ViewData["Title"] - Mi Contrato</title>
-
-    <environment include="Development">
-        @*<link rel="stylesheet" href="~/css/localfonts.css" />*@
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" />
-        <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/AOS/aos.css" />
-        <link rel="stylesheet" href="~/css/base-1.0.4.css" />
-    </environment>
-    <environment exclude="Development">
-        @*<link href="~/css/localfonts.css" rel="stylesheet" />*@
-        <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/base-1.0.4.css" asp-append-version="true" />
-    </environment>
+    <title>@ViewData["Title"] - Qurii</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/AOS/aos.css" />
+    <link rel="stylesheet" href="~/css/base-1.0.4.css" />
+    
 </head>
 <body>
     @{
@@ -87,9 +73,9 @@
         }
     }
     <div style="background: url('../../../../images/background/@(Html.Raw(name)).jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 50rem;">
-
-
+        
         @RenderBody()
+        
     </div>
     <footer>
         <div class="container">
@@ -127,36 +113,16 @@
             </div>
         </div>
     </footer>
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery-3.3.1.js"></script>
-        <script src="~/lib/jquery-validation/1.19.0/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation/1.19.0/additional-methods.js"></script>
-        <script src="~/lib/bootstrap/dist/js/popper.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
-        <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
-        <script src="~/js/base-1.0.27.js" asp-append-version="true"></script>        
-    </environment>
-    <environment exclude="Development">
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"
-                asp-fallback-src="~/lib/jquery-validation/1.19.0/jquery.validate.min.js"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"
-                asp-fallback-src="~/lib/jquery-validation/1.19.0/additional-methods.min.js"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
-        <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script src="~/js/base-1.0.27.js" asp-append-version="true"></script>        
-    </environment>
+    
+    <script src="~/lib/jquery/dist/jquery-3.3.1.js"></script>
+    <script src="~/lib/jquery-validation/1.19.0/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation/1.19.0/additional-methods.js"></script>
+    <script src="~/lib/bootstrap/dist/js/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
+    <script src="~/js/base-1.0.27.js" asp-append-version="true"></script>        
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>
