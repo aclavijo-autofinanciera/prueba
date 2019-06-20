@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ContratoDigital.Areas.Identity.Data;
+using ContratoDigital.Data;
+using ContratoDigital.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
-using ContratoDigital.Models;
+//using ContratoDigital.Models;
 
 using iText.Forms;
 using iText.Forms.Fields;
 using iText.Kernel.Pdf;
-using ContratoDigital.Data;
+//using ContratoDigital.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using ContratoDigital.Areas.Identity.Data;
+//using Microsoft.AspNetCore.Identity;
+//using ContratoDigital.Areas.Identity.Data;
 using Newtonsoft.Json;
 
 namespace ContratoDigital.Controllers
@@ -96,14 +100,22 @@ namespace ContratoDigital.Controllers
             DateTime fechaCierre = new DateTime();
             WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(prospecto.IdCompania).Result.Value);
-            if (jsonFechaCierre.First.FechaCierre != null)
+            try
             {
-                string value = jsonFechaCierre.First.FechaCierre;
-                fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                if (jsonFechaCierre.First.FechaCierre != null)
+                {
+                    string value = jsonFechaCierre.First.FechaCierre;
+                    fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                if (DateTime.Now > fechaCierre)
+                {
+                    ViewData["Warning"] = "Fecha límite de cierre comercial. Debe esperar a que esta vuelva a abrir nuevmaente";
+                }
             }
-            if (DateTime.Now > fechaCierre)
+            catch (Exception ex)
             {
-                ViewData["Warning"] = "Fecha límite de cierre comercial. Debe esperar a que esta vuelva a abrir nuevmaente";
+
+                return RedirectToAction("CierreComercial", "Home");
             }
             return View(prospecto);
         }
@@ -122,14 +134,22 @@ namespace ContratoDigital.Controllers
 
 
             dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(contrato.id_compania).Result.Value);
-            if (jsonFechaCierre.First.FechaCierre != null)
+            try
             {
-                string value = jsonFechaCierre.First.FechaCierre;
-                fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                if (jsonFechaCierre.First.FechaCierre != null)
+                {
+                    string value = jsonFechaCierre.First.FechaCierre;
+                    fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                if (DateTime.Now > fechaCierre)
+                {
+                    return RedirectToAction("Details", "Prospectos", new { id = contrato.IdProspecto });
+                }
             }
-            if(DateTime.Now>fechaCierre)
+            catch (Exception ex)
             {
-                return RedirectToAction("Details", "Prospectos",  new { id = contrato.IdProspecto});
+
+                return RedirectToAction("CierreComercial", "Home");
             }
 
             

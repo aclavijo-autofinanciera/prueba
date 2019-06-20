@@ -33,6 +33,10 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 0.19.39 (2019-06-20)
+### Feature
+
++ Alerta cuando el cierre coemrcial no está asignado en la plataforma.
 
 ## 0.19.27 (2019-05-30)
 ### Feature

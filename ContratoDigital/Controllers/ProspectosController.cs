@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using SiiconTest;
 using SiiconWebService;
 
 namespace ContratoDigital.Controllers
@@ -23,7 +24,12 @@ namespace ContratoDigital.Controllers
     [Authorize]
     public class ProspectosController : Controller
     {
-        ServiceClient service = new ServiceClient();
+        //ServiceClient service = new ServiceClient();
+#if (DEBUG)
+        SiiconTest.ServiceClient service = new SiiconTest.ServiceClient();
+#else
+            SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
+#endif
 
         /// <summary>
         ///  Constructor de la clase, que coloca los recursos web estáticos en el alcance de la aplicación .net.
@@ -342,15 +348,25 @@ namespace ContratoDigital.Controllers
             WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             DateTime fechaCierre = new DateTime();
             dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(prospectos.IdCompania).Result.Value);
-            if (jsonFechaCierre.First.FechaCierre != null)
+
+            try
             {
-                string value = jsonFechaCierre.First.FechaCierre;
-                fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                if (jsonFechaCierre.First.FechaCierre != null)
+                {
+                    string value = jsonFechaCierre.First.FechaCierre;
+                    fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                if (DateTime.Now > fechaCierre)
+                {
+                    ViewData["Warning"] = "Fecha límite de cierre comercial. Debe esperar a que esta vuelva a abrir nuevmaente";
+                }
             }
-            if (DateTime.Now > fechaCierre)
+            catch(Exception ex)
             {
-                ViewData["Warning"] = "Fecha límite de cierre comercial. Debe esperar a que esta vuelva a abrir nuevmaente";
+                return RedirectToAction("CierreComercial", "Home");
             }
+
+            
 
             ViewData["TipoIdDescripcion"] = status.GetStatusName(prospectos.TipoDocumentoIdentidad);
             ViewData["Estado"] = status.GetStatusName(prospectos.ConfirmacionProspecto.IdEstado);
