@@ -39,11 +39,13 @@
     <meta name="keywords" content="">
     <title>@ViewData["Title"] - Qurii</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" crossorigin="anonymous" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/AOS/aos.css"asp-append-version="true" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css"  />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="~/lib/AOS/aos.css" />
+    <link rel="stylesheet" href="~/lib/DataTables/datatables.min.css" />
+    
     <link rel="stylesheet" href="~/css/base-1.0.4.css" asp-append-version="true" />
 
 
@@ -53,9 +55,9 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <nav class="navbar navbar-expand-lg navbar-dark bg-azul" style="border-bottom:solid 3px var(--verde);">
-                        <a class="navbar-brand" href="#">
-                            <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo" alt="Autofinanciera" />
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-black-6c qurii-white" style="border-bottom:solid 3px var(--qurii);">
+                        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                            <img src="~/images/qurii/qurii.png" class="img-fluid logo" alt="Qurii" />
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -124,15 +126,22 @@
                     <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo-footer" alt="Autofinanciera SA" />
                 </div>
                 <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/serven_white.png" class="img-fluid p-3" style="max-height:150px;" alt="Serven SA" />
+                    <img src="~/images/serven_white.png" class="img-fluid p-1" style="max-height:80px;" alt="Serven SA" />
                 </div>
                 <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/logo_electroplan_blanco.png" class="img-fluid" alt="Electroplan SA" />
+                    <img src="~/images/Fonbienes-electroplan-white.png" class="img-fluid p-1" style="max-height:80px;" alt="Electroplan SA" />
                 </div>
             </div>
-            <div class="row justify-content-end  mt-4">
+            <div class="row justify-content-center  mt-4">
+                <div class="col-12 col-sm-5 col-md-4 text-center text-white mt-2">
+                    <p>                        
+                        Vigilado por la Superintendencia de Sociedades<br />
+                        <i class="far fa-copyright"></i> Autofinanciera S.A. 1971 - @DateTime.Today.Year<br />
+                        <i class="far fa-copyright"></i> Fonbienes, Colombia, S.A. 1987 - @DateTime.Today.Year<br />
+                    </p>
+                </div>
 
-                <div class="col-12 col-sm-4 col-md-3 text-white">
+                <div class="col-12 col-sm-5 col-md-4 text-white text-center">
                     <h5>Sede principal y administrativa</h5>
                     <p>
                         Carrera 7 no. 24-89 Torre Colpatria Piso 17<br />
@@ -141,17 +150,7 @@
                     </p>
                 </div>
 
-            </div>
-            <div class="row align-items-center mt-4">
-                <div class="col-12 text-center text-white mt-2">
-                    <p>
-                        <img src="~/images/superintendencia_sociedades_white.png" class="img-fluid" alt="Superintendencia de Sociedades" style="max-width:100px;" /><br />
-                        Vigilado por la Superintendencia de Sociedades<br />
-                        <i class="far fa-copyright"></i> Autofinanciera 1971 - @DateTime.Today.Year<br />
-                        <i class="far fa-copyright"></i> Electroplan 1987 - @DateTime.Today.Year<br />
-                    </p>
-                </div>
-            </div>
+            </div>            
         </div>
     </footer>
 
@@ -172,16 +171,18 @@
         </script>
     }
 
-    <script src="~/lib/jquery/dist/jquery-3.3.1.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/1.19.0/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/1.19.0/additional-methods.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/popper.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
-    <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
-    <script src="~/js/base-1.0.27.js" asp-append-version="true"></script>
-    <script src="~/js/validations-1.0.js" asp-append-version="true"></script>
-    <script src="~/js/Freyja-1.0.5.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery-3.3.1.min.js"></script>
+    <script src="~/lib/jquery-validation/1.19.0/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/1.19.0/additional-methods.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js" ></script>
+    <script src="~/lib/AOS/aos.js"></script>
+    <script src="~/lib/DataTables/datatables.min.js"></script>
+    
+    <script src="~/js/base-1.0.28.js" asp-append-version="true"></script>
+    <script src="~/js/validations-1.1.js" asp-append-version="true"></script>
+    <script src="~/js/Freyja-1.0.6.js" asp-append-version="true"></script>
 
      
 

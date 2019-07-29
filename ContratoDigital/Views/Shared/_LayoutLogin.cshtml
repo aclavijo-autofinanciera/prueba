@@ -34,69 +34,39 @@
     <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/AOS/aos.css" />
-    <link rel="stylesheet" href="~/css/base-1.0.4.css" />
+    <link rel="stylesheet" href="~/css/base-1.0.4.css" asp-append-version="true" />
     
 </head>
-<body>
-    @{
-        int code = new Random().Next(0, 9);
-        string name = "";
-        switch (code)
-        {
-            case 0:
-                name = "anotherscooter";
-                break;
-            case 1:
-                name = "bags";
-                break;
-            case 2:
-                name = "bikeback";
-                break;
-            case 3:
-                name = "bogota-at-night";
-                break;
-            case 4:
-                name = "castillogrande";
-                break;
-            case 5:
-                name = "contract";
-                break;
-            case 6:
-                name = "facades";
-                break;
-            case 7:
-                name = "prospect";
-                break;
-            case 8:
-                name = "scooter";
-                break;
-        }
-    }
-    <div style="background: url('../../../../images/background/@(Html.Raw(name)).jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 50rem;">
+<body>    
+    @*<div style="background: url('../../../../images/qurii-pattern.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 50rem;">*@
+    <div style="background: url('../../../../images/background/qurii-pattern.jpg'); ">
         
         @RenderBody()
         
     </div>
-    <footer>
+    <footer class="">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" style="border-bottom: solid #fff 2px;">
-                    <img src="~/images/serven_white.png" class="img-fluid p-3" style="max-height:150px;" />
-
+            <div class="row justify-content-center" style="border-bottom: solid #fff 2px;">
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo-footer" alt="Autofinanciera SA" />
+                </div>
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/serven_white.png" class="img-fluid p-1" style="max-height:80px;" alt="Serven SA" />
+                </div>
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/Fonbienes-electroplan-white.png" class="img-fluid p-1" style="max-height:80px;" alt="Electroplan SA" />
                 </div>
             </div>
-            <div class="row align-items-center  mt-4">
-                <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo-footer" alt="Autofinanciera" />
-                </div>
-                <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/superintendencia_sociedades_white.png" class="img-fluid" alt="Superintendencia de Sociedades" />
-                </div>
-                <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/logo_electroplan_blanco.png" class="img-fluid" alt="Superintendencia de Sociedades" />
+            <div class="row justify-content-center  mt-4">
+                <div class="col-12 col-sm-5 col-md-4 text-center text-white mt-2">
+                    <p>                        
+                        Vigilado por la Superintendencia de Sociedades<br />
+                        <i class="far fa-copyright"></i> Autofinanciera S.A. 1971 - @DateTime.Today.Year<br />
+                        <i class="far fa-copyright"></i> Fonbienes, Colombia, S.A. 1987 - @DateTime.Today.Year<br />
+                    </p>
                 </div>
 
-                <div class="col-12 col-sm-4 col-md-3 text-white">
+                <div class="col-12 col-sm-5 col-md-4 text-white text-center">
                     <h5>Sede principal y administrativa</h5>
                     <p>
                         Carrera 7 no. 24-89 Torre Colpatria Piso 17<br />
@@ -104,12 +74,7 @@
                         Bogotá - Colombia
                     </p>
                 </div>
-                <div class="col-12 text-center text-white mt-2">
-                    <p>
-                        Vigilado por la superintendencia de sociedades<br />
-                        <i class="far fa-copyright"></i> Autofinanciera 1971 - @DateTime.Today.Year
-                    </p>
-                </div>
+
             </div>
         </div>
     </footer>
@@ -121,7 +86,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
     <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
-    <script src="~/js/base-1.0.27.js" asp-append-version="true"></script>        
+    <script src="~/js/base-1.0.28.js" asp-append-version="true"></script>        
     
     @RenderSection("Scripts", required: false)
 </body>
