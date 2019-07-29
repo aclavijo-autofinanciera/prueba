@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ContratoDigital.Areas.Identity.Data;
@@ -9,6 +10,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+using iText.Forms;
+using iText.Forms.Fields;
+using iText.Kernel.Pdf;
+using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace ContratoDigital.Controllers
 {
@@ -47,10 +55,66 @@ namespace ContratoDigital.Controllers
             return View();
         }
 
-        public IActionResult ReporteLegal()
+        public IActionResult ReporteLegal(int id)
         {
+            if(id > 0)
+            {
+                var contrato = _context.Contratos.Find(id);
+                return View(contrato);
+            }
             return View();
         }
+
+        public async Task<IActionResult> GenerateReporteLegal(int id)
+        {
+            Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == id);
+            MemoryStream stream = new MemoryStream();
+            string src = "";
+            if(contrato.id_compania.Equals(Constants.GuuidElectro))
+            {
+                switch(contrato.marca_exclusiva_bien)
+                {
+                    case "YAMAHA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReporteLegalKia;
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReporteLegalKia;
+                        break;
+                }
+            }
+            else
+            {
+                switch(contrato.marca_exclusiva_bien)
+                {
+                    case "KIA":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReporteLegalKia;
+                        break;
+                    case "VOLKSWAGEN":
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReporteLegalKia;
+                        break;
+                    default:
+                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ReporteLegalKia;
+                        break;
+                }
+            }
+            PdfWriter pdfWriter = new PdfWriter(stream);
+            PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfWriter);
+            pdfWriter.SetCloseStream(false);
+
+            PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
+            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
+
+            _utilities.FillReporteLegal(fields, contrato);
+
+            pdfForm.FlattenFields();
+            pdf.Close();
+            stream.Flush();
+            stream.Position = 0;            
+
+
+            return File(stream, "application/pdf", "[Qurii] " + DateTime.Now.ToString("yyyy-MM-dd-") + Constants.ReporteLegalPDF + ".pdf");
+        }
+           
 
         public IActionResult ARDNumeroContrato()
         {

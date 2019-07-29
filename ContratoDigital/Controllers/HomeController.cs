@@ -72,6 +72,10 @@ namespace ContratoDigital.Controllers
 
             return View();
         }
+        public IActionResult CierreComercial()
+        {
+            return View();
+        }
 
         public IActionResult Error()
         {
