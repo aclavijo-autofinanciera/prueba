@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using SiiconWebService;
+using SiiconTest;
 
 namespace ContratoDigital
 {
@@ -436,7 +437,7 @@ namespace ContratoDigital
 
             // Detalles bien
             fields.TryGetValue("detalles_bien", out toSet);
-            toSet.SetValue(contrato.descripcion_bien.ToUpper());
+            toSet.SetValue(contrato.tipo_de_bien.ToUpper() + " " + contrato.descripcion_bien.ToUpper());
 
             // Valor del bien
             fields.TryGetValue("valor_bien", out toSet);
@@ -570,7 +571,15 @@ namespace ContratoDigital
             }
             else
             {
-                using (ServiceClient service = new ServiceClient())
+#if (DEBUG)
+                //SiiconTest.ServiceClient service = new SiiconTest.ServiceClient();
+                using (SiiconTest.ServiceClient service = new SiiconTest.ServiceClient())
+#else
+            //SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
+                    using (SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient())
+#endif
+
+                //using (ServiceClient service = new ServiceClient())
                 {
                     string result = service.SeleccionarAsesoresAgenciaAsync(contrato.id_compania, int.Parse(contrato.agencia)).Result;
                     if (!string.IsNullOrEmpty(result))
@@ -767,6 +776,640 @@ namespace ContratoDigital
             fields.TryGetValue("CodigoAsesor", out toSet);
             toSet.SetValue(user.Id);
         }
+
+
+        /// <summary>
+        /// Asigna todos los valores de la clase contrato a un PDF de reporte legal.
+        /// </summary>
+        /// <param name="fields">Lista de campos del archivo PDF como tal</param>
+        /// <param name="contrato">Modelo de datos de todas la personas.</param>
+        public void FillReporteLegal(IDictionary<String, PdfFormField> fields, Contrato contrato)
+        {
+            PdfFormField toSet;
+            Status status = new Status(_context);
+            // Número de contrato
+            fields.TryGetValue("numero_de_contrato", out toSet);
+            toSet.SetValue(contrato.numero_de_contrato.ToString().ToUpper());
+
+            // Nombre razón social suscriptor
+            fields.TryGetValue("nombre_razon_social_suscriptor", out toSet);
+            toSet.SetValue((contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido).ToUpper());
+
+            // Tipo de documento de identidad
+            fields.TryGetValue("tipo_documento_identidad_suscriptor", out toSet);
+            switch (contrato.tipo_documento_identidad_suscriptor)
+            {
+                case "4":
+                    toSet.SetValue("CC");
+                    break;
+                case "5":
+                    toSet.SetValue("CE");
+                    break;
+                case "6":
+                    toSet.SetValue("NIT");
+                    break;
+            }
+
+
+            // Número de documento de identidad
+            fields.TryGetValue("documento_identidad_suscriptor", out toSet);
+            toSet.SetValue(contrato.documento_identidad_suscriptor.ToString().ToUpper());
+
+            // Procedencia documento de identidad
+            fields.TryGetValue("procedencia_documento_identidad_suscriptor", out toSet);
+            toSet.SetValue(status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor)));
+
+            if (contrato.documento_identidad_representante_legal > 0)
+            {
+                // Nombre representante Legal
+                fields.TryGetValue("nombre_razon_social_representante_legal", out toSet);
+                toSet.SetValue(contrato.nombre_razon_social_representante_legal.ToUpper());
+
+                // Tipo de documento identidad
+                fields.TryGetValue("tipo_documento_representante_legal", out toSet);
+                switch (contrato.tipo_documento_representante_legal.ToUpper())
+                {
+                    case "4":
+                        toSet.SetValue("CC");
+                        break;
+                    case "5":
+                        toSet.SetValue("CE");
+                        break;
+                    case "6":
+                        toSet.SetValue("NIT");
+                        break;
+                }
+
+
+                // Documento identidad del representante legal
+                fields.TryGetValue("documento_identidad_representante_legal", out toSet);
+                toSet.SetValue(contrato.documento_identidad_representante_legal.ToString().ToUpper());
+
+                // Procedencia documento de identidad representate legal
+                fields.TryGetValue("procedencia_documento_identidad_representante_legal", out toSet);
+                toSet.SetValue(status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_representante_legal)));
+            }
+
+            // Fecha nacimiento suscriptor
+            fields.TryGetValue("ano_nacimiento_suscriptor", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy}", contrato.fecha_nacimiento_suscriptor).ToUpper());
+            fields.TryGetValue("mes_nacimiento_suscriptor", out toSet);
+            toSet.SetValue(String.Format("{0:MM}", contrato.fecha_nacimiento_suscriptor).ToUpper());
+            fields.TryGetValue("dia_nacimiento_suscriptor", out toSet);
+            toSet.SetValue(String.Format("{0:dd}", contrato.fecha_nacimiento_suscriptor).ToUpper());
+
+            // Lugar de nacimiento suscriptor
+            fields.TryGetValue("lugar_nacimiento_suscriptor", out toSet);
+            toSet.SetValue(contrato.lugar_nacimiento_suscriptor);
+
+            // Sexo suscriptor
+            fields.TryGetValue("sexo_suscriptor", out toSet);
+            switch (contrato.sexo_suscriptor)
+            {
+                case "8":
+                    toSet.SetValue("femenino");
+                    break;
+                case "9":
+                    toSet.SetValue("masculino");
+                    break;
+            }
+
+
+            // Estado Civil Suscriptor
+            fields.TryGetValue("estado_civil_suscriptor", out toSet);
+            switch (contrato.estado_civil_suscriptor)
+            {
+                case "11":
+                    toSet.SetValue("soltero");
+                    break;
+                case "12":
+                    toSet.SetValue("divorciado");
+                    break;
+                case "13":
+                    toSet.SetValue("casado");
+                    break;
+                case "14":
+                    toSet.SetValue("viudo");
+                    break;
+                case "16":
+                    toSet.SetValue("ul");
+                    break;
+            }
+
+
+            // Dirección de domicilio suscriptor
+            fields.TryGetValue("direccion_domicilio_suscriptor", out toSet);
+            toSet.SetValue(contrato.direccion_domicilio_suscriptor.ToUpper());
+
+            // Departamento de suscriptor 
+            fields.TryGetValue("departamento_suscriptor", out toSet);
+            toSet.SetValue(status.GetStatusName(int.Parse(contrato.departamento_suscriptor)));
+
+            // Ciudad suscriptor
+            fields.TryGetValue("ciudad_suscriptor", out toSet);
+            toSet.SetValue(status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor)));
+
+            // Teléfono suscritpro
+            fields.TryGetValue("telefono_suscriptor", out toSet);
+            toSet.SetValue(contrato.telefono_suscriptor.ToUpper());
+
+            // Celular Suscriptor
+            fields.TryGetValue("celular_suscriptor", out toSet);
+            toSet.SetValue(contrato.celular_suscriptor.ToUpper());
+
+            // Empresa Empleadora suscriptor
+            fields.TryGetValue("empresa_empleadora_suscriptor", out toSet);
+            toSet.SetValue(contrato.empresa_empleadora_suscriptor.ToUpper());
+
+            // Cargo Suscriptor
+            fields.TryGetValue("cargo_suscriptor", out toSet);
+            toSet.SetValue(contrato.cargo_suscriptor.ToUpper());
+
+            // Ingresos mensuales suscriptor
+            fields.TryGetValue("ingresos_mensuales_suscriptor", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.ingresos_mensuales_suscriptor).ToUpper());
+
+            // Egresos mensuales suscriptor
+            fields.TryGetValue("egresos_mensuales_suscriptor", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.egresos_mensuales_suscriptor).ToUpper());
+
+            // Otros ingresos mensuales suscriptor
+            fields.TryGetValue("otros_ingresos_suscriptor", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.otros_ingresos_suscriptor).ToUpper());
+
+
+            // Dirección oficina laboral suscriptor
+            fields.TryGetValue("direccion_empleo_suscriptor", out toSet);
+            toSet.SetValue(contrato.direccion_empleo_suscriptor.ToUpper());
+
+            // Departamento laboral suscriptor
+            fields.TryGetValue("departamento_empleo_suscriptor", out toSet);
+            toSet.SetValue(status.GetStatusName(int.Parse(contrato.departamento_empleo_suscriptor)));
+
+            // ciudad laboral suscriptor
+            fields.TryGetValue("ciudad_empleo_suscriptor", out toSet);
+            toSet.SetValue(status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor)));
+
+            //Teléfono Laboral Suscriptor
+            fields.TryGetValue("telefono_empleo_suscriptor", out toSet);
+            toSet.SetValue(contrato.telefono_empleo_suscriptor.ToUpper());
+
+            // Celular Laboral Suscriptor
+            fields.TryGetValue("celular_empleo_suscriptor", out toSet);
+            toSet.SetValue(contrato.celular_empleo_suscriptor.ToUpper());
+
+            // Profesión o Actividad Económica
+            fields.TryGetValue("profesion_suscriptor", out toSet);
+            toSet.SetValue(contrato.profesion_suscriptor.ToUpper());
+
+            // Envío correspondencia
+            fields.TryGetValue("envio_correspondencia_suscriptor", out toSet);
+            //contrato.envio_correspondencia_suscriptor == "email" ?  :;
+            toSet.SetValue(contrato.envio_correspondencia_suscriptor == "correoelectronico" ? "correoelectronico" : contrato.envio_correspondencia_suscriptor);
+
+            // Email
+            fields.TryGetValue("email_suscriptor", out toSet);
+            if (contrato.envio_correspondencia_suscriptor == "correoelectronico")
+            {
+                toSet.SetValue(contrato.email_suscriptor.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
+            }
+            else
+            {
+                toSet.SetValue(contrato.email_suscriptor.ToUpper());
+            }
+
+
+            if (contrato.documento_identidad_suscriptor_conjunto > 0)
+            {
+                // Suscriptor Conjunto
+                // Nombre suscriptor conjunto
+                fields.TryGetValue("nombre_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.nombre_suscriptor_conjunto.ToUpper());
+
+                // Tipo de documento de identidad
+                fields.TryGetValue("tipo_identidad_suscriptor_conjunto", out toSet);
+                switch (contrato.tipo_identidad_suscriptor_conjunto)
+                {
+                    case "4":
+                        toSet.SetValue("CC");
+                        break;
+                    case "5":
+                        toSet.SetValue("CE");
+                        break;
+                    case "6":
+                        toSet.SetValue("NIT");
+                        break;
+                }
+                //toSet.SetValue(contrato.tipo_identidad_suscriptor_conjunto);
+
+                // Número de documento identidad
+                fields.TryGetValue("documento_identidad_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.documento_identidad_suscriptor_conjunto.ToString().ToUpper());
+
+                // Procedencia de documento de identidad
+                fields.TryGetValue("procedencia_documento_identidad_suscriptor_conjunto", out toSet);
+                toSet.SetValue(status.GetCiudadName(int.Parse(contrato.procedencia_documento_identidad_suscriptor)));
+
+                if (contrato.documento_identidad_representante_legal_suscriptor_conjunto > 0)
+                {
+                    // Nombre representante legal de suscriptor conjunto
+                    fields.TryGetValue("representante_legal_suscriptor_conjunto", out toSet);
+                    toSet.SetValue(contrato.representante_legal_suscriptor_conjunto.ToUpper());
+
+                    // Tipo de documento representante legal suscritpr conjunto 
+                    fields.TryGetValue("tipo_identidad_representante_legal_suscriptor_conjunto", out toSet);
+                    switch (contrato.tipo_identidad_representante_legal_suscriptor_conjunto)
+                    {
+                        case "4":
+                            toSet.SetValue("CC");
+                            break;
+                        case "5":
+                            toSet.SetValue("CE");
+                            break;
+                        case "6":
+                            toSet.SetValue("NIT");
+                            break;
+                    }
+
+                    // documento de identidad representante legal
+                    fields.TryGetValue("documento_identidad_representante_legal_suscriptor_conjunto", out toSet);
+                    toSet.SetValue(contrato.documento_identidad_representante_legal_suscriptor_conjunto.ToString().ToUpper());
+
+                    // Procedencia del documento de identidad representante legal
+                    fields.TryGetValue("procedencia_identificacion_representante_legal_suscriptor_conjunto", out toSet);
+                    toSet.SetValue(status.GetCiudadName(int.Parse(contrato.procedencia_identificacion_representante_legal_suscriptor_conjunto)));
+
+                }
+
+                // fecha suscriptor conjunto
+                fields.TryGetValue("ano_nacimiento_suscriptor_conjunto", out toSet);
+                toSet.SetValue(String.Format("{0:yyyy}", contrato.fecha_nacimiento_suscriptor_conjunto).ToUpper());
+                fields.TryGetValue("mes_nacimiento_suscriptor_conjunto", out toSet);
+                toSet.SetValue(String.Format("{0:MM}", contrato.fecha_nacimiento_suscriptor_conjunto).ToUpper());
+                fields.TryGetValue("dia_nacimiento_suscriptor_conjunto", out toSet);
+                toSet.SetValue(String.Format("{0:dd}", contrato.fecha_nacimiento_suscriptor_conjunto).ToUpper());
+
+                // lugar nacimiento suscriptor conjunto
+                fields.TryGetValue("lugar_nacimiento_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.lugar_nacimiento_suscriptor_conjunto);
+
+                // Sexo Suscriptor conjunto
+                fields.TryGetValue("sexo_suscriptor_conjunto", out toSet);
+                switch (contrato.sexo_suscriptor_conjunto)
+                {
+                    case "8":
+                        toSet.SetValue("femenino");
+                        break;
+                    case "9":
+                        toSet.SetValue("masculino");
+                        break;
+                }
+
+                // Estado civil
+                fields.TryGetValue("estado_civil_suscriptor_conjunto", out toSet);
+                switch (contrato.estado_civil_suscriptor_conjunto)
+                {
+                    case "11":
+                        toSet.SetValue("soltero");
+                        break;
+                    case "12":
+                        toSet.SetValue("divorciado");
+                        break;
+                    case "13":
+                        toSet.SetValue("casado");
+                        break;
+                    case "14":
+                        toSet.SetValue("viudo");
+                        break;
+                    case "16":
+                        toSet.SetValue("ul");
+                        break;
+                }
+
+                // Dirección domicilio suscriptor conjunto
+                fields.TryGetValue("dirección_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.direccion_suscriptor_conjunto.ToUpper());
+
+                // departamento suscriptor conjunto
+                fields.TryGetValue("departamento_suscriptor_conjunto", out toSet);
+                toSet.SetValue(status.GetStatusName(int.Parse(contrato.departamento_suscriptor_conjunto)));
+
+                // ciudad suscriptor conjuntos
+                fields.TryGetValue("ciudad_suscriptor_conjunto", out toSet);
+                toSet.SetValue(status.GetCiudadName(int.Parse(contrato.ciudad_suscriptor_conjunto)));
+
+                // Telefono suscriptor conjunto
+                fields.TryGetValue("telefono_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.telefono_suscriptor_conjunto.ToUpper());
+
+                // Celular suscriptor conjunto
+                fields.TryGetValue("celular_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.celular_suscriptor_conjunto.ToUpper());
+
+                // Empresa laboral del Suscriptor conjunto
+                fields.TryGetValue("empresa_empleadora_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.empresa_empleadora_suscriptor_conjunto.ToUpper());
+
+                // Cargo laboral suscriptor conjunto
+                fields.TryGetValue("cargo_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.cargo_suscriptor_conjunto.ToUpper());
+
+                // ingresos Mensuales
+                fields.TryGetValue("ingresos_mensuales_suscriptor_conjunto", out toSet);
+                toSet.SetValue(String.Format("{0:0,0.00}", contrato.ingresos_mensuales_suscriptor_conjunto).ToUpper());
+
+                // Egresos Mensuales
+                fields.TryGetValue("egresos_mensuales_suscriptor_conjunto", out toSet);
+                toSet.SetValue(String.Format("{0:0,0.00}", contrato.egresos_mensuales_suscriptor_conjunto).ToUpper());
+
+                // Otros ingresos
+                fields.TryGetValue("otros_ingresos_suscriptor_conjunto", out toSet);
+                toSet.SetValue(String.Format("{0:0,0.00}", contrato.otros_ingresos_suscriptor_conjunto).ToUpper());
+
+                // Dirección oficina laboral suscriptor conjunto
+                fields.TryGetValue("direccion_empleo_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.direccion_empleo_suscriptor_conjunto.ToUpper());
+
+                //Departamento suscriptor conjunto
+                fields.TryGetValue("departamento_empleo_suscriptor_conjunto", out toSet);
+                toSet.SetValue(status.GetStatusName(int.Parse(contrato.departamento_empleo_suscriptor_conjunto)));
+
+                // CIudad empleo suscriptor conjunto
+                fields.TryGetValue("ciudad_empleo_suscriptor_conjunto", out toSet);
+                toSet.SetValue(status.GetCiudadName(int.Parse(contrato.ciudad_empleo_suscriptor_conjunto)));
+
+                // Teléfono empleo Suscriptor Conjunto            
+                fields.TryGetValue("telefono_empleo_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.telefono_empleo_suscriptor_conjunto.ToUpper());
+
+                // Celular empleo Suscriptor conjunto
+                fields.TryGetValue("celular_empleo_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.celular_empleo_suscriptor.ToUpper());
+
+                // Profesion o actividad económica y suscriptor conjunto
+                fields.TryGetValue("profesion_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.profesion_suscriptor_conjunto.ToUpper());
+
+                // Envio Correspondencia suscriptor conjunto 
+                fields.TryGetValue("correspondencia_suscriptor_conjunto", out toSet);
+                toSet.SetValue(contrato.correspondencia_suscriptor_conjunto == "correoelectronico" ? "correoelectronico" : contrato.envio_correspondencia_suscriptor);
+                //toSet.SetValue(contrato.envio_correspondencia_suscriptor.ToUpper());
+
+                // Email Suscriptor Conjunto
+                fields.TryGetValue("email_suscriptor_conjunto", out toSet);
+                if (contrato.correspondencia_suscriptor_conjunto == "correoelectronico")
+                {
+                    toSet.SetValue(contrato.email_suscriptor_conjunto.ToUpper() + " [CORRESPONDENCIA SERÁ ENVIADA AL CORREO ELECTRÓNICO]");
+                }
+                else
+                {
+                    toSet.SetValue(contrato.email_suscriptor_conjunto.ToUpper());
+                }
+
+
+            }
+
+            // Tipo de bien
+            fields.TryGetValue("tipo_de_bien", out toSet);
+            //toSet.SetValue(contrato.tipo_de_bien);
+            if (contrato.id_compania.Equals(Constants.GuuidElectro))
+            {
+                toSet.SetValue("motocicleta");
+            }
+            else
+            {
+                toSet.SetValue("vehiculo");
+            }
+
+            // marca exclusiva bien
+            fields.TryGetValue("marca_exclusiva_bien", out toSet);
+            toSet.SetValue(contrato.marca_exclusiva_bien.ToUpper());
+
+            // Detalles bien
+            fields.TryGetValue("detalles_bien", out toSet);
+            toSet.SetValue(contrato.descripcion_bien.ToUpper());
+
+            // Valor del bien
+            fields.TryGetValue("valor_bien", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_bien));
+
+            // Cuota del bien
+            fields.TryGetValue("cuota_bien", out toSet);
+            toSet.SetValue(contrato.cuota_bien.ToLower());
+
+            // codigo bien
+            fields.TryGetValue("codigo_bien", out toSet);
+            toSet.SetValue(contrato.codigo_bien.ToUpper());
+
+            // Plazo
+            fields.TryGetValue("plazo", out toSet);
+            if (contrato.plazo_bien.Equals("40"))
+            {
+                toSet.SetValue("40");
+            }
+            else if (contrato.plazo_bien.Equals("60"))
+            {
+                toSet.SetValue("60");
+            }
+            else if (contrato.plazo_bien.Equals("72"))
+            {
+                if (contrato.valor_bien < 25000000)
+                {
+                    toSet.SetValue("72");
+                }
+                else
+                {
+                    toSet.SetValue("53-72");
+                }
+            }
+            else if (contrato.plazo_bien.Equals("78"))
+            {
+                if (contrato.valor_bien < 33000000)
+                {
+                    toSet.SetValue("78");
+                }
+                else if (contrato.valor_bien > 33000000 && contrato.valor_bien < 45000000)
+                {
+                    toSet.SetValue("25-78");
+                }
+                else
+                {
+                    toSet.SetValue("34-78");
+                }
+            }
+            else
+            {
+                toSet.SetValue("25-90");
+            }
+
+
+
+            // cuota ingreso
+            fields.TryGetValue("cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.cuota_ingreso));
+
+            // Administración
+            fields.TryGetValue("administracion", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.administracion));
+
+            // IVA Cuota Ingreso
+            fields.TryGetValue("iva_cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_cuota_ingreso));
+
+            // IVA Administración
+            fields.TryGetValue("iva_administracion", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.iva_administracion));
+
+            // Total Cuota ingreso
+            fields.TryGetValue("total_cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_ingreso));
+
+            // Total Cuota Bruta
+            fields.TryGetValue("total_cuota_bruta", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.total_cuota_bruta));
+
+            // Primera cuota neta
+            fields.TryGetValue("primera_cuota_neta", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.primera_cuota_neta));
+
+            // Valor primer pago
+            fields.TryGetValue("valor_primer_pago", out toSet);
+            toSet.SetValue(String.Format("{0:0,0.00}", contrato.valor_primer_pago));
+
+            // Porcentaje inscripcion
+            fields.TryGetValue("porcentaje_cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_cuota_ingreso));
+
+            // Porcentaje IVA Cuota ingreso
+            fields.TryGetValue("porcentaje_iva_cuota_ingreso", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_iva));
+
+            // Porcentaje administracion
+            fields.TryGetValue("porcentaje_administracion", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_administracion));
+
+            // Porcentaje IVA administracion
+            fields.TryGetValue("porcentaje_iva_administracion", out toSet);
+            toSet.SetValue(String.Format("{0:0.00}", contrato.porcentaje_iva));
+
+
+            //Fecha suscripción contrato
+            fields.TryGetValue("dia_suscripcion_contrato", out toSet);
+            toSet.SetValue(String.Format("{0:dd}", contrato.fecha_suscripcion_contrato));
+
+            fields.TryGetValue("mes_suscripcion_contrato", out toSet);
+            toSet.SetValue(String.Format("{0:MM}", contrato.fecha_suscripcion_contrato));
+
+            fields.TryGetValue("ano_suscripcion_contrato", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy}", contrato.fecha_suscripcion_contrato));
+
+            // Agencia
+            fields.TryGetValue("agencia", out toSet);
+            toSet.SetValue(contrato.ConfirmacionContratos.DescripcionAgencia);
+
+            // gerente
+            fields.TryGetValue("gerente", out toSet);
+            toSet.SetValue("Juan Pablo Alviar");
+
+            // Asesor Comercial            
+            fields.TryGetValue("asesor_comercial", out toSet);
+
+            /*var user = _userManager.Users.SingleOrDefault(x => x.Asesor == contrato.ConfirmacionContratos.Asesor);
+            if (user != null)
+            {
+                toSet.SetValue(user.Nombre + " " + user.Apellido);
+            }
+            else
+            {
+                using (ServiceClient service = new ServiceClient())
+                {
+                    string result = service.SeleccionarAsesoresAgenciaAsync(contrato.id_compania, int.Parse(contrato.agencia)).Result;
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        dynamic json = JsonConvert.DeserializeObject<dynamic>(result);
+                        foreach (var item in json)
+                        {
+                            if (item.CodAsesor == contrato.ConfirmacionContratos.Asesor)
+                            {
+                                toSet.SetValue(item.Asesor.ToString());
+                                break;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        toSet.SetValue("Asesor no registrado");
+                    }
+                }
+            }*/
+
+
+            // Aceptación del contrato
+            fields.TryGetValue("notificacion_aceptacion", out toSet);
+            if (contrato.ConfirmacionContratos != null)
+            {
+                if (contrato.ConfirmacionContratos.FechaAceptacion > new DateTime())
+                {
+                    toSet.SetValue(String.Format("Las condiciones del contrato fueron aceptadas el : {0:dd} - {0:MM} - {0:yyyy}", contrato.ConfirmacionContratos.FechaAceptacion));
+                }
+
+            }
+
+            // Campos de fechas de confirmación
+
+            // habeas Data
+            fields.TryGetValue("habeas_data", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy-MM-dd}", contrato.Prospecto.ConfirmacionProspecto.FechaConfirmacion));
+
+            // Fecha creación prospecto
+            fields.TryGetValue("creacion_prospecto", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy-MM-dd}", contrato.Prospecto.ConfirmacionProspecto.FechaCreacion));
+
+            // fecha creación
+            fields.TryGetValue("creacion_contrato", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy-MM-dd}", contrato.ConfirmacionContratos.FechaCreacion));
+                                                  
+            // Aceptación de las condiciones del contrato
+            fields.TryGetValue("aceptacion_condiciones_contrato", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy-MM-dd}", contrato.ConfirmacionContratos.FechaAceptacion));
+
+            // Fecha del último pago
+            fields.TryGetValue("ultimo_pago_recibido", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy-MM-dd}", contrato.ConfirmacionContratos.FechaPago));
+                        
+
+            // Fecha de registro en Siicon
+            fields.TryGetValue("registro_siicon", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy-MM-dd}", contrato.ConfirmacionContratos.FechaRegistro));
+
+            // Fecha de contrato recibido
+            fields.TryGetValue("confirmacion_recepcion_contrato", out toSet);
+            toSet.SetValue(String.Format("{0:yyyy-MM-dd}", contrato.ConfirmacionContratos.FechaContratoRecibido));
+
+            
+            // Campos del texto infinito
+            // Fecha creación prospecto            
+
+            // nombres suscriptor
+            fields.TryGetValue("nombres_suscriptor", out toSet);
+            toSet.SetValue(contrato.primer_nombre + " " + contrato.segundo_nombre);
+            
+            // Apellidos suscriptor
+            fields.TryGetValue("apellidos_suscriptor", out toSet);
+            toSet.SetValue(contrato.primer_apellido + " " + contrato.segundo_apellido);
+            
+            // Plazo en números
+            fields.TryGetValue("plazo_en_numeros", out toSet);
+            toSet.SetValue(contrato.plazo_bien + " meses");
+
+            // Descripcion
+            //fields.TryGetValue("nombredelcampo", out toSet);
+            //toSet.SetValue("");
+            //toSet.SetValue(String.Format("{0:MM}", contrato.));
+
+        }
+
 
         /// <summary>
         /// Transforma el formulario HTML de contrato en una clase modelo.
@@ -1238,6 +1881,20 @@ namespace ContratoDigital
 
             double.TryParse(s: form["valor_primer_pago"], result: out double valor_primer_pago);
             prospecto.ValorTotalPrimerPago = valor_primer_pago;
+                       
+            // Vis-a-vis
+            prospecto.TipoDeVenta = form["TipoDeVenta"].ToString().ToUpper();
+            prospecto.RangoEdad = form["RangoEdad"].ToString().ToUpper();
+            prospecto.VehiculoDeseado = form["VehiculoDeseado"].ToString().ToUpper();
+            prospecto.EstadoCivil = form["EstadoCivil"].ToString().ToUpper();
+            double.TryParse(s: form["Ingresos"], result: out double ingresos);
+            prospecto.Ingresos = ingresos;
+            prospecto.Profesion = form["Profesion"].ToString().ToUpper();
+            prospecto.PoseeVehiculo = form["PoseeVehiculo"].Equals("true") ? true : false;
+            prospecto.ReferenciaVehiculoActual = form["ReferenciaVehiculoActual"].ToString().ToUpper();
+            prospecto.CuandoProspectaVehiculo = form["CuandoProspectaVehiculo"].ToString().ToUpper();
+            prospecto.Localidad = form["Localidad"].ToString().ToUpper();
+            prospecto.Medio = form["Medio"].ToString().ToUpper();
 
             return prospecto;
         }
@@ -1332,6 +1989,29 @@ namespace ContratoDigital
             return prospecto;
         }
 
+
+        /// <summary>
+        /// Construye un JSON que representa los datos actuales de la clase
+        /// </summary>
+        /// <param name="prospecto">La clase de prospecto</param>
+        /// <returns>Cadena de caracteres en formato json transformada</returns>
+        public string GetDatosJson(Prospecto prospecto)
+        {
+
+            return JsonConvert.SerializeObject(prospecto, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+        }       
+
+        /// <summary>
+        /// Construye un JSON que representa los datos actuales de la clase de contrato
+        /// </summary>
+        /// <param name="prospecto">La clase de contrato a representar</param>
+        /// <returns>Cadena de caracteres en formato json transformada</returns>
+        public string GetDatosJson(Contrato contrato)
+        {
+            return JsonConvert.SerializeObject(contrato, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+        }
+
+        
 
         /// <summary>
         /// Genera el código encriptado para ser leído por el banco.
@@ -1534,7 +2214,7 @@ namespace ContratoDigital
         /// </summary>
         public const string ConvenioAuto = "7709998007680";
         /// <summary>
-        /// Número identificador del convenio de Electroplan
+        /// Número identificador del convenio de Fonbienes
         /// </summary>
         public const string ConvenioElectro = "7709998007673";
         /// <summary>
@@ -1542,7 +2222,7 @@ namespace ContratoDigital
         /// </summary>
         public const string GuuidAuto = "26e0e553-8bb9-41b2-869a-1fddaf06e900";
         /// <summary>
-        /// Identificador único de Compañía Electroplan
+        /// Identificador único de Compañía Fonbienes
         /// </summary>
         public const string GuuidElectro = "6831062e-c994-4686-a989-1964b1200cbc";
         /// <summary>
@@ -1554,6 +2234,7 @@ namespace ContratoDigital
         public const string ContratoPDF = "ContratoDigital";
         public const string ReciboPagoPDF = "ReciboDePago";
         public const string CotizacionPDF = "Cotizacion";
+        public const string ReporteLegalPDF = "ReporteLegal";
 
         public const string ContratoAuto = "contrato/2018-09-14-autofinanciera_v.2.0.pdf";
         public const string ContratoAutoKoreana = "contrato/2018-09-14-autokoreana_v-2.0.pdf";
@@ -1562,17 +2243,19 @@ namespace ContratoDigital
         public const string ContratoKia = "contrato/2018-09-14-kiaplan_v-2.0.pdf";
         public const string ContratoMotoMas = "contrato/2018-09-14-motomas_v-2.0.pdf";
 
-        public const string CotizacionAuto = "cotizacion/2018-09-14-Cotizacion_auto_v-2.0.pdf";
-        public const string CotizacionElectro = "cotizacion/2018-09-14-Cotizacion_electro_v-2.0.pdf";
+        public const string CotizacionAuto = "cotizacion/2019-07-25-cotizacion_auto_v3.0.pdf";
+        public const string CotizacionElectro = "cotizacion/2019-07-25-cotizacion_fonbienes_v3.0.pdf";
 
-        public const string ReciboAuto = "recibo/2019-04-08-V-3.3_recibo_auto.pdf";
-        public const string ReciboElectro = "recibo/2019-04-08-V-3.3_recibo_electro.pdf";
+        public const string ReciboAuto = "recibo/2019-07-25-V-4.0_recibo_auto.pdf";
+        public const string ReciboElectro = "recibo/2019-07-25-V-4.0_recibo_electro.pdf";
 
-        public const string ManualSuscriptorAuto = "manualsuscripcion/2018-10-22-manual-suscriptor-autofinanciera.pdf";
-        public const string ManualSuscriptorElectro = "manualsuscripcion/2018-10-22-manual-suscriptor-electro.pdf";
+        public const string ManualSuscriptorAuto = "manualsuscripcion/2019-07-25_manual_suscriptor_auto.pdf";
+        public const string ManualSuscriptorElectro = "manualsuscripcion/2019-07-25_manual_suscriptor_fonbienes.pdf";
 
         public const string CesionAuto = "cesion/2019-04-04-V-1.0_aceleraton_auto.pdf";
         public const string CesionElectro = "cesion/2019-04-04-V-1.0_aceleraton_electro.pdf";
+
+        public const string ReporteLegalKia = "reportelegal/2019-06-11-legal-kia_v-2.0.pdf";
 
         public enum Estados
         {
@@ -1611,7 +2294,9 @@ namespace ContratoDigital
 
         public enum ErrorList
         {
-            CedulaCorreoDuplicado = 666001
+            CedulaCorreoDuplicado = 666001,
+            NoPoseeTerceroID = 666002,
+            NoPoseeIDSiicon = 666003
         }
     }
 
