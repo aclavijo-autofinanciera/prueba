@@ -57,7 +57,7 @@
         dateFormat: 'dd-mm-yy',
         //yearRange: "-60:-18",
         //minDate: "-60Y",
-        maxDate: "-1d"
+        maxDate: "-0d"
     });
 
     //Validación de ARD Numero
@@ -107,13 +107,13 @@
                 required: true,
                 minlength: 7,
                 digits: true,
-                maxlength: 200
+                maxlength: 10
             },
             Celular: {
                 required: true,
-                minlength: 7,
+                minlength: 10,
                 digits: true,
-                maxlength: 200
+                maxlength: 10
             },
             Email: {
                 required: true,
@@ -172,13 +172,13 @@
                 required: "Este campo es requerido",
                 minlength: "Debe ingresar un teléfono válido",
                 digits: "Debe ingresar un teléfono válido",
-                maxlength: "Este campo no debe ser mayor a 200 caracteres"
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
             },
             Celular: {
                 required: "Este campo es requerido",
                 minlength: "Debe ingresar un teléfono válido",
                 digits: "Debe ingresar un teléfono válido",
-                maxlength: "Este campo no debe ser mayor a 200 caracteres"
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
             },
             Email: {
                 required: "Este campo es requerido",
@@ -203,7 +203,8 @@
         },
         submitHandler: function (form) { // <- pass 'form' argument in
             $(".submitbutton").attr("disabled", true);
-            $.ajax({
+            form.submit();
+            /*$.ajax({
                 type: "GET",
                 url: "/api/Freyja/verificarcedulaprospecto/" + $('#NumeroDocumento').val(),
                 contentType: "application/json; charset=utf-8",
@@ -249,7 +250,7 @@
                         '</div >');
                     $(this).removeClass('fa-spin');
                 }
-            });
+            });*/
         }
     });
 
@@ -290,13 +291,13 @@
                 required: true,
                 minlength: 7,
                 digits: true,
-                maxlength: 200
+                maxlength: 10
             },
             Celular: {
                 required: true,
-                minlength: 7,
+                minlength: 10,
                 digits: true,
-                maxlength: 200
+                maxlength: 10
             },
             Email: {
                 required: true,
@@ -354,13 +355,13 @@
                 required: "Este campo es requerido",
                 minlength: "Debe ingresar un teléfono válido",
                 digits: "Debe ingresar un teléfono válido",
-                maxlength: "Este campo no debe ser mayor a 200 caracteres"
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
             },
             Celular: {
                 required: "Este campo es requerido",
                 minlength: "Debe ingresar un teléfono válido",
                 digits: "Debe ingresar un teléfono válido",
-                maxlength: "Este campo no debe ser mayor a 200 caracteres"
+                maxlength: "Este campo no debe ser mayor a 10 caracteres"
             },
             Email: {
                 required: "Este campo es requerido",
@@ -464,7 +465,7 @@
             celular_suscriptor: {
                 required: true,
                 digits: true,
-                minlength: 7,
+                minlength: 10,
                 maxlength: 50
             },
             empresa_empleadora_suscriptor: {
@@ -511,7 +512,7 @@
             celular_empleo_suscriptor: {
                 required: true,
                 digits: true,
-                minlength: 7,
+                minlength: 10,
                 maxlength: 50
             },
             profesion_suscriptor: {
@@ -611,7 +612,7 @@
             },
             celular_suscriptor_conjunto: {
                 digits: true,
-                minlength: 7,
+                minlength: 10,
                 maxlength: 50
             },
             ingresos_mensuales_suscriptor_conjunto: {
@@ -638,7 +639,7 @@
             celular_empleo_suscriptor_conjunto: {
                 required: true,
                 digits: true,
-                minlength: 7,
+                minlength: 10,
                 maxlength: 50
             },
             email_suscriptor_conjunto: {
@@ -1384,6 +1385,58 @@
             }
         }
     });
+
+    // User Edit Validation
+    $(".UserEditValidation").validate({
+        rules: {           
+            Nombre: {
+                required: true
+            },
+            Apellido: {
+                required: true
+            },
+            Email: {
+                required: true,
+                email: true
+            },
+            Rol: {
+                required: true
+            },
+            Password: {
+                required: true,
+                minlength: 6,
+                atLeastOneUppercaseLetter: true,
+                atLeastOneSymbol: true
+            },
+            PasswordBis: {
+                equalTo: "#Password"
+            }
+        },
+        messages: {           
+            Nombre: {
+                required: "El nombre es requerido"
+            },
+            Apellido: {
+                required: "El apellido es requerido"
+            },            
+            Email: {
+                required: "El email es requerido",
+                email: "El email debe ser válido"
+
+            },
+            Rol: {
+                required: "Debe seleccionar una opción"
+            },
+            Password: {
+                required: "la contraseña es requerido",
+                minlength: "El contraseña debe tener mínimo 6 caracteres"
+            },
+            PasswordBis: {
+                equalTo: "Las constraseñas no son iguales"
+            }
+        }
+    });
+
     $("#Cedula").blur(function () {
         var tipoRol = $("#Rol").find(":selected").text().toUpperCase() === "ASESOR" ? "GetAsesorId" : "GetSiiconUserId";
         $.ajax({
@@ -1907,6 +1960,28 @@
         }
     });  
 
+
+    // Validación de valor de ingresos menos egresos
+    // ingresos_mensuales_suscriptor
+    // egresos_mensuales_suscriptor
+    // valor_primer_pago
+    
+    //$('#egresos_mensuales_suscriptor').on("blur", function () { });
+    $('#egresos_mensuales_suscriptor').blur(function ()
+    {
+        var ingresos_mensuales_alt = $('#ingresos_mensuales_suscriptor').val();
+        var egresos_mensuales_alt = $('#egresos_mensuales_suscriptor').val();
+        var valor_primerpago_alt = $('#valor_primer_pago').val().replace(/,/g, "");
+        var gastaMasDeLoQueGana = ingresos_mensuales_alt - egresos_mensuales_alt;
+        var gastaMasDeLoQueTiene = Number(valor_primerpago_alt) / 2; //valor_primerpago_alt.replace(/,/g, "");
+        if (gastaMasDeLoQueGana < gastaMasDeLoQueTiene)
+        {
+            $('#GastasMasDeLoQueGanasWarning').removeClass('d-none').fadeIn();
+        }
+        //alert(gastaMasDeLoQueGana + " llevateki " + gastaMasDeLoQueTiene);
+        //alert('ingresos: ' + ingresos_mensuales_alt + ' egresos: ' + egresos_mensuales_alt + ' Valor primer pago: ' + valor_primerpago_alt);
+    });
+    //var restaIngresos = 
     // End JQUERY Declaration
 });
 

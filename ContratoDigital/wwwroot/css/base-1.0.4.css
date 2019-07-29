@@ -1,4 +1,11 @@
 ﻿:root {
+    /*Qurii*/
+    --qurii: #00BF6F; /*RGB(0,191,111)*/
+    --black-6c: #101820; /*RGB(16,24,32)*/
+    --purple-c: #BB29BB; /*RGB(187,41,187)*/
+    --white-qurii: #F1F1F2; /*RGB(241,242,242)*/
+    --green-3395-c: #00C389; /*RGB(0,195,137)*/
+    --green-3405-c: #00AF66; /*RGB(0,175,102)*/
     /* Colores Autofinanciera */
     --azul: #274099; /*RGBA (39,64,153)*/
     --gris: #a7a9ac;
@@ -13,41 +20,37 @@
     --ktm: #f27620;
     --kymco: #cd3333;
     --honda: #e6001e;
-    /*Miscelanea*/
-    --fucsia: #d60b52;
-    --naranaja: #e94e1b;
-    --lila: #662483;
-    --negro: #262626;
 }
 
 body {
     font-family: 'Lato', sans-serif;
+    color: var(--black-6c);
 }
 
 a {
-    color: #274099;
+    color: var(--qurii);
     cursor: pointer;
     transition: all .3s linear;
 }
 
     a:hover {
         text-decoration: none;
-        color: #37b44a;
+        color: var(--black-6c);
         transition: all .3s linear;
     }
 
 
 article a {
-    border-bottom: 3px solid #274099;
-    box-shadow: inset 0 -4px 0 #274099;
+    border-bottom: 3px solid var(--qurii);
+    box-shadow: inset 0 -4px 0 var(--qurii);
     color: inherit;
     transition: all .5s cubic-bezier(.33, .66, .66, 1);
 }
 
     article a:hover {
-        background: #274099;
+        background: var(--black-6c);
         color: inherit;
-        box-shadow: inset 0 -4px 0 #274099;
+        box-shadow: inset 0 -4px 0 var(--black-6c);
         transition: all .5s cubic-bezier(.33, .66, .66, 1);
     }
 
@@ -78,23 +81,23 @@ blockquote {
     overflow: hidden;
 }
 
-    blockquote:before {
-        top: 0;
-        left: 10px;
-        content: '\201C';
-        color: #ccc;
-        font-size: 40px;
-        position: absolute;
-    }
+blockquote:before {
+    top: 0;
+    left: 10px;
+    content: '\201C';
+    color: #ccc;
+    font-size: 40px;
+    position: absolute;
+}
 
-    blockquote:after {
-        color: #ccc;
-        font-size: 40px;
-        position: absolute;
-        bottom: 0;
-        right: 10px;
-        content: '\201D';
-    }
+blockquote:after {
+    color: #ccc;
+    font-size: 40px;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    content: '\201D';
+}
 
 cite {
     float: right;
@@ -103,11 +106,12 @@ cite {
 }
 
 footer {
-    background-color: var(--negro);
-    border-top: 2px solid var(--verde);
+    background-color: var(--black-6c);
+    border-top: 2px solid var(--qurii);
+    color: var(--white-qurii);
     min-height: 5rem;
     padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     /*margin-top: 3rem;*/
 }
 
@@ -117,11 +121,11 @@ header {
 
 /*Classes*/
 .logo {
-    max-width: 3rem;
+    max-width: 6rem;
 }
 
 .logo-footer {
-    max-width: 10rem;
+    max-width: 7rem;
 }
 
 .polymer-box {
@@ -368,13 +372,9 @@ And XLG EXtra Large
     }
 }
 .text-in-oblique {    font-style: italic;}
-
 .letter-spacing-0015 {    letter-spacing: 0.015em;}
-
 .letter-spacing-0030 {    letter-spacing: 0.030em;}
-
 .line-height-1-3 {    line-height: 1.32857143;}
-
 .text-shadow {    text-shadow: 2px 2px 2px rgba(0,0,0,.5);}
 .yamaha {    color: var(--yamaha);}
 .kia {    color: var(--kia);}
@@ -395,7 +395,7 @@ And XLG EXtra Large
 
 
 /* BS OVerrides */
-.text-black-65 {color: rgba(0, 0, 0, 0.65) !important;}
+.text-black-65 {color: rgba(16,24,32,0.65) !important;}
 .bg-yamaha {background-color: var(--yamaha) !important; color: #fff;}
 .border-yamaha { border-color: var(--yamaha) !important;}
 .badge-yamaha {color: #fff;background-color: var(--yamaha);}
@@ -423,3 +423,38 @@ And XLG EXtra Large
 .btn-verde:hover {color: #fff;background-color: #44db5b;border-color: var(--verde);}
 .badge-autofinanciera {color: #fff;background-color: var(--azul);}
 .badge-electroplan {color: #fff;background-color: var(--verde);}
+.text-success{color:var(--qurii)!important;}
+.navbar-dark .navbar-nav .nav-link{color: var(--white-qurii);}
+.thead-dark{background-color:var(--black-6c);}
+/*Qurii Colors*/
+.qurii {
+    color: var(--qurii);
+}
+.qurii-white{color:var(--white-qurii);}
+.black-6c{color:var(--black-6c);}
+.purple{color:var(--purple-c);}
+
+.btn-qurii {
+    color: var(--white-qurii);
+    background-color: var(--qurii);
+    border-color: var(--green-3395-c);
+}
+
+.btn-qurii:hover {
+    color: var(--white-qurii);
+    background-color: var(--green-3405-c);
+    border-color: var(--green-3395-c);
+}
+
+.badge-qurii {
+    color: #fff;
+    background-color: var(--qurii);
+}
+
+/*Qurri Backgrounds*/
+.bg-qurii{background-color:var(--qurii);}
+.bg-qurii-white{background-color:var(--white-qurii);}
+.bg-black-6c{background-color:var(--black-6c);}
+.bg-black-6c-opacity {background-color: rgba(16,24,32,0.65);}
+.bg-purple{background-color:var(--purple-c);}
+.bg-purple-opacity {background-color: rgba(187,41,187,0.3);}

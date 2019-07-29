@@ -8,6 +8,7 @@
     var tipoCalculo = $('#tipoCalculo');
     var tipoMedio = $('#TipoMedio');
     var tipoMedioAgencia = $('#TipoMedioAgencia');
+    var tipoCuota = $('#TipoCuota');
     
     
 
@@ -31,6 +32,8 @@
         //if (asesorID.length > 0)
         if (typeof asesorID !== 'undefined')
         {
+            agencia.empty();
+            agencia.append("<option value=\"\">Selecciona una opción</option>");
             agencia.append("<option value =\"" + agenciaAsesor + "\" >" + agenciaDescripcion + "</option>");
             agencia.removeAttr("disabled readonly");
         }
@@ -38,6 +41,36 @@
         {
             agencia.empty();
             agencia.append("<option value=\"\">Selecciona una opción</option>");
+
+            tipoCuota.empty();
+            tipoCuota.append("<option value=\"\">Seleccione una opción</option><option value = \"CF\">Cuota fija</option><option value=\"CV\">Cuota variable</option>");
+
+            tipoBien.empty();
+            tipoBien.append("<option value=\"\">Selecciona una opción</option>");
+
+            marca.empty();
+            marca.append("<option value=\"\">Selecciona una opción</option>");
+
+            planAhorro.empty();
+            planAhorro.append("<option value=\"\">Selecciona una opción</option>");
+
+            tipoCalculo.empty();
+            tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");            
+            
+        }
+        
+    }); // End Compañía Select
+
+    tipoCuota.on('change', function () {
+        if (typeof asesorID !== 'undefined') {
+            agencia.empty();
+            agencia.append("<option value=\"\">Selecciona una opción</option>");
+            agencia.append("<option value =\"" + agenciaAsesor + "\" >" + agenciaDescripcion + "</option>");
+            agencia.removeAttr("disabled readonly");
+        }
+        else {
+            agencia.empty();
+            agencia.append("<option value=\"\">Selecciona una opción</option>");            
 
             tipoBien.empty();
             tipoBien.append("<option value=\"\">Selecciona una opción</option>");
@@ -51,7 +84,6 @@
             tipoCalculo.empty();
             tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
 
-            
             $.ajax({
                 type: "GET",
                 url: "/api/Freyja/GetAgencias/" + userIdSiicon + "/" + compania.val(),
@@ -66,7 +98,7 @@
                         });
                     } catch (e) {
                         $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                             '<span aria-hidden="true">&times;</span>' +
                             '</button>' +
@@ -76,7 +108,7 @@
                 },
                 failure: function (data) {
                     $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button>' +
@@ -85,7 +117,7 @@
                 },
                 error: function (data) {
                     $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button>' +
@@ -94,8 +126,8 @@
                 }
             });
         }
-        
-    }); // End Compañía Select
+
+    });
 
     /**
      * Seleccionar una agencia. 
@@ -118,21 +150,34 @@
         $('#AgenciaDescripcion').val(agencia.find(':selected').text());
         $.ajax({
             type: "GET",
-            url: "/api/Freyja/GetTipoBien/" + compania.val() + "/" +agencia.find(":selected").val(),
+            url: "/api/Freyja/GetTipoBien/" + compania.val() + "/" + agencia.find(":selected").val() + "/" + $('#TipoCuota').find(":selected").val(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
                 tipoBien.empty();
                 tipoBien.append("<option value=\"\">Selecciona una opción</option>");
-                $.each(data, function (i, item) {
-                    var rows = "<option value=\"" + item.CodTipoBien + "\">" + item.TipoBien + "</option>";
-                    tipoBien.append(rows);
-                });
-                tipoBien.removeAttr("readonly disabled");
+                if (data.length > 0) {
+                    $.each(data, function (i, item) {
+                        var rows = "<option value=\"" + item.CodTipoBien + "\">" + item.TipoBien + "</option>";
+                        tipoBien.append(rows);
+                    });
+                    tipoBien.removeAttr("readonly disabled");
+                }
+                else
+                {
+                    $('.error-area').html('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                        '<strong>La agencia ' + agencia.find(":selected").text() + ' no posee tipos de bien en el modo ' + $('#TipoCuota').find(":selected").text() + ' </strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                }
+                
+                
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -140,7 +185,7 @@
             },
             error: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -164,7 +209,7 @@
                     tipoMedio.removeAttr("readonly disabled");
                 } catch (e) {
                     $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button>' +
@@ -174,7 +219,7 @@
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -183,7 +228,7 @@
             },
             error: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -229,7 +274,7 @@
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -237,7 +282,7 @@
             },
             error: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -268,17 +313,30 @@
             success: function (data) {
                 planAhorro.empty();
                 planAhorro.append("<option value=\"\">Seleccione una opción</option> ");
-                data1 = data.sort(GetSortOrder('ValorBien'));
-                $.each(data1, function (i, item) {
-                    var rows =
-                        "<option value=\"" + item.BienId + "\" data-valorbien=\"" + item.ValorBien + "\" data-codbiencompleto=\"" + item.CodBienCompleto + "\" >" + item.BienCompleto + "</option>";
-                    planAhorro.append(rows);
-                });
-                planAhorro.removeAttr("readonly disabled");                
+                if (data.length > 0) {
+                    data1 = data.sort(GetSortOrder('ValorBien'));
+                    $.each(data1, function (i, item) {
+                        var rows =
+                            "<option value=\"" + item.BienId + "\" data-valorbien=\"" + item.ValorBien + "\" data-codbiencompleto=\"" + item.CodBienCompleto + "\" >" + item.BienCompleto + "</option>";
+                        planAhorro.append(rows);
+                    });
+                    planAhorro.removeAttr("readonly disabled");
+                }
+                else
+                {
+                    $('.error-area').html('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                        '<strong>La marca ' + marca.find(":selected").text() + ' no posee planes de ahorro registrados </strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+
+                }
+                                
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -286,7 +344,7 @@
             },
             error: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -314,15 +372,30 @@
             success: function (data) {
                 tipoCalculo.empty();
                 tipoCalculo.append("<option value=\"\">Selecciona una opción</option>");
-                $.each(data, function (i, item) {
-                    var rows = "<option value=\"" + item.TipoBienId + "\" data-tipobienparametroid=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + planAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat(planAhorro.find(":selected").data("valorbien")) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
-                    tipoCalculo.append(rows);
-                });
-                tipoCalculo.removeAttr("readonly disabled");
+
+                if (data.length > 0)
+                {
+                    $.each(data, function (i, item) {
+                        var rows = "<option value=\"" + item.TipoBienId + "\" data-tipobienparametroid=\"" + item.TipoBienParametroId + "\" data-valorbien=\"" + planAhorro.find(":selected").data("valorbien") + "\" data-inscripcion=\"" + item.PorcentajeInscripcion + "\" data-administracion=\"" + item.PorcentajeAdministracion + "\" data-plazo=\"" + item.Plazo + "\" > Plazo: " + item.Plazo + " ( Valor: " + parseFormat(planAhorro.find(":selected").data("valorbien")) + " [Inscripción: " + item.PorcentajeInscripcion + "%; Administración:" + item.PorcentajeAdministracion + "%])</option>";
+                        tipoCalculo.append(rows);
+                    });
+                    tipoCalculo.removeAttr("readonly disabled");
+                }
+                else
+                {
+                    $('.error-area').html('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                        '<strong>El monto del bien ' + planAhorro.find(":selected").text() + '  no posee un plan de ahorro con plazos registrado</strong>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                        '</button>' +
+                        '</div >');
+                }
+
+                
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -330,7 +403,7 @@
             },
             error: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '< strong >¡Ha Ocurrido un error! Inténtelo nuevamente</strong >' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -358,15 +431,27 @@
                 try {
                     tipoMedioAgencia.empty();
                     tipoMedioAgencia.append("<option value=\"\">Selecciona una opción</option>");
-                    $.each(data, function (i, item) {
-                        var rows = "<option value=\"" + item.MedioId + "\" data-mediofechaid=\"" + item.MedioFechaId + "\" >" + item.Medio + " </option>";
-                        tipoMedioAgencia.append(rows);
-                    });
-                    tipoMedioAgencia.removeAttr("readonly disabled");
-                    $("#TipoMedioDescripcion").val(tipoMedio.find(":selected").text());
+                    if (data.length > 0) {
+                        $.each(data, function (i, item) {
+                            var rows = "<option value=\"" + item.MedioId + "\" data-mediofechaid=\"" + item.MedioFechaId + "\" >" + item.Medio + " </option>";
+                            tipoMedioAgencia.append(rows);
+                        });
+                        tipoMedioAgencia.removeAttr("readonly disabled");
+                        $("#TipoMedioDescripcion").val(tipoMedio.find(":selected").text());
+                    }
+                    else
+                    {
+                        $('.error-area').html('<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                            '<strong>El tipo de medio ' + tipoMedio.find(":selected").text() + ' no posee agencia medio registrada</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                    }
+                    
                 } catch (e) {
                     $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                        '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button>' +
@@ -376,7 +461,7 @@
             },
             failure: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
@@ -385,7 +470,7 @@
             },
             error: function (data) {
                 $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                    '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                    '<strong>Ha ocurrido un error en el sistema; intente nuevamente</strong>' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
