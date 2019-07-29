@@ -4,30 +4,43 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-<section>
+<section style="min-height:25rem;">
     <div class="container h-75">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8">
-                @if ((bool)ViewData["IsConfirmed"])
+        <div class="row justify-content-center align-items-center" style="min-height:25rem;">
+            <div class="col-12 col-md-8 text-center">
+                @if ((bool)ViewData["IsSiiconError"])
                 {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>¡Las condiciones del contrato han sido aceptas exitosamente!</strong>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>No se puede procesar su solicitud. Nuestra plataforma SIICON está presentando problemas</strong>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                 }
                 else
                 {
+                    @if ((bool)ViewData["IsConfirmed"])
+                    {
+                        <div class="alert alert-success alert-dismissible fade show bg-qurii qurii-white"  role="alert">
+                            ¡Las condiciones del contrato han sido aceptas exitosamente!
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
 
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Usted ya ha confirmado las condiciones anteriormente</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                    }
+                    else
+                    {
+
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Usted ya ha confirmado las condiciones anteriormente</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
                 }
+
             </div>
         </div>
     </div>

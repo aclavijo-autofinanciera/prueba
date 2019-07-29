@@ -5,13 +5,13 @@
 }
 
 <section>
-    <div class="container h-75">
-        <div class="row justify-content-center">
+    <div class="container h-75" style="min-height:25rem;">
+        <div class="row justify-content-center align-items-center" style="min-height:25rem;">
             <div class="col-12 col-md-8">
                 @if ((bool)ViewData["IsConfirmed"])
                 {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>¡El correo ha sido confirmado exitosamente!</strong>
+                    <div class="alert alert-success alert-dismissible fade show  bg-qurii qurii-white" role="alert">
+                        ¡El correo ha sido confirmado exitosamente!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
