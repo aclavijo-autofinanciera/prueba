@@ -16,7 +16,7 @@ namespace Freyja
         /// </summary>
         public const string ConvenioAuto = "7709998007680";
         /// <summary>
-        /// Número identificador del convenio de Electroplan
+        /// Número identificador del convenio de Fonbienes
         /// </summary>
         public const string ConvenioElectro = "7709998007673";
         /// <summary>
@@ -24,7 +24,7 @@ namespace Freyja
         /// </summary>
         public const string GuuidAuto = "26e0e553-8bb9-41b2-869a-1fddaf06e900";
         /// <summary>
-        /// Identificador único de Compañía Electroplan
+        /// Identificador único de Compañía Fonbienes
         /// </summary>
         public const string GuuidElectro = "6831062e-c994-4686-a989-1964b1200cbc";
         /// <summary>

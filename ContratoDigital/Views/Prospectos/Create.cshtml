@@ -9,6 +9,8 @@
     List<Estado> estados = ViewData["TipoIdentidadList"] as List<Estado>;
     Layout = "~/Views/Shared/_Layout.cshtml";
     bool IsAsesor = await UserManager.IsInRoleAsync(user, "Asesor");
+    var sexo = (IQueryable<Estado>)ViewData["Sexo"];
+    var estadoCivil = (IQueryable<Estado>)ViewData["EstadoCivil"];
 }
 
     <section class="">
@@ -72,18 +74,18 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="NumeroDocumento">Número documento identidad</label>
-                                <input type="text" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                                <input type="number" id="NumeroDocumento" name="NumeroDocumento" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
                             </div>
                         </div>
 
                         <div class="form-row mt-4">
                             <div class="col-12 col-md-6">
                                 <label for="Telefono">Teléfono</label>
-                                <input type="text" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                                <input type="number" id="Telefono" name="Telefono" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="Celular">Celular</label>
-                                <input type="text" id="Celular" name="Celular" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                                <input type="number" id="Celular" name="Celular" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
                             </div>
                         </div>
 
@@ -96,7 +98,7 @@
 
                         <div class="form-row mt-4">
                             <div class="col-12">
-                                <div class="bg-azul p-3 mb-2 text-white text-center">
+                                <div class="bg-qurii p-3 mb-2 text-white text-center">
                                     <h5 class="mb-0">Referencia</h5>
                                 </div>
                             </div>
@@ -109,9 +111,17 @@
                                 <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off" required>
                                     <option value="">Seleccione una opción</option>
                                     <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
-                                    <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
+                                    <option value="6831062e-c994-4686-a989-1964b1200cbc">Fonbienes, Colombia, S.A.</option>
                                 </select>
                                 <input type="hidden" name="compania" id="compania" />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label>Seleccione un tipo de cuota</label>
+                                <select class="form-control form-control-lg" id="TipoCuota" name="TipoCuota" autocomplete="off" required>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="CF">Cuota fija</option>
+                                    <option value="CV">Cuota variable</option>
+                                </select>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="">Agencia</label>
@@ -173,13 +183,9 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <label>Asesor</label>
-                                <select class="form-control form-control-lg" id="asesores" name="asesores" required>                                    
-                                </select>
+                                <select class="form-control form-control-lg" id="asesores" name="asesores" required></select>
                             </div>
                         </div>
-
-
-
 
                         <div class="form-row mt-4">
                             <div class="col-12 col-md-4">
@@ -217,7 +223,7 @@
 
                         <div class="form-row mt-4">
                             <div class="col">
-                                <span class="badge badge-azul">1</span>
+                                <span class="badge badge-qurii">1</span>
                                 <label for="cuota_ingreso">Cuota de ingreso (<label class="porcentajeInscripcion"></label>% sobre el valor del bien)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -227,7 +233,7 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <span class="badge badge-azul">5</span>
+                                <span class="badge badge-qurii">5</span>
                                 <label for="administracion">Administración (<label class="porcentajeAdministracion"></label>% sobre cuota neta)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -240,7 +246,7 @@
 
                         <div class="form-row mt-4">
                             <div class="col">
-                                <span class="badge badge-azul">2</span>
+                                <span class="badge badge-qurii">2</span>
                                 <label for="iva_cuota_ingreso">I.V.A. sobre la cuota de ingreso (<label class="porcentajeIva"></label>%)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -250,7 +256,7 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <span class="badge badge-azul">6</span>
+                                <span class="badge badge-qurii">6</span>
                                 <label for="iva_administracion">I.V.A. sobre la administración (<label class="porcentajeIva"></label>%)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -264,8 +270,8 @@
 
                         <div class="form-row mt-4">
                             <div class="col">
-                                <span class="badge badge-azul">3</span>
-                                <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class=" badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+                                <span class="badge badge-qurii">3</span>
+                                <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class=" badge badge-qurii">1</span> + <span class="badge badge-qurii">2</span> )</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
@@ -274,8 +280,8 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <span class="badge badge-azul">7</span>
-                                <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+                                <span class="badge badge-qurii">7</span>
+                                <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-qurii">4</span> + <span class="badge badge-qurii">5</span> + <span class="badge badge-qurii">6</span> )</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
@@ -287,7 +293,7 @@
 
                         <div class="form-row mt-4">
                             <div class="col">
-                                <span class="badge badge-azul">4</span>
+                                <span class="badge badge-qurii">4</span>
                                 <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -297,8 +303,8 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <span class="badge badge-azul">8</span>
-                                <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
+                                <span class="badge badge-qurii">8</span>
+                                <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-qurii">3</span> + <span class="badge badge-qurii">7</span> )</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="valor_primer_pago_addon">$</span>
@@ -308,16 +314,16 @@
                             </div>
                         </div>
 
-                        <div class="form-row mt-4">
-                            <div class="col-12">
-                                <section id="legaleseAuto" class="d-none">
-                                    @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesAuto.cshtml")
-                                </section>
-                                <section id="legaleseElectro" class="d-none">
-                                    @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesElectro.cshtml")
-                                </section>
-                            </div>
-                        </div>
+                        @*<div class="form-row mt-4">
+            <div class="col-12">
+                <section id="legaleseAuto" class="d-none">
+                    @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesAuto.cshtml")
+                </section>
+                <section id="legaleseElectro" class="d-none">
+                    @await Html.PartialAsync("~/Views/Shared/TratamientoDeDatosPersonalesElectro.cshtml")
+                </section>
+            </div>
+        </div>*@
 
                         <div class="form-row mt-4">
                             <div class="col-4">
@@ -329,9 +335,104 @@
                             </div>
                         </div>
 
+                        <!--#region Datos del cara a cara-->
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h5>Datos del cara a cara*</h5>                                
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row mt-2">
+                                    <div class="col-12 col-md-4">
+                                        <label for="TipoDeVenta">Tipo de venta</label>
+                                        <select class="form-control form-control-lg" id="TipoDeVenta" name="TipoDeVenta" required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="directa">Directa</option>
+                                            <option value="agencia">Agencia</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="RangoEdad">Rango de edad</label>
+                                        <select class="form-control form-control-lg" id="RangoEdad" name="RangoEdad">
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="18-24">18 - 24 años</option>
+                                            <option value="25-30">25 - 30 años</option>
+                                            <option value="31-36">31 - 36 años</option>
+                                            <option value="37-42">37 - 42 años</option>
+                                            <option value="42-48">42 - 48 años</option>
+                                            <option value="49-54">49 - 54 años</option>
+                                            <option value="54-60">54 - 60 años</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="EstadoCivil">Estado civil</label>
+                                        <select class="form-control form-control-lg" id="EstadoCivil" name="EstadoCivil" required autocomplete="off">
+                                            <option value="">Seleccione un tipo</option>
+                                            @foreach (var item in estadoCivil)
+                                            {
+                                                <option value="@item.IdEstado">@item.Descripcion</option>
+
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="Localidad">Localidad</label>
+                                        <input type="text" id="Localidad" name="Localidad" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="Profesion">Profesión o actividad económica</label>
+                                        <input type="text" name="Profesion" id="Profesion" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="Ingresos">Ingresos</label>
+                                        <input type="number" id="Ingresos" name="Ingresos" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="PoseeVehiculo">¿Cuenta con vehículo actualmente?</label>
+                                        <select id="PoseeVehiculo" name="PoseeVehiculo" class="form-control form-control-lg text-uppercase" required autocomplete="off">
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="true">Sí</option>
+                                            <option value="false">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="ReferenciaVehiculoActual">Referencia de ese vehículo</label>
+                                        <input type="text" id="ReferenciaVehiculoActual" name="ReferenciaVehiculoActual" class="form-control form-control-lg text-uppercase" autocomplete="off" />
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="CuandoProspectaVehiculo">¿Cuándo proyecta tener vehículo?</label>
+                                        <select id="CuandoProspectaVehiculo" name="CuandoProspectaVehiculo" class="form-control form-control-lg text-uppercase" required autocomplete="off">
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="inmediato">Inmediato (menos de 6 meses)</option>
+                                            <option value="mediano">Mediano plazo (entre 6 y 12 meses)</option>
+                                            <option value="largo">Largo plazo (más de 1 año)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="Medio">¿Cómo se enteró del plan?</label>
+                                        <select id="Medio" name="Medio" class="form-control form-control-lg text-uppercase" required autocomplete="off">
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="volante">Volante</option>
+                                            <option value="instagram">Instagram</option>
+                                            <option value="facebook">Facebook</option>
+                                            <option value="concesionario">Concesionaro</option>
+                                            <option value="playa_de_ventas">Playa de ventas</option>
+                                            <option value="referido">Referido</option>
+                                            <option value="evento">Evento</option>
+                                            <option value="otros">Otro</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4 mt-2">
+                                        <label for="VehiculoDeseado">Vehículo deseado</label>
+                                        <input type="text" id="VehiculoDeseado" name="VehiculoDeseado" class="form-control form-control-lg text-uppercase" required autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--#endregion-->
+
                         <div class="form-row mt-4">
                             <div class="col text-center">
-                                <button type="submit" class="btn btn-azul submitbutton"><i class="far fa-save"></i> Guardar</button>
+                                <button type="submit" class="btn btn-qurii submitbutton"><i class="far fa-save"></i> Guardar</button>
                             </div>
                         </div>
 
