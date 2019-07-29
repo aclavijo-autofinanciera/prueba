@@ -1,6 +1,6 @@
 ﻿{
   "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
-  "Version": "15.0.30311.775",
+  "Version": "15.0.30423.811",
   "ExtendedData": {
     "Uri": "http://wstienda.autofinanciera.com.co/Service.svc?wsdl",
     "Namespace": "SiiconWebService",
