@@ -153,14 +153,15 @@ namespace ContratoDigital.Controllers
             }
 
             
-            Contrato numeroContrato = _context.Contratos.OrderBy(x => x.numero_de_contrato).LastOrDefault();
+            Contrato numeroContrato = _context.Contratos.Last();
+            Console.WriteLine("[ASSIGN CONTRACT NUMBER]: " + numeroContrato.numero_de_contrato);
             if (numeroContrato == null)
             {
                 contrato.numero_de_contrato = 8100000;
             }
             else
             {
-                contrato.numero_de_contrato = numeroContrato.numero_de_contrato +1;
+                contrato.numero_de_contrato = numeroContrato.numero_de_contrato + 1;
             }
             contrato.asesor_comercial = _userManager.GetUserId(User);
             _context.Add(contrato);
@@ -218,13 +219,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address="tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address="tienda@autofinanciera.com.co"}
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
+                emailMessage.Subject = "[Qurii] Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -248,13 +249,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address="tienda@autofinanciera.com.co"}
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
+                emailMessage.Subject = "[Qurii] Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -276,7 +277,20 @@ namespace ContratoDigital.Controllers
                 _utilities.GetTemplate(srcTemplate),
                 canonicalUrlService.GetCanonicalUrl() + "ContratoDigital/confirmarcorreo/?guuid=" + confirmacionContrato.Guuid + "&id=" + confirmacionContrato.Id);
             
-            emailService.Send(emailMessage);            
+            emailService.Send(emailMessage);
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Creación y registro de contrato",
+                UsuarioRegistrante = prospecto.ConfirmacionProspecto.UserId,
+                DatosNuevos = _utilities.GetDatosJson(contrato),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
 
@@ -363,7 +377,18 @@ namespace ContratoDigital.Controllers
             {
                 return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
             }
-
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Edición de contrato",
+                UsuarioRegistrante = contrato.ConfirmacionContratos.UserId,
+                DatosNuevos = "N/A",
+                DatosPrevios = _utilities.GetDatosJson(contrato)
+            };
+            
             contrato.ConfirmacionContratos.Agencia = int.Parse(form["Agencia"]);
             contrato.ConfirmacionContratos.DescripcionAgencia = form["AgenciaDescripcion"];
             contrato.ConfirmacionContratos.TipoMedio = int.Parse(form["TipoMedio"]);
@@ -375,6 +400,9 @@ namespace ContratoDigital.Controllers
             contrato.ConfirmacionContratos.UserId = _userManager.GetUserId(User);
             contrato = _utilities.UpdateContrato(form, contrato);
             contrato.asesor_comercial = _userManager.GetUserId(User);
+
+            auditor.DatosNuevos = _utilities.GetDatosJson(contrato);
+            _context.Add(auditor);            
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
         }
@@ -429,6 +457,21 @@ namespace ContratoDigital.Controllers
             pdf.Close();
             stream.Flush();
             stream.Position = 0;
+            
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Generación de contrato físico",
+                UsuarioRegistrante = contrato.ConfirmacionContratos.UserId,
+                DatosNuevos = "N/A",
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
+
             return File(stream, "application/pdf", "[Mi Contrato] " + DateTime.Now.ToString("yyyy-MM-dd-") + Constants.ContratoPDF + ".pdf");
         }
 
@@ -448,55 +491,7 @@ namespace ContratoDigital.Controllers
                     IsPaid = false
                 };
             }            
-            /*string src = "";
-            if (contrato.id_compania.Equals(Constants.GuuidElectro))
-            {
-                switch (contrato.marca_exclusiva_bien)
-                {
-                    case "YAMAHA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoMotoMas;
-                        break;
-                    default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoElectro;
-                        break;
-                }
-
-            }
-            else
-            {
-                switch (contrato.marca_exclusiva_bien)
-                {
-                    case "KIA":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoKia;
-                        break;
-                    case "HYUNDAI":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAutoKoreana;
-                        break;
-                    case "VOLKSWAGEN":
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoColWager;
-                        break;
-
-                    default:
-                        src = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ContratoAuto;
-                        break;
-                }
-            }
-            //string src = _hostingEnvironment.WebRootPath + "/pdf/autofinanciera_contrato_v.1.1_20180717.pdf";
-            PdfWriter pdfwriter = new PdfWriter(stream);
-            PdfDocument pdf = new PdfDocument(new PdfReader(src), pdfwriter);
-            pdfwriter.SetCloseStream(false);
-
-            PdfAcroForm pdfForm = PdfAcroForm.GetAcroForm(pdf, true);
-            IDictionary<String, PdfFormField> fields = pdfForm.GetFormFields();
-
-            _utilities.FillPdf(fields, contrato);
-
-
-
-            pdfForm.FlattenFields();
-            pdf.Close();
-            stream.Flush();
-            stream.Position = 0;*/
+            
             EmailService emailService = new EmailService(_emailConfiguration);
             EmailMessage emailMessage = new EmailMessage();
             CanonicalUrlService canonicalUrlService = new CanonicalUrlService(_canonicalUrlConfiguration);
@@ -507,13 +502,13 @@ namespace ContratoDigital.Controllers
 
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
+                emailMessage.Subject = "[Qurii] Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -537,13 +532,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
+                emailMessage.Subject = "[Qurii] Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -575,6 +570,21 @@ namespace ContratoDigital.Controllers
                 TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
             }
             TempData.Keep("EmailResult");
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Envío de contrato por correo al cliente",
+                UsuarioRegistrante = contrato.ConfirmacionContratos.UserId,
+                DatosNuevos = _utilities.GetDatosJson(contrato),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            _context.SaveChangesAsync();
+
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
 
         }
@@ -616,13 +626,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Recibo de pago";
+                emailMessage.Subject = "[Qurii] Recibo de pago";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -646,13 +656,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Recibo de pago";
+                emailMessage.Subject = "[Qurii] Recibo de pago";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -689,6 +699,21 @@ namespace ContratoDigital.Controllers
                 TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
             }
             TempData.Keep("EmailResult");
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Enviar el contrato al cliente por correo",
+                UsuarioRegistrante = contrato.ConfirmacionContratos.UserId,
+                DatosNuevos = "N/A",
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Details", "ContratoDigital", new { id = contrato.IdContrato });
 
 
@@ -697,6 +722,7 @@ namespace ContratoDigital.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmarCorreo(string guuid, int id)
         {
+            ViewData["IsSiiconError"] = false;
             ConfirmacionContrato confirmacionContrato = _context.ConfirmacionContratos.SingleOrDefault(x => x.Id == id);
             Contrato contrato = await _context.Contratos.SingleOrDefaultAsync(x => x.IdContrato == confirmacionContrato.IdContrato);
             //ConfirmacionContrato confirmacionContrato = await _context.ConfirmacionContratos.SingleOrDefaultAsync(x => x.Id == id);
@@ -707,14 +733,22 @@ namespace ContratoDigital.Controllers
             {
                 confirmacionContrato.IsAccepted = true;
                 confirmacionContrato.FechaAceptacion = DateTime.Now;
-                confirmacionContrato.FechaReferenciaPago = DateTime.Now;
+                confirmacionContrato.FechaReferenciaPago = DateTime.Now;                
 
-                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
-                string cierreResult = webservice.RegistrarCierreComercial(contrato).Result.Value;
-                confirmacionContrato.IdCierreComercial = int.Parse(cierreResult);
-                if(confirmacionContrato.IdCierreComercial > 0)
+                try
                 {
-                    confirmacionContrato.IsRegisteredCommercial = true;
+                    WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
+                    string cierreResult = webservice.RegistrarCierreComercial(contrato).Result.Value;
+                    confirmacionContrato.IdCierreComercial = int.Parse(cierreResult);
+                    if (confirmacionContrato.IdCierreComercial > 0)
+                    {
+                        confirmacionContrato.IsRegisteredCommercial = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    ViewData["IsSiiconError"] = true;
+                    return View();
                 }
 
                 await _context.SaveChangesAsync();
@@ -755,13 +789,13 @@ namespace ContratoDigital.Controllers
                 {
                     emailMessage.FromAddresses = new List<EmailAddress>()
                     {
-                        new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                        new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                     };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                     {
                         new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                     };
-                    emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Factura Digital PDF";
+                    emailMessage.Subject = "[Qurii] Factura Digital PDF";
                     switch (contrato.marca_exclusiva_bien)
                     {
                         case "YAMAHA":
@@ -785,13 +819,13 @@ namespace ContratoDigital.Controllers
                 {
                     emailMessage.FromAddresses = new List<EmailAddress>()
                     {
-                        new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                        new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                     };
                         emailMessage.ToAddresses = new List<EmailAddress>()
                     {
                         new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                     };
-                    emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Factura Digital PDF";
+                    emailMessage.Subject = "[Qurii] Factura Digital PDF";
                     switch (contrato.marca_exclusiva_bien)
                     {
                         case "KIA":
@@ -826,9 +860,23 @@ namespace ContratoDigital.Controllers
             }
             else
             {
-                ViewData["IsConfirmed"] = false;
+                ViewData["IsConfirmed"] = true;
             }
-            
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Aceptación de las condiciones del contrato",
+                UsuarioRegistrante = "Acción iniciada por el cliente",
+                DatosNuevos = "N/A",
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
+
             return View();
         }
 
@@ -855,6 +903,20 @@ namespace ContratoDigital.Controllers
             {
                 ViewData["IsConfirmed"] = false;
             }
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Confirmación de recepción del contrato",
+                UsuarioRegistrante = "Acción iniciada por el cliente",
+                DatosNuevos = "N/A",
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
 
             return View();
         }
@@ -886,6 +948,21 @@ namespace ContratoDigital.Controllers
             pdf.Close();
             stream.Flush();
             stream.Position = 0;
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Impresión de último recibo de pago",
+                UsuarioRegistrante = contrato.ConfirmacionContratos.UserId,
+                DatosNuevos = _utilities.GetDatosJson(contrato),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
+
             return File(stream, "application/pdf", "[Mi Contrato] " + DateTime.Now.ToString("yyyy-MM-dd-") + Constants.ReciboPagoPDF + ".pdf");
         }
 
@@ -915,6 +992,19 @@ namespace ContratoDigital.Controllers
                     ReferenciaSiicon = json.First.ReferenciaPago
                 };
                 _context.RecibosPago.Add(reciboPago);
+
+                // Auditoría 2019-06-29
+                AuditoriaContratos auditor = new AuditoriaContratos
+                {
+                    FechaRegistro = DateTime.Now,
+                    IdContrato = contrato.IdContrato,
+                    IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                    TipoDeMovimiento = "Generación de referencia de pago",
+                    UsuarioRegistrante = contrato.ConfirmacionContratos.UserId,
+                    DatosNuevos = _utilities.GetDatosJson(contrato),
+                    DatosPrevios = "N/A"
+                };
+                _context.Add(auditor);               
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", new { id = contrato.IdContrato });
@@ -1031,7 +1121,21 @@ namespace ContratoDigital.Controllers
                 confirmarContrato.IsIdUploaded = true;
                 await _context.SaveChangesAsync();
             }
-            
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = confirmarContrato.Contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Registro de identificación del contrato",
+                UsuarioRegistrante = confirmarContrato.UserId,
+                DatosNuevos = _utilities.GetDatosJson(confirmarContrato.Contrato),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Details", "ContratoDigital", new { id = documentoIdentidad.IdContrato, status = 10 });
         }
 
@@ -1067,13 +1171,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co" }
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                  };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Diligenciar documento de identidad";
+                emailMessage.Subject = "[Qurii] Diligenciar documento de identidad";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -1097,13 +1201,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co" }
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co" }
                  };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = contrato.primer_nombre + " " + contrato.primer_apellido, Address = contrato.email_suscriptor }
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Diligenciar documento de identidad";
+                emailMessage.Subject = "[Qurii] Mi Contrato - Diligenciar documento de identidad";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -1192,7 +1296,20 @@ namespace ContratoDigital.Controllers
                 confirmarContrato.IsIdUploaded = true;
                 await _context.SaveChangesAsync();
             }
-            
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = confirmarContrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Registro del documento de identidad",
+                UsuarioRegistrante = "Acción iniciada por el cliente",
+                DatosNuevos = _utilities.GetDatosJson(confirmarContrato.Contrato),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
             return RedirectToAction("ConfirmRemoteUpload", "ContratoDigital", new { status = 100 });
             
         }
@@ -1264,7 +1381,22 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> RegisterManualPay(IFormCollection form)
         {
             Contrato contrato = _context.Contratos.SingleOrDefault(x => x.IdContrato == int.Parse(form["id_contrato"]));
-            if(contrato.ConfirmacionContratos.IsPaid == false)
+
+            // Auditoría 2019-06-29
+            AuditoriaContratos auditor = new AuditoriaContratos
+            {
+                FechaRegistro = DateTime.Now,
+                IdContrato = contrato.IdContrato,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Registro de pago manual",
+                UsuarioRegistrante = contrato.ConfirmacionContratos.UserId,
+                DatosNuevos = "N/A",
+                DatosPrevios = _utilities.GetDatosJson(contrato)
+            };
+            
+            
+
+            if (contrato.ConfirmacionContratos.IsPaid == false)
             {
                 PagoManual pago = new PagoManual();
                 pago.IdContrato = int.Parse(form["id_contrato"]);
@@ -1284,6 +1416,10 @@ namespace ContratoDigital.Controllers
                 pago.IdConcesionario = int.Parse(form["id_concesionario"]);
                 pago.Concesionario = form["Concesionario"];
                 _context.Add(pago);
+
+                auditor.DatosNuevos = _utilities.GetDatosJson(contrato);
+                _context.Add(auditor);
+
                 await _context.SaveChangesAsync();
 
 
