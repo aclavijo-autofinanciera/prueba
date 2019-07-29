@@ -1,4 +1,4 @@
-﻿
+﻿@model  ContratoDigital.Models.Contrato
 @{
     ViewData["Title"] = "ReporteLegal";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,21 +20,161 @@
     <div class="row">
         <div class="col-12 error-area"></div>
         <div class="col-12">
-            <form class="legalReportValidation bootstrapValidation">
-                <div class="card">
-                    <div class="card-body">
-                        <p>Introduzca el número de cédula o el número de contrato.</p>
-                        <div class="form-group mt-2 mb-2">
-                            <input class="form-control form-control-lg  text-uppercase" type="text" id="numero" name="numero" placeholder="Número de contrato o número de cédula" required  autocomplete="off">
-                            <button class="btn btn-azul btn-lg mt-2 submitButton">Consultar</button>
-                        </div>
+            <div class="card">
+                <div class="card-body">
+                    <p>Introduzca el número de cédula o el número de contrato.</p>
+                    <div class="form-group mt-2 mb-2 text-center">
+                        <input class="form-control form-control-lg  text-uppercase" type="text" id="numero" name="numero" placeholder="Número de contrato o número de cédula" required autocomplete="off">
+                        <a class="btn btn-lg btn-azul mt-2 submitButton text-white">Consultar</a>
                     </div>
                 </div>
-            </form>
-            
+            </div>
         </div>
     </div>
-    <div class="row" id="reportBody"></div>
+    <div class="row" id="reportBody">
+    </div>
+    @if (Model != null)
+    {
+        <div class="row" id="detailReportBody">
+            <div class="col-12">
+                <div class="polymer-box text-center">
+                    <p>Numero de contrato</p>
+                    <h3>@Model.numero_de_contrato</h3>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Nombre y apellido</p>
+                    <h5>@Model.primer_nombre @Model.segundo_nombre @Model.primer_apellido @Model.segundo_apellido</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Documento de identidad</p>
+                    <h5>@Model.documento_identidad_suscriptor</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Agencia</p>
+                    <h5>@Model.ConfirmacionContratos.DescripcionAgencia</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Tipo de bien</p>
+                    <h5>@Model.tipo_de_bien</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Marca exclusiva</p>
+                    <h5>@Model.marca_exclusiva_bien</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Detalles del bien</p>
+                    <h5>@Model.detalles_bien</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Valor del bien</p>
+                    <h5>@Model.valor_bien</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Plazo</p>
+                    <h5>@Model.plazo_bien</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Tipo de cuota</p>
+                    <h5>@Model.cuota_bien</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Cuota ingreso</p>
+                    <h5>@Model.cuota_ingreso</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Primera cuota neta</p>
+                    <h5>@Model.primera_cuota_neta</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Administración</p>
+                    <h5>@Model.administracion</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Total cuota bruta</p>
+                    <h5>@Model.total_cuota_bruta</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Valor cuota primer pago</p>
+                    <h5>@Model.valor_primer_pago</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>$</p>
+                    <h5>@Model.</h5>
+                </div>
+            </div>
+    
+            <div class="col-12">
+                <div class="polymer-box text-center">            
+                    <h3>Datos de aceptación de contrato y fisonomía de la comunicación</h3>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Registro del contrato</p>
+                    <h5>@Model.ConfirmacionContratos.FechaRegistro</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Aceptación de manejo de datos</p>
+                    <h5>@Model.Prospecto.ConfirmacionProspecto.FechaConfirmacion</h5>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Aceptación de las condiciones del contrato</p>
+                    <h5>@Model.ConfirmacionContratos.FechaAceptacion</h5>
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <a class="btn btn-azul btn-lg" href="@Url.Action("GenerateReporteLegal", "Reportes", new { id = Model.IdContrato })" target="_blank"><i class="far fa-file-pdf"></i> Generar reporte legal en PDF</a>
+                    </div>
+                </div>
+            </div>
+            @*
+            <div class="col-12 col-md-4">
+                <div class="polymer-box">
+                    <p>Último Pago</p>
+                    <h5>@Model.</h5>
+                </div>
+            </div>
+            *@
+
+        </div>
+    }
+
 </section>
 
 @section Scripts
@@ -44,76 +184,76 @@
 
         jQuery(function ($)
         {
-            $(".legalReportValidation").validate({
-        rules: {
-            
-            numero: {
-                required: true,
-                number: true,
-                maxlength: 15
-            }            
-        },
-        messages: {            
-            numero: {
-                required: "Este campo es requerido",
-                number: "Este campo debe ser numérico",
-                maxlength: "Máximo 15 caracteres"
-            }
-        },
-        submitHandler: function (form) {
-            $(".submitbutton").attr("disabled", true);
-            //Begin Ajax Call
-            /*$.ajax({
-                type: "GET",
-                url: "/api/Freyja/GetReporteContratos/",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    try {
+            $(".submitButton").on("click", function () {
+                $(".submitbutton").attr("disabled", true);                
+                //Begin Ajax Call
+                $.ajax({
+                    type: "GET",
+                    url: "/api/Freyja/GetReporteLegal/" + $("#numero").val(),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        try {
 
-                        var resultContent = $('#resultadosGenerales');
-                        resultContent.empty();
+                            var resultContent = $('#reportBody');
+                            resultContent.empty();
+                            $.each(data.Contratos, function (i, item) {
+                                resultContent.append(                                    
+                                    '<div class="col-12 col-md-6 mt-1">' +
+                                    '<div class="card">' +
+                                    '<div class="card-body">' +
 
-                       
+                                    '<h5 class="card-title">Contrato Número: ' + item.NumeroContrato + '</h5>' +
+                                    '<p class="card-text"><strong>Nombre: </strong>' + item.Nombre + '</p>' +
+                                    '<p class="card-text"><strong>Documento: </strong>' + item.NumeroDocumento + '</p>' +
+                                    '<p class="card-text"><strong>Agencia: </strong>' + item.Agencia + '</p>' +
+                                    '<p class="card-text"><strong>Cuota Ingreso: $</strong>' + item.CuotaIngreso + '</p>' +
+                                    '<p class="card-text"><strong>Fecha Registro: </strong>' + item.FechaRegistroContrato + '</p>' +
+                                    '<a href="@Url.Action("ReporteLegal", "Reportes", new {id = string.Empty })/' + item.ID +  '" class="card-link">Ver más</a>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>');
+                                        //'<p class="card-text"><strong>$: </strong>' + item.$ + '</p>'
 
-                    } catch (e) {
+
+                            });
+                            //resultContent.html(data.Contratos[0].Nombre);
+                            $(".submitbutton").attr("enabled", true);
+
+                        } catch (e) {
+                            $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                                '</div >');
+                            $(".submitbutton").attr("enabled", true);
+                            $(this).addClass('fa-spin');
+                        }
+                    },
+                    failure: function (data) {
                         $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
                             '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                             '<span aria-hidden="true">&times;</span>' +
                             '</button>' +
                             '</div >');
-                        $(this).addClass('fa-spin');
+                        $(".submitbutton").attr("enabled", true);
+                        $(this).removeClass('fa-spin');
+                    },
+                    error: function (data) {
+                        $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                            '</button>' +
+                            '</div >');
+                        $(".submitbutton").attr("enabled", true);
+                        $(this).removeClass('fa-spin');
                     }
-                },
-                failure: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).removeClass('fa-spin');
-                },
-                error: function (data) {
-                    $('.error-area').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<strong>¡Ha Ocurrido un error! Inténtelo nuevamente</strong>' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                        '</button>' +
-                        '</div >');
-                    $(this).removeClass('fa-spin');
-                }
-            }); */
-            //End Ajax Call
-
-
-        }
-
-    });
-
-
-            
+                }); 
+                //End Ajax Call
+            });
         });
     </script>
 
