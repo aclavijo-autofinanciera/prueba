@@ -35,9 +35,12 @@ namespace ContratoDigital
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<ContratoDigitalContext>(options => options
-            .UseLazyLoadingProxies()
-            .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ContratoDigitalContext>(
+                options => options
+                .UseLazyLoadingProxies()
+                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+            //services.AddTransient<ContratoDigitalContext>().AddOptions(options=>options.UseLazyLoadingProxies().);
+
             //.UseSqlServer("Data Source=localhost;Initial Catalog=ContratoDigital;Integrated Security=True"));
             //services.AddDbContext<ContratoDigitalContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<ContratoDigitalContext>(options => options.UseSqlServer("Data Source=localhost;Initial Catalog=ContratoDigital;User Id=SA;Password=NissanGTR2018$;"));
@@ -84,7 +87,6 @@ namespace ContratoDigital
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
             
             app.UseHttpsRedirection();
             app.UseStaticFiles();
