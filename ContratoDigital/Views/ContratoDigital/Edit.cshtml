@@ -52,7 +52,7 @@
                 <section>
                     <div class="form-row">
                         <div class="col">
-                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                            <div class="bg-qurii p-3 mb-2 text-white text-center">
                                 <h5 class="mb-0">Datos del suscriptor</h5>
                             </div>
                         </div>
@@ -129,11 +129,11 @@
                 <!--#endregion-->
                 <!--#region representate legal suscriptor-->
 
-                <div class="form-row mt-2 @(Model.documento_identidad_representante_legal > 0 ? Html.Raw("d-none") : Html.Raw("")) ">
+                @*<div class="form-row mt-2 @(Model.documento_identidad_representante_legal > 0 ? Html.Raw("d-none") : Html.Raw("")) ">
                     <div class="col">
                         <a class="btn btn-azul text-white" id="isRepreentanteLegal"><i class="fas fa-plus"></i> Agregar representante legal</a>
                     </div>
-                </div>
+                </div>*@
 
                 <section class="@(Model.documento_identidad_representante_legal > 0 ? Html.Raw("") : Html.Raw("d-none") )" id="RepreentanteLegalSection" autocomplete="off">
                     <div class="card mt-4 border-azul ">
@@ -297,7 +297,7 @@
 
                     <div class="form-row mt-4 mb-2">
                         <div class="col">
-                            <div class="bg-azul p-1 mb-2 text-white text-center">
+                            <div class="bg-qurii p-1 mb-2 text-white text-center">
                                 <h5 class="mb-0 t-1">Datos laborales del suscriptor</h5>
                             </div>
                         </div>
@@ -415,11 +415,11 @@
                 </section>
                 <!--#endregion-->
 
-                <div class="form-row mt-2 @(Model.documento_identidad_suscriptor_conjunto > 0 ? Html.Raw("d-none") : Html.Raw("")) ">
+                @*<div class="form-row mt-2 @(Model.documento_identidad_suscriptor_conjunto > 0 ? Html.Raw("d-none") : Html.Raw("")) ">
                     <div class="col">
                         <a class="btn btn-azul text-white" id="isSuscriptorConjunto"><i class="fas fa-plus"></i> Agregar suscriptor conjunto</a>
                     </div>
-                </div>
+                </div>*@
 
                 <section class="@(Model.documento_identidad_suscriptor_conjunto > 0 ? Html.Raw("") : Html.Raw("d-none") )" id="SuscriptorConjuntoSection">
 
@@ -751,7 +751,7 @@
                 <section>
                     <div class="form-row mt-4 mb-2">
                         <div class="col">
-                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                            <div class="bg-qurii p-3 mb-2 text-white text-center">
                                 <h5 class="mb-0">Características del bien</h5>
                             </div>
                         </div>
@@ -765,9 +765,17 @@
                                 <option value="">Seleccione una opción</option>
                                 <option selected value="@Model.id_compania">@Model.compania</option>
                                 <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
-                                <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
+                                <option value="6831062e-c994-4686-a989-1964b1200cbc">Fonbienes, Colombia, S.A.</option>
                             </select>
                             <input type="hidden" name="compania" id="compania" value="@Model.compania" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label>Seleccione un tipo de cuota</label>
+                            <select class="form-control form-control-lg" id="TipoCuota" name="TipoCuota" autocomplete="off">
+                                <option value="">Seleccione una opción</option>
+                                <option value="CF">Cuota fija</option>
+                                <option value="CV">Cuota variable</option>
+                            </select>
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="">Agencia</label>
@@ -892,7 +900,7 @@
                 <section>
                     <div class="form-row mt-4 mb-2">
                         <div class="col">
-                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                            <div class="bg-qurii p-3 mb-2 text-white text-center">
                                 <h5 class="mb-0">Pago inicial</h5>
                             </div>
                         </div>
@@ -900,7 +908,7 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">1</span>
+                            <span class="badge badge-qurii">1</span>
                             <label for="cuota_ingreso">Cuota de ingreso (N% sobre el valor del bien)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -911,7 +919,7 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">5</span>
+                            <span class="badge badge-qurii">5</span>
                             <label for="administracion">Administración (N% sobre cuota neta)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -924,7 +932,7 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">2</span>
+                            <span class="badge badge-qurii">2</span>
                             <label for="iva_cuota_ingreso">I.V.A sobre la cuota de ingreso (N%)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -934,7 +942,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">6</span>
+                            <span class="badge badge-qurii">6</span>
                             <label for="iva_administracion">I.V.A sobre la administración (N%)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -947,8 +955,8 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">3</span>
-                            <label for="total_cuota_ingreso">Total cuota de ingreso (N%) ( <span class="badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+                            <span class="badge badge-qurii">3</span>
+                            <label for="total_cuota_ingreso">Total cuota de ingreso (N%) ( <span class="badge badge-qurii">1</span> + <span class="badge badge-qurii">2</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
@@ -957,8 +965,8 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">7</span>
-                            <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+                            <span class="badge badge-qurii">7</span>
+                            <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-qurii">4</span> + <span class="badge badge-qurii">5</span> + <span class="badge badge-qurii">6</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
@@ -970,7 +978,7 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">4</span>
+                            <span class="badge badge-qurii">4</span>
                             <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -980,8 +988,8 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">8</span>
-                            <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
+                            <span class="badge badge-qurii">8</span>
+                            <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-qurii">3</span> + <span class="badge badge-qurii">7</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="valor_primer_pago_addon">$</span>
@@ -997,9 +1005,10 @@
 
                 <div class="form-row mt-4">
                     <div class="col text-center">
+                        <a href="@Url.Action("Details", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-lg btn-qurii"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                         @if (Model.ConfirmacionContratos.IsPaid == false)
                         {
-                            <button type="submit" class="btn btn-lg btn-azul submitbutton"><i class="far fa-save"></i>  Actualizar</button>
+                            <button type="submit" class="btn btn-lg btn-qurii submitbutton"><i class="far fa-save"></i>  Actualizar</button>
                         }
 
                     </div>

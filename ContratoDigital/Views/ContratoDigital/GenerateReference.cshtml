@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div style="background: url('../../../../images/background/anotherscooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
                     <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 350px;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
-                        Generación de referencia
+                        Generación de referencia de pago
                     </h1>
                 </div>
             </div>
@@ -18,17 +18,17 @@
 
         <div class="row justify-content-center">
             <!-- Begin -->
-            <div class="col-12 col-md-8 error-area"></div>
+            <div class="col-12 error-area"></div>
 
             <form method="post" class="GenerateReferenceValidation bootstrapValidation" autocomplete="off">
                 <input type="hidden" value="@Model.IdContrato" name="idcontrato" id="idcontrato" />
 
-                <div class="col-12 col-md-8">
+                <div class="col-12">
                     <div class="polymer-box">
                         <h4 class="text-center">Datos contrato</h4>
                     </div>
                 </div>
-                <div class="col-12 col-md-8">
+                <div class="col-12 ">
 
                     <div class="polymer-box">
                         <div class="row">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12  ">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 ">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-8">
+                <div class="col-12 ">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -112,7 +112,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 ">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -169,11 +169,12 @@
                         </div>
                     </div>
 
-                    <div class="form-row mt-4">
-                        <div class="col text-center">
-                            <button type="submit" class="btn btn-lg btn-azul">Envíar</button>
-                        </div>
+                    
+                    <div class="col-12 text-center">
+                        <a href="@Url.Action("Details", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-lg btn-qurii"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                        <button type="submit" class="btn btn-lg btn-qurii">Envíar</button>
                     </div>
+                    
                 </div>
             </form>
 
