@@ -21,6 +21,7 @@ namespace ContratoDigital.Models
         public int CodAsesor { get; set; }
         public string FechaAdhesion { get; set; }
         public int ValorBien { get; set; }
+        public int TotalValorAPagar { get; set; }
         public int CodConcesionario { get; set; }
         public int CodMarca { get; set; }
         public string FechaCierre { get; set; }
