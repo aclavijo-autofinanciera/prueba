@@ -5,29 +5,39 @@
     ViewData["Title"] = "Ingresar";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
-<div class="container" data-aos="fade-in"  data-aos-delay="500">
-    <div class="row justify-content-center p-5">
+
+<div class="container-fluid  bg-black-6c" data-aos="fade-in" data-aos-delay="500">
+    <div class="row justify-content-center p-1">
         <div class="col-12 col-md-8">
-            <section>
-                <div class="polymer-box bg-white-alpha">
-                    <h2 class="text-center"><img src="~/images/yggdrassil.png" class="img-fluid" style="max-width:100px;" /><br /> Mi Contrato </h2>
+            <section class="text-center">
+                <div class="polymer-box p-1 bg-black-6c">
+                    <img src="~/images/qurii/qurii.png" class="img-fluid" alt="Qurii - El poder de transformar el tiempo" style="max-width:200px;" />
                 </div>
             </section>
-            <section class="polymer-box bg-white-alpha">
-                <div class="alert alert-danger" style="font-size:.8rem;"  role="alert">
+        </div>
+    </div>
+</div>
+
+
+<div class="container" data-aos="fade-in" data-aos-delay="500">
+    <div class="row justify-content-center p-5">
+        <div class="col-12 col-md-8">
+                            
+            <section class="polymer-box bg-black-6c-opacity qurii-white">
+                <div class="alert alert-danger bg-purple text-white" style="font-size:.8rem;" role="alert">
                     <ul>
                         <li>
-                            Queda prohibido utilizar el aplicativo MI CONTRATO para infringir derechos de terceros en conformidad con la ley 1273 de 2009; la ley 1581 de 2012; los decretos 1377 de 2013, 886 de 2014 y las demás normas que las modifiquen o complementen.
+                            Queda prohibido utilizar el aplicativo Qurii para infringir derechos de terceros en conformidad con la ley 1273 de 2009; la ley 1581 de 2012; los decretos 1377 de 2013, 886 de 2014 y las demás normas que las modifiquen o complementen.
 
                         </li>
                         <li>
-                            Se prohíbe la utilización del servicio MI CONTRATO con fines ilícitos.
+                            Se prohíbe la utilización del servicio Qurii con fines ilícitos.
                         </li>
                     </ul>
-                    
+
                 </div>
                 <form method="post">
-                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="text-danger" style="font-size:1.5rem;font-weight:bold;"></div>
                     <div class="form-group">
                         <label for="Input_Email">Usuario</label>
                         <input asp-for="Input.Email" class="form-control form-control-lg" />
@@ -46,12 +56,12 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-azul">Ingresar</button>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-lg btn-qurii">Ingresar</button>
                     </div>
-                    <div class="form-group">
-                        <p>
-                            <a asp-page="./ForgotPassword">Olvidé mi password</a>
+                    <div class="form-group text-center">
+                        <p >
+                            <a asp-page="./ForgotPassword" class="qurii">Olvidé mi password</a>
                         </p>
                     </div>
                 </form>
