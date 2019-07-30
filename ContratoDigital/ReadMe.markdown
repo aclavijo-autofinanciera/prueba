@@ -33,6 +33,10 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 0.1.9.73 (2019-07-25)
+### Feature
++ Templates de correos electrónicos con el arte de Qurii.
+
 ## 0.1.9.72 (2019-07-25)
 ### Bugfix
 + Reconstrucción de guías de pago a fonbienes y autofinanciera
