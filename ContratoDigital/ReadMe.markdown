@@ -33,14 +33,128 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 0.1.9.73 (2019-07-25)
+### Feature
++ Templates de correos electrónicos con el arte de Qurii.
+
+## 0.1.9.72 (2019-07-25)
+### Bugfix
++ Reconstrucción de guías de pago a fonbienes y autofinanciera
++ Reconstrucción de cotizaciones a formato preliminar nuevo.
++ Reconstrucción del manual del suscriptor.
+
+## 0.1.9.70 (2019-07-25)
+### Bugfix
++ Inclusión de tipo de bien cuota fija o variable de forma explicita.
++ Inclusión de mensajes de respuesta del Siicon vacío.
+
+## 0.1.9.64 (2019-07-24)
+### Bugfix
++ Adecuación de reación de usuarios según el Siicon.
+
+
+## 0.1.9.63 (2019-07-24)
+### Bugfix
++ Creación de usuarios
+
+
+## 0.1.9.62 (2019-07-24)
+### Feature
++ Se agrega la pantalla de "Mis prospectos" donde se filtra por usuario y por agencia automáticamente.
++ Se organizan las listas de prospectos y contratos por fecha de creación.
++ Se redirige el correo con el contrato a digital@autofinanciera.com.co
++ Se agrega el tipo de bien al nombre del bien (usado o nuevo)
+
+## 0.1.9.61 (2019-07-23)
+### Bugfixes
++ Se replica todas las barras de menú en la parte superior de cada pantalla de detalles de prospecto y contrato
++ Se cambia todo el detalle de colores a verde
++ se agregan los fondos empresariales.
++ Se cambia el color de las barras a negro
++ Se permite cargar un pago no convencional el mismo día
++ Se hace homogéneo el título de las referencias de pago
++ Se cambia el nombre del PDF a Guía de pago
+
+
+## 0.1.9.59 (2019-07-18)
+### Bugfixes
++ Se elimina la alerta del CAC
++ Se reorganiza el CAC
++ Se corrige el nombre del correo para el plan KIA.
+
+## 0.1.9.58 (2019-07-18)
+### Bugfixes
++ Ajuste pantalla de errores.
++ Ajuste de búsqueda de prospectos para evitar datos huérfanos.
+
+
+## 0.1.9.57 (2019-07-17)
+### Feature
++ Edición de usuarios
++ Datos extra del prospecto en forma de cara a cara
+
+
+## 0.1.9.50 (2019-07-13)
+### Feature
++ Correos modelo de correo Kia Plan
+
+## 0.1.9.48 (2019-07-05)
+### Feature
++ Advertencia visual si el cliente no gana más de la cuota inicial
++ Auditoria generalizada en toda la aplicación.
++ Reconstrucción de la UIX del contrato.
+
+## 0.19.44 (2019-06-26)
+### Feature
+
++ Restructuración  de toda la interfaz con los colores y la marca correcta.
++ Restructuración esttructural de la presentación visual de la información.
+
+## 0.19.39 (2019-06-20)
+### Feature
+
++ Alerta cuando el cierre coemrcial no está asignado en la plataforma.
+
+## 0.19.27 (2019-05-30)
+### Feature
+#### Duplicidad de datos del prospecto
+
++ Al salvar el prospecto se valida que:
+  + Número de documento no sea igual a cero.
+  + Número de documento no haya sido registrado previamente.
+  + Correo electrónico no haya sido registrado previamente.
++ Al cargar la visa de creación de prospectos, se limpian todos los 
+ campos de texto, y se vacían todos los campos de selección múltiple, 
+ de forma tal que falle la validación del formulario y haya que 
+ rellenar todos los campos requeridos nuevamente, evitando así 
+ duplicida de datos o reenvío del DOM lleno.
+
+
+## 0.1.9.26 (2019-05-28)
+### Features
++ Se bloquea el elemento de selección simple para los asesores, solo puedan seleccionarse a si mismos.
+
+## 0.1.9.25 (2019-05-27)
+### Features
++ Se bloquea el elemento de selección simple para los asesores, solo puedan seleccionarse a si mismos.
+
+## 0.1.9.23 (2019-04-16)
+### Features
++ Reporte legal.
++ Separation of Concerns para todos los archivos de JS.
+### Bugfixes
++ Corrección del botón de actualizar la vista de detalles.
++ Corrección de la etiqueta de creación y registro de contrato nuevo, cambiando el verbo a Diligenciar.
+
+
 ## 0.1.9.16 (2019-04-12)
-###Features
+### Features
 + El campo de correo se hace solo lectura para evitar que el autocompletar de google chrome lo modifique.
 
 
 
 ## 0.1.9.15 (2019-04-11)
-###Features
+### Features
 + Se limita el valor del abono y la generación referencia al saldo restante.
 
 ## 0.1.9.14 (2019-04-09)

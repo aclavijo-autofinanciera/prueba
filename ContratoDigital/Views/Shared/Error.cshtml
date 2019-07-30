@@ -10,8 +10,10 @@
                 <div class="card-body">
                     <h1 class="text-danger">Error.</h1>
                     <h2 class="text-danger">Ha ocurrido un error procesando su solicitud</h2>
+                    <p>Su error ha sido reportado a sistemas</p>
+                    <a href="@Url.Action("Index","Home")" class="btn btn-lg btn-qurii" >Haga click aquí para continuar</a>
 
-                    @if (Model.ShowRequestId)
+                    @*@if (Model.ShowRequestId)
                     {
                         <p>
                             <strong>Request ID:</strong> <code>@Model.RequestId</code>
@@ -28,7 +30,7 @@
                         <li>Comuniquese con su área de sistemas.</li>
                         <li></li>
                         <li></li>
-                    </ul>
+                    </ul>*@
 
                 </div>
             </div>

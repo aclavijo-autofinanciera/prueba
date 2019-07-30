@@ -15,7 +15,7 @@
         <div class="col-12">
             <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
                 <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 50%;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
-                   Administración de usuarios
+                    Administración de usuarios
                 </h1>
             </div>
         </div>
@@ -25,85 +25,201 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="polymer-box">
-                <h3><a href="@Url.Action("AddUser", "Dashboard")"><i class="fas fa-user-plus"></i> Agregar un nuevo usuario</a></h3>
-            </div>
-        </div>
-        <div class="col-12">            
-            @foreach (var item in UserManager.Users)
-            {
-            <div class="polymer-box mt-3">
-
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        <strong>Usuario:</strong>
-                        <span class="text-black-65">@item.Nombre  @item.Apellido (@item.UserName)</span>
-                    </div>
-                    <div class="col-12 col-md-2">
-                        <div class="dropdown">
-                            <button class="btn btn-azul dropdown-toggle" type="button" data-target="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Acciones
+            <div class="alertMessage p-2">
+                @{
+                    Microsoft.Extensions.Primitives.StringValues queryVal;
+                    if (Context.Request.Query.TryGetValue("e", out queryVal) && queryVal.FirstOrDefault() == "666002")
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Su solicitud no se puede procesar:</strong> El usuario no posee un ID de agencia asignado en Siicon.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="dropdown-menu" id="dropdownMenuButton">
-                                <a class="dropdown-item" href="@Url.Action("UserDetails", "Dashboard", new { id = item.UserName })"><i class="fas fa-list-ul"></i> Detalles</a>
-                                <a class="dropdown-item" href="@Url.Action("EditUser", "Dashboard", new { id = item.UserName })"><i class="far fa-edit"></i> Editar</a>
-                                <a class="dropdown-item" href="@Url.Action("DisableUser", "Dashboard", new { id = item.UserName })">
-                                    @if (!UserManager.IsLockedOutAsync(item).Result)
-                                    {
-                                        <i class="fas fa-user-slash"></i> <label>Desactivar</label>
-                                    }
-                                    else
-                                    {
-                                        <i class="fas fa-undo"></i> <label>Reactivar</label>
-
-                                    }
-
-                                </a>
-                            </div>
                         </div>
-                    </div>                    
-                    <div class=" col-12 col-md-3">
-                        <strong>Email</strong><br />
-                        <span class="text-black-65">@item.Email</span>
-                    </div>
-                    <div class=" col-12 col-md-2">
-                        <strong>Teléfono</strong><br />
-                        <span class="text-black-65">@item.PhoneNumber</span>
-                    </div>
-                    <div class=" col-12 col-md-2">
-                        <strong>Estado</strong><br />
-                        <span class="text-black-65">
-                            @if (UserManager.IsLockedOutAsync(item).Result)
-                            {
-                                <span class="text-muted"><i class="fas fa-times"></i> Inactivo</span>
-                            }
-                            else
-                            {
-                                <span class="text-success"><i class="fas fa-check"></i> <label>Activo</label></span>
-
-                            }
-                        </span>
-                    </div>
-
-                </div>
-                <div class="row">
-                   <div class="col">
-                       <h5>Roles para este usuario</h5>
-                       <ul class="list-inline list-unstyled">
-                           @{
-                               List<string> roleList = UserManager.GetRolesAsync(item).Result.ToList();
-                               foreach (var roles in roleList)
-                               {
-                                   <li class="list-group-item">@roles.ToString()</li>
-                               }
-                           }
-                       </ul>
-                    </div>
-                </div>
-                   
+                    }
+                    if (Context.Request.Query.TryGetValue("e", out queryVal) && queryVal.FirstOrDefault() == "666003")
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Su solicitud no se puede procesar:</strong> El usuario no posee un usuario en Siicon.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                }
             </div>
-                
-            }            
+
+            <div class="col-12">
+                <div class="polymer-box">
+                    <h3><a href="@Url.Action("AddUser", "Dashboard")"><i class="fas fa-user-plus"></i> Agregar un nuevo usuario</a></h3>
+                </div>
+            </div>
+            <div class="col-12 mt-5">
+                <div id="Bourdeaux">
+                    <table id="paris" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Acciones</th>
+                                <th>Nombre</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Cedula</th>
+                                <th>Email</th>
+                                <th>Asesor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in UserManager.Users)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-qurii dropdown-toggle" type="button" data-target="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Acciones
+                                            </button>
+                                            <div class="dropdown-menu" id="dropdownMenuButton">
+                                                <a class="dropdown-item" href="@Url.Action("UserDetails", "Dashboard", new { id = item.UserName })"><i class="fas fa-list-ul"></i> Detalles</a>
+                                                <a class="dropdown-item" href="@Url.Action("EditUser", "Dashboard", new { id = item.UserName })"><i class="far fa-edit"></i> Editar</a>
+                                                <a class="dropdown-item" href="@Url.Action("DisableUser", "Dashboard", new { id = item.UserName })">
+                                                    @if (!UserManager.IsLockedOutAsync(item).Result)
+                                                    {
+                                                        <i class="fas fa-user-slash"></i> <label>Desactivar</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fas fa-undo"></i> <label>Reactivar</label>
+
+                                                    }
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@item.Nombre  @item.Apellido (@item.UserName)</td>
+                                    <td>
+                                        @{
+                                            List<string> roleList = UserManager.GetRolesAsync(item).Result.ToList();
+                                            foreach (var roles in roleList)
+                                            {
+                                                @roles.ToString()<br />
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="text-black-65">
+                                            @if (UserManager.IsLockedOutAsync(item).Result)
+                                            {
+                                                <span class="text-muted"><i class="fas fa-times"></i> Inactivo</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-success"><i class="fas fa-check"></i> <label>Activo</label></span>
+
+                                            }
+                                        </span>
+                                    </td>
+                                    <td>@item.Cedula</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Asesor</td>
+                                </tr>
+
+                                @*<div class="polymer-box mt-3">
+
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <strong>Usuario:</strong>
+                                            <span class="text-black-65">@item.Nombre  @item.Apellido (@item.UserName)</span>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <div class="dropdown">
+                                                <button class="btn btn-azul dropdown-toggle" type="button" data-target="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Acciones
+                                                </button>
+                                                <div class="dropdown-menu" id="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="@Url.Action("UserDetails", "Dashboard", new { id = item.UserName })"><i class="fas fa-list-ul"></i> Detalles</a>
+                                                    <a class="dropdown-item" href="@Url.Action("EditUser", "Dashboard", new { id = item.UserName })"><i class="far fa-edit"></i> Editar</a>
+                                                    <a class="dropdown-item" href="@Url.Action("DisableUser", "Dashboard", new { id = item.UserName })">
+                                                        @if (!UserManager.IsLockedOutAsync(item).Result)
+                                                        {
+                                                            <i class="fas fa-user-slash"></i> <label>Desactivar</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fas fa-undo"></i> <label>Reactivar</label>
+
+                                                        }
+
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" col-12 col-md-3">
+                                            <strong>Email</strong><br />
+                                            <span class="text-black-65">@item.Email</span>
+                                        </div>
+                                        <div class=" col-12 col-md-2">
+                                            <strong>Teléfono</strong><br />
+                                            <span class="text-black-65">@item.PhoneNumber</span>
+                                        </div>
+                                        <div class=" col-12 col-md-2">
+                                            <strong>Estado</strong><br />
+                                            <span class="text-black-65">
+                                                @if (UserManager.IsLockedOutAsync(item).Result)
+                                                {
+                                                    <span class="text-muted"><i class="fas fa-times"></i> Inactivo</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-success"><i class="fas fa-check"></i> <label>Activo</label></span>
+
+                                                }
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                       <div class="col">
+                                           <h5>Roles para este usuario</h5>
+                                           <ul class="list-inline list-unstyled">
+                                               @{
+                                                   List<string> roleList = UserManager.GetRolesAsync(item).Result.ToList();
+                                                   foreach (var roles in roleList)
+                                                   {
+                                                       <li class="list-group-item">@roles.ToString()</li>
+                                                   }
+                                               }
+                                           </ul>
+                                        </div>
+                                    </div>
+
+                                </div>*@
+
+                            }
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Cedula</th>
+                                <th>Email</th>
+                                <th>Asesor</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+@section Scripts
+{
+    <script>
+        jQuery(function ($) {
+            $('#paris').DataTable();
+            $('.dataTables_filter input').addClass('form-control form-control-lg');
+        });
+    </script>
+}

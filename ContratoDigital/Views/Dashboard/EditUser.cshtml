@@ -1,0 +1,199 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+@model ContratoDigitalUser
+
+
+
+@{
+    ViewData["Title"] = "Dashboard - Edición de Usuarios";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div style="background: url('../../../../images/background/prospect.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 50%;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                    Editar usuario @Model.UserName
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewData["error"] != null)
+{
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>@ViewData["Error"]</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+<form method="post" class="UserEditValidation bootstrapValidation">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Rol</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <select id="Rol" name="Rol" class="form-control form-control-lg text-uppercase" autocomplete="off" required>                                
+                                <option value="">Seleccione una opción</option>
+                                @foreach (var item in RoleManager.Roles)
+                                {
+                                    <option value="@item.Name">@item.Name</option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Cédula</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="Cedula" name="Cedula" class="form-control form-control-lg text-uppercase" autocomplete="off" value="@Model.Cedula" readonly />                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-area"></div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>UserName</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="UserName" name="UserName" class="form-control form-control-lg text-uppercase" autocomplete="off" value="@Model.UserName" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Contraseña</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="password" id="Password" name="Password" class="form-control form-control-lg text-uppercase" autocomplete="off" data-toggle="tooltip" data-placement="top" title="La contraseña debe tener una mayúscula, un símbolo y ser mayor a 6 caracteres" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Repita la contraseña</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="password" id="PasswordBis" name="PasswordBis" class="form-control form-control-lg text-uppercase" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Nombre</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="Nombre" name="Nombre" class="form-control form-control-lg text-uppercase" autocomplete="off" value="@Model.Nombre" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Apellido</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="Apellido" name="Apellido" class="form-control form-control-lg text-uppercase" autocomplete="off" value="@Model.Apellido" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Email</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            <input type="text" id="Email" name="Email" class="form-control form-control-lg text-uppercase" autocomplete="off" value="@Model.Email" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Status</strong>
+                        </div>
+                        <div class="col-12 col-md-10">
+                            @if (UserManager.IsLockedOutAsync(Model).Result)
+                            {
+                                <span class="text-muted"><i class="fas fa-times"></i> Inactivo</span><br />
+                                <input type="checkbox" id="isLock" /> <label>Activar usuario</label>
+                            }
+                            else
+                            {
+                                <span class="text-success"><i class="fas fa-check"></i> <label>Activo</label></span><br />
+                                <input type="checkbox" id="isLock" /> <label>Desactivar usuario</label>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="polymer-box">
+                    <div class="row">
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-azul btn-lg">Editar usuario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</form>

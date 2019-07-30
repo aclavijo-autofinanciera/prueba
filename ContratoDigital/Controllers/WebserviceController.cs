@@ -26,10 +26,10 @@ namespace ContratoDigital.Controllers
     public class WebserviceController : ControllerBase
     {
 
-        #if (DEBUG)       
-                SiiconTest.ServiceClient service = new SiiconTest.ServiceClient();  
-        #else
-                SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
+        #if DEBUG      
+                SiiconTest.ServiceClient service = new SiiconTest.ServiceClient();          
+        #else                
+            SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
         #endif
 
           
@@ -99,6 +99,15 @@ namespace ContratoDigital.Controllers
             //compania = compania.Equals("auto") ? Constants.GuuidAuto : Constants.GuuidElectro;
             return await service.SelecccionarTiposBienesCompañiaAgenciaAsync(compania, agencia);
         }
+
+        [HttpGet("GetTipoBien/{compania}/{agencia}/{tipoCuota}")]
+        [Route("api/Freyja/GetTipoBien")]
+        public async Task<ActionResult<string>> GetTipoBien(string compania, int agencia, string tipoCuota)
+        {
+            return await service.SelecccionarTiposBienesCompañiaAgencia2Async(compania, agencia, tipoCuota);
+
+        }
+
 
         [HttpGet("GetPorcentajeInscripcion/{compania}")]
         [Route("api/Freyja/GetPorcentajeInscripcion")]
@@ -231,6 +240,9 @@ namespace ContratoDigital.Controllers
                 contrato.IsIdUploaded = contratoDummy.IsIdUploaded;
                 contrato.IsPaid = contratoDummy.IsPaid;
                 contrato.IsRegistered = contratoDummy.IsRegistered;
+                contrato.IsRegisteredCommercial = contratoDummy.IsRegisteredCommercial;
+                contrato.IsContractReceived = contratoDummy.IsContractReceived;
+
                 contrato.FechaAceptacion = contratoDummy.FechaAceptacion;
                 contrato.FechaPago = contratoDummy.FechaPago;
                 contrato.FechaVerificacion = contratoDummy.FechaVerificacion;
@@ -685,13 +697,13 @@ namespace ContratoDigital.Controllers
                 srcManual = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ManualSuscriptorElectro;
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                new EmailAddress{Name = "Mi Contrato Electroplan", Address="tienda@autofinanciera.com.co"}
+                new EmailAddress{Name = "Qurii", Address="tienda@autofinanciera.com.co"}
                 };
                 emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Aceptación condiciones del contrato";
+                emailMessage.Subject = "[Qurii] Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -716,13 +728,13 @@ namespace ContratoDigital.Controllers
                 srcManual = _hostingEnvironment.WebRootPath + "/pdf/" + Constants.ManualSuscriptorAuto;
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                new EmailAddress{Name = "Mi Contrato Autofinanciera", Address="tienda@autofinanciera.com.co"}
+                new EmailAddress{Name = "Qurii", Address="tienda@autofinanciera.com.co"}
                 };
                 emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                 new EmailAddress{Name = contrato.primer_nombre + " " + contrato.segundo_nombre + " " + contrato.primer_apellido + " " + contrato.segundo_apellido, Address=contrato.email_suscriptor}
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Aceptación condiciones del contrato";
+                emailMessage.Subject = "[Qurii] Aceptación condiciones del contrato";
                 switch (contrato.marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -756,6 +768,9 @@ namespace ContratoDigital.Controllers
 
 
             emailService.Send(emailMessage, stream, second_stream, Constants.ContratoPDF);
+                        
+            emailMessage.ToAddresses = new List<EmailAddress>(){new EmailAddress{Name = "ARD", Address="digital@autofinanciera.com.co"}};
+            emailService.SendARD(emailMessage, stream, Constants.ContratoPDF);
                 
 
         }
@@ -805,6 +820,7 @@ namespace ContratoDigital.Controllers
             cierreComercial.CodAsesor = contrato.ConfirmacionContratos.Asesor;
             cierreComercial.FechaAdhesion = String.Format("{0:MM'/'dd'/'yyyy}", contrato.ConfirmacionContratos.FechaCreacion);
             cierreComercial.ValorBien = Convert.ToInt32(contrato.valor_bien);
+            cierreComercial.TotalValorAPagar = Convert.ToInt32(contrato.valor_primer_pago);
             cierreComercial.CodConcesionario = 1;
             cierreComercial.CodMarca = contrato.id_marca;
             cierreComercial.FechaCierre = String.Format("{0:MM'/'dd'/'yyyy}", contrato.ConfirmacionContratos.FechaCierreComercial);
@@ -826,6 +842,7 @@ namespace ContratoDigital.Controllers
                 "Código asesor: " + cierreComercial.CodAsesor + "," +
                 "Fecha Adhesión: " + cierreComercial.FechaAdhesion + "," +
                 "Valor del bien: " + cierreComercial.ValorBien + "," +
+                "Total a pagar: " + cierreComercial.TotalValorAPagar + "," +
                 "Cod Concesionario " + cierreComercial.CodConcesionario + "," +
                 "Código de marca: " + cierreComercial.CodMarca + "," +
                 "Fecha Cierre: " + cierreComercial.FechaCierre + "," +
@@ -833,13 +850,17 @@ namespace ContratoDigital.Controllers
                 "Tercero ID: " + cierreComercial.TerceroId;
             Console.WriteLine(jsonToSend);
 
-            string result = service.CrearCierreComercialAsync(cierreComercial.PrimerNombre, cierreComercial.SegundoNombre,
-                cierreComercial.PrimerApellido, cierreComercial.SegundoApellido, cierreComercial.TipoDocumentoIdentidadId,
+            string result = service.CrearCierreComercialAsync(cierreComercial.PrimerNombre, 
+                cierreComercial.SegundoNombre, cierreComercial.PrimerApellido, 
+                cierreComercial.SegundoApellido, cierreComercial.TipoDocumentoIdentidadId,
                 cierreComercial.NumeroDocumento, cierreComercial.Contrato, cierreComercial.CodTipoBien,
                 cierreComercial.TipoMedioId, cierreComercial.MedioId, cierreComercial.CodAgencia,
                 cierreComercial.CodAsesor, cierreComercial.FechaAdhesion, cierreComercial.ValorBien,
-                cierreComercial.CodConcesionario, cierreComercial.CodMarca, cierreComercial.FechaCierre,
+                cierreComercial.TotalValorAPagar, cierreComercial.CodConcesionario, 
+                cierreComercial.CodMarca, cierreComercial.FechaCierre,
                 cierreComercial.CompaniaId, cierreComercial.TerceroId).Result;
+
+            Console.WriteLine("[SIICON ANSWER]: " + result);
 
 
             dynamic jsonResultFechaCierre = JsonConvert.DeserializeObject<dynamic>(result);
@@ -1132,7 +1153,7 @@ namespace ContratoDigital.Controllers
             result += utilities.BuildJsonString("Contratos abonados", _context.Contratos.Where(x => x.Pagos.Count() >= 1 && x.ConfirmacionContratos.IsPaid == false).Count()) + ",";
             result += utilities.BuildJsonString("Contratos Noviembre 2018", _context.Contratos.Where(x => x.ConfirmacionContratos.FechaRegistro.Month == 11).Count()) + ",";
             result += utilities.BuildJsonString("Contratos Autofinanciera", _context.Contratos.Where(x => x.id_compania == Constants.GuuidAuto).Count()) + ",";
-            result += utilities.BuildJsonString("Contratos Electroplan", _context.Contratos.Where(x => x.id_compania == Constants.GuuidElectro).Count());
+            result += utilities.BuildJsonString("Contratos Fonbienes, Colombia, S.A.", _context.Contratos.Where(x => x.id_compania == Constants.GuuidElectro).Count());
             result += "],";
 
 
@@ -1189,7 +1210,7 @@ namespace ContratoDigital.Controllers
             result += utilities.BuildJsonString("Prospectos registrados en noviembre 2018", _context.Prospectos.Where(x => x.ConfirmacionProspecto.FechaCreacion.Month == 11).Count()) + ",";
             result += utilities.BuildJsonString("Prospectos registrados antes de noviembre 2018", _context.Prospectos.Where(x => x.ConfirmacionProspecto.FechaCreacion.Month < 11 && x.ConfirmacionProspecto.FechaCreacion.Year <= 2018).Count()) + ",";
             result += utilities.BuildJsonString("Prospectos en Autofinanciera", _context.Prospectos.Where(x => x.IdCompania == Constants.GuuidAuto).Count()) + ",";
-            result += utilities.BuildJsonString("Prospectos en Electroplan", _context.Prospectos.Where(x => x.IdCompania == Constants.GuuidElectro).Count());
+            result += utilities.BuildJsonString("Prospectos en Fonbienes, Colombia, S.A.", _context.Prospectos.Where(x => x.IdCompania == Constants.GuuidElectro).Count());
             result += "],";
 
             // Por Marcas
@@ -1226,6 +1247,58 @@ namespace ContratoDigital.Controllers
             result += "]";           
             
 
+            return result + "}";
+        }
+
+        [HttpGet("GetReporteLegal/{value}")]
+        [Route("GetReporteLegal")]
+        public async Task<ActionResult<string>> GetReporteLegal(int value)
+        {
+            Utilities utilities = new Utilities(_context, _userManager);
+            string result = "{";
+            // Contratos
+
+            var contratos = _context.Contratos.Where(x => x.numero_de_contrato == value || x.documento_identidad_suscriptor == value);
+            result += "\"resultado\": " + contratos.Count();
+            if (contratos.Count()>0)
+            {
+                result += ",\"Contratos\":[";
+                int count = contratos.Count();
+                int countKey = 1;
+                foreach (var item in contratos)
+                {
+                    result += "{" + utilities.BuildJsonItem("Nombre", item.primer_nombre + " " + item.segundo_nombre + " " + item.primer_apellido + " " + item.segundo_apellido) + ",";
+                    result += "\"ID\": \"" + item.IdContrato + "\",";
+                    result += "\"NumeroDocumento\":\"" + item.tipo_documento_identidad_suscriptor + "-" + item.documento_identidad_suscriptor + "\",";
+                    result += "\"NumeroContrato\": \"" + item.numero_de_contrato + "\",";
+                    result += "\"Agencia\": \"" + item.ConfirmacionContratos.DescripcionAgencia + "\",";
+                    result += "\"TipoDeBien\": \"" + item.tipo_de_bien + "\",";
+                    result += "\"MarcaExclusiva\": \"" + item.marca_exclusiva_bien + "\",";
+                    result += "\"DetallesBien\": \"" + item.detalles_bien + "\",";
+                    result += "\"Plazo\": \"" + item.plazo_bien + "\",";
+                    result += "\"TipoCuota\": \"" + item.cuota_bien + "\",";
+                    result += "\"CuotaIngreso\": \"" + item.cuota_ingreso + "\",";
+                    result += "\"PrimeraCuotaNeta\": \"" + item.primera_cuota_neta + "\",";
+                    result += "\"Administracion\": \"" + item.administracion + "\",";
+                    result += "\"TotalCuotaBruta\": \"" + item.total_cuota_bruta + "\",";
+                    result += "\"ValorCuotaPrimerPago\": \"" + item.valor_primer_pago + "\",";
+                    result += "\"FechaRegistroContrato\": \"" + item.ConfirmacionContratos.FechaCreacion + "\",";
+                    result += "\"FechaAceptacionHabeasData\": \"" + item.Prospecto.ConfirmacionProspecto.FechaConfirmacion + "\",";
+                    result += "\"FechaAceptacionCondiciones\": \"" + item.ConfirmacionContratos.FechaAceptacion + "\",";
+                    //result += "\"FechaUltimoPago\": \"" + item.Pagos.Last().FechaPago + "\",";
+                    result += "\"FechaRecepcionContrato\": \"" + item.ConfirmacionContratos.FechaContratoRecibido + "\",";
+                    result += "\"RegistradoPor\": \"" + item.ConfirmacionContratos.UserId + "\",";
+                    result += "\"AsignadoA\": \"" + item.ConfirmacionContratos.Asesor + "\"";
+                    
+                    result += "}";
+                    if (countKey < count)
+                    {
+                        result += ",";
+                        countKey++;
+                    }
+                }
+                result += "]";
+            }
             return result + "}";
         }
 

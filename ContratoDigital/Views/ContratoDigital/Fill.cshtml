@@ -61,7 +61,7 @@
                 <section>
                     <div class="form-row">
                         <div class="col">
-                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                            <div class="bg-qurii p-3 mb-2 text-white text-center">
                                 <h5 class="mb-0">Datos del suscriptor</h5>
                                 <h5 class="mb-0">(o representante legal)</h5>
 
@@ -128,11 +128,11 @@
                         </div>
                     </div>
                 </section>
-                <div class="form-row mt-2">
+                @*<div class="form-row mt-2">
                     <div class="col">
                         <a class="btn btn-azul text-white" id="isRepreentanteLegal"><i class="fas fa-plus"></i> Agregar representante legal</a>
                     </div>
-                </div>
+                </div>*@
                 <!--#endregion-->
                 <!--#region representate legal suscriptor-->
                 <section class="d-none" id="RepreentanteLegalSection">
@@ -264,7 +264,7 @@
 
                     <div class="form-row mt-4 mb-2">
                         <div class="col">
-                            <div class="bg-azul p-1 mb-2 text-white text-center">
+                            <div class="bg-qurii p-1 mb-2 text-white text-center">
                                 <h5 class="mb-0 t-1">Datos laborales del suscriptor</h5>
                             </div>
                         </div>
@@ -282,6 +282,14 @@
                     </div>
 
                     <div class="form-row mt-4">
+                        <div class="col-12 d-none" id="GastasMasDeLoQueGanasWarning">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Advertencia:</strong> el cliente gana menos que la cuota de ingreso.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
                         <div class="col-12 col-md-4">
                             <label for="ingresos_mensuales_suscriptor">Ingresos mensuales</label>
                             <div class="input-group">
@@ -358,11 +366,12 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="envio_correspondencia_suscriptor">Envío de correspondencia</label>
-                            <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor" name="envio_correspondencia_suscriptor" required autocomplete="off">
-                                <option value="">Seleccione una opción</option>
+                            <select class="form-control form-control-lg" id="envio_correspondencia_suscriptor" name="envio_correspondencia_suscriptor" required readonly autocomplete="off">
+                                <option value="correoelectronico">Correo electrónico</option>                            
+                                @*<option value="">Seleccione una opción</option>
                                 <option value="domicilio">Domicilio</option>
                                 <option value="oficina">Oficina</option>
-                                <option value="correoelectronico">Correo electrónico</option>
+                                <option value="correoelectronico">Correo electrónico</option>*@
                             </select>
                         </div>
                         <div class="col-12 col-md-4">
@@ -373,11 +382,11 @@
                 </section>
                 <!--#endregion-->
 
-                <div class="form-row mt-2">
+                @*<div class="form-row mt-2">
                     <div class="col">
                         <a class="btn btn-azul text-white" id="isSuscriptorConjunto"><i class="fas fa-plus"></i> Agregar suscriptor conjunto</a>
                     </div>
-                </div>
+                </div>*@
 
                 <section class="d-none" id="SuscriptorConjuntoSection">
 
@@ -593,7 +602,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="otros_ingresos_suscriptor_conjunto_addon">$</span>
                                     </div>
-                                    <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor_conjunto" aria-describedby="otros_ingresos_suscriptor_conjunto_addon" id="otros_ingresos_suscriptor_conjunto" name="otros_ingresos_suscriptor_conjunto" placeholder="0.00" autocomplete="off" />
+                                    <input type="text" class="form-control form-control-lg" aria-label="otros_ingresos_suscriptor_conjunto" aria-describedby="otros_ingresos_suscriptor_conjunto_addon" id="otros_ingresos_suscriptor_conjunto" name="otros_ingresos_suscriptor_conjunto" placeholder="0.00" autocomplete="off" value="0" />
                                 </div>
                             </div>
                         </div>
@@ -663,7 +672,7 @@
                 <section>
                     <div class="form-row mt-4 mb-2">
                         <div class="col">
-                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                            <div class="bg-qurii p-3 mb-2 text-white text-center">
                                 <h5 class="mb-0">Características del bien</h5>
                             </div>
                         </div>
@@ -677,9 +686,17 @@
                                 <option value="">Seleccione una opción</option>
                                 <option selected value="@Model.IdCompania">@Model.Compania</option>
                                 <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
-                                <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
+                                <option value="6831062e-c994-4686-a989-1964b1200cbc">Fonbienes, Colombia, S.A.</option>
                             </select>
                             <input type="hidden" name="compania" id="compania" value="@Model.Compania" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label>Seleccione un tipo de cuota</label>
+                            <select class="form-control form-control-lg" id="TipoCuota" name="TipoCuota" autocomplete="off">
+                                <option value="">Seleccione una opción</option>
+                                <option value="CF">Cuota fija</option>
+                                <option value="CV">Cuota variable</option>
+                            </select>
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="">Agencia</label>
@@ -751,9 +768,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label>Asesor</label>
-                            <select class="form-control form-control-lg" id="asesores" name="asesores" required>
-                                <option>seleccione una opción</option>
-                            </select>
+                            <select class="form-control form-control-lg" id="asesores" name="asesores" required></select>
                         </div>
                     </div>
 
@@ -804,7 +819,7 @@
                 <section>
                     <div class="form-row mt-4 mb-2">
                         <div class="col">
-                            <div class="bg-azul p-3 mb-2 text-white text-center">
+                            <div class="bg-qurii p-3 mb-2 text-white text-center">
                                 <h5 class="mb-0">Pago inicial</h5>
                             </div>
                         </div>
@@ -812,7 +827,7 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">1</span>
+                            <span class="badge badge-qurii">1</span>
                             <label for="cuota_ingreso">Cuota de ingreso (<label class="porcentajeInscripcion"></label>% sobre el valor del bien)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -823,7 +838,7 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">5</span>
+                            <span class="badge badge-qurii">5</span>
                             <label for="administracion">Administración (<label class="porcentajeAdministracion"></label>% sobre cuota neta)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -836,7 +851,7 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">2</span>
+                            <span class="badge badge-qurii">2</span>
                             <label for="iva_cuota_ingreso">I.V.A sobre la cuota de ingreso (<label class="porcentajeIva"></label>%)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -846,7 +861,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">6</span>
+                            <span class="badge badge-qurii">6</span>
                             <label for="iva_administracion">I.V.A sobre la administración (<label class="porcentajeIva"></label>%)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -859,8 +874,8 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">3</span>
-                            <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class="badge badge-azul">1</span> + <span class="badge badge-azul">2</span> )</label>
+                            <span class="badge badge-qurii">3</span>
+                            <label for="total_cuota_ingreso">Total cuota de ingreso (<label class="porcentajeInscripcion"></label>%) ( <span class="badge badge-qurii">1</span> + <span class="badge badge-qurii">2</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_ingreso_addon">$</span>
@@ -869,8 +884,8 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">7</span>
-                            <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-azul">4</span> + <span class="badge badge-azul">5</span> + <span class="badge badge-azul">6</span> )</label>
+                            <span class="badge badge-qurii">7</span>
+                            <label for="total_cuota_bruta">Total cuota bruta ( <span class="badge badge-qurii">4</span> + <span class="badge badge-qurii">5</span> + <span class="badge badge-qurii">6</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="total_cuota_bruta_addon">$</span>
@@ -882,7 +897,7 @@
 
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">4</span>
+                            <span class="badge badge-qurii">4</span>
                             <label for="primera_cuota_neta">Primera cuota neta: (valor del bien / plazo)</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -892,8 +907,8 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <span class="badge badge-azul">8</span>
-                            <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-azul">3</span> + <span class="badge badge-azul">7</span> )</label>
+                            <span class="badge badge-qurii">8</span>
+                            <label for="valor_primer_pago">Valor total primer pago: ( <span class="badge badge-qurii">3</span> + <span class="badge badge-qurii">7</span> )</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="valor_primer_pago_addon">$</span>
@@ -941,7 +956,7 @@
                     </div>
                 </section>
                 <!--#endregion-->
-                <!--#region legal-->
+                @*<!--#region legal-->
 
                 <section id="legaleseElectro" class="d-none">
                     <div class="form-row mt-4">
@@ -1068,13 +1083,13 @@
                         </div>
                     </div>
                 </section>
-                <!--#endregion-->
+                <!--#endregion-->*@
 
                 @if (ViewData["Warning"] == null)
                 {
                     <div class="form-row mt-4">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-lg btn-azul submitbutton">Envíar</button>
+                            <button type="submit" class="btn btn-lg btn-qurii submitbutton">Envíar</button>
                         </div>
                     </div>
                 }
@@ -1093,6 +1108,7 @@
 
             jQuery(function ($) {
                 $("#asesores").append('<option value="' + asesorID + '" selected>' + nombreAsesor + '</option>');
+                $("#asesores").attr("readonly","readonly");
             });
         </script>
     }

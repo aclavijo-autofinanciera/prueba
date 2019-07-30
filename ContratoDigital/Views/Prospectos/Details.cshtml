@@ -40,6 +40,52 @@
 </section>
 @if (Model != null)
 {
+<section>
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-12  text-center">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-black-6c qurii-white">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Prospectos")"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Edit", "Prospectos", new {id = Model.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
+                            </li>
+
+                            @if (Model.ConfirmacionProspecto.IsConfirmed)
+                            {
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="@Url.Action("Generate", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-receipt"></i>  Generar cotización</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="@Url.Action("EmailCotizacion", "Prospectos", new { id = Model.IdProspecto })"><i class="fas fa-envelope"></i> Enviar cotización por correo</a>
+                                </li>
+                                @if (Model.Contratos.Count == 0)
+                                {
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
+                                    </li>
+                                }
+                                else if (Model.Contratos.Count > 0 && Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
+                                {
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
     <section>
         <div class="container">
             <div class="row justify-content-center">
@@ -164,12 +210,16 @@
                                 @Model.Email<br />
                                 @if (Model.ConfirmacionProspecto.IsConfirmed == true)
                                 {
-                                    <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
+                                    <label class="text-success"><i class="fas fa-check"></i> confirmado</label><br />
+                                    <strong>Fecha de Confirmación</strong><br />
+                                    DateTime date = new DateTime();
+                                    Write(Model.ConfirmacionProspecto.FechaConfirmacion > date ? String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionProspecto.FechaConfirmacion) : "No disponible");
+                                    
 
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = Model.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-qurii"><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = Model.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
 
                                 }
                             </div>
@@ -377,7 +427,7 @@
         <div class="container">
             <div class="row mt-4">
                 <div class="col-12  text-center">
-                    <nav class="navbar navbar-expand-lg navbar-dark bg-azul">
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-black-6c qurii-white">
                         <a class="navbar-brand" href="@Url.Action("Index", "Prospectos")"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -400,17 +450,15 @@
                                     @if (Model.Contratos.Count == 0)
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar nuevo contrato</a>
+                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
                                         </li>
                                     }
                                     else if (Model.Contratos.Count > 0 && Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
                                     {
                                         <li class="nav-item ">
-                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Generar nuevo contrato</a>
+                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
                                         </li>
                                     }
-
-
                                 }
                             </ul>
 
@@ -448,8 +496,8 @@
                                 <tr>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Acciones">
-                                            <a class="btn btn-azul" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato })"><i class="far fa-edit"></i> Editar</a>
-                                            <a class="btn btn-azul" href="@Url.Action("Details", "ContratoDigital", new { id = item.IdContrato })"><i class="far fa-file-pdf"></i> Detalles</a>
+                                            <a class="btn btn-qurii" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato })"><i class="far fa-edit"></i> Editar</a>
+                                            <a class="btn btn-qurii" href="@Url.Action("Details", "ContratoDigital", new { id = item.IdContrato })"><i class="far fa-file-pdf"></i> Detalles</a>
                                         </div>
                                     </td>
                                     <td>@item.numero_de_contrato</td>

@@ -87,12 +87,26 @@
                         </div>
                     </div>
                     <div class="form-row justify-content-center">
-                        <div class="col-12 col-md-8 mt-4">
-                            <div class="polymer-box">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" value="@Model.Email" required autocomplete="off" />
-                            </div>                            
-                        </div>
+                        @if (Model.ConfirmacionProspecto.IsConfirmed)
+                        {
+                            <div class="col-12 col-md-8 mt-4">
+                                <div class="polymer-box">
+                                    <label for="email">Email</label><br />
+                                    @Model.Email
+                                    <input type="hidden" id="email" name="email" class="form-control form-control-lg text-uppercase" value="@Model.Email" required autocomplete="off" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12 col-md-8 mt-4">
+                                <div class="polymer-box">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" class="form-control form-control-lg text-uppercase" value="@Model.Email" required autocomplete="off" />
+                                </div>
+                            </div>
+                        }
+
                         <div class="col-12 col-md-8 mt-4">
                             <div class="polymer-box">
                                 <label for="observaciones">Observaciones</label>
@@ -121,18 +135,24 @@
                                     <div class="col-12 col-md-6">
                                         <label for="bien">Seleccione compañía</label>
                                         <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off">
-                                            <option value="">Seleccione una opción</option>
                                             <option selected value="@Model.IdCompania">@Model.Compania</option>
                                             <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
-                                            <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
+                                            <option value="6831062e-c994-4686-a989-1964b1200cbc">Fonbienes, Colombia, S.A.</option>
                                         </select>
                                         <input type="hidden" name="compania" id="compania" value="@Model.Compania" />
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label>Seleccione un tipo de cuota</label>
+                                        <select class="form-control form-control-lg" id="TipoCuota" name="TipoCuota" autocomplete="off">
+                                            <option value="">Seleccione una opción</option>
+                                            <option value="CF">Cuota fija</option>
+                                            <option value="CV">Cuota variable</option>
+                                        </select>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label for="">Agencia</label>
                                         <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly>
                                             <option value="@Model.ConfirmacionProspecto.Agencia">@Model.ConfirmacionProspecto.DescripcionAgencia </option>
-                                            <option value="">Seleccione una opción</option>
                                         </select>
                                         <input type="hidden" name="AgenciaDescripcion" id="AgenciaDescripcion" value="@Model.ConfirmacionProspecto.DescripcionAgencia" />
                                     </div>
@@ -140,7 +160,6 @@
                                         <label for="tipodeBien">Seleccione un tipo de bien</label>
                                         <select class="form-control form-control-lg" id="tipodeBien" name="tipodeBien" readonly>
                                             <option value="@Model.Id_Tipo_Bien">@Model.Tipo_de_Bien</option>
-                                            <option value="">Seleccione una opción</option>
                                         </select>
                                         <input type="hidden" name="descripcionTipoBien" id="descripcionTipoBien" value="@Model.Tipo_de_Bien" />
                                     </div>
@@ -148,7 +167,6 @@
                                         <label for="marca">Seleccione una marca</label>
                                         <select class="form-control form-control-lg" id="marca" name="marca" readonly>
                                             <option value="@Model.Id_marca">@Model.Marca_exclusiva_bien</option>
-                                            <option value="">Seleccione una opción</option>
                                         </select>
                                         <input type="hidden" name="descripcionMarca" id="descripcionMarca" value="@Model.Marca_exclusiva_bien" />
                                     </div>
@@ -156,13 +174,11 @@
                                         <label for="planDeAhorro">Seleccione un plan de ahorro</label>
                                         <select class="form-control form-control-lg" id="planDeAhorro" name="planDeAhorro" readonly>
                                             <option value="@Model.Referencia">@Model.DescripcionDelBien</option>
-                                            <option value="">Seleccione una opción</option>
                                         </select>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label for="tipoCalculo">Seleccione una cuota</label>
                                         <select class="form-control form-control-lg" id="tipoCalculo" name="tipoCalculo" readonly>
-                                            <option value="">Seleccione una opción</option>
                                             <option value="@Model.TipoCalculo" selected>@Model.DescripcionTipoCalculo</option>
                                         </select>
                                         <input type="hidden" name="descripcionTipoCalculo" id="descripcionTipoCalculo" value="@Model.DescripcionTipoCalculo" />
@@ -188,18 +204,14 @@
                                         <label>Tipo de cliente</label>
                                         <select class="form-control form-control-lg" id="TipoCliente" name="TipoCliente" readonly>
                                             <option value="@Model.ConfirmacionProspecto.TipoCliente">@Model.ConfirmacionProspecto.DescripcionTipoCliente</option>
-                                            <option value="">Seleccione una opción</option>
-                                            <option value="0">Nuevo cliente</option>
-                                            <option value="1">Cliente antiguo</option>
-                                            <option value="2">Persona jurídicia</option>
                                         </select>
                                         <input type="hidden" name="TipoClienteDescripcion" id="TipoClienteDescripcion" value="@Model.ConfirmacionProspecto.DescripcionTipoCliente" />
 
                                     </div>
 
 
-                                    
-                                    
+
+
                                 </div>
                             </div>
                         </div>
@@ -285,7 +297,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge badge-azul">1</span> Cuota de ingreso
+                                        <span class="badge badge-qurii">1</span> Cuota de ingreso
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -303,7 +315,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge badge-azul">2</span> I.V.A. sobre la cuota de ingreso
+                                        <span class="badge badge-qurii">2</span> I.V.A. sobre la cuota de ingreso
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -321,7 +333,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge badge-azul">3</span> Total cuota de ingreso
+                                        <span class="badge badge-qurii">3</span> Total cuota de ingreso
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -339,7 +351,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge badge-azul">4</span> Primera cuota neta
+                                        <span class="badge badge-qurii">4</span> Primera cuota neta
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -357,7 +369,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge-azul badge">5</span> Administración
+                                        <span class="badge-qurii badge">5</span> Administración
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -375,7 +387,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge badge-azul">6</span> I.V.A. sobre la administración
+                                        <span class="badge badge-qurii">6</span> I.V.A. sobre la administración
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -393,7 +405,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge badge-azul">7</span> Total cuota bruta
+                                        <span class="badge badge-qurii">7</span> Total cuota bruta
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -414,7 +426,7 @@
                             <div class="polymer-box">
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">
-                                        <span class="badge badge-azul">8</span> Valor total primer pago
+                                        <span class="badge badge-qurii">8</span> Valor total primer pago
                                     </div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="input-group">
@@ -429,8 +441,8 @@
                         </div>
                         <div class="col-12 col-md-8">
                             <div class="polymer-box text-center">
-                                <a href="@Url.Action("Details", "Prospectos", new { id=Model.IdProspecto })" class="btn btn-lg btn-azul"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
-                                <button type="submit" class="btn btn-lg btn-azul submitbutton"><i class="far fa-save"></i> Actualizar</button>
+                                <a href="@Url.Action("Details", "Prospectos", new { id=Model.IdProspecto })" class="btn btn-lg btn-qurii"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                                <button type="submit" class="btn btn-lg btn-qurii submitbutton"><i class="far fa-save"></i> Actualizar</button>
                             </div>
                         </div>
                     </div>

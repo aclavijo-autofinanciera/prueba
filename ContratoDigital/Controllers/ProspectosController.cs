@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using SiiconTest;
 using SiiconWebService;
 
 namespace ContratoDigital.Controllers
@@ -23,7 +24,12 @@ namespace ContratoDigital.Controllers
     [Authorize]
     public class ProspectosController : Controller
     {
-        ServiceClient service = new ServiceClient();
+        //ServiceClient service = new ServiceClient();
+#if (DEBUG)
+        SiiconTest.ServiceClient service = new SiiconTest.ServiceClient();
+#else
+            SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
+#endif
 
         /// <summary>
         ///  Constructor de la clase, que coloca los recursos web estáticos en el alcance de la aplicación .net.
@@ -45,23 +51,44 @@ namespace ContratoDigital.Controllers
             _utilities = new Utilities(_context, _userManager);
         }
 
-        public async Task<IActionResult> Index()
-        {
-            List<Prospecto> lista = new List<Prospecto>();
+        public async Task<IActionResult> Index(int? pageNumber)
+        {            
             var user = _userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User));
             if(_userManager.IsInRoleAsync(user, "Asesor").Result)
             {
                 ViewData["isAsesor"] = true;
-                lista = await _context.Prospectos
-                    .Where(x => x.ConfirmacionProspecto.UserId == _userManager.GetUserId(User))
-                    .OrderByDescending(x => x.IdProspecto)
-                    .ToListAsync();
+                 var lista =  _context.Prospectos
+                    .Where(x => x.ConfirmacionProspecto.UserId == user.Id)
+                    .OrderByDescending(x => x.IdProspecto);
+                return View(await PaginatedList<Prospecto>.CreateAsync(lista, pageNumber ?? 1, 10));
+            }
+            else if(_userManager.IsInRoleAsync(user, "Administrador").Result)
+            {
+                var lista = _context.Prospectos                    
+                    .OrderByDescending(x => x.IdProspecto);
+                ViewData["isAsesor"] = false;
+                return View(await PaginatedList<Prospecto>.CreateAsync(lista, pageNumber ?? 1, 10));
             }
             else
             {
-                ViewData["isAsesor"] = false;
-            }
-            return View(lista);
+                WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
+                dynamic jsonAgenciaAuto = JsonConvert.DeserializeObject<dynamic>(webservice.GetAgencias(user.IdSiicon, Constants.GuuidAuto).Result.Value);
+                dynamic jsonAgenciaElectro = JsonConvert.DeserializeObject<dynamic>(webservice.GetAgencias(user.IdSiicon, Constants.GuuidElectro).Result.Value);
+                List<int> listaAgencias = new List<int>();
+                foreach (var item in jsonAgenciaAuto)
+                {
+                    listaAgencias.Add((int)item.CodAgencia);
+                }
+                foreach (var item in jsonAgenciaElectro)
+                {
+                    listaAgencias.Add((int)item.CodAgencia);
+                }
+
+                var lista = _context.Prospectos
+                    .Where(x => listaAgencias.Contains(x.ConfirmacionProspecto.Agencia))
+                    .OrderByDescending(x => x.IdProspecto);
+                return View(await PaginatedList<Prospecto>.CreateAsync(lista, pageNumber ?? 1, 10));
+            }           
         }
 
         [HttpPost]
@@ -100,6 +127,7 @@ namespace ContratoDigital.Controllers
         {
             List<Estado> estadosList = _context.Estados.Where(x=>x.TipoEstado.IdTipoEstado == (int)Constants.Estados.TipoIdentificacion).ToList();
             ViewData["TipoIdentidadList"] = estadosList;
+            GetStatusList();
             return View();
         }
 
@@ -107,10 +135,11 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Create(IFormCollection form)
         {
             int.TryParse(s: form["NumeroDocumento"], result: out int documentoIdentidad);
-            if (documentoIdentidad == 0 || _context.Prospectos.Count(x=>x.NumeroDocumento == documentoIdentidad) > 0)
+            /*if (documentoIdentidad == 0 || _context.Prospectos.Count(x => x.NumeroDocumento == documentoIdentidad) > 0 || _context.Prospectos.Count(x => x.Email == form["email"].ToString().ToUpper()) > 0)
             {
-                return RedirectToAction("Create");
-            }
+                return RedirectToAction("Create", new { e = (int)Constants.ErrorList.CedulaCorreoDuplicado});
+            }  */          
+
             Prospecto prospecto = _utilities.FillProspecto(form);
             _context.Prospectos.Add(prospecto);
             await _context.SaveChangesAsync();
@@ -155,13 +184,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co"}
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Verificación de correo electrónico";
+                emailMessage.Subject = "[Qurii] Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -186,13 +215,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co"}
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Verificación de correo electrónico";
+                emailMessage.Subject = "[Qurii] Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -224,6 +253,21 @@ namespace ContratoDigital.Controllers
                 TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
             }
             TempData.Keep("EmailREsult");
+
+            // Auditoría 2019-06-29
+            AuditoriaProspectos auditor = new AuditoriaProspectos
+            {
+                FechaRegistro = DateTime.Now,
+                IdProspecto = prospecto.IdProspecto,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Creación de prospecto",
+                UsuarioRegistrante = prospecto.ConfirmacionProspecto.UserId,
+                DatosNuevos = _utilities.GetDatosJson(prospecto),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });            
         }
 
@@ -238,6 +282,20 @@ namespace ContratoDigital.Controllers
                 confirmacionProspecto.IdEstado = (int)Constants.EstadosProspectos.Confirmado;
                 await _context.SaveChangesAsync();
                 ViewData["IsConfirmed"] = true;
+                
+                // Auditoría 2019-06-29
+                AuditoriaProspectos auditor = new AuditoriaProspectos
+                {
+                    FechaRegistro = DateTime.Now,
+                    IdProspecto = confirmacionProspecto.Prospecto.IdProspecto,
+                    IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                    TipoDeMovimiento = "Confirmación de correo por parte del cliente",
+                    UsuarioRegistrante = "Acción iniciada por el cliente",
+                    DatosNuevos = "N/A",
+                    DatosPrevios = "N/A"
+                };
+                _context.Add(auditor);
+                await _context.SaveChangesAsync();
             }
             else
             {
@@ -260,13 +318,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co"}
                 };
                 emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Verificación de correo electrónico";
+                emailMessage.Subject = "[Qurii] Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -291,13 +349,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co"}
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Verificación de correo electrónico";
+                emailMessage.Subject = "[Qurii] Verificación de correo electrónico";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -330,6 +388,20 @@ namespace ContratoDigital.Controllers
                 TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
             }
             TempData.Keep("EmailREsult");
+            // Auditoría 2019-06-29
+            AuditoriaProspectos auditor = new AuditoriaProspectos
+            {
+                FechaRegistro = DateTime.Now,
+                IdProspecto = prospecto.IdProspecto,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Se le reenvia el email de confirmación al cliente",
+                UsuarioRegistrante = prospecto.ConfirmacionProspecto.UserId,
+                DatosNuevos = "N/A",
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
         }
 
@@ -341,15 +413,25 @@ namespace ContratoDigital.Controllers
             WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
             DateTime fechaCierre = new DateTime();
             dynamic jsonFechaCierre = JsonConvert.DeserializeObject<dynamic>(webservice.GetFechaCierreComercial(prospectos.IdCompania).Result.Value);
-            if (jsonFechaCierre.First.FechaCierre != null)
+
+            try
             {
-                string value = jsonFechaCierre.First.FechaCierre;
-                fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                if (jsonFechaCierre.First.FechaCierre != null)
+                {
+                    string value = jsonFechaCierre.First.FechaCierre;
+                    fechaCierre = DateTime.ParseExact(value, "dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                if (DateTime.Now > fechaCierre)
+                {
+                    ViewData["Warning"] = "Fecha límite de cierre comercial. Debe esperar a que esta vuelva a abrir nuevmaente";
+                }
             }
-            if (DateTime.Now > fechaCierre)
+            catch(Exception ex)
             {
-                ViewData["Warning"] = "Fecha límite de cierre comercial. Debe esperar a que esta vuelva a abrir nuevmaente";
+                return RedirectToAction("CierreComercial", "Home");
             }
+
+            
 
             ViewData["TipoIdDescripcion"] = status.GetStatusName(prospectos.TipoDocumentoIdentidad);
             ViewData["Estado"] = status.GetStatusName(prospectos.ConfirmacionProspecto.IdEstado);
@@ -367,6 +449,18 @@ namespace ContratoDigital.Controllers
         public async Task<IActionResult> Edit(IFormCollection form)
         {
             Prospecto prospecto = _context.Prospectos.SingleOrDefault(x => x.IdProspecto == int.Parse(form["IdProspecto"]));
+            // Auditoría 2019-06-29
+            AuditoriaProspectos auditor = new AuditoriaProspectos
+            {
+                FechaRegistro = DateTime.Now,
+                IdProspecto = prospecto.IdProspecto,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Edición del prospecto",
+                UsuarioRegistrante = prospecto.ConfirmacionProspecto.UserId,
+                DatosNuevos = "N/A",
+                DatosPrevios = _utilities.GetDatosJson(prospecto)
+            };
+
             prospecto.ConfirmacionProspecto.Agencia = int.Parse(form["Agencia"]);
             prospecto.ConfirmacionProspecto.DescripcionAgencia = form["AgenciaDescripcion"];
             prospecto.ConfirmacionProspecto.TipoMedio = int.Parse(form["TipoMedio"]);
@@ -378,6 +472,8 @@ namespace ContratoDigital.Controllers
             prospecto.ConfirmacionProspecto.UserId = _userManager.GetUserId(User);
             prospecto.ConfirmacionProspecto.Observaciones = form["observaciones"];            
             prospecto = _utilities.UpdateProspecto(form, prospecto);
+            auditor.DatosNuevos = _utilities.GetDatosJson(prospecto);
+            _context.Add(auditor);            
             await _context.SaveChangesAsync();
             return RedirectToAction("Details","Prospectos", new {id = prospecto.IdProspecto });
         }
@@ -426,7 +522,7 @@ namespace ContratoDigital.Controllers
                             searchQuery += " OR ";
                         }
                     }
-                    return View(await _context.Prospectos.FromSql($"SELECT Prospectos.* FROM  Prospectos JOIN ConfirmacionProspectos ON ConfirmacionProspectos.idProspecto = Prospectos.IdProspecto  WHERE CONTAINS(Prospectos.PrimerNombre,{searchQuery} )  OR CONTAINS(Prospectos.SegundoNombre, {searchQuery})  OR CONTAINS(Prospectos.PrimerApellido, {searchQuery})  OR CONTAINS(Prospectos.SegundoApellido, {searchQuery})  OR Prospectos.NumeroDocumento =  {numeroDocumento}  AND ConfirmacionProspectos.UserId = '{user.Id}'")
+                    return View(await _context.Prospectos.FromSql($"SELECT Prospectos.* FROM  Prospectos JOIN ConfirmacionProspectos ON ConfirmacionProspectos.IdProspecto = Prospectos.IdProspecto  WHERE CONTAINS(Prospectos.PrimerNombre,{searchQuery} )  OR CONTAINS(Prospectos.SegundoNombre, {searchQuery})  OR CONTAINS(Prospectos.PrimerApellido, {searchQuery})  OR CONTAINS(Prospectos.SegundoApellido, {searchQuery})  OR Prospectos.NumeroDocumento =  {numeroDocumento}  AND ConfirmacionProspectos.UserId = '{user.Id}'")
                         .OrderByDescending(x => x.IdProspecto).ToListAsync());
                 }
                 else
@@ -470,7 +566,7 @@ namespace ContratoDigital.Controllers
 
         public IActionResult CargaMasiva()
         {
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult CheckWebservice()
@@ -522,6 +618,19 @@ namespace ContratoDigital.Controllers
             pdf.Close();
             stream.Flush();
             stream.Position = 0;
+            // Auditoría 2019-06-29
+            AuditoriaProspectos auditor = new AuditoriaProspectos
+            {
+                FechaRegistro = DateTime.Now,
+                IdProspecto = prospecto.IdProspecto,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Generación de cotización",
+                UsuarioRegistrante = prospecto.ConfirmacionProspecto.UserId,
+                DatosNuevos = _utilities.GetDatosJson(prospecto),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
             return File(stream, "application/pdf", prospecto.IdProspecto + "-" + DateTime.Now.ToString("yyyy-MM-dd-")  + "Cotizacion.pdf");
         }
 
@@ -562,13 +671,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Electroplan", Address = "tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co"}
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
                 };
-                emailMessage.Subject = "[ELECTROPLAN] Mi Contrato - Cotización plan de ahorro programado";
+                emailMessage.Subject = "[QURII] Cotización plan de ahorro programado";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "YAMAHA":
@@ -593,13 +702,13 @@ namespace ContratoDigital.Controllers
             {
                 emailMessage.FromAddresses = new List<EmailAddress>()
                 {
-                    new EmailAddress{Name = "Mi Contrato Autofinanciera", Address = "tienda@autofinanciera.com.co"}
+                    new EmailAddress{Name = "Qurii", Address = "tienda@autofinanciera.com.co"}
                 };
                     emailMessage.ToAddresses = new List<EmailAddress>()
                 {
                     new EmailAddress{Name = prospecto.PrimerNombre + " " + prospecto.SegundoNombre + " " + prospecto.PrimerApellido + " " + prospecto.SegundoApellido, Address = prospecto.Email }
                 };
-                emailMessage.Subject = "[AUTOFINANCIERA] Mi Contrato - Cotización plan de ahorro programado";
+                emailMessage.Subject = "[Qurii] Cotización plan de ahorro programado";
                 switch (prospecto.Marca_exclusiva_bien)
                 {
                     case "KIA":
@@ -629,10 +738,32 @@ namespace ContratoDigital.Controllers
                 TempData["EmailResult"] = "Ha ocurrido un error: " + ex.Message;
             }
             TempData.Keep("EmailResult");
+            // Auditoría 2019-06-29
+            AuditoriaProspectos auditor = new AuditoriaProspectos
+            {
+                FechaRegistro = DateTime.Now,
+                IdProspecto = prospecto.IdProspecto,
+                IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                TipoDeMovimiento = "Email de cotización",
+                UsuarioRegistrante = prospecto.ConfirmacionProspecto.UserId,
+                DatosNuevos = _utilities.GetDatosJson(prospecto),
+                DatosPrevios = "N/A"
+            };
+            _context.Add(auditor);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Prospectos", new { id = prospecto.IdProspecto });
 
         }
 
-        
+        #region utilities
+        // _utilities Local Methods
+        void GetStatusList()
+        {
+            ViewData["TipoIdentidad"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.TipoIdentificacion);
+            ViewData["Sexo"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.Sexo);
+            ViewData["EstadoCivil"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.EstadoCivil);
+            ViewData["Departamento"] = _context.Estados.Where(x => x.TipoEstado.IdTipoEstado == (int)Constants.Estados.Departamento);
+        }
+        #endregion
     }
 }

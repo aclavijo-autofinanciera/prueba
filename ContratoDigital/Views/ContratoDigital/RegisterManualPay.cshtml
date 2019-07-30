@@ -70,7 +70,7 @@
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-6 font-weight-bold">
-                            Monto primera inversión
+                            Monto cuota de ingreso
                         </div>
                         <div class="col-12 col-md-6 text-black-65 text-uppercase">
                             @(String.Format("{0:$ 0,00}", Model.valor_primer_pago))
@@ -262,7 +262,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="fecha_pago">Fecha de pago</label>
-                            <input type="text" name="fecha_pago" id="fecha_pago" class="form-control form-control-lg text-uppercase" autocomplete="off" required />
+                            <input type="text" name="fecha_pago" id="fecha_pago" class="form-control form-control-lg text-uppercase" autocomplete="off" required readonly />
                         </div>
                     </div>
 
@@ -294,7 +294,7 @@
                     <div class="form-row mt-4">
                         <div class="col-12 col-md-6">
                             <label for="id_concesionario">Concesionario</label>
-                            <select id="id_concesionario" name="id_concesionario" class="form-control form-control-lg text-uppercase" autocomplete="off" required>
+                            <select id="id_concesionario" name="id_concesionario" class="form-control form-control-lg text-uppercase" autocomplete="off" required>                                
                                 <option value="">Seleccione un tipo</option>
                             </select>
                             <input type="hidden" name="concesionario" id="concesionario" />
@@ -305,7 +305,7 @@
                         <a class="btn btn-sm btn-outline-primary" href="@Url.Action("Details", "ContratoDigital", new {id = Model.IdContrato})"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                         @if (Model.ConfirmacionContratos.IsPaid == false)
                         {
-                            <input type="submit" class="btn btn-azul btn-lg mx-auto submitbutton" value="Registrar" />
+                            <input type="submit" class="btn btn-qurii btn-lg mx-auto submitbutton" value="Registrar" />
                         }
 
                     </div>
@@ -428,7 +428,8 @@
                     try {
                         
                         id_concesionario.empty();
-                        id_concesionario.append("<option value=\"\">Selecciona una opción</option>"); //<option value=\"todos\">Seleccionar todos</option>");
+                        id_concesionario.append("<option value=\"1\" selected>SIN CONCESIONARIO </option>");
+                        
                         $.each(data, function (i, item) {
                             var rows = "<option value=\"" + item.CodConcesionario + "\" >" + item.Concesionario + " </option>";
                             id_concesionario.append(rows);

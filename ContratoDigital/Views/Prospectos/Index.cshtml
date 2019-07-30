@@ -1,4 +1,7 @@
-﻿@model IEnumerable<ContratoDigital.Models.Prospecto>
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject UserManager<ContratoDigitalUser> UserManager
+@model PaginatedList<Prospecto>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -31,99 +34,117 @@
             {
                 isAsesor = (bool)ViewData["isAsesor"];
             }
-          }
-
-        @if (!isAsesor)
-        {
-            <form method="post" autocomplete="off">
-                <div class="form-row mt-4">
-                    <div class="col-12 col-md-4">
-                        <label for="bien">Seleccione compañía</label>
-                        <select class="form-control form-control-lg" id="idcompania" name="idcompania" autocomplete="off" required>
-                            <option value="">Seleccione una opción</option>
-                            <option value="26e0e553-8bb9-41b2-869a-1fddaf06e900">Autofinanciera S.A.</option>
-                            <option value="6831062e-c994-4686-a989-1964b1200cbc">Electroplan S.A.</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label for="">Agencia</label>
-                        <select class="form-control form-control-lg" id="Agencia" name="Agencia" readonly disabled required autocomplete="off">
-                            <option value="">Seleccione una opción</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label>Asesores</label>
-                        <select class="form-control form-control-lg" id="asesores" name="asesores" readonly disabled required autocomplete="off">
-                            <option value="">Seleccione una opción</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-12 text-right mt-1">
-                        <button type="submit" class="btn btn-azul">Filtrar</button>
-                    </div>
-                </div>
-            </form>
         }
+
+        
 
 
         <div class="row mt-4">
-            <div class="col-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Nombre</th>
-                            <th>Cedula</th>
-                            <th>Correo</th>
-                            <th>Teléfono</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Count() > 0)
-                        {
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item"><a href="@Url.Action("Edit", "Prospectos", new {id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="far fa-edit"></i></a></li>
-                                            <li class="list-inline-item"><a href="@Url.Action("Details", "Prospectos", new { id = item.IdProspecto })" data-toggle="tooltip" data-placement="top" title="Detalles"><i class="far fa-list-alt"></i></a></li>
-                                        </ul>
-                                    </td>
-                                    <td>@(item.PrimerNombre + " " + item.SegundoNombre + " " + item.PrimerApellido + " " + item.SegundoApellido)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.NumeroDocumento)</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.Telefono<br />@item.Celular</td>
-                                    <td>
-                                        @if (item.ConfirmacionProspecto.IsConfirmed == true)
-                                        {
-                                            <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
+                            
+                @if (Model.Count() > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-12 col-md-6">
+                            <div class="polymer-box">
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-qurii dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Acciones
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new { id = item.IdProspecto })"><i class="far fa-list-alt"></i> Detalles</a>
+                                                <a class="dropdown-item" href="@Url.Action("Edit", "Prospectos", new { id = item.IdProspecto })"><i class="far fa-edit"></i> Editar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Nombre</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        @item.PrimerNombre @item.SegundoNombre @item.PrimerApellido @item.SegundoApellido
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Documento identificación</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">@item.NumeroDocumento</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Teléfono</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">@item.Telefono <br /> @item.Celular</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold"></div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Email</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">@item.Email</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Agencia</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">@item.ConfirmacionProspecto.DescripcionAgencia</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Código del asesor</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">                                                
+                                        @item.ConfirmacionProspecto.Asesor
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Estado</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        @if (item.ConfirmacionProspecto != null)
+                                        {
+                                            if (item.ConfirmacionProspecto.IsConfirmed == true)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> confirmado</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = item.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+
+                                            }
                                         }
                                         else
                                         {
-                                            <label class="text-muted"><i class="far fa-clock"></i> Por confirmar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailConfirmacion", "Prospectos", new { id = item.IdProspecto })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
-
+                                            <label class="text-danger"><i class="fas fa-ban"></i> No disponible</label>
                                         }
-                                    </td>
+                                    </div>
+                                </div>
 
-                                </tr>
 
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="6">
-                                    <h4>No se encontraron registros para la búsqueda seleccionada</h4>
-                                </td>
-                            </tr>
-                        }
 
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    }                    
+                }
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled btn-outline-primary" : "btn-primary";
+                var nextDisabled = !Model.HasNextPage ? "disabled btn-outline-primary" : "btn-primary";
+            }
+
+            <div class="col-12">
+                <div class="row mt-3 justify-content-center">
+                    <div class="col-4 text-center">
+                        <a href="@Url.Action("Index", "Prospectos", new {pageNumber = Model.PageIndex -1})" class="btn btn-qurii  @prevDisabled"><i class="fas fa-chevron-left"></i> Anterior</a>
+
+                    </div>
+                    <div class="col-4 text-center">
+                        <a href="@Url.Action("Index", "Prospectos", new {pageNumber = Model.PageIndex +1})" class="btn btn-qurii   @nextDisabled">Siguiente <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -15,185 +15,188 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            
                 @if (Model.Count() > 0)
                 {
 
                     @foreach (var item in Model)
                     {
-                <div class="polymer-box">
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Acciones
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
-                                    <a class="dropdown-item" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
-                                    <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Nombre</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @item.primer_nombre @item.segundo_nombre @item.primer_apellido @item.segundo_apellido
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Documento identificación</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @item.documento_identidad_suscriptor
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Teléfono</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @item.telefono_suscriptor<br />
-                            @item.celular_suscriptor
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Correo</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @item.email_suscriptor
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Bien</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @item.descripcion_bien
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Valor</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @item.valor_bien
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Número de contrato</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @item.numero_de_contrato
-                        </div>
-                    </div>
-                    @if (item.ConfirmacionContratos != null)
-                    {
-
-                        @if (item.ConfirmacionContratos.FechaCierreComercial != null)
-                        {
+                    <div class="col-12 col-md-6">
+                        <div class="polymer-box">
                             <div class="row">
-                                <div class="col-12 col-md-4 font-weight-bold">Cierre comercial</div>
+                                <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
                                 <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                    @item.ConfirmacionContratos.FechaCierreComercial.ToShortDateString()
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-qurii dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Acciones
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="@Url.Action("Details", "Prospectos", new {id = item.IdProspecto})"><i class="far fa-user"></i> Prospecto</a>
+                                            <a class="dropdown-item" href="@Url.Action("Details", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-list-alt"></i> Detalles</a>
+                                            <a class="dropdown-item" href="@Url.Action("Edit", "ContratoDigital", new {id = item.IdContrato})"><i class="far fa-edit"></i> Editar</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        }
 
-                        <div class="row">
-                            <div class="col-12 col-md-4 font-weight-bold">Estado</div>
-                            <div class="col-12 col-md-8 text-black-65 text-uppercase">
-
-                                <div>
-
-                                    @if (item.ConfirmacionContratos.IsAccepted)
-                                    {
-                                        <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
-                                    }
-                                    else
-                                    {
-                                        <label class="text-muted">
-                                            <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
-                                        </label>
-                                    }
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Nombre</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.primer_nombre @item.segundo_nombre @item.primer_apellido @item.segundo_apellido
                                 </div>
-                                <div>
-                                    @if (item.ConfirmacionContratos.IsIdUploaded)
-                                    {
-                                        <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
-                                    }
-                                    else
-                                    {
-                                        <label class="text-muted">
-                                            <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
-                                        </label>
-
-                                    }
-                                </div>
-                                <div>
-                                    @if (item.ConfirmacionContratos.IsPaid)
-                                    {
-
-                                        <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
-                                    }
-                                    else
-                                    {
-                                        <label class="text-muted">
-                                            <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
-                                        </label>
-
-                                    }
-                                </div>
-                                <div>
-                                    @if (item.ConfirmacionContratos.IsRegistered)
-                                    {
-                                        <label class="text-success"><i class="fas fa-check"></i> Registrado en Siicon</label>
-                                    }
-                                    else
-                                    {
-                                        <label class="text-muted">
-                                            <i class="far fa-clock"></i> Registro en Siicon pendiente
-                                        </label>
-                                    }
-                                </div>
-                                <div>
-                                    @if (item.ConfirmacionContratos.IsRegisteredCommercial)
-                                    {
-                                        <label class="text-success"><i class="fas fa-check"></i> Registrado en Cierre comercial</label>
-                                    }
-                                    else
-                                    {
-                                        <label class="text-muted">
-                                            <i class="far fa-clock"></i> Registro en cierre comercial pendiente
-                                        </label>
-                                    }
-                                </div>
-
-
                             </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Documento identificación</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.documento_identidad_suscriptor
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Teléfono</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.telefono_suscriptor<br />
+                                    @item.celular_suscriptor
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Correo</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.email_suscriptor
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Bien</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.descripcion_bien
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Valor</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.valor_bien
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">Número de contrato</div>
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @item.numero_de_contrato
+                                </div>
+                            </div>
+                            @if (item.ConfirmacionContratos != null)
+                            {
+
+                                @if (item.ConfirmacionContratos.FechaCierreComercial != null)
+                                {
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 font-weight-bold">Cierre comercial</div>
+                                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                            @item.ConfirmacionContratos.FechaCierreComercial.ToShortDateString()
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="row">
+                                    <div class="col-12 col-md-4 font-weight-bold">Estado</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+
+                                        <div>
+
+                                            @if (item.ConfirmacionContratos.IsAccepted)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Condiciones del contrato</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-qurii"><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                </label>
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsIdUploaded)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Documento de identificación</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                </label>
+
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsPaid)
+                                            {
+
+                                                <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-qurii"><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                </label>
+
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsRegistered)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Registrado en Siicon</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Registro en Siicon pendiente
+                                                </label>
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsRegisteredCommercial)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Registrado en Cierre comercial</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Registro en cierre comercial pendiente
+                                                </label>
+                                            }
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            }
                         </div>
-                    }
-                </div>
-
+                    </div>
                     }
                      
                     var prevDisabled = !Model.HasPreviousPage ? "disabled btn-outline-primary" : "btn-primary";
                     var nextDisabled = !Model.HasNextPage ? "disabled btn-outline-primary" : "btn-primary";
                     
-                    <div class="row mt-3 justify-content-center">
-                        <div class="col-2">
-                            <a href="@Url.Action("FindAll", "ContratoDigital", new {pageNumber = Model.PageIndex -1})" class="btn  @prevDisabled"><i class="fas fa-chevron-left"></i> Anterior</a>
-                            
-                        </div>
-                        <div class="col-2">
-                        <a href="@Url.Action("FindAll", "ContratoDigital", new {pageNumber = Model.PageIndex +1})" class="btn  @nextDisabled">Siguiente <i class="fas fa-chevron-right"></i></a>
+                    <div class="col-12">
+                        <div class="row mt-3 justify-content-center">
+                            <div class="col-4 text-center">
+                                <a href="@Url.Action("FindAll", "ContratoDigital", new {pageNumber = Model.PageIndex -1})" class="btn btn-qurii  @prevDisabled"><i class="fas fa-chevron-left"></i> Anterior</a>
+
+                            </div>
+                            <div class="col-4 text-center">
+                                <a href="@Url.Action("FindAll", "ContratoDigital", new {pageNumber = Model.PageIndex +1})" class="btn btn-qurii   @nextDisabled">Siguiente <i class="fas fa-chevron-right"></i></a>
+                            </div>
                         </div>
                     </div>
                 }
 
-            </div>
+            
         </div>
     </div>
 </section>

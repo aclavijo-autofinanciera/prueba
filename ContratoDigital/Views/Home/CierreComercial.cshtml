@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ContratoDigital.Areas.Identity.Data
+@inject SignInManager<ContratoDigitalUser> SignInManager
+@inject UserManager<ContratoDigitalUser> UserManager
+
+
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div style="background: url('../../../../images/background/scooter.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 20rem;">
+                <h1 class="text-white text-center text-shadow" data-aos="fade-in" data-aos-delay="500" style="max-width: 50%;position:absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+                    @{
+                        //var userID = UserManager.GetUserId(User);
+                        var user = UserManager.Users.SingleOrDefault(x => x.Id == UserManager.GetUserId(User));
+                        Write("Bienvenido " + user.Nombre + " " + user.Apellido);
+                    }
+                </h1>
+            </div>
+        </div>
+    </div>
+   <div class="row">
+       <div class="col-12">
+           <div class="alert alert-danger" role="alert">
+               <h3>Su solicitud no puede ser procesada por que no hay una fecha de cierre comercial asignada</h3>
+           </div>
+       </div>
+   </div>
+
+</div>

@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" >
 <head>
     <meta name="robots" content="index,follow">
@@ -28,89 +27,46 @@
     <meta name="msapplication-square310x310logo" content="~/mstile-310x310.png" />
 
     <meta name="keywords" content="">
-    <title>@ViewData["Title"] - Mi Contrato</title>
-
-    <environment include="Development">
-        @*<link rel="stylesheet" href="~/css/localfonts.css" />*@
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" />
-        <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/AOS/aos.css" />
-        <link rel="stylesheet" href="~/css/base-1.0.4.css" />
-    </environment>
-    <environment exclude="Development">
-        @*<link href="~/css/localfonts.css" rel="stylesheet" />*@
-        <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="stylesheet" href="~/css/base-1.0.4.css" asp-append-version="true" />
-    </environment>
+    <title>@ViewData["Title"] - Qurii</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/AOS/aos.css" />
+    <link rel="stylesheet" href="~/css/base-1.0.4.css" asp-append-version="true" />
+    
 </head>
-<body>
-    @{
-        int code = new Random().Next(0, 9);
-        string name = "";
-        switch (code)
-        {
-            case 0:
-                name = "anotherscooter";
-                break;
-            case 1:
-                name = "bags";
-                break;
-            case 2:
-                name = "bikeback";
-                break;
-            case 3:
-                name = "bogota-at-night";
-                break;
-            case 4:
-                name = "castillogrande";
-                break;
-            case 5:
-                name = "contract";
-                break;
-            case 6:
-                name = "facades";
-                break;
-            case 7:
-                name = "prospect";
-                break;
-            case 8:
-                name = "scooter";
-                break;
-        }
-    }
-    <div style="background: url('../../../../images/background/@(Html.Raw(name)).jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 50rem;">
-
-
+<body>    
+    @*<div style="background: url('../../../../images/qurii-pattern.jpg') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;min-height: 50rem;">*@
+    <div style="background: url('../../../../images/background/qurii-pattern.jpg'); ">
+        
         @RenderBody()
+        
     </div>
-    <footer>
+    <footer class="">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" style="border-bottom: solid #fff 2px;">
-                    <img src="~/images/serven_white.png" class="img-fluid p-3" style="max-height:150px;" />
-
+            <div class="row justify-content-center" style="border-bottom: solid #fff 2px;">
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo-footer" alt="Autofinanciera SA" />
+                </div>
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/serven_white.png" class="img-fluid p-1" style="max-height:80px;" alt="Serven SA" />
+                </div>
+                <div class="col-12 col-md-3 text-center">
+                    <img src="~/images/Fonbienes-electroplan-white.png" class="img-fluid p-1" style="max-height:80px;" alt="Electroplan SA" />
                 </div>
             </div>
-            <div class="row align-items-center  mt-4">
-                <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/logo_autofinanciera_white.png" class="img-fluid logo-footer" alt="Autofinanciera" />
-                </div>
-                <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/superintendencia_sociedades_white.png" class="img-fluid" alt="Superintendencia de Sociedades" />
-                </div>
-                <div class="col-12 col-md-3 text-center">
-                    <img src="~/images/logo_electroplan_blanco.png" class="img-fluid" alt="Superintendencia de Sociedades" />
+            <div class="row justify-content-center  mt-4">
+                <div class="col-12 col-sm-5 col-md-4 text-center text-white mt-2">
+                    <p>                        
+                        Vigilado por la Superintendencia de Sociedades<br />
+                        <i class="far fa-copyright"></i> Autofinanciera S.A. 1971 - @DateTime.Today.Year<br />
+                        <i class="far fa-copyright"></i> Fonbienes, Colombia, S.A. 1987 - @DateTime.Today.Year<br />
+                    </p>
                 </div>
 
-                <div class="col-12 col-sm-4 col-md-3 text-white">
+                <div class="col-12 col-sm-5 col-md-4 text-white text-center">
                     <h5>Sede principal y administrativa</h5>
                     <p>
                         Carrera 7 no. 24-89 Torre Colpatria Piso 17<br />
@@ -118,47 +74,20 @@
                         Bogotá - Colombia
                     </p>
                 </div>
-                <div class="col-12 text-center text-white mt-2">
-                    <p>
-                        Vigilado por la superintendencia de sociedades<br />
-                        <i class="far fa-copyright"></i> Autofinanciera 1971 - @DateTime.Today.Year
-                    </p>
-                </div>
+
             </div>
         </div>
     </footer>
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery-3.3.1.js"></script>
-        <script src="~/lib/jquery-validation/1.19.0/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation/1.19.0/additional-methods.js"></script>
-        <script src="~/lib/bootstrap/dist/js/popper.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
-        <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
-        <script src="~/js/base-1.0.27.js" asp-append-version="true"></script>
-        <script src="~/js/Freyja-1.0.4.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"
-                asp-fallback-src="~/lib/jquery-validation/1.19.0/jquery.validate.min.js"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/additional-methods.min.js"
-                asp-fallback-src="~/lib/jquery-validation/1.19.0/additional-methods.min.js"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
-        <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <script src="~/js/base-1.0.27.js" asp-append-version="true"></script>
-        <script src="~/js/Freyja-1.0.4.js" asp-append-version="true"></script>
-    </environment>
+    
+    <script src="~/lib/jquery/dist/jquery-3.3.1.min.js"></script>
+    <script src="~/lib/jquery-validation/1.19.0/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/1.19.0/additional-methods.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js" asp-append-version="true"></script>
+    <script src="~/lib/AOS/aos.js" asp-append-version="true"></script>
+    <script src="~/js/base-1.0.28.js" asp-append-version="true"></script>        
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

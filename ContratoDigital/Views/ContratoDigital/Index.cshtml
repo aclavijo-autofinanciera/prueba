@@ -26,7 +26,7 @@
                                 <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
                                 <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button type="button" class="btn btn-qurii dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Acciones
                                         </button>
                                         <div class="dropdown-menu">
@@ -97,7 +97,7 @@
                                             else
                                             {
                                                 <label class="text-muted">
-                                                    <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                    <i class="far fa-clock"></i> Condiciones del contrato&nbsp;&nbsp;<span class="badge badge-qurii"><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
                                                 </label>
                                             }
                                         </div>
@@ -109,7 +109,7 @@
                                             else
                                             {
                                                 <label class="text-muted">
-                                                    <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                    <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato= item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
                                                 </label>
 
                                             }
@@ -123,20 +123,32 @@
                                             else
                                             {
                                                 <label class="text-muted">
-                                                    <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                    <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-qurii"><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
                                                 </label>
 
                                             }
                                         </div>
                                         <div>
-                                            @if (item.ConfirmacionContratos.IsVerified)
+                                            @if (item.ConfirmacionContratos.IsRegistered)
                                             {
-                                                <label class="text-success"><i class="fas fa-check"></i> ARD</label>
+                                                <label class="text-success"><i class="fas fa-check"></i> Registrado en Siicon</label>
                                             }
                                             else
                                             {
                                                 <label class="text-muted">
-                                                    <i class="far fa-clock"></i> ARD
+                                                    <i class="far fa-clock"></i> Registro en Siicon pendiente
+                                                </label>
+                                            }
+                                        </div>
+                                        <div>
+                                            @if (item.ConfirmacionContratos.IsRegisteredCommercial)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Registrado en Cierre comercial</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted">
+                                                    <i class="far fa-clock"></i> Registro en cierre comercial pendiente
                                                 </label>
                                             }
                                         </div>

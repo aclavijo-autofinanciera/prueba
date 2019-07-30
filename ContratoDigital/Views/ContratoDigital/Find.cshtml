@@ -53,7 +53,7 @@
                    
                     <div class="form-row mt-4">
                         <div class="col text-center">
-                            <button type="submit" class="btn btn-azul btn-lg">
+                            <button type="submit" class="btn btn-qurii btn-lg">
                                 <i class="fas fa-search"></i> Buscar
                             </button>
                         </div>
@@ -73,10 +73,10 @@
                 <div class="col-12">
                     Resultados de la búsqueda<hr />
                     <h2>
-                        <span class="badge badge-autofinanciera">@ViewData["NumeroDocumento"]</span>
-                        <span class="badge badge-autofinanciera">@ViewData["NumeroContrato"]</span>
-                        <span class="badge badge-autofinanciera">@ViewData["Nombre"]</span>
-                        <span class="badge badge-autofinanciera">@ViewData["Apellido"]</span>
+                        <span class="badge badge-qurii">@ViewData["NumeroDocumento"]</span>
+                        <span class="badge badge-qurii">@ViewData["NumeroContrato"]</span>
+                        <span class="badge badge-qurii">@ViewData["Nombre"]</span>
+                        <span class="badge badge-qurii">@ViewData["Apellido"]</span>
                     </h2>
                 </div>
                 <div class="col-12">
@@ -92,7 +92,7 @@
                                         <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
                                         <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-azul dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn btn-qurii dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     Acciones
                                                 </button>
                                                 <div class="dropdown-menu">
@@ -180,7 +180,7 @@
                                                     else
                                                     {
                                                         <label class="text-muted">
-                                                            <i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                            <i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
                                                         </label>
                                                     }
                                                 </div>
@@ -192,7 +192,7 @@
                                                     else
                                                     {
                                                         <label class="text-muted">
-                                                            <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                            <i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
                                                         </label>
 
                                                     }
@@ -206,7 +206,7 @@
                                                     else
                                                     {
                                                         <label class="text-muted">
-                                                            <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
+                                                            <i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = item.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span>
                                                         </label>
 
                                                     }

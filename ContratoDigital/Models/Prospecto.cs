@@ -25,7 +25,7 @@ namespace ContratoDigital.Models
         public string Tipo_de_Bien { get; set; }
         public int Id_Tipo_Bien { get; set; }
         public int IdFechaMedio { get; set; }
-        public int IdTipoBienParametro { get;set;}
+        public int IdTipoBienParametro { get; set; }
         public string Marca_exclusiva_bien { get; set; }
         public int Id_marca { get; set; }
         public string Detalles_bien { get; set; }
@@ -47,10 +47,25 @@ namespace ContratoDigital.Models
         public double IvaAdministracion { get; set; }
         public double TotalCuotaBruta { get; set; }
         public double ValorTotalPrimerPago { get; set; }
-                
+
+        // Vis-a-vis
+        public string TipoDeVenta { get; set; }
+        public string RangoEdad { get; set; }
+        public string VehiculoDeseado { get; set; }
+        public string EstadoCivil { get; set; }
+        public double Ingresos { get; set; }
+        public string Profesion { get; set; }
+        public bool PoseeVehiculo { get; set; }
+        public string ReferenciaVehiculoActual{get;set;}
+        public string CuandoProspectaVehiculo { get; set; }
+        public string Localidad { get; set; }
+        public string Medio { get; set; }
+
+
 
         public virtual ICollection<Contrato> Contratos { get; set; }
         public virtual ConfirmacionProspecto ConfirmacionProspecto {get; set;}
+        
         
     }
 }

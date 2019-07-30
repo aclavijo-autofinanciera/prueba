@@ -39,25 +39,72 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-black-6c">
+                    <a class="navbar-brand" href="@Url.Action("Details", "Prospectos", new { id = Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            @if (Model.ConfirmacionContratos.IsAccepted == false)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Edit", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-edit"></i> Editar</a>
+                                </li>
+                            }
+
+                            @if (Model.ConfirmacionContratos.IsRegistered)
+                            {
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="@Url.Action("Generate", "ContratoDigital", new { id = Model.IdContrato })"><i class="far fa-file-pdf"></i> Generar contrato</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar contrato por correo</a>
+                                </li>
+                            }
+                            @if (!Model.ConfirmacionContratos.IsPaid)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="@Url.Action("Index", "Prospectos")" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-receipt"></i> Pagos
+                                    </a>
+                                    <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
+                                        <a class="dropdown-item" href="@Url.Action("GenerateReference", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-file-invoice-dollar"></i> Generar nuevo referencia de pago</a>
+                                        <a class="dropdown-item" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Imprimir última guía de pago</a>
+                                        <a class="dropdown-item" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar últimA guía de pago por correo</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="@Url.Action("RegisterManualPay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-calculator"></i> Cargar pagos manuales no convencionales</a>
+                                    </div>
+                                </li>
+                            }
+
+                        </ul>
+
+                    </div>
+                </nav>
+            </div>
+
             <!-- Begin -->
-            <div class="col-12 col-md-8 error-area">
+            <div class="col-12 error-area">
 
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <div class="polymer-box">
                     <h4 class="text-center">Datos suscriptor</h4>
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">
+                        <div class="col-12 font-weight-bold">
                             Estado del contrato
                         </div>
-                        <div class="col-12 col-md-8 text-black-65">
+                        <div class="col-12 text-black-65">
                             @*ViewData["Estado"]*@
                             <hr />
                             <div class="isAccepted">
@@ -67,7 +114,17 @@
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Condiciones del contrato por aceptar&nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("EmailContract", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                }
+                            </div>
+                            <div class="isRegisteredCommercial">
+                                @if (Model.ConfirmacionContratos.IsRegisteredCommercial)
+                                {
+                                    <label class="text-success"><i class="fas fa-check"></i> Registrado en cierre comercial</label>
+                                }
+                                else
+                                {
+                                    <label class="text-muted"><i class="far fa-clock"></i> Registro en cierre comercial pendiente</label>
                                 }
                             </div>
                             <div class="isIdUploaded">
@@ -77,7 +134,7 @@
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Documento identificación &nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
 
                                 }
                             </div>
@@ -89,7 +146,7 @@
                                 }
                                 else
                                 {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-azul "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
+                                    <label class="text-muted"><i class="far fa-clock"></i> Por pagar &nbsp;&nbsp;<span class="badge badge-qurii "><a href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })" class="text-white"><i class="fas fa-reply-all"></i>&nbsp;&nbsp;Reenvíar</a></span></label>
 
                                 }
                             </div>
@@ -103,17 +160,8 @@
                                     <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
                                 }
                             </div>
-                            <div class="isRegisteredCommercial">
-                                @if (Model.ConfirmacionContratos.IsRegisteredCommercial)
-                                {
-                                    <label class="text-success"><i class="fas fa-check"></i> Registrado en cierre comercial</label>
-                                }
-                                else
-                                {
-                                    <label class="text-muted"><i class="far fa-clock"></i> Registro en cierre comercial pendiente</label>
-                                }
-                            </div>
-                            <div class="isRegisteredCommercial">
+
+                            <div class="isContractReceived">
                                 @if (Model.ConfirmacionContratos.IsContractReceived)
                                 {
                                     <label class="text-success"><i class="fas fa-check"></i> Contrato recibido por el cliente</label>
@@ -124,14 +172,24 @@
                                 }
                             </div>
                             <div>
-                                <button class="btn btn-primary" data-contrato="@Model.IdContrato" id="RefreshStatusContrato"><i class="fas fa-sync"></i> Actualizar</button>
+                                <button class="btn btn-qurii" data-contrato="@Model.IdContrato" id="RefreshStatusContrato"><i class="fas fa-sync"></i> Actualizar</button>
                             </div>
                             <hr />
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="polymer-box">
                     <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Registrado por</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                        <div class="col-12 font-weight-bold">
+                            Fechas de auditoría del contrato
+                            <hr />
+                        </div>
+
+                        <div class="col-12 col-md-6 font-weight-bold">Registrado por</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
                             @{
                                 var user = UserManager.Users.SingleOrDefault(x => x.Id == Model.ConfirmacionContratos.UserId);
                                 Write(user.Nombre + " " + user.Apellido);
@@ -141,8 +199,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Asignado a</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                        <div class="col-12 col-md-6 font-weight-bold">Asignado a</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
                             @{
                                 if (Model.ConfirmacionContratos.Asesor > 0)
                                 {
@@ -160,22 +218,59 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Fecha de registro</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                        <div class="col-12 col-md-6 font-weight-bold">Creación</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
                             @String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaCreacion)
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">Cierre Comercial</div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaCierreComercial)
+                        <div class="col-12 col-md-6 font-weight-bold">Cierre Comercial</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
+                            @{
+                                DateTime date = new DateTime();
+                                Write(Model.ConfirmacionContratos.FechaCierreComercial > date ? String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaCierreComercial) : "No disponible");
+                            }
+                            
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-12 col-md-6 font-weight-bold">Aceptación de condiciones</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
+                            @{                                
+                                Write(Model.ConfirmacionContratos.FechaAceptacion > date ? String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaAceptacion) : "No disponible");
+                                }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 font-weight-bold">Pago completado</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
+                            @{
+                                Write(Model.ConfirmacionContratos.FechaPago > date ? String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaPago) : "No disponible");
+                            }
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 font-weight-bold">Registro en Siicon</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
+                            @{
+                                Write(Model.ConfirmacionContratos.FechaRegistro > date ? String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaRegistro) : "No disponible");
+                            }                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6 font-weight-bold">Recepción del contrato</div>
+                        <div class="col-12 col-md-6 text-black-65 text-uppercase">
+                            @{
+                                Write(Model.ConfirmacionContratos.FechaContratoRecibido > date ? String.Format("{0:yyyy-MM-dd}", Model.ConfirmacionContratos.FechaContratoRecibido) : "No disponible");
+                            }                            
+                        </div>
+                    </div>  
+                    <hr />
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-12">
 
                 <div class="polymer-box">
                     <div class="row">
@@ -186,78 +281,86 @@
                             @(Model.primer_nombre + " " + Model.segundo_nombre + " " + Model.primer_apellido + " " + Model.segundo_apellido)
                         </div>
                     </div>
+                    
                 </div>
+                
             </div>
 
-            <div class="col-12 col-md-8">
-                <div class="polymer-box">
-                    <div class="row">
-                        <div class="col-12 col-md-4 font-weight-bold">
-                            Documento Identidad
-                        </div>
-                        <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                            @ViewData["TipoIdentificacionSuscriptor"] - @Model.documento_identidad_suscriptor
-                        </div>
-                    </div>
-                </div>
-                @if (Model.DocumentoIdentidad != null)
-                {
-                    <div class="polymer-box">
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <a href="@Url.Action("UploadId", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Actualizar documento</a>
-                                <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar actualización de documento</a>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#documentoModal" data-fetched="false" data-idcontrato="@Model.IdContrato" id="showDocs">
-                                    Ver documentos
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                }
-                else
-                {
-                    <div class="polymer-box">
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <a href="@Url.Action("UploadId", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Adjuntar cédula</a>
-                                <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-azul">Solicitar adjunto de documento</a>
-                            </div>
-                        </div>
-                    </div>
-
-                }
-                <section>
-                    <!-- Modal -->
-                    <div class="modal fade" id="documentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Documento identidad - @Model.documento_identidad_suscriptor </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+            <div class="col-12">
+                <div class="row">
+                    <div class=" col-12 col-md-6">
+                        <div class="polymer-box">
+                            <div class="row">
+                                <div class="col-12 col-md-4 font-weight-bold">
+                                    Documento Identidad
                                 </div>
-                                <div class="modal-body">
-                                    <section class="DocumentoModal">
-                                        <div class="polymer-box">
-                                            <h5>Anverso</h5>
-                                            <div class="AnversoDocumento"></div>
-                                        </div>
-                                        <div class="polymer-box">
-                                            <h5>Reverso</h5>
-                                            <div class="ReversoDocumento"></div>
-                                        </div>
-                                    </section>
-
+                                <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @ViewData["TipoIdentificacionSuscriptor"] - @Model.documento_identidad_suscriptor
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </div>
+                        </div>
+                    <div class="col-12 col-md-6">
+                        @if (Model.DocumentoIdentidad != null)
+                        {
+                            <div class="polymer-box">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <a href="@Url.Action("UploadId", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-azul">Actualizar documento</a>
+                                        <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-qurii">Solicitar actualización de documento</a>
+                                        <button type="button" class="btn btn-qurii" data-toggle="modal" data-target="#documentoModal" data-fetched="false" data-idcontrato="@Model.IdContrato" id="showDocs">
+                                            Ver documentos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-            <div class="col-12 col-md-8">
+                        }
+                        else
+                        {
+                            <div class="polymer-box">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <a href="@Url.Action("UploadId", "ContratoDigital", new { id = Model.IdContrato })" class="btn btn-qurii">Adjuntar cédula</a>
+                                        <a href="@Url.Action("RequestRemoteUpload", "ContratoDigital", new { idContrato = Model.IdContrato })" class="btn btn-qurii">Solicitar adjunto de documento</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                    <section>
+                        <!-- Modal -->
+                        <div class="modal fade" id="documentoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Documento identidad - @Model.documento_identidad_suscriptor </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <section class="DocumentoModal">
+                                            <div class="polymer-box">
+                                                <h5>Anverso</h5>
+                                                <div class="AnversoDocumento"></div>
+                                            </div>
+                                            <div class="polymer-box">
+                                                <h5>Reverso</h5>
+                                                <div class="ReversoDocumento"></div>
+                                            </div>
+                                        </section>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -273,7 +376,7 @@
             @if (!String.IsNullOrEmpty(Model.nombre_razon_social_representante_legal))
             {
 
-                <div class="col-12 col-md-8 mt-3">
+                <div class="col-12 col-md-6 mt-3">
                     <div class="polymer-box">
                         <h5>Representante legal</h5>
                     </div>
@@ -311,7 +414,7 @@
 
 
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -324,7 +427,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -337,7 +440,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -350,7 +453,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -363,7 +466,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -376,7 +479,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -390,7 +493,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -403,7 +506,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -416,7 +519,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -429,7 +532,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -448,7 +551,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -461,7 +564,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -474,7 +577,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -487,7 +590,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -500,7 +603,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -513,7 +616,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4  font-weight-bold">
@@ -528,13 +631,13 @@
 
             @if (Model.documento_identidad_suscriptor_conjunto > 0)
             {
-                <div class="col-12 col-md-8 mt-4 font-weight-bold">
+                <div class="col-12 col-md-12 mt-4 font-weight-bold">
                     <div class="polymer-box">
                         <h4 class="text-center">Datos suscriptor conjunto</h4>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -547,7 +650,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -560,7 +663,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -575,7 +678,7 @@
 
                 @if (!String.IsNullOrEmpty(Model.representante_legal_suscriptor_conjunto))
                 {
-                    <div class="col-12 col-md-8 mt-4">
+                    <div class="col-12 col-md-6 mt-4">
                         <div class="polymer-box">
                             <div class="row">
                                 <div class="col-12 col-md-4 font-weight-bold">
@@ -605,7 +708,7 @@
                     </div>
                 }
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -618,7 +721,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -631,7 +734,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -644,7 +747,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -657,7 +760,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -670,7 +773,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -683,7 +786,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -696,7 +799,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -709,7 +812,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -722,7 +825,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -741,7 +844,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -754,7 +857,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -767,7 +870,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -780,7 +883,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -793,7 +896,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -806,7 +909,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-6">
                     <div class="polymer-box">
                         <div class="row">
                             <div class="col-12 col-md-4 font-weight-bold">
@@ -822,7 +925,7 @@
             }
 
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -835,7 +938,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -848,7 +951,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -861,7 +964,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -874,13 +977,13 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8 mt-4">
+            <div class="col-12 mt-4">
                 <div class="polymer-box">
                     <h3 class="text-center">Características del bien</h3>
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -893,7 +996,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -906,7 +1009,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -919,7 +1022,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -932,7 +1035,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -945,7 +1048,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -958,7 +1061,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -987,7 +1090,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1000,7 +1103,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1013,13 +1116,13 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8 mt-4 font-weight-bold">
+            <div class="col-12 mt-4 font-weight-bold">
                 <div class="polymer-box">
                     <h3 class="text-center">Pago inicial</h3>
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1032,7 +1135,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1045,7 +1148,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1058,7 +1161,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1071,7 +1174,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1084,7 +1187,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1097,7 +1200,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1110,7 +1213,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-6">
                 <div class="polymer-box alert alert-success" role="alert">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1122,7 +1225,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1135,13 +1238,13 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8 mt-4 font-weight-bold">
+            <div class="col-12 mt-4 font-weight-bold">
                 <div class="polymer-box">
                     <h3 class="text-center">Cuadro resumen de pago</h3>
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12 ">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1172,7 +1275,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1208,7 +1311,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <div class="polymer-box">
                     <div class="row">
                         <div class="col-12 col-md-4 font-weight-bold">
@@ -1220,7 +1323,7 @@
                             {
                                 <div class="row">
                                     <div class="col-12 col-md-4"><strong>Monto</strong></div>
-                                    <div class="col-12 col-md-4"><strong>Fecha emisión</strong></div>
+                                    <div class="col-12 col-md-4"><strong>Fecha recepción</strong></div>
                                     <div class="col-12 col-md-4"><strong>Referencia de pago</strong></div>
                                 </div>
                                 @foreach (var item in Model.Pagos)
@@ -1244,7 +1347,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-8">
+            <div class="col-12">
                 <div class="polymer-box">
                     <h4>Pagos registrados manualmente</h4>
                     @if (Model.PagosManuales.Count > 0)
@@ -1312,7 +1415,7 @@
             <div class="col">
                 <hr />
 
-                <nav class="navbar navbar-expand-lg navbar-dark bg-azul">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-black-6c">
                     <a class="navbar-brand" href="@Url.Action("Details", "Prospectos", new { id = Model.IdProspecto })"><i class="far fa-arrow-alt-circle-left"></i> Regresar</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -1340,12 +1443,12 @@
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="@Url.Action("Index", "Prospectos")" data-target="contratosDigitalesMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-receipt"></i> Recibo
+                                        <i class="fas fa-receipt"></i> Pagos
                                     </a>
                                     <div class="dropdown-menu" id="contratosDigitalesMenuDropdown">
-                                        <a class="dropdown-item" href="@Url.Action("GenerateReference", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-file-invoice-dollar"></i> Generar nuevo recibo de pago</a>
-                                        <a class="dropdown-item" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Imprimir último recibo de pago</a>
-                                        <a class="dropdown-item" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar último recibo de pago por correo</a>
+                                        <a class="dropdown-item" href="@Url.Action("GenerateReference", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-file-invoice-dollar"></i> Generar nueva referencia de pago</a>
+                                        <a class="dropdown-item" href="@Url.Action("Pay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-receipt"></i> Imprimir última guía de pago</a>
+                                        <a class="dropdown-item" href="@Url.Action("EmailInvoice", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-envelope"></i> Envíar última guía de pago por correo</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="@Url.Action("RegisterManualPay", "ContratoDigital", new { id = Model.IdContrato })"><i class="fas fa-calculator"></i> Cargar pagos manuales no convencionales</a>
                                     </div>

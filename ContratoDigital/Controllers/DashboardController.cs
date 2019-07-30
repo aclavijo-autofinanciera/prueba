@@ -59,7 +59,7 @@ namespace ContratoDigital.Controllers
             if (!isAdmin)
             {
                 return RedirectToAction("AccessDenied", "Home");
-            }
+            }            
             return View();
         }
 
@@ -109,31 +109,55 @@ namespace ContratoDigital.Controllers
 
             string first = resultSiicon;
             string second = resultAsesor;
-
-            if (!String.IsNullOrEmpty(resultSiicon) && resultSiicon != "[]")
+            if(form["Rol"].Contains("Asesor"))
             {
-                dynamic jsonSiicon = JsonConvert.DeserializeObject<dynamic>(resultSiicon);
-                user.IdSiicon = jsonSiicon.First.TerceroId;
+                /*if (!String.IsNullOrEmpty(resultSiicon) && resultSiicon != "[]")
+                {
+                    dynamic jsonSiicon = JsonConvert.DeserializeObject<dynamic>(resultSiicon);
+                    user.IdSiicon = jsonSiicon.First.TerceroId;
+                }
+                else
+                {
+                    return RedirectToAction("Users", "Dashboard", new { e = (int)Constants.ErrorList.NoPoseeTerceroID });
+                }*/
+                if (!String.IsNullOrEmpty(resultAsesor) && resultAsesor != "[]")
+                {
+                    dynamic jsonAsesor = JsonConvert.DeserializeObject<dynamic>(resultAsesor);
+                    user.Asesor = jsonAsesor.First.CodAsesor;
+                    user.IdSiicon = jsonAsesor.First.TerceroId;
+                }
+                else
+                {
+                    return RedirectToAction("Users", "Dashboard", new { e = (int)Constants.ErrorList.NoPoseeTerceroID });
+                }
+
+                if (user.Asesor.Equals(0) && String.IsNullOrEmpty(user.IdSiicon))
+                {
+                    return RedirectToAction("Users", "Dashboard", new { e = (int)Constants.ErrorList.NoPoseeIDSiicon });
+                    //return View(user);                
+                }
             }
             else
             {
-                user.IdSiicon = ""; 
-            }
-            if(!String.IsNullOrEmpty(resultAsesor) && resultAsesor!="[]")
-            {
-                dynamic jsonAsesor = JsonConvert.DeserializeObject<dynamic>(resultAsesor);
-                user.Asesor = jsonAsesor.First.CodAsesor;
-            }
-            else
-            {
-                user.Asesor = 0;
-            }
+                if (!String.IsNullOrEmpty(resultSiicon) && resultSiicon != "[]")
+                {
+                    dynamic jsonSiicon = JsonConvert.DeserializeObject<dynamic>(resultSiicon);
+                    user.IdSiicon = jsonSiicon.First.TerceroId;
+                    user.Asesor = 0;
+                }
+                else
+                {
+                    return RedirectToAction("Users", "Dashboard", new { e = (int)Constants.ErrorList.NoPoseeTerceroID });
+                }
+                
 
-            if(user.Asesor.Equals(0) && String.IsNullOrEmpty(user.IdSiicon))
-            {
-                ViewData["Error"] = "El usuario no pudo ser creado por que no tiene un usuario o número de asesor asignado en el SIICON";
-                return View(user);                
+                if (String.IsNullOrEmpty(user.IdSiicon))
+                {
+                    return RedirectToAction("Users", "Dashboard", new { e = (int)Constants.ErrorList.NoPoseeIDSiicon });
+                    //return View(user);                
+                }
             }
+            
 
             IdentityResult chkUser = await _userManager.CreateAsync(user, userPwd);
             if (chkUser.Succeeded)
@@ -166,6 +190,46 @@ namespace ContratoDigital.Controllers
                 return View(new ContratoDigitalUser());
             }
             
+        }
+
+        public IActionResult EditUser(string id)
+        {
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+            ContratoDigitalUser user = _userManager.FindByNameAsync(id).Result;
+            if (user != null)
+            {
+                return View(user);
+            }
+            else
+            {
+                ViewData["Error"] = "El usuario no existe";
+                return View(new ContratoDigitalUser());
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(IFormCollection form)
+        {
+            bool isAdmin = _userManager.IsInRoleAsync(_userManager.Users.SingleOrDefault(x => x.Id == _userManager.GetUserId(User)), "Administrador").Result;
+            if (!isAdmin)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+            ContratoDigitalUser user = _userManager.FindByNameAsync(form["UserName"]).Result;
+            user.Nombre = form["Nombre"];
+            user.Apellido = form["Apellido"];
+            user.Email = form["Email"];            
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, form["Password"]);                        
+            var roles = _userManager.GetRolesAsync(user).Result;
+            await _userManager.RemoveFromRolesAsync(user, roles);
+            await _userManager.AddToRoleAsync(user, form["Rol"]);
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("UserDetails", "Dashboard", new { id = user.UserName });
         }
         #endregion
 

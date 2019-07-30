@@ -11,7 +11,7 @@ namespace SiiconTest
 {
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30310-0943")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SiiconTest.IService")]
     public interface IService
     {
@@ -54,6 +54,9 @@ namespace SiiconTest
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTiposBienesCompañiaAgencia", ReplyAction="http://tempuri.org/IService/SelecccionarTiposBienesCompañiaAgenciaResponse")]
         System.Threading.Tasks.Task<string> SelecccionarTiposBienesCompañiaAgenciaAsync(string CompañiaId, int CodAgencia);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTiposBienesCompañiaAgencia2", ReplyAction="http://tempuri.org/IService/SelecccionarTiposBienesCompañiaAgencia2Response")]
+        System.Threading.Tasks.Task<string> SelecccionarTiposBienesCompañiaAgencia2Async(string CompañiaId, int CodAgencia, string TipoReajuste);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarPorcAdministracionCompañia", ReplyAction="http://tempuri.org/IService/SelecccionarPorcAdministracionCompañiaResponse")]
         System.Threading.Tasks.Task<string> SelecccionarPorcAdministracionCompañiaAsync(string CompañiaId);
@@ -128,6 +131,7 @@ namespace SiiconTest
                     int CodAsesor, 
                     string FechaAdhesion, 
                     float ValorBien, 
+                    float ValorTotalPagar, 
                     int CodConcesionario, 
                     int CodMarca, 
                     string FechaCierre, 
@@ -244,15 +248,21 @@ namespace SiiconTest
                     string SerialUnicoTransaccion, 
                     string ValidarorCorresponsalATH, 
                     string CompañiaId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/ActualizarValorTotalPagadoCierreComercial", ReplyAction="http://tempuri.org/IService/ActualizarValorTotalPagadoCierreComercialResponse")]
+        System.Threading.Tasks.Task<string> ActualizarValorTotalPagadoCierreComercialAsync(int Contrato, float ValorTotalPagado, string TerceroCreadorId, string CompañiaId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarDescuentosTiposBienesPlazos", ReplyAction="http://tempuri.org/IService/SeleccionarDescuentosTiposBienesPlazosResponse")]
+        System.Threading.Tasks.Task<string> SeleccionarDescuentosTiposBienesPlazosAsync(string CompañiaId, int TipoBienId, int Plazo);
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30310-0943")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     public interface IServiceChannel : SiiconTest.IService, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30310-0943")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
     public partial class ServiceClient : System.ServiceModel.ClientBase<SiiconTest.IService>, SiiconTest.IService
     {
         
@@ -361,6 +371,11 @@ namespace SiiconTest
             return base.Channel.SelecccionarTiposBienesCompañiaAgenciaAsync(CompañiaId, CodAgencia);
         }
         
+        public System.Threading.Tasks.Task<string> SelecccionarTiposBienesCompañiaAgencia2Async(string CompañiaId, int CodAgencia, string TipoReajuste)
+        {
+            return base.Channel.SelecccionarTiposBienesCompañiaAgencia2Async(CompañiaId, CodAgencia, TipoReajuste);
+        }
+        
         public System.Threading.Tasks.Task<string> SelecccionarPorcAdministracionCompañiaAsync(string CompañiaId)
         {
             return base.Channel.SelecccionarPorcAdministracionCompañiaAsync(CompañiaId);
@@ -451,13 +466,14 @@ namespace SiiconTest
                     int CodAsesor, 
                     string FechaAdhesion, 
                     float ValorBien, 
+                    float ValorTotalPagar, 
                     int CodConcesionario, 
                     int CodMarca, 
                     string FechaCierre, 
                     string CompañiaId, 
                     string TerceroId)
         {
-            return base.Channel.CrearCierreComercialAsync(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, TipoDocumentoIdentidadId, NumeroDocumento, Contrato, CodTipoBien, TipoMedioId, MedioId, CodAgencia, CodAsesor, FechaAdhesion, ValorBien, CodConcesionario, CodMarca, FechaCierre, CompañiaId, TerceroId);
+            return base.Channel.CrearCierreComercialAsync(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, TipoDocumentoIdentidadId, NumeroDocumento, Contrato, CodTipoBien, TipoMedioId, MedioId, CodAgencia, CodAsesor, FechaAdhesion, ValorBien, ValorTotalPagar, CodConcesionario, CodMarca, FechaCierre, CompañiaId, TerceroId);
         }
         
         public System.Threading.Tasks.Task<string> CrearContratoAsync(
@@ -583,6 +599,16 @@ namespace SiiconTest
                     string CompañiaId)
         {
             return base.Channel.RegistrarPagoTuCompraAsync(CodigoFactura, ValorFactura, TransaccionAprobada, CodigoAutorizacion, FirmaTuCompra, NumeroTransaccion, MetodoPago, NombreMetodo, Banco, ValorBase, ValorIva, ValorReteiva, ValorReteica, ValorRetefuente, Descripcion, Descripcion2, Detalle, FechaPago, NumeroTarjeta, NumeroCuotas, CorreoComprador, NombreComprador, ApellidoComprador, DocumentoComprador, TelefonoComprador, DireccionComprador, IPComprador, CiudadComprador, PaisComprador, EstadoPago, RazonRechazo, TipoTarjeta, CategoriaTarjeta, PaisEmisor, TelefonoBancoEmisor, ValorComisionBancaria, ValorDepositoBanco, BancoRecaudador, HoraPago, Caja, FormaPago, Oficina, CuentaBanco, Jornada, TipoRegistro, Operador, TipoTransaccion, DescripcionTipoTransaccion, FechaSaldoAplicado, CodBancoRecaudador, CelularTerminalTuCompra, CelularNroConvenio, Celular, TerminalTuCompra, NroConvenio, SerialUnicoTransaccion, ValidarorCorresponsalATH, CompañiaId);
+        }
+        
+        public System.Threading.Tasks.Task<string> ActualizarValorTotalPagadoCierreComercialAsync(int Contrato, float ValorTotalPagado, string TerceroCreadorId, string CompañiaId)
+        {
+            return base.Channel.ActualizarValorTotalPagadoCierreComercialAsync(Contrato, ValorTotalPagado, TerceroCreadorId, CompañiaId);
+        }
+        
+        public System.Threading.Tasks.Task<string> SeleccionarDescuentosTiposBienesPlazosAsync(string CompañiaId, int TipoBienId, int Plazo)
+        {
+            return base.Channel.SeleccionarDescuentosTiposBienesPlazosAsync(CompañiaId, TipoBienId, Plazo);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

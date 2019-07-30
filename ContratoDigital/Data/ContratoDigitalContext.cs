@@ -28,6 +28,9 @@ namespace ContratoDigital.Data
         public DbSet<Pagos> Pagos { get; set; }
         public DbSet<PagoManual> PagoManual { get; set; }
         public DbSet<PagoTuCompra> PagoTuCompra { get; set; }
+
+        public DbSet<AuditoriaProspectos> AuditoriaProspectos { get; set; }
+        public DbSet<AuditoriaContratos> AuditoriaContratos { get; set; }
         
     }
 }

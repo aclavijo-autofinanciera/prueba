@@ -78,8 +78,9 @@ namespace ContratoDigital.Areas.Identity.Pages.Account
                 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("Usuario ingresado.");
                     return LocalRedirect(returnUrl);
+                    //return RedirectToAction("Index", "Home");
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -87,12 +88,12 @@ namespace ContratoDigital.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Usuario Bloqueado.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Intento de ingreso inválido. Verifique su usuario y contraseña");
                     return Page();
                 }
             }
