@@ -1982,6 +1982,12 @@
         //alert('ingresos: ' + ingresos_mensuales_alt + ' egresos: ' + egresos_mensuales_alt + ' Valor primer pago: ' + valor_primerpago_alt);
     });
     //var restaIngresos = 
+
+
+
+    $('.selectAllDays').on('click', function () {
+        $('#lunes, #martes, #miercoles, #jueves, #viernes, #sabado').prop('checked', true);
+    });
     // End JQUERY Declaration
 });
 

@@ -338,7 +338,7 @@
                         <!--#region Datos del cara a cara-->
                         <div class="card mt-4">
                             <div class="card-header">
-                                <h5>Datos del cara a cara*</h5>                                
+                                <h5>Datos del cara a cara*</h5>
                             </div>
                             <div class="card-body">
                                 <div class="form-row mt-2">
@@ -429,15 +429,118 @@
                             </div>
                         </div>
                         <!--#endregion-->
-
-                        <div class="form-row mt-4">
-                            <div class="col text-center">
-                                <button type="submit" class="btn btn-qurii submitbutton"><i class="far fa-save"></i> Guardar</button>
+                        <!--#region Contactabilidad-->
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h5>Contactabilidad del cliente</h5>
                             </div>
-                        </div>
+                            <div class="card-body">
+                                <div class="form-row mt-2 pb-2">
+                                    <div class="col-12">
+                                        <label for="ContactabilidadDias">Contactabilidad: días</label>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input type="checkbox" id="lunes" name="lunes" /> Lunes
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input type="checkbox" id="martes" name="martes" /> Martes
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input type="checkbox" id="miercoles" name="miercoles" /> Miércoles
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input type="checkbox" id="jueves" name="jueves" /> Jueves
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input type="checkbox" id="viernes" name="viernes" /> Viernes
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <input type="checkbox" id="sabado" name="sabado" /> Sábado
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <a class="btn btn-qurii text-white selectAllDays">Seleccionar todos los días</a>
+                                    </div>                                    
+                                    
+                                    <div class="col-12">
+                                        <hr />
+                                        <div class="form-row">
+                                            <div class="col-12">
+                                                <label>Desde:</label>
+                                            </div>
+                                            <div class="col-6">                                                
+                                                <select id="hora_inicial" name="hora_inicial" class="form-control form-control-lg text-uppercase " autocomplete="off" data-toggle="tooltip" data-placement="top" title="Horas 24H">
+                                                    <option value="00">No disponible</option>
+                                                    <option value="07">07:00 a.m.</option>
+                                                    <option value="08">08:00 a.m.</option>
+                                                    <option value="09">09:00 a.m.</option>
+                                                    <option value="10">10:00 a.m.</option>
+                                                    <option value="11">11:00 a.m.</option>
+                                                    <option value="12">12 m</option>
+                                                    <option value="13">01:00 p.m.</option>
+                                                    <option value="14">02:00 p.m.</option>
+                                                    <option value="15">03:00 p.m.</option>
+                                                    <option value="16">04:00 p.m.</option>
+                                                    <option value="17">05:00 p.m.</option>
+                                                    <option value="18">06:00 p.m.</option>                                                    
+                                                </select>
+                                            </div>
+                                            <div class="col-6">                                                
+                                                <select id="minuto_inicial" name="minuto_inicial" class="form-control form-control-lg text-uppercase " autocomplete="off" data-toggle="tooltip" data-placement="top" title="Minutos">
+                                                    <option value="99">No disponible</option>
+                                                    <option value="00">00</option>
+                                                    <option value="15">15</option>
+                                                    <option value="30">30</option>
+                                                    <option value="45">45</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <div class="form-row">
+                                            <div class="col-12">
+                                                <label>Hasta:</label>
+                                            </div>
+                                            <div class="col-6">                                                
+                                                <select id="hora_final" name="hora_final" class="form-control form-control-lg text-uppercase " autocomplete="off" data-toggle="tooltip" data-placement="top" title="Horas 24H">
+                                                    <option value="00">No disponible</option>
+                                                    <option value="07">07:00 a.m.</option>
+                                                    <option value="08">08:00 a.m.</option>
+                                                    <option value="09">09:00 a.m.</option>
+                                                    <option value="10">10:00 a.m.</option>
+                                                    <option value="11">11:00 a.m.</option>
+                                                    <option value="12">12 m</option>
+                                                    <option value="13">01:00 p.m.</option>
+                                                    <option value="14">02:00 p.m.</option>
+                                                    <option value="15">03:00 p.m.</option>
+                                                    <option value="16">04:00 p.m.</option>
+                                                    <option value="17">05:00 p.m.</option>
+                                                    <option value="18">06:00 p.m.</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">                                                
+                                                <select id="minuto_final" name="minuto_final" class="form-control form-control-lg text-uppercase " autocomplete="off"  data-toggle="tooltip" data-placement="top" title="Minutos">
+                                                    <option value="99">No disponible</option>
+                                                    <option value="00">00</option>
+                                                    <option value="15">15</option>
+                                                    <option value="30">30</option>
+                                                    <option value="45">45</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            </div>
+                            <!--#endregion-->
+                            <div class="form-row mt-4">
+                                <div class="col text-center">
+                                    <button type="submit" class="btn btn-qurii submitbutton"><i class="far fa-save"></i> Guardar</button>
+                                </div>
+                            </div>
 
 
-                    </form>
+</form>
                 </div>
             </div>
         </div>
