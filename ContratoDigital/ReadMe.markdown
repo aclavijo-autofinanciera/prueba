@@ -33,7 +33,12 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
-## 0.1.9.73 (2019-07-25)
+## 1.0 (2019-07-31)
+### Feature
++ Contratos actualizados.
++ Version 1.0 producción.
+
+## 0.1.9.73 (2019-07-30)
 ### Feature
 + Templates de correos electrónicos con el arte de Qurii.
 
