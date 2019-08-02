@@ -33,6 +33,10 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 1.0.1 (2019-08-02)
+### Bugfix
++ Excepción condicional en caso que la confirmación del contrato no sea debidamente guardada en sistema y el contrato quede huérfano.
+ 
 ## 1.0 (2019-07-31)
 ### Feature
 + Contratos actualizados.

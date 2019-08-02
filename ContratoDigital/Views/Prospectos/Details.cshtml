@@ -71,11 +71,18 @@
                                         <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
                                     </li>
                                 }
-                                else if (Model.Contratos.Count > 0 && Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
+                                else if (Model.Contratos.Count > 0)
                                 {
-                                    <li class="nav-item ">
-                                        <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
-                                    </li>
+                                    if (Model.Contratos.Last().ConfirmacionContratos != null)
+                                    {
+                                        if (Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
+                                        {
+                                            <li class="nav-item ">
+                                                <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
+                                            </li>
+                                        }
+                                    }
+
                                 }
                             }
                         </ul>
@@ -453,11 +460,18 @@
                                             <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
                                         </li>
                                     }
-                                    else if (Model.Contratos.Count > 0 && Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
+                                    else if (Model.Contratos.Count > 0)
                                     {
-                                        <li class="nav-item ">
-                                            <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
-                                        </li>
+                                        if (Model.Contratos.Last().ConfirmacionContratos != null)
+                                        {
+                                            if (Model.Contratos.Last().ConfirmacionContratos.IsRegistered)
+                                            {
+                                                <li class="nav-item ">
+                                                    <a class="nav-link" href="@Url.Action("Fill", "ContratoDigital", new { id = Model.IdProspecto })"><i class="far fa-file-pdf"></i> Diligenciar nuevo contrato</a>
+                                                </li>
+                                            }
+                                        }
+
                                     }
                                 }
                             </ul>
@@ -505,25 +519,32 @@
                                     <td>@item.descripcion_bien</td>
                                     <td>@String.Format("$ {0:0,0.00}", item.valor_bien)</td>
                                     <td>
-                                        @if (item.ConfirmacionContratos.IsPaid)
+                                        @if (item.ConfirmacionContratos != null)
                                         {
+                                            @if (item.ConfirmacionContratos.IsPaid)
+                                            {
 
-                                            <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
-                                        }
-                                        else
-                                        {
-                                            <label class="text-muted"><i class="far fa-clock"></i> Por pagar</label>
+                                                <label class="text-success"><i class="fas fa-check"></i> Pagado</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted"><i class="far fa-clock"></i> Por pagar</label>
 
+                                            }
                                         }
+
                                     </td>
                                     <td>
-                                        @if (item.ConfirmacionContratos.IsRegistered)
+                                        @if (item.ConfirmacionContratos != null)
                                         {
-                                            <label class="text-success"><i class="fas fa-check"></i> Registrado Siicon</label>
-                                        }
-                                        else
-                                        {
-                                            <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
+                                            @if (item.ConfirmacionContratos.IsRegistered)
+                                            {
+                                                <label class="text-success"><i class="fas fa-check"></i> Registrado Siicon</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="text-muted"><i class="far fa-clock"></i> Registro en Siicon pendiente</label>
+                                            }
                                         }
                                     </td>
                                 </tr>
