@@ -33,6 +33,10 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
+## 1.0.2 (2019-08-05)
+### Bugfix
++ Excepción de datos huéfanos en la vista indexada inicial de prospectos con un mensaje de                         advertencia de datos errados y reinserción de datos nuevamente.
+
 ## 1.0.1 (2019-08-02)
 ### Bugfix
 + Excepción condicional en caso que la confirmación del contrato no sea debidamente guardada en sistema y el contrato quede huérfano.

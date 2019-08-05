@@ -45,9 +45,19 @@
                 {
                     @foreach (var item in Model)
                     {
+                        bool isConfirmacionNull = item.ConfirmacionProspecto == null ? true : false; 
                         <div class="col-12 col-md-6">
                             <div class="polymer-box">
                                 <div class="row">
+                                    @if (isConfirmacionNull)
+                                    {
+                                    <div class="col-12">
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>El prospecto posee errores de datos. Cargar nuevamente.</strong>
+                                        </div>                                        
+                                    </div>
+                                    }
+
                                     <div class="col-12 col-md-4 font-weight-bold">Acciones</div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
                                         <div class="btn-group">
@@ -91,20 +101,37 @@
 
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">Agencia</div>
-                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">@item.ConfirmacionProspecto.DescripcionAgencia</div>
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                    @if(!isConfirmacionNull)
+                                    {
+                                        @item.ConfirmacionProspecto.DescripcionAgencia
+                                    }
+                                    else
+                                    {
+                                        <label class="text-danger"><i class="fas fa-ban"></i> No disponible.</label>
+                                    }
+                                    </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">Código del asesor</div>
-                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">                                                
-                                        @item.ConfirmacionProspecto.Asesor
+                                    <div class="col-12 col-md-8 text-black-65 text-uppercase">
+                                        @if (!isConfirmacionNull)
+                                        {
+                                            @item.ConfirmacionProspecto.Asesor
+                                        }
+                                        else
+                                        {
+                                            <label class="text-danger"><i class="fas fa-ban"></i> No disponible.</label>
+                                        }
+
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-12 col-md-4 font-weight-bold">Estado</div>
                                     <div class="col-12 col-md-8 text-black-65 text-uppercase">
-                                        @if (item.ConfirmacionProspecto != null)
+                                        @if (!isConfirmacionNull)
                                         {
                                             if (item.ConfirmacionProspecto.IsConfirmed == true)
                                             {
