@@ -1434,6 +1434,29 @@ namespace ContratoDigital.Controllers
                 {
                     total += item.Monto;
                 }
+
+                try
+                {
+                    WebserviceController webservice = new WebserviceController(_context, _emailConfiguration, _hostingEnvironment, _utilities, _userManager, _canonicalUrlConfiguration);
+                    var user = _userManager.Users.SingleOrDefault(x => x.Id == contrato.asesor_comercial);
+                    webservice.ActualizarPagoSiicon(contrato.numero_de_contrato, (float)total, user.IdSiicon, contrato.id_compania);
+                }
+                catch (Exception ex)
+                {
+                    AuditoriaContratos _auditor = new AuditoriaContratos
+                    {
+                        FechaRegistro = DateTime.Now,
+                        IdContrato = contrato.IdContrato,
+                        IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                        TipoDeMovimiento = "Excepción al registrar pago en cierre comercial",
+                        UsuarioRegistrante = "Acción iniciada por el Siicon",
+                        DatosNuevos = "[Mensaje Excepción]: " + ex.Message + " [Stack Trace]: " + ex.StackTrace,
+                        DatosPrevios = "N/A"
+                    };
+                    _context.Add(auditor);
+                    await _context.SaveChangesAsync();
+                }
+
                 if (total >= contrato.valor_primer_pago)
                 {
                     contrato.ConfirmacionContratos.IsPaid = true;

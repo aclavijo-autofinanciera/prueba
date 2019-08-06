@@ -1896,6 +1896,16 @@ namespace ContratoDigital
             prospecto.Localidad = form["Localidad"].ToString().ToUpper();
             prospecto.Medio = form["Medio"].ToString().ToUpper();
 
+            // Contactabilidad            
+            string days=form["lunes"].ToString().Contains("on") ? "1" : "0";
+            days+=form["martes"].ToString().Contains("on") ? "1" : "0";
+            days+=form["miercoles"].ToString().Contains("on") ? "1" : "0";
+            days+=form["jueves"].ToString().Contains("on") ? "1" : "0";
+            days+=form["viernes"].ToString().Contains("on") ? "1" : "0";
+            days+=form["sabado"].ToString().Contains("on") ? "1" : "0";
+            prospecto.ContactabilidadDias = days;
+
+            prospecto.ContactabilidadHoras = form["hora_inicial"].ToString() + "|" + form["minuto_inicial"].ToString() + "|" + form["hora_final"].ToString() + "|" + form["minuto_final"].ToString();
             return prospecto;
         }
 
@@ -2239,9 +2249,9 @@ namespace ContratoDigital
         public const string ContratoAuto = "contrato/2018-09-14-autofinanciera_v.2.0.pdf";
         public const string ContratoAutoKoreana = "contrato/2018-09-14-autokoreana_v-2.0.pdf";
         public const string ContratoColWager = "contrato/2018-09-14-colwager_v-2.0.pdf";        
-        public const string ContratoElectro = "contrato/2018-09-14-electroplan_v-2.0.pdf";
+        public const string ContratoElectro = "contrato/2019-07-31-electroplan_v-3.1.pdf";
         public const string ContratoKia = "contrato/2018-09-14-kiaplan_v-2.0.pdf";
-        public const string ContratoMotoMas = "contrato/2018-09-14-motomas_v-2.0.pdf";
+        public const string ContratoMotoMas = "contrato/2019-07-31-motomas_v-3.0.pdf";
 
         public const string CotizacionAuto = "cotizacion/2019-07-25-cotizacion_auto_v3.0.pdf";
         public const string CotizacionElectro = "cotizacion/2019-07-25-cotizacion_fonbienes_v3.0.pdf";

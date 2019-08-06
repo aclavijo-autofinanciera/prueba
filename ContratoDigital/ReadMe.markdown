@@ -33,7 +33,24 @@ Sistema para la generación y administración de contratos digitales de Autofina
 
 # Versiones
 
-## 0.1.9.73 (2019-07-25)
+## 1.0.3 (2019-08-06)
+### Feature
++ Registro de los pagos en cierre comercial a medida que se van realizando.
+
+## 1.0.2 (2019-08-05)
+### Bugfix
++ Excepción de datos huéfanos en la vista indexada inicial de prospectos con un mensaje de                         advertencia de datos errados y reinserción de datos nuevamente.
+
+## 1.0.1 (2019-08-02)
+### Bugfix
++ Excepción condicional en caso que la confirmación del contrato no sea debidamente guardada en sistema y el contrato quede huérfano.
+ 
+## 1.0 (2019-07-31)
+### Feature
++ Contratos actualizados.
++ Version 1.0 producción.
+
+## 0.1.9.73 (2019-07-30)
 ### Feature
 + Templates de correos electrónicos con el arte de Qurii.
 

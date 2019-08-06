@@ -61,6 +61,10 @@ namespace ContratoDigital.Models
         public string Localidad { get; set; }
         public string Medio { get; set; }
 
+        // Contactabilidad
+        public string ContactabilidadDias { get; set; }
+        public string ContactabilidadHoras { get; set; }
+
 
 
         public virtual ICollection<Contrato> Contratos { get; set; }

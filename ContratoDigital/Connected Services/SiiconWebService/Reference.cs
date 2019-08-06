@@ -43,6 +43,9 @@ namespace SiiconWebService
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarAsesoresAgencia", ReplyAction="http://tempuri.org/IService/SeleccionarAsesoresAgenciaResponse")]
         System.Threading.Tasks.Task<string> SeleccionarAsesoresAgenciaAsync(string CompañiaId, int CodAgencia);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SeleccionarAsesoresGerente", ReplyAction="http://tempuri.org/IService/SeleccionarAsesoresGerenteResponse")]
+        System.Threading.Tasks.Task<string> SeleccionarAsesoresGerenteAsync(string TerceroId, string CompañiaId, int CodAgencia);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService/SelecccionarTercero", ReplyAction="http://tempuri.org/IService/SelecccionarTerceroResponse")]
         System.Threading.Tasks.Task<string> SelecccionarTerceroAsync(string Cedula);
         
@@ -352,6 +355,11 @@ namespace SiiconWebService
         public System.Threading.Tasks.Task<string> SeleccionarAsesoresAgenciaAsync(string CompañiaId, int CodAgencia)
         {
             return base.Channel.SeleccionarAsesoresAgenciaAsync(CompañiaId, CodAgencia);
+        }
+        
+        public System.Threading.Tasks.Task<string> SeleccionarAsesoresGerenteAsync(string TerceroId, string CompañiaId, int CodAgencia)
+        {
+            return base.Channel.SeleccionarAsesoresGerenteAsync(TerceroId, CompañiaId, CodAgencia);
         }
         
         public System.Threading.Tasks.Task<string> SelecccionarTerceroAsync(string Cedula)
