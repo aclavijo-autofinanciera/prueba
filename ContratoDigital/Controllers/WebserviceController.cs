@@ -26,13 +26,13 @@ namespace ContratoDigital.Controllers
     public class WebserviceController : ControllerBase
     {
 
-        #if DEBUG      
+#if DEBUG
                 SiiconTest.ServiceClient service = new SiiconTest.ServiceClient();          
-        #else                
-            SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
-        #endif
+#else
+        SiiconWebService.ServiceClient service = new SiiconWebService.ServiceClient();
+#endif
 
-          
+
         private readonly ContratoDigitalContext _context;
         private readonly IEmailConfiguration _emailConfiguration;
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -40,7 +40,7 @@ namespace ContratoDigital.Controllers
         private readonly UserManager<ContratoDigitalUser> _userManager;
         private readonly ICanonicalUrlConfiguration _canonicalUrlConfiguration;
         public WebserviceController(ContratoDigitalContext context, IEmailConfiguration emailConfiguration, IHostingEnvironment hostingEnvironment, Utilities utilites, UserManager<ContratoDigitalUser> userManager, ICanonicalUrlConfiguration canonicalUrlConfiguration)
-        {            
+        {
             _context = context;
             _emailConfiguration = emailConfiguration;
             _utilities = utilites;
@@ -181,7 +181,7 @@ namespace ContratoDigital.Controllers
 
         [HttpGet("GetAsesoresPorAgenciaSiicon/{companiaId}/{codAgencia}")]
         [Route("api/Freyja/GetAsesoresPorAgenciaSiicon")]
-        public async Task<ActionResult<string>> GetAsesoresPorAgenciaSiicon(string companiaId,int codAgencia)
+        public async Task<ActionResult<string>> GetAsesoresPorAgenciaSiicon(string companiaId, int codAgencia)
         {
             return await service.SeleccionarAsesoresAgenciaAsync(companiaId, codAgencia);
         }
@@ -318,7 +318,7 @@ namespace ContratoDigital.Controllers
             {
                 return "HTTP 404: Referencia no conseguida";
             }
-            
+
             Pagos pago = new Pagos()
             {
                 Monto = Double.Parse(_valorpago),
@@ -330,17 +330,23 @@ namespace ContratoDigital.Controllers
             await _context.Pagos.AddAsync(pago);
             await _context.SaveChangesAsync();
 
+
+
+
             List<Pagos> pagos = _context.Pagos.Where(x => x.IdContrato == contrato.IdContrato).ToList();
+            List<PagoManual> pagoManual = _context.PagoManual.Where(x => x.IdContrato == contrato.IdContrato).ToList();
             double total = 0;
             foreach (var item in pagos)
             {
                 total += item.Monto;
             }
-            List<PagoManual> pagoManual = _context.PagoManual.Where(x => x.IdContrato == contrato.IdContrato).ToList();
             foreach (var item in pagoManual)
             {
                 total += item.Monto;
             }
+            var user = _userManager.Users.SingleOrDefault(x => x.Id == contrato.asesor_comercial);
+            ActualizarPagoSiicon(contrato.numero_de_contrato, total, user.IdSiicon, contrato.id_compania);
+
             if (total >= contrato.valor_primer_pago)
             {
                 contrato.ConfirmacionContratos.IsPaid = true;
@@ -348,7 +354,7 @@ namespace ContratoDigital.Controllers
                 await _context.SaveChangesAsync();
                 return "HTTP 200: OK";
             }
-            
+
             return "HTTP 200: Pago Parcial";
         }
 
@@ -367,7 +373,7 @@ namespace ContratoDigital.Controllers
             x.ConfirmacionContratos.IsRegistered == false &&
             x.ConfirmacionContratos.IsRegisteredCommercial == true &&
             x.ConfirmacionContratos.Asesor > 0).ToListAsync();
-            
+
 
             foreach (var item in contratos)
             {
@@ -430,7 +436,7 @@ namespace ContratoDigital.Controllers
                 catch (Exception ex)
                 {
                     Console.WriteLine("[EXCEPTION PERSONE REGISTER]: IDCONTRATO: " + item.IdContrato + " [Mensaje Excepción]" + ex.Message);
-                    Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);                    
+                    Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);
                 }
 
 
@@ -497,7 +503,7 @@ namespace ContratoDigital.Controllers
                 }
 
                 // registro de pagos.
-                if(item.PagosManuales.Count>0)
+                if (item.PagosManuales.Count > 0)
                 {
                     foreach (var pago in item.PagosManuales)
                     {
@@ -526,7 +532,7 @@ namespace ContratoDigital.Controllers
                 }
             }
 
-            
+
             foreach (var item in contratos)
             {
                 try
@@ -535,7 +541,7 @@ namespace ContratoDigital.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("[EXCEPTION]: EMAIL SEND: " + item.ConfirmacionContratos.IdContratoSiicon +" [Mensaje Excepción]" + ex.Message);
+                    Console.WriteLine("[EXCEPTION]: EMAIL SEND: " + item.ConfirmacionContratos.IdContratoSiicon + " [Mensaje Excepción]" + ex.Message);
                     Console.WriteLine("[STACKTRACE]: " + ex.StackTrace);
                 }
             }
@@ -543,7 +549,30 @@ namespace ContratoDigital.Controllers
             return "HTTP 200 OK";
         }
 
-
+        [HttpGet("ActualizarPagoSiicon/{contrato}/{valorTotalPagado}/{terceroID}/{compania}")]
+        [Route("api/Freyja/ActualizarPagoSiicon")]
+        public async void ActualizarPagoSiicon(int contrato, double valorTotalPagado, string terceroID, string compania )
+        {
+            try
+            {                
+                await service.ActualizarValorTotalPagadoCierreComercialAsync(contrato, (float)valorTotalPagado, terceroID, compania);
+            }
+            catch (Exception ex)
+            {
+                AuditoriaContratos auditor = new AuditoriaContratos
+                {
+                    FechaRegistro = DateTime.Now,
+                    IdContrato = contrato,
+                    IPRegistro = HttpContext.Connection.RemoteIpAddress.ToString(),
+                    TipoDeMovimiento = "Excepción al registrar pago en cierre comercial",
+                    UsuarioRegistrante = "Acción iniciada por el Siicon",
+                    DatosNuevos = "[Mensaje Excepción]: " + ex.Message + " [Stack Trace]: " + ex.StackTrace,
+                    DatosPrevios = "N/A"
+                };
+                _context.Add(auditor);
+                await _context.SaveChangesAsync();
+            }
+        }
         
 
 
